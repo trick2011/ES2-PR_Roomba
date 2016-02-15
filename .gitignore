@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# QT
+*.pro
+*.pro.user*
+*.pri
+*Desktop_Qt_*
