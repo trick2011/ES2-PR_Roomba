@@ -3,8 +3,8 @@
 
 naviclass::naviclass(int iSizeVer, int iSizeHor) : iSizeHor{iSizeHor},iSizeVer{iSizeVer}{
     vector<roomba_state> EmptyVector;
-    EmptyVector.resize(iSizeHor,EMPTY);
-    RoomGrid.resize(iSizeVer,EmptyVector);
+    EmptyVector.resize(iSizeVer,EMPTY);
+    RoomGrid.resize(iSizeHor,EmptyVector);
 }
 
 naviclass::~naviclass(){
@@ -15,7 +15,7 @@ void naviclass::printgridwhole(void){
  for(signed int y=(iSizeVer-1); y != -1; y--){
     //cout << y << " : ";
     for(unsigned int x=0;x<iSizeHor;x++){
-        cout << (char)RoomGrid[y][x];   
+        cout << (char)RoomGrid[x][y];   
     }
     cout << endl;
  }
