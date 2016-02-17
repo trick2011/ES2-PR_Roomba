@@ -6,11 +6,13 @@ using namespace std;
 
 int main(void){
     
-    naviclass Roomgrid{10,4};
+    naviclass Roomgrid{20,20};
     
-    Roomgrid.printgridwhole();
-    cout << endl;
-    Roomgrid.setgridpoint(5,2,Roomgrid.BLOCKED);
+    //Roomgrid.printgridwhole();
+    //cout << endl;
+//    Roomgrid.setgridpoint(5,2,Roomgrid.BLOCKED);
+    Roomgrid.setgridfigure(5,5,Roomgrid.TRIANGLE,5,Roomgrid.BLOCKED);
+    Roomgrid.setgridfigure(13,7,Roomgrid.TRIANGLE,5,Roomgrid.DROP);
     Roomgrid.printgridwhole();
     
     return(0);

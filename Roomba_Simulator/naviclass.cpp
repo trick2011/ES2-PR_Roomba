@@ -34,6 +34,57 @@ naviclass::roomba_state naviclass::setgridpoint(const int iXPos,const int iYPos,
     return(RoomGrid[iXPos][iYPos]);
 }
 
+naviclass::roomba_state naviclass::readpoint(const int  iXPos,const int iYPos){
+    return(RoomGrid[iXPos][iYPos]);
+}
+
+bool naviclass::setgridfigure(const int  iXPos,const int iYPos, naviclass::figures iFigure,const int iSize, naviclass::roomba_state Value){
+    switch(iFigure){
+        case naviclass::CIRCLE: if(((iXPos + iSize)<iSizeHor)&&((iYPos + iSize)<iSizeVer)){
+                                    for(unsigned int x=0;x<iSize;x++){
+                                        for(unsigned int y=0;y<iSize;y++){
+                                            RoomGrid[x+iXPos][y+iYPos] = Value;
+                                        }
+                                    }
+                                    RoomGrid[iXPos + iSize-1][iYPos+iSize-1] = EMPTY;
+                                    RoomGrid[iXPos + iSize-1][iYPos] = EMPTY;
+                                    RoomGrid[iXPos][iYPos+iSize-1] = EMPTY;
+                                    RoomGrid[iXPos][iYPos] = EMPTY;
+                                }
+                                else
+                                    return(false);
+                                break;
+        case naviclass::SQUARE:if(((iXPos + iSize)<iSizeHor)&&((iYPos + iSize)<iSizeVer)){
+                                    for(unsigned int x=0;x<iSize;x++){
+                                        for(unsigned int y=0;y<iSize;y++){
+                                            RoomGrid[x+iXPos][y+iYPos] = Value;
+                                        }
+                                    }
+                                }
+                                else
+                                    return(false);
+                                break;
+        case naviclass::TRIANGLE: if(((iXPos + iSize)<iSizeHor)&&((iYPos + iSize)<iSizeVer)){
+                                    int iLeftBound = iXPos, iRightBound = (iXPos+iSize),iLevel=iYPos;
+                                    int iWalker=iXPos;
+                                    while(iLevel <= iSize+iYPos){
+                                        while((iWalker >= iLeftBound)&&(iWalker < iRightBound)){
+                                            RoomGrid[iWalker][iLevel] = Value;
+                                            iWalker++;
+                                        }
+                                        iRightBound--;
+                                        iLeftBound++;
+                                        iWalker = iLeftBound;
+                                        iLevel++;
+                                    }
+                                }
+                                else
+                                    return(false);
+                                break;
+    }
+    return(true);
+}
+
 // for(unsigned int i=(sizever-1);i != 0;i--){
 //     for(unsigned int j=0;j<sizehor;j++){
 //         array[j][i] = EMPTY;
