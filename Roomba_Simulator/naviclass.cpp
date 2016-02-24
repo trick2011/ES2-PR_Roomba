@@ -1,5 +1,6 @@
 #include "naviclass.hpp"
 
+//#define TEST
 
 naviclass::naviclass(const int iSizeHor,const int iSizeVer) : iSizeVer{iSizeVer},iSizeHor{iSizeHor}{
     vector<roomba_state> EmptyVector;
@@ -12,6 +13,9 @@ naviclass::~naviclass(){
 }
 
 void naviclass::printgridwhole(void){
+#ifdef TEST
+    cout << "entered: printgridwhole" << endl;
+#endif
  for(signed int y=(iSizeVer-1); y != -1; y--){
     //cout << y << " : ";
     cout << '|';
@@ -24,6 +28,9 @@ void naviclass::printgridwhole(void){
 }
 
 naviclass::roomba_state naviclass::setgridpoint(const int iXPos,const int iYPos, roomba_state Value){
+#ifdef TEST
+    cout << "entered: setgridpoint" << endl;
+#endif
     if(iXPos >= iSizeHor)
         return(FUNCTIONERROR);
     if(iYPos >= iSizeVer)
