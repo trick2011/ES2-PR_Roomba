@@ -91,15 +91,3 @@ bool naviclass::setgridfigure(const int  iXPos,const int iYPos, naviclass::figur
     }
     return(true);
 }
-
-// for(unsigned int i=(sizever-1);i != 0;i--){
-//     for(unsigned int j=0;j<sizehor;j++){
-//         array[j][i] = EMPTY;
-// 	if((i == 9) && (j == 99)){
-//             array[j][i] = BLOCKED;
-//  	    //cout << "jup" << endl;
-// 	}
-// 	cout << (char)array[j][i];
-//     }
-//     cout << endl;
-// }
