@@ -9,7 +9,7 @@ using namespace std;
 
 class naviclass{
 public: 
-    enum roomba_state{EMPTY=' ',BLOCKED = 'X',DROP = '~',ROOMBA_U = 'U',ROOMBA_D = 'D',ROOMBA_L = 'L',ROOMBA_R ='R',ROOMBA_LU,ROOMBA_RU,ROOMBA_LD,ROOMBA_RD,FUNCTIONERROR};
+    enum roomba_state{EMPTY=' ',BLOCKED = 'X',DROP = '~',ROOMBA_U = 'U',ROOMBA_D = 'D',ROOMBA_L = 'L',ROOMBA_R ='R',ROOMBA_LU = 'T',ROOMBA_RU = 'Y',ROOMBA_LD = 'I',ROOMBA_RD = 'O',FUNCTIONERROR};
     enum figures{CIRCLE=0,SQUARE,TRIANGLE};
 private:
     int iSizeVer;

@@ -20,7 +20,19 @@ void naviclass::printgridwhole(void){
     //cout << y << " : ";
     cout << '|';
     for(unsigned int x=0;x<iSizeHor;x++){
-        cout << (char)RoomGrid[x][y];   
+        switch (RoomGrid[x][y]) {
+        case ROOMBA_L: cout << "\u2190";break;
+        case ROOMBA_U: cout << "\u2191";break;
+        case ROOMBA_R: cout << "\u2192";break;
+        case ROOMBA_D: cout << "\u2193";break;
+        case ROOMBA_LU: cout << "\u2196";break;
+        case ROOMBA_RU: cout << "\u2197";break;
+        case ROOMBA_RD: cout << "\u2198";break;
+        case ROOMBA_LD: cout << "\u2199";break;
+        default:
+            cout << (char)RoomGrid[x][y];
+            break;
+        }
     }
     cout << '|';
     cout << endl;
