@@ -12,14 +12,22 @@ public:
     enum roomba_state{EMPTY=' ',BLOCKED = 'X',DROP = '~',ROOMBA_U = 'U',ROOMBA_D = 'D',ROOMBA_L = 'L',ROOMBA_R ='R',ROOMBA_LU = 'T',ROOMBA_RU = 'Y',ROOMBA_LD = 'I',ROOMBA_RD = 'O',FUNCTIONERROR};
     enum figures{CIRCLE=0,SQUARE,TRIANGLE};
 private:
+    typedef struct{
+        int iPosX;
+        int iPosY;
+        roomba_state Value;
+    }roomba_location;
+    
     int iSizeVer;
     int iSizeHor;
+    int iRoombaCurrentPosHor;
+    int iRoombaCurrentPosVer;
     static const int iInitialiseSizeVer = 20;
     static const int iInitialiseSizeHor = 100;
-    
+
     
     vector<vector<roomba_state> > RoomGrid;
-    
+    vector<roomba_location> vRoombaLocationMemory;
     
 public:
     naviclass(const int iSizeHor = iInitialiseSizeHor,const int iSizeVer = iInitialiseSizeVer);
