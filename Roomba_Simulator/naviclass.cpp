@@ -103,3 +103,35 @@ bool naviclass::setgridfigure(const int  iXPos,const int iYPos, naviclass::figur
     }
     return(true);
 }
+
+bool naviclass::driveroomba(roomba_state direction){
+    switch(direction){
+        ROOMBA_U:   if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+                    }
+        ROOMBA_D:   if(iRoombaCurrentPosVer-1 < 0){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction; break;
+                    }
+        ROOMBA_L:   if(iRoombaCurrentPosHor-1 < 0){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][iRoombaCurrentPosVer]=direction; break;
+                    }
+        ROOMBA_R:   if(iRoombaCurrentPosHor+1 >= iSizeHor){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+                    }
+        ROOMBA_LU:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+                    }
+        ROOMBA_RU:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+                    }
+        ROOMBA_LD:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction; break;
+                    }
+        ROOMBA_RD:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction; break;
+                    }
+        
+    }
+    
+    return(true);
+}

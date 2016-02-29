@@ -29,6 +29,8 @@ public:
     roomba_state setgridpoint(const int iXPos,const int iYPos, roomba_state Value);
     roomba_state readpoint(const int  iXPos,const int iYPos);
     bool setgridfigure(const int  iXPos,const int iYPos, naviclass::figures iFigure,const int iSize, naviclass::roomba_state Value);
+
+    bool driveroomba(roomba_state direction);
 };
 
 #endif
