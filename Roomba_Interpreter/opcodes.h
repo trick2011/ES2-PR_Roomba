@@ -113,14 +113,14 @@ public:
     void sentUart(uint8_t);
     void startUart();
 
-    uint8_t getBumpAndWheel();
+    bool getBumpAndWheel();
     uint8_t getWall();
     uint8_t getCliffLeft();
     uint8_t getCliffFrontLeft();
     uint8_t getCliffFrontRight();
     uint8_t getCliffRight();
     uint8_t getVirtualWall();
-    uint8_t getWheelOvercurrents();
+    bool getWheelOvercurrents();
     uint8_t getDirtDetect();
     uint8_t getUnusedByte();
     uint8_t getIrReceiver();
@@ -162,15 +162,15 @@ public:
     uint8_t getStatis();
 
     /* get individual sensor values */
-    uint8_t getBumpRight();
-    uint8_t getBumpLeft();
-    uint8_t getWheelDropRight();
-    uint8_t getWheelDropLeft();
+    bool getBumpRight();
+    bool getBumpLeft();
+    bool getWheelDropRight();
+    bool getWheelDropLeft();
 
-    uint8_t getSideBrushOvercurrent();
-    uint8_t getMainBrushOvercurrent();
-    uint8_t getRightWheelOvercurrent();
-    uint8_t getLeftWheelOvercurrent();
+    bool getSideBrushOvercurrent();
+    bool getMainBrushOvercurrent();
+    bool getRightWheelOvercurrent();
+    bool getLeftWheelOvercurrent();
     /*-------------------------------*/
 
 private:
