@@ -5,9 +5,10 @@
 #include <iostream>
 #include <vector>
 #include <thread>
-#include <unistd.h>			//Used for UART
-#include <fcntl.h>			//Used for UART
-//#include <termios.h>        //USed for UART
+#include <array>
+#include <unistd.h>             //Used for UART
+#include <fcntl.h>              //Used for UART
+//#include <termios.h>          //USed for UART
 
 
 static const uint8_t Start =                        128;
@@ -79,7 +80,7 @@ static const uint8_t lightBumper =                  45; // 1 databyte
 static const uint8_t lightBumpLeftSignal =          46; // 2 databytes
 static const uint8_t lightBumpFrontLeftSignal =     47; // 2 databytes
 static const uint8_t lightBumpCenterLeftSignal =    48; // 2 databytes
-static const uint8_t lightBumpCenterRightSignal =   49;// 2 databytes
+static const uint8_t lightBumpCenterRightSignal =   49; // 2 databytes
 static const uint8_t lightBumpFrontRightSignal =    50; // 2 databytes
 static const uint8_t lightBumperRightSignal =       51; // 2 databytes
 static const uint8_t leftMotorCurrent =             54; // 2 databytes
@@ -88,13 +89,14 @@ static const uint8_t mainBrushMotorCurrent =        56; // 2 databytes
 static const uint8_t sideBrushMotorCurrent =        57; // 2 databytes
 static const uint8_t statis =                       58; // 1 databyte
 
-
+typedef enum{SLOW,CRUISE,FAST}speed;
+typedef enum{RIGHT = -90, LEFT = 90}angles;
 
 class opcodes
 {
 private:
     int c = 0;
-    uint16_t sensorWaarden[58];
+    std::array<uint16_t,58> sensorWaarden;
 
 
 public:
@@ -104,9 +106,11 @@ public:
     void print();
 
     void startRoomba();
-    //void drive("speed"); // speedgrades: slow, medium & fast
-    //void turnRoomba("angle"); // angle in degrees (-90 to 90)
+    void drives(speed s); // speedgrades: slow, medium & fast
+    void turnRoomba(angles); // angle in degrees (-90 or 90)
     void receiveUart();
+
+
 
 
     uint8_t getBumpAndWheel();

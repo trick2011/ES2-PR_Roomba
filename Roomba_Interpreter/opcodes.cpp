@@ -1,5 +1,6 @@
 #include "opcodes.h"
 
+
 opcodes::opcodes()
 {
     for(unsigned int i = 0; i < 58 ; ++i)
@@ -11,11 +12,15 @@ opcodes::opcodes()
 
 void opcodes::print()
 {
-    for(unsigned int i = 0; i < 58 ; ++i)
+    while(1)
     {
+        for(unsigned int i = 0; i < 58 ; ++i)
+        {
 
-        std::cout<<"Senson no"<<i<<": "<< sensorWaarden[i]<<std::endl;
+            std::cout<<"Senson no"<<i<<": "<< sensorWaarden[i]<<std::endl;
+        }
     }
+
 }
 
 void opcodes::startRoomba()
@@ -23,6 +28,75 @@ void opcodes::startRoomba()
     sentUart(Start);
     sentUart(safeMode);
     sentUart(brushes);
+}
+
+void opcodes::drives(speed s)
+{
+    sentUart(drive);
+    switch (s) {
+    case SLOW:
+        sentUart(0x10); // Velocity high byte
+        sentUart(0x00); // Velocity low  byte
+        sentUart(0x80); // Radius high byte
+        sentUart(0x00); // Radius low  byte
+        break;
+    case CRUISE:
+        sentUart(0x08); // Velocity high byte
+        sentUart(0x00); // Velocity low  byte
+        sentUart(0x80); // Radius high byte
+        sentUart(0x00); // Radius low  byte
+        break;
+    case FAST: //2's complement is a bitch
+        sentUart(0x0F); // Velocity high byte
+        sentUart(0xFF); // Velocity low  byte
+        sentUart(0x80); // Radius high byte
+        sentUart(0x00); // Radius low  byte
+        break;
+    }
+}
+
+void opcodes::turnRoomba(angles a)
+{
+    uint8_t currentAngle = getAngle();
+    sentUart(drive);
+    switch (a) {
+    case RIGHT:
+        sentUart(0x00); // Velocity high byte
+        sentUart(0x00); // Velocity low  byte
+        sentUart(0xFF); // Radius high byte
+        sentUart(0xFF); // Radius low  byte
+
+        while(1)
+        {
+            currentAngle += getAngle();
+            if(currentAngle == RIGHT)
+            {
+                sentUart(Stop);
+                break;
+            }
+        }
+
+        break;
+    case LEFT:
+        sentUart(0x00); // Velocity high byte
+        sentUart(0x00); // Velocity low  byte
+        sentUart(0x00); // Radius high byte
+        sentUart(0x01); // Radius low  byte
+
+        while(1)
+        {
+            currentAngle += getAngle();
+            if(currentAngle == LEFT)
+            {
+                sentUart(Stop);
+                break;
+            }
+        }
+
+        break;
+    }
+
+
 }
 
 void opcodes::receiveUart()
@@ -383,8 +457,9 @@ void opcodes::startUart()
     tcflush(uart0_filestream, TCIFLUSH);
     tcsetattr(uart0_filestream, TCSANOW, &options);*/
 
-    /*std::thread uart(receiveUart);
-    uart.detach();*/
+    //std::thread uart(receiveUart);
+    //uart.detach();
+
 }
 
 uint8_t opcodes::howManyDatabytes(uint8_t code)
