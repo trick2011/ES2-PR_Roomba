@@ -184,14 +184,14 @@ uint8_t opcodes::getIrReceiver()
     return sensorWaarden[irReceiver];
 }
 
-uint8_t opcodes::getDistance()
+int16_t opcodes::getDistance()
 {
-    return sensorWaarden[distance];
+    return (int16_t)sensorWaarden[distance];
 }
 
-uint8_t opcodes::getAngle()
+int16_t opcodes::getAngle()
 {
-    return sensorWaarden[angle];
+    return (int16_t)sensorWaarden[angle];
 }
 
 uint8_t opcodes::getChargingState()
@@ -199,52 +199,52 @@ uint8_t opcodes::getChargingState()
     return sensorWaarden[chargingState];
 }
 
-uint8_t opcodes::getBatteryVoltage()
+uint16_t opcodes::getBatteryVoltage()
 {
     return sensorWaarden[batteryVoltage];
 }
 
-uint8_t opcodes::getBatteryCurrent()
+int16_t opcodes::getBatteryCurrent()
 {
-    return sensorWaarden[batteryCurrent];
+    return (int16_t)sensorWaarden[batteryCurrent];
 }
 
-uint8_t opcodes::getBatteryTemperature()
+int8_t opcodes::getBatteryTemperature()
 {
-    return sensorWaarden[batteryTemperature];
+    return (int8_t)sensorWaarden[batteryTemperature];
 }
 
-uint8_t opcodes::getBatteryCharge()
+uint16_t opcodes::getBatteryCharge()
 {
     return sensorWaarden[batteryCharge];
 }
 
-uint8_t opcodes::getBatteryCapacity()
+uint16_t opcodes::getBatteryCapacity()
 {
     return sensorWaarden[batteryCapacity];
 }
 
-uint8_t opcodes::getWallSignal()
+uint16_t opcodes::getWallSignal()
 {
     return sensorWaarden[wallSignal];
 }
 
-uint8_t opcodes::getCliffLeftSignal()
+uint16_t opcodes::getCliffLeftSignal()
 {
     return sensorWaarden[cliffFrontLeftSignal];
 }
 
-uint8_t opcodes::getCliffFrontLeftSignal()
+uint16_t opcodes::getCliffFrontLeftSignal()
 {
     return sensorWaarden[cliffFrontLeftSignal];
 }
 
-uint8_t opcodes::getCliffFrontRightSignal()
+uint16_t opcodes::getCliffFrontRightSignal()
 {
     return sensorWaarden[cliffFrontRightSignal];
 }
 
-uint8_t opcodes::getCliffRightSignal()
+uint16_t opcodes::getCliffRightSignal()
 {
     return sensorWaarden[cliffRightSignal];
 }
@@ -274,32 +274,32 @@ uint8_t opcodes::getNumberOfPackets()
     return sensorWaarden[numberOfPackets];
 }
 
-uint8_t opcodes::getRequestedVelocity()
+int16_t opcodes::getRequestedVelocity()
 {
-    return sensorWaarden[requestedVelocity];
+    return (int16_t)sensorWaarden[requestedVelocity];
 }
 
-uint8_t opcodes::getRequestedRadius()
+int16_t opcodes::getRequestedRadius()
 {
-    return sensorWaarden[requestedRadius];
+    return (int16_t)sensorWaarden[requestedRadius];
 }
 
-uint8_t opcodes::getRequestedRightVelocity()
+int16_t opcodes::getRequestedRightVelocity()
 {
-    return sensorWaarden[requestedRightVelocity];
+    return (int16_t)sensorWaarden[requestedRightVelocity];
 }
 
-uint8_t opcodes::getRequestedLeftVelocity()
+int16_t opcodes::getRequestedLeftVelocity()
 {
-    return sensorWaarden[requestedLeftVelocity];
+    return (int16_t)sensorWaarden[requestedLeftVelocity];
 }
 
-uint8_t opcodes::getLeftEncoderCount()
+uint16_t opcodes::getLeftEncoderCount()
 {
     return sensorWaarden[leftEncoderCount];
 }
 
-uint8_t opcodes::getRightEncoderCount()
+uint16_t opcodes::getRightEncoderCount()
 {
     return sensorWaarden[rightEncoderCount];
 }
@@ -310,54 +310,54 @@ uint8_t opcodes::getLightBumper()
     return sensorWaarden[lightBumper];
 }
 
-uint8_t opcodes::getLightBumpLeftSignal()
+uint16_t opcodes::getLightBumpLeftSignal()
 {
     return sensorWaarden[lightBumpLeftSignal];
 }
 
-uint8_t opcodes::getLightBumpFrontLeftSignal()
+uint16_t opcodes::getLightBumpFrontLeftSignal()
 {
     return sensorWaarden[lightBumpFrontLeftSignal];
 }
 
-uint8_t opcodes::getLightBumpCenterLeftSignal()
+uint16_t opcodes::getLightBumpCenterLeftSignal()
 {
     return sensorWaarden[lightBumpCenterLeftSignal];
 }
 
-uint8_t opcodes::getLightBumpCenterRightSignal()
+uint16_t opcodes::getLightBumpCenterRightSignal()
 {
     return sensorWaarden[lightBumpCenterRightSignal];
 }
 
-uint8_t opcodes::getLightBumpFrontRightSignal()
+uint16_t opcodes::getLightBumpFrontRightSignal()
 {
     return  sensorWaarden[lightBumpFrontRightSignal];
 }
 
-uint8_t opcodes::getLightBumperRightSignal()
+uint16_t opcodes::getLightBumperRightSignal()
 {
     return sensorWaarden[lightBumperRightSignal];
 }
 
-uint8_t opcodes::getLeftMotorCurrent()
+int16_t opcodes::getLeftMotorCurrent()
 {
-    return sensorWaarden[leftMotorCurrent];
+    return (int16_t)sensorWaarden[leftMotorCurrent];
 }
 
-uint8_t opcodes::getRightMotorCurrent()
+int16_t opcodes::getRightMotorCurrent()
 {
-    return sensorWaarden[rightMotorCurrent];
+    return (int16_t)sensorWaarden[rightMotorCurrent];
 }
 
-uint8_t opcodes::getMainBrushMotorCurrent()
+int16_t opcodes::getMainBrushMotorCurrent()
 {
-    return sensorWaarden[mainBrushMotorCurrent];
+    return (int16_t)sensorWaarden[mainBrushMotorCurrent];
 }
 
-uint8_t opcodes::getSideBrushMotorCurrent()
+int16_t opcodes::getSideBrushMotorCurrent()
 {
-    return sensorWaarden[sideBrushMotorCurrent];
+    return (int16_t)sensorWaarden[sideBrushMotorCurrent];
 }
 
 uint8_t opcodes::getStatis()
@@ -407,17 +407,26 @@ uint8_t opcodes::getLeftWheelOvercurrent()
 
 void opcodes::sentUart(uint8_t)
 {
+    void * point;
+    point = &code;
+    if (uart0_filestream != -1)
+    {
+            int count = write(uart0_filestream, point, ((size_t)sizeof(uint8_t)));          //Filestream, bytes $
+            if (count < 0)
+            {
+                    printf("UART TX error\n");
+            }
+    }
 
 }
 
 void opcodes::startUart()
 {
-    /*
     //-------------------------
     //----- SETUP USART 0 -----
     //-------------------------
     //At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 function) respectively
-    int uart0_filestream = -1;
+    uart0_filestream = -1;
 
     //OPEN THE UART
     //The flags (defined in fcntl.h):
@@ -455,10 +464,7 @@ void opcodes::startUart()
     options.c_oflag = 0;
     options.c_lflag = 0;
     tcflush(uart0_filestream, TCIFLUSH);
-    tcsetattr(uart0_filestream, TCSANOW, &options);*/
-
-    //std::thread uart(receiveUart);
-    //uart.detach();
+    tcsetattr(uart0_filestream, TCSANOW, &options);
 
 }
 
