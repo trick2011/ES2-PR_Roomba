@@ -5,9 +5,10 @@
 #include <iostream>
 #include <vector>
 #include <thread>
-#include <unistd.h>			//Used for UART
-#include <fcntl.h>			//Used for UART
-//#include <termios.h>        //USed for UART
+#include <array>
+#include <unistd.h>             //Used for UART
+#include <fcntl.h>              //Used for UART
+#include <termios.h>          //USed for UART
 
 
 static const uint8_t Start =                        128;
@@ -79,7 +80,7 @@ static const uint8_t lightBumper =                  45; // 1 databyte
 static const uint8_t lightBumpLeftSignal =          46; // 2 databytes
 static const uint8_t lightBumpFrontLeftSignal =     47; // 2 databytes
 static const uint8_t lightBumpCenterLeftSignal =    48; // 2 databytes
-static const uint8_t lightBumpCenterRightSignal =   49;// 2 databytes
+static const uint8_t lightBumpCenterRightSignal =   49; // 2 databytes
 static const uint8_t lightBumpFrontRightSignal =    50; // 2 databytes
 static const uint8_t lightBumperRightSignal =       51; // 2 databytes
 static const uint8_t leftMotorCurrent =             54; // 2 databytes
@@ -88,13 +89,15 @@ static const uint8_t mainBrushMotorCurrent =        56; // 2 databytes
 static const uint8_t sideBrushMotorCurrent =        57; // 2 databytes
 static const uint8_t statis =                       58; // 1 databyte
 
-
+typedef enum{SLOW,CRUISE,FAST}speed;
+typedef enum{RIGHT = -90, LEFT = 90}angles;
 
 class opcodes
 {
 private:
     int c = 0;
-    uint16_t sensorWaarden[58];
+    int uart0_filestream;
+    std::array<uint16_t,58> sensorWaarden;
 
 
 public:
@@ -104,75 +107,73 @@ public:
     void print();
 
     void startRoomba();
-    //void drive("speed"); // speedgrades: slow, medium & fast
-    //void turnRoomba("angle"); // angle in degrees (-90 to 90)
+    void drives(speed s); // speedgrades: slow, medium & fast
+    void turnRoomba(angles); // angle in degrees (-90 or 90)
     void receiveUart();
+    void sentUart(uint8_t);
+    void startUart();
 
-
-    uint8_t getBumpAndWheel();
+    bool getBumpAndWheel();
     uint8_t getWall();
     uint8_t getCliffLeft();
     uint8_t getCliffFrontLeft();
     uint8_t getCliffFrontRight();
     uint8_t getCliffRight();
     uint8_t getVirtualWall();
-    uint8_t getWheelOvercurrents();
+    bool getWheelOvercurrents();
     uint8_t getDirtDetect();
     uint8_t getUnusedByte();
     uint8_t getIrReceiver();
-    uint8_t getDistance();
-    uint8_t getAngle();
+    int16_t getDistance();
+    int16_t getAngle();
     uint8_t getChargingState();
-    uint8_t getBatteryVoltage();
-    uint8_t getBatteryCurrent();
-    uint8_t getBatteryTemperature();
-    uint8_t getBatteryCharge();
-    uint8_t getBatteryCapacity();
-    uint8_t getWallSignal();
-    uint8_t getCliffLeftSignal();
-    uint8_t getCliffFrontLeftSignal();
-    uint8_t getCliffFrontRightSignal();
-    uint8_t getCliffRightSignal();
+    uint16_t getBatteryVoltage();
+    int16_t getBatteryCurrent();
+    int8_t getBatteryTemperature();
+    uint16_t getBatteryCharge();
+    uint16_t getBatteryCapacity();
+    uint16_t getWallSignal();
+    uint16_t getCliffLeftSignal();
+    uint16_t getCliffFrontLeftSignal();
+    uint16_t getCliffFrontRightSignal();
+    uint16_t getCliffRightSignal();
     uint8_t getChargingSource();
     uint8_t getOiMode();
     uint8_t getSongNumber();
     uint8_t getSongPlaying();
     uint8_t getNumberOfPackets();
-    uint8_t getRequestedVelocity();
-    uint8_t getRequestedRadius();
-    uint8_t getRequestedRightVelocity();
-    uint8_t getRequestedLeftVelocity();
-    uint8_t getLeftEncoderCount();
-    uint8_t getRightEncoderCount();
+    int16_t getRequestedVelocity();
+    int16_t getRequestedRadius();
+    int16_t getRequestedRightVelocity();
+    int16_t getRequestedLeftVelocity();
+    uint16_t getLeftEncoderCount();
+    uint16_t getRightEncoderCount();
     uint8_t getLightBumper();
-    uint8_t getLightBumpLeftSignal();
-    uint8_t getLightBumpFrontLeftSignal();
-    uint8_t getLightBumpCenterLeftSignal();
-    uint8_t getLightBumpCenterRightSignal();
-    uint8_t getLightBumpFrontRightSignal();
-    uint8_t getLightBumperRightSignal();
-    uint8_t getLeftMotorCurrent();
-    uint8_t getRightMotorCurrent();
-    uint8_t getMainBrushMotorCurrent();
-    uint8_t getSideBrushMotorCurrent();
+    uint16_t getLightBumpLeftSignal();
+    uint16_t getLightBumpFrontLeftSignal();
+    uint16_t getLightBumpCenterLeftSignal();
+    uint16_t getLightBumpCenterRightSignal();
+    uint16_t getLightBumpFrontRightSignal();
+    uint16_t getLightBumperRightSignal();
+    int16_t getLeftMotorCurrent();
+    int16_t getRightMotorCurrent();
+    int16_t getMainBrushMotorCurrent();
+    int16_t getSideBrushMotorCurrent();
     uint8_t getStatis();
 
     /* get individual sensor values */
-    uint8_t getBumpRight();
-    uint8_t getBumpLeft();
-    uint8_t getWheelDropRight();
-    uint8_t getWheelDropLeft();
+    bool getBumpRight();
+    bool getBumpLeft();
+    bool getWheelDropRight();
+    bool getWheelDropLeft();
 
-    uint8_t getSideBrushOvercurrent();
-    uint8_t getMainBrushOvercurrent();
-    uint8_t getRightWheelOvercurrent();
-    uint8_t getLeftWheelOvercurrent();
+    bool getSideBrushOvercurrent();
+    bool getMainBrushOvercurrent();
+    bool getRightWheelOvercurrent();
+    bool getLeftWheelOvercurrent();
     /*-------------------------------*/
 
 private:
-    void sentUart(uint8_t);
-
-    void startUart();
     uint8_t howManyDatabytes(uint8_t code);
     uint8_t blablaUart();
 };
