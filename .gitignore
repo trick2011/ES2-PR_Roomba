@@ -36,3 +36,6 @@
 # Compile scripts
 
 build
+
+#Visual Paradigm
+*.vpp~*
