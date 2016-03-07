@@ -19,7 +19,8 @@ void naviclass::printgridwhole(void){
  for(signed int y=(iSizeVer-1); y != -1; y--){
     //cout << y << " : ";
     cout << '|';
-    for(unsigned int x=0;x<iSizeHor;x++){
+#ifdef __linux__
+    for(int x=0;x<iSizeHor;x++){
         switch (RoomGrid[x][y]) {
         case ROOMBA_L: cout << "\u2190";break;
         case ROOMBA_U: cout << "\u2191";break;
@@ -34,12 +35,18 @@ void naviclass::printgridwhole(void){
             break;
         }
     }
+#endif
+#ifdef _WIN32
+    for(int x=0;x<iSizeHor;x++){
+        cout << (char)RoomGrid[x][y];
+    }
+#endif
     cout << '|';
     cout << endl;
  }
 }
 
-naviclass::roomba_state naviclass::setgridpoint(const int iXPos,const int iYPos, roomba_state Value){
+naviclass::roomba_state naviclass::setpoint(const int iXPos,const int iYPos, roomba_state Value){
 #ifdef TEST
     cout << "entered: setgridpoint" << endl;
 #endif
@@ -57,11 +64,11 @@ naviclass::roomba_state naviclass::readpoint(const int  iXPos,const int iYPos){
     return(RoomGrid[iXPos][iYPos]);
 }
 
-bool naviclass::setgridfigure(const int  iXPos,const int iYPos, naviclass::figures iFigure,const int iSize, naviclass::roomba_state Value){
+bool naviclass::setfigure(const int  iXPos,const int iYPos, naviclass::figures iFigure,const int iSize, naviclass::roomba_state Value){
     switch(iFigure){
         case naviclass::CIRCLE: if(((iXPos + iSize)<iSizeHor)&&((iYPos + iSize)<iSizeVer)){
-                                    for(unsigned int x=0;x<iSize;x++){
-                                        for(unsigned int y=0;y<iSize;y++){
+                                    for(int x=0;x<iSize;x++){
+                                        for(int y=0;y<iSize;y++){
                                             RoomGrid[x+iXPos][y+iYPos] = Value;
                                         }
                                     }
@@ -74,8 +81,8 @@ bool naviclass::setgridfigure(const int  iXPos,const int iYPos, naviclass::figur
                                     return(false);
                                 break;
         case naviclass::SQUARE:if(((iXPos + iSize)<iSizeHor)&&((iYPos + iSize)<iSizeVer)){
-                                    for(unsigned int x=0;x<iSize;x++){
-                                        for(unsigned int y=0;y<iSize;y++){
+                                    for(int x=0;x<iSize;x++){
+                                        for(int y=0;y<iSize;y++){
                                             RoomGrid[x+iXPos][y+iYPos] = Value;
                                         }
                                     }
@@ -106,31 +113,47 @@ bool naviclass::setgridfigure(const int  iXPos,const int iYPos, naviclass::figur
 
 bool naviclass::driveroomba(roomba_state direction){
     switch(direction){
-        ROOMBA_U:   if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+        case ROOMBA_U:
+                    if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction;
                     }
-        ROOMBA_D:   if(iRoombaCurrentPosVer-1 < 0){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction; break;
+                    break;
+        case ROOMBA_D:
+                    if(iRoombaCurrentPosVer-1 < 0){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction;
                     }
-        ROOMBA_L:   if(iRoombaCurrentPosHor-1 < 0){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][iRoombaCurrentPosVer]=direction; break;
+                    break;
+        case ROOMBA_L:
+                    if(iRoombaCurrentPosHor-1 < 0){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][iRoombaCurrentPosVer]=direction;
                     }
-        ROOMBA_R:   if(iRoombaCurrentPosHor+1 >= iSizeHor){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+                    break;
+        case ROOMBA_R:
+                    if(iRoombaCurrentPosHor+1 >= iSizeHor){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction;
                     }
-        ROOMBA_LU:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+                    break;
+        case ROOMBA_LU:
+                    if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction;
                     }
-        ROOMBA_RU:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction; break;
+                    break;
+        case ROOMBA_RU:
+                    if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][++iRoombaCurrentPosVer]=direction;
                     }
-        ROOMBA_LD:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction; break;
+                    break;
+        case ROOMBA_LD:
+                    if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[--iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction;
                     }
-        ROOMBA_RD:  if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
-                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction; break;
+                    break;
+        case ROOMBA_RD:
+                    if(iRoombaCurrentPosVer+1 >= iSizeVer){return(false);}else{
+                        RoomGrid[iRoombaCurrentPosHor][iRoombaCurrentPosVer]=EMPTY;RoomGrid[++iRoombaCurrentPosHor][--iRoombaCurrentPosVer]=direction;
                     }
-        
+                    break;
+        default:    break;
     }
     
     return(true);

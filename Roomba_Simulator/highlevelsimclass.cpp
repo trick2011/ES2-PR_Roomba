@@ -3,19 +3,19 @@
 #include "highlevelsimclass.hpp"
 
 highlevelsimclass::highlevelsimclass(naviclass *pointer) : pSimulator{pointer}{
-    pSimulator->setgridfigure(5,5,pSimulator->TRIANGLE,5,pSimulator->BLOCKED);
-    pSimulator->setgridfigure(13,7,pSimulator->TRIANGLE,5,pSimulator->DROP);
+    pSimulator->setfigure(5,5,pSimulator->TRIANGLE,5,pSimulator->BLOCKED);
+    pSimulator->setfigure(13,7,pSimulator->TRIANGLE,5,pSimulator->DROP);
     
-    pSimulator->setgridpoint(5,2,pSimulator->BLOCKED);    
+    pSimulator->setpoint(5,2,pSimulator->BLOCKED);
 
-    pSimulator->setgridpoint(0,0,pSimulator->ROOMBA_L);
-    pSimulator->setgridpoint(0,1,pSimulator->ROOMBA_U);
-    pSimulator->setgridpoint(0,2,pSimulator->ROOMBA_R);
-    pSimulator->setgridpoint(0,3,pSimulator->ROOMBA_D);
-    pSimulator->setgridpoint(0,4,pSimulator->ROOMBA_LU);
-    pSimulator->setgridpoint(0,5,pSimulator->ROOMBA_RU);
-    pSimulator->setgridpoint(0,6,pSimulator->ROOMBA_RD);
-    pSimulator->setgridpoint(0,7,pSimulator->ROOMBA_LD);
+    pSimulator->setpoint(0,0,pSimulator->ROOMBA_L);
+    pSimulator->setpoint(0,1,pSimulator->ROOMBA_U);
+    pSimulator->setpoint(0,2,pSimulator->ROOMBA_R);
+    pSimulator->setpoint(0,3,pSimulator->ROOMBA_D);
+    pSimulator->setpoint(0,4,pSimulator->ROOMBA_LU);
+    pSimulator->setpoint(0,5,pSimulator->ROOMBA_RU);
+    pSimulator->setpoint(0,6,pSimulator->ROOMBA_RD);
+    pSimulator->setpoint(0,7,pSimulator->ROOMBA_LD);
 }
 highlevelsimclass::~highlevelsimclass(){
 
