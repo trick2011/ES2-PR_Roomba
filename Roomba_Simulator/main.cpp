@@ -1,15 +1,10 @@
 #include <iostream>
-
-#include "naviclass.hpp"
-#include "highlevelsimclass.hpp"
+#include "roomobjects.h"
 
 using namespace std;
 
 int main(void){
-    
-    naviclass Roomgrid{20,20};
-    highlevelsimclass Simulator{&Roomgrid};
+    roomclass room;
 
-    Roomgrid.printgridwhole();    
     return(0);
 }
