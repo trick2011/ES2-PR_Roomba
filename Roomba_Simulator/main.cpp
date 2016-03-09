@@ -1,10 +1,14 @@
 #include <iostream>
-#include "roomobjects.h"
+
+#include "file.h"
 
 using namespace std;
 
-int main(void){
-    roomclass room;
-
-    return(0);
+int main()
+{
+    roomobjectclass *roomba;
+    roomba = new roombaclass;
+    delete roomba;
+    return 0;
 }
+
