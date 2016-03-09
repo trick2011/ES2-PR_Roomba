@@ -1,5 +1,8 @@
-#ifndef FILE
-#define FILE
+#ifndef FILE_H
+#define FILE_H
+
+#include <string>
+#include <iostream>
 
 #include <vector>
 #include <cmath>
@@ -8,15 +11,17 @@ using namespace std;
 
 class roomclass;
 class roomobjectclass;
-class roombaclass;
 class sensorclass;
+
+class roombaclass;
+class wallclass;
 
 class roomclass{
 private:
     roomobjectclass * roomba;
     sensorclass * sensors;
-    vector<roomobjectclass> roomobjects;
 public:
+    vector<roomobjectclass> roomobjects;
     roomclass();
     ~roomclass();
 };
@@ -25,7 +30,7 @@ private:
     roomclass& room;
 public:
     sensorclass(roomclass& room);
-    void checkbump(void);
+    bool checkbump(void);
 };
 
 class roomobjectclass{
@@ -36,18 +41,27 @@ protected:
     unsigned int iSizeVer;
 public:
     roomobjectclass(signed int iPosHor,signed int iPosVer);
+
+    int testvariable;
 };
 class roombaclass : public roomobjectclass{
 private:
     float fAngle;
     float fSpeed;
+    sensorclass& sensors;
 public:
-    roombaclass(); // <-- die werkte ineens niet
+    roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
     ~roombaclass();
 
     void drive(void);
 };
-
+class wallclass : public roomobjectclass{
+private:
+    string sObjectName;
+public:
+    string readobjectname(void);
+    void writeobjectname(string sInput);
+};
 
 #endif // FILE
 

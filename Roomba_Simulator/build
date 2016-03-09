@@ -1,9 +1,11 @@
 #! /bin/bash
 
 #g++ main.cpp naviclass.cpp -o simulator.out -std=c++11
-
-g++ -c -std=c++11 -o ./libhighlevelsimclass.so highlevelsimclass.cpp
-g++ -c -std=c++11 -o ./libnaviclass.so naviclass.cpp
-g++ main.cpp -o simulator.out -std=c++11 -L./ -lnaviclass -lhighlevelsimclass
-
 #g++ main.cpp -o ~/bin/libtest -L$HOME/libs -lmylibrary
+
+
+#g++ -c -std=c++11 -o ./libhighlevelsimclass.so highlevelsimclass.cpp
+#g++ -c -std=c++11 -o ./libnaviclass.so naviclass.cpp
+#g++ main.cpp -o simulator.out -std=c++11 -L./ -lnaviclass -lhighlevelsimclass
+
+g++ main.cpp -o simulator.out -std=c++11 file.cpp
