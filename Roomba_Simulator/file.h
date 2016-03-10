@@ -18,31 +18,50 @@ class wallclass;
 
 class roomclass{
 private:
-    roomobjectclass * roomba;
-    sensorclass * sensors;
+
 public:
     vector<roomobjectclass> roomobjects;
+    roombaclass * roomba;
+    sensorclass * sensors;
+
     roomclass();
     ~roomclass();
 };
 class sensorclass{
 private:
     roomclass& room;
+
+    bool bBumpLeft;
+    bool bBumpRight;
+
+    bool checkbumpL(int iHorPos,int iVerPos);
+    bool checkbumpR(int iHorPos,int iVerPos);
+    bool checkbumpU(int iHorPos,int iVerPos);
+    bool checkbumpD(int iHorPos,int iVerPos);
+    bool checkbumpUL(int iHorPos,int iVerPos);
+    bool checkbumpUR(int iHorPos,int iVerPos);
+    bool checkbumpDL(int iHorPos,int iVerPos);
+    bool checkbumpDR(int iHorPos,int iVerPos);
+
 public:
     sensorclass(roomclass& room);
-    bool checkbump(void);
+    bool checkbump(int iHorMov, int iVerMov);
 };
 
 class roomobjectclass{
 protected:
+
+public:
+    roomobjectclass(signed int iPosHor,signed int iPosVer);
+
+
     signed int iPosHor;
     signed int iPosVer;
     unsigned int iSizeHor;
     unsigned int iSizeVer;
-public:
-    roomobjectclass(signed int iPosHor,signed int iPosVer);
 
-    int testvariable;
+    //virtual ~roomobjectclass();
+    //virtual void drive(void);
 };
 class roombaclass : public roomobjectclass{
 private:
@@ -53,6 +72,7 @@ public:
     roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
     ~roombaclass();
 
+    void setspeed(float fInputSpeed);
     void drive(void);
 };
 class wallclass : public roomobjectclass{
