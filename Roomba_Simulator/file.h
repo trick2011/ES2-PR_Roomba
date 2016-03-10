@@ -42,7 +42,7 @@ private:
     bool checkbumpUR(int iHorPos,int iVerPos);
     bool checkbumpDL(int iHorPos,int iVerPos);
     bool checkbumpDR(int iHorPos,int iVerPos);
-
+    float calcmultiplication(float iDiffHor, float iDiffVer);
 public:
     sensorclass(roomclass& room);
     bool checkbump(int iHorMov, int iVerMov);

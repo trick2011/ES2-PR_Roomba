@@ -16,9 +16,12 @@ roomclass::~roomclass(){
 sensorclass::sensorclass(roomclass& room) : room(room){
 
 }
+float sensorclass::calcmultiplication(float iDiffHor, float iDiffVer){
+        return((float)(iDiffVer / iDiffHor));
+}
 bool sensorclass::checkbump(int iHorMov, int iVerMov){
     if(room.roomobjects.size() != 0){
-        if(iHorMov == 0){
+        if(/*checkbumpU */iHorMov == 0){
             if(iVerMov>0)
                 for(int iPosVer=0;iPosVer<iVerMov;iPosVer++){
                     if(checkbumpU(room.roomba->iPosHor,(room.roomba->iPosVer+iPosVer)) == true){
@@ -40,14 +43,14 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                     }
                 }
         }
-        if(iVerMov == 0){
+        if(/*checkbumpD */iVerMov == 0){
             if(iHorMov>0)
                 for(int iPosHor=0;iPosHor<iHorMov;iPosHor++){
                     if(checkbumpR((room.roomba->iPosHor+iPosHor),room.roomba->iPosVer) == true){
                         iPosHor--;
                         room.roomba->iPosHor += iPosHor;
                         bBumpLeft = true;
-                        bBumpLeft = true;
+                        bBumpRight = true;
                         return(true);
                     }
                 }
@@ -57,21 +60,52 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                         iPosHor++;
                         room.roomba->iPosHor += iPosHor;
                         bBumpLeft = true;
-                        bBumpLeft = true;
+                        bBumpRight = true;
                         return(true);
                     }
                 }
         }
-        if((iHorMov<0)&&(iVerMov>0)){
+        if(/*checkbumpUL*/(iHorMov<0)&&(iVerMov>0)){
             //checkbumpUL();
         }
-        if((iHorMov>0)&&(iVerMov>0)){
+        if(/*checkbumpUR*/(iHorMov>0)&&(iVerMov>0)){
             //checkbumpUR();
+            int iResult=0;
+
+            float fResult;
+            vector<int> viIanswerVer;
+            vector<int> viIanswerHor;
+            bool bAnswerUsed = false;
+
+            for(float fCounterHor=0;fCounterHor<((float)iHorMov+0.1);fCounterHor+=0.1){
+                fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
+                iResult= (int)(fResult * fCounterHor);
+                bAnswerUsed = false;
+                for(unsigned int i=0;i<viIanswerVer.size();i++){
+
+                    if(viIanswerVer[i] == iResult){
+                        bAnswerUsed = true;
+                        break;
+                    }
+
+                }
+                if(bAnswerUsed == false){
+                    viIanswerVer.push_back(iResult);
+                    viIanswerHor.push_back((int)fCounterHor);
+                }
+
+            }
+            for(unsigned int i=0;i<viIanswerHor.size();i++){
+                if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
+                    room.roomba->iPosHor += viIanswerHor[i];
+                    room.roomba->iPosVer += viIanswerVer[i];
+                }
+            }
         }
-        if((iHorMov>0)&&(iVerMov<0)){
+        if(/*checkbumpDR*/(iHorMov>0)&&(iVerMov<0)){
             //checkbumpDR();
         }
-        if((iHorMov<0)&&(iVerMov<0)){
+        if(/*checkbumpDL*/(iHorMov<0)&&(iVerMov<0)){
             //checkbumpDL();
         }
 //        for(unsigned int i=0;i<room.roomobjects.size();i++){
