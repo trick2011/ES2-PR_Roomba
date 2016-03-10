@@ -8,6 +8,7 @@ opcodes::opcodes()
         sensorWaarden[i]=0;
     }
     sensorWaarden[wheelOvercurrents] = 12;
+    FailSave = new FailSave(&tex);
 }
 
 void opcodes::print()
@@ -127,7 +128,7 @@ void opcodes::receiveUart()
     }
 }
 
-uint8_t opcodes::getBumpAndWheel()
+bool opcodes::getBumpAndWheel()
 {
     /*if(sensorWaarden[bumpAndWheel] != 0) return 1;
     else return 0;*/
@@ -164,7 +165,7 @@ uint8_t opcodes::getVirtualWall()
     return sensorWaarden[virtualWall];
 }
 
-uint8_t opcodes::getWheelOvercurrents()
+bool opcodes::getWheelOvercurrents()
 {
     return (sensorWaarden[wheelOvercurrents] ? 1 : 0);
 }
@@ -365,42 +366,42 @@ uint8_t opcodes::getStatis()
     return sensorWaarden[statis];
 }
 
-uint8_t opcodes::getBumpRight()
+bool opcodes::getBumpRight()
 {
     return (sensorWaarden[bumpAndWheel] & 0b00000001) == 0b00000001 ? 1 : 0;
 }
 
-uint8_t opcodes::getBumpLeft()
+bool opcodes::getBumpLeft()
 {
     return (sensorWaarden[bumpAndWheel] & 0b00000010) == 0b00000010 ? 1 : 0;
 }
 
-uint8_t opcodes::getWheelDropRight()
+bool opcodes::getWheelDropRight()
 {
     return (sensorWaarden[bumpAndWheel] & 0b00000100) == 0b00000100 ? 1 : 0;
 }
 
-uint8_t opcodes::getWheelDropLeft()
+bool opcodes::getWheelDropLeft()
 {
     return (sensorWaarden[bumpAndWheel] & 0b00001000) == 0b00001000 ? 1 : 0;
 }
 
-uint8_t opcodes::getSideBrushOvercurrent()
+bool opcodes::getSideBrushOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00000001) == 0b00000001 ? 1 : 0;
 }
 
-uint8_t opcodes::getMainBrushOvercurrent()
+bool opcodes::getMainBrushOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00000100) == 0b00000100 ? 1 : 0;
 }
 
-uint8_t opcodes::getRightWheelOvercurrent()
+bool opcodes::getRightWheelOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00001000) == 0b00001000 ? 1 : 0;
 }
 
-uint8_t opcodes::getLeftWheelOvercurrent()
+bool opcodes::getLeftWheelOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00010000) == 0b00010000 ? 1 : 0;
 }

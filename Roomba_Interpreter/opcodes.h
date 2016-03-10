@@ -10,6 +10,9 @@
 #include <fcntl.h>              //Used for UART
 #include <termios.h>          //USed for UART
 
+#include "failsave.h"
+#include <mutex>
+
 
 static const uint8_t Start =                        128;
 static const uint8_t Reset =                        7;
@@ -99,6 +102,9 @@ private:
     int uart0_filestream;
     std::array<uint16_t,58> sensorWaarden;
 
+    failsave *FailSave;
+    std::mutex tex;
+
 
 public:
     opcodes();
@@ -107,8 +113,11 @@ public:
     void print();
 
     void startRoomba();
+
     void drives(speed s); // speedgrades: slow, medium & fast
     void turnRoomba(angles); // angle in degrees (-90 or 90)
+
+
     void receiveUart();
     void sentUart(uint8_t);
     void startUart();
