@@ -1,6 +1,6 @@
 #include "failsave.h"
 
-failsave::failsave(std::mutex *newTex):tex(&newTex)
+failsave::failsave()
 {
 
 }

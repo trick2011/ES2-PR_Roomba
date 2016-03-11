@@ -1,15 +1,12 @@
 #ifndef FAILSAVE_H
 #define FAILSAVE_H
 
-#include <mutex>
-
 class failsave
 {
 public:
-    failsave(std::mutex *newTex);
+    failsave();
 
 private:
-    std::mutex tex;
     void checkCodes();
 };
 

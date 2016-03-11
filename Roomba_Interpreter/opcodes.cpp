@@ -8,7 +8,7 @@ opcodes::opcodes()
         sensorWaarden[i]=0;
     }
     sensorWaarden[wheelOvercurrents] = 12;
-    FailSave = new FailSave(&tex);
+    FailSave = new failsave();
 }
 
 void opcodes::print()
@@ -406,7 +406,7 @@ bool opcodes::getLeftWheelOvercurrent()
     return (sensorWaarden[wheelOvercurrents] & 0b00010000) == 0b00010000 ? 1 : 0;
 }
 
-void opcodes::sentUart(uint8_t)
+void opcodes::sentUart(uint8_t code)
 {
     void * point;
     point = &code;
