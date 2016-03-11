@@ -75,7 +75,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
             vector<int> viIanswerHor;
             bool bAnswerUsed = false;
             
-            for(float fCounterHor=0;fCounterHor>((float)iHorMov+0.1);fCounterHor-=0.1){
+            for(float fCounterHor=0;fCounterHor>((float)iHorMov-0.1);fCounterHor-=0.1){
             	fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
             	iResult= (int)(fResult * fCounterHor);
             	bAnswerUsed = false;
@@ -97,6 +97,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
             	if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
             		room.roomba->iPosHor += viIanswerHor[i];
             		room.roomba->iPosVer += viIanswerVer[i];
+                    return(true);
             	}
             }
         }
@@ -131,6 +132,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                 if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
                     room.roomba->iPosHor += viIanswerHor[i];
                     room.roomba->iPosVer += viIanswerVer[i];
+                    return(true);
                 }
             }
         }
@@ -166,6 +168,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                 if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
                     room.roomba->iPosHor += viIanswerHor[i];
                     room.roomba->iPosVer += viIanswerVer[i];
+                    return(true);
                 }
             }
         }
@@ -179,7 +182,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
             vector<int> viIanswerHor;
             bool bAnswerUsed = false;
             
-            for(float fCounterHor=0;fCounterHor>((float)iHorMov+0.1);fCounterHor-=0.1){
+            for(float fCounterHor=0;fCounterHor>((float)iHorMov-0.1);fCounterHor-=0.1){
             	fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
             	iResult= (int)(fResult * fCounterHor);
             	bAnswerUsed = false;
@@ -201,6 +204,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
             	if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
             		room.roomba->iPosHor += viIanswerHor[i];
             		room.roomba->iPosVer += viIanswerVer[i];
+                    return(true);
             	}
             }
         }
