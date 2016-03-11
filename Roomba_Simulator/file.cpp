@@ -67,6 +67,38 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
         }
         if(/*checkbumpUL*/(iHorMov<0)&&(iVerMov>0)){
             //checkbumpUL();
+            #warning "THE FOLLOWING CODE HAS YET TO BE COMPILED AND TESTED"
+            int iResult=0;
+
+            float fResult;
+            vector<int> viIanswerVer;
+            vector<int> viIanswerHor;
+            bool bAnswerUsed = false;
+            
+            for(float fCounterHor=0;fCounterHor>((float)iHorMov+0.1);fCounterHor-=0.1){
+            	fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
+            	iResult= (int)(fResult * fCounterHor);
+            	bAnswerUsed = false;
+            	for(unsigned int i=0;i<viIanswerVer.size();i++){
+            
+            		if(viIanswerVer[i] == iResult){
+            			bAnswerUsed = true;
+            			break;
+            		}
+            
+            	}
+            	if(bAnswerUsed == false){
+            		viIanswerVer.push_back(iResult);
+            		viIanswerHor.push_back((int)fCounterHor);
+            	}
+            
+            }
+            for(unsigned int i=0;i<viIanswerHor.size();i++){
+            	if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
+            		room.roomba->iPosHor += viIanswerHor[i];
+            		room.roomba->iPosVer += viIanswerVer[i];
+            	}
+            }
         }
         if(/*checkbumpUR*/(iHorMov>0)&&(iVerMov>0)){
             //checkbumpUR();
@@ -104,9 +136,73 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
         }
         if(/*checkbumpDR*/(iHorMov>0)&&(iVerMov<0)){
             //checkbumpDR();
+            #warning "THE FOLLOWING CODE HAS YET TO BE COMPILED AND TESTED"
+            int iResult=0;
+
+            float fResult;
+            vector<int> viIanswerVer;
+            vector<int> viIanswerHor;
+            bool bAnswerUsed = false;
+
+            for(float fCounterHor=0;fCounterHor<((float)iHorMov+0.1);fCounterHor+=0.1){
+                fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
+                iResult= (int)(fResult * fCounterHor);
+                bAnswerUsed = false;
+                for(unsigned int i=0;i<viIanswerVer.size();i++){
+
+                    if(viIanswerVer[i] == iResult){
+                        bAnswerUsed = true;
+                        break;
+                    }
+
+                }
+                if(bAnswerUsed == false){
+                    viIanswerVer.push_back(iResult);
+                    viIanswerHor.push_back((int)fCounterHor);
+                }
+
+            }
+            for(unsigned int i=0;i<viIanswerHor.size();i++){
+                if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
+                    room.roomba->iPosHor += viIanswerHor[i];
+                    room.roomba->iPosVer += viIanswerVer[i];
+                }
+            }
         }
         if(/*checkbumpDL*/(iHorMov<0)&&(iVerMov<0)){
             //checkbumpDL();
+            #warning "THE FOLLOWING CODE HAS YET TO BE COMPILED AND TESTED"
+            int iResult=0;
+
+            float fResult;
+            vector<int> viIanswerVer;
+            vector<int> viIanswerHor;
+            bool bAnswerUsed = false;
+            
+            for(float fCounterHor=0;fCounterHor>((float)iHorMov+0.1);fCounterHor-=0.1){
+            	fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
+            	iResult= (int)(fResult * fCounterHor);
+            	bAnswerUsed = false;
+            	for(unsigned int i=0;i<viIanswerVer.size();i++){
+            
+            		if(viIanswerVer[i] == iResult){
+            			bAnswerUsed = true;
+            			break;
+            		}
+            
+            	}
+            	if(bAnswerUsed == false){
+            		viIanswerVer.push_back(iResult);
+            		viIanswerHor.push_back((int)fCounterHor);
+            	}
+            
+            }
+            for(unsigned int i=0;i<viIanswerHor.size();i++){
+            	if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
+            		room.roomba->iPosHor += viIanswerHor[i];
+            		room.roomba->iPosVer += viIanswerVer[i];
+            	}
+            }
         }
 //        for(unsigned int i=0;i<room.roomobjects.size();i++){
 
