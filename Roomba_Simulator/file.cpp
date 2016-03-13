@@ -3,7 +3,8 @@
 roomclass::roomclass(){
     sensors = new sensorclass(*this);
     roomba = new roombaclass(sensors);
-
+	timer = new timerclass(*roomba);
+	
     roomobjectclass object(-5,-5,1,10);
     roomobjects.push_back(object);
     roomobjectclass objectb(5,-5,1,10);
@@ -359,16 +360,18 @@ bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
     return(false);
 }
 
-timerclass::timerclass(roombaclass* roomba):roomba(roomba){
+timerclass::timerclass(roombaclass& roomba):roomba(roomba){
 #ifdef __linux__
     timer.it_value.tv_sec = 1;
+	timer.it_value.tv_usec = 0;
     timer.it_interval.tv_sec = 1;
+	timer.it_interval.tv_usec = 0;
     signal(SIGALRM, &sigalrm_handler);
     setitimer(ITIMER_REAL, &timer, NULL);
 #endif
 }
 void timerclass::sigalrm_handler(int signum){
-
+	roomba->drive();
 }
 
 roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer){

@@ -9,3 +9,4 @@
 #g++ main.cpp -o simulator.out -std=c++11 -L./ -lnaviclass -lhighlevelsimclass
 
 g++ main.cpp -o simulator.out -std=c++11 file.cpp
+

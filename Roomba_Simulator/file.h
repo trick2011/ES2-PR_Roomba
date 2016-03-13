@@ -27,7 +27,7 @@ class wallclass;
 
 class roomclass{
 private:
-
+	timerclass * timer;
 public:
     vector<roomobjectclass> roomobjects;
     roombaclass * roomba;
@@ -61,13 +61,13 @@ public:
 };
 class timerclass{
 private:
-    roombaclass* roomba;
+    roombaclass& roomba;
 #ifdef __linux__
-    struct itimerval timer={0};
+    struct itimerval timer;//={0,0};
 #endif
-    void sigalrm_handler(int signum);
+    static void sigalrm_handler(int signum);
 public:
-    timerclass(roombaclass* roomba);
+    timerclass(roombaclass& roomba);
 };
 
 class roomobjectclass{
