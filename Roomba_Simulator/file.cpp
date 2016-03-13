@@ -359,6 +359,17 @@ bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
     return(false);
 }
 
+timerclass::timerclass(roombaclass* roomba):roomba(roomba){
+#ifdef __linux__
+    timer.it_value.tv_sec = 1;
+    timer.it_interval.tv_sec = 1;
+    signal(SIGALRM, &sigalrm_handler);
+    setitimer(ITIMER_REAL, &timer, NULL);
+#endif
+}
+void timerclass::sigalrm_handler(int signum){
+
+}
 
 roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer){
     iSizeHor = 0;

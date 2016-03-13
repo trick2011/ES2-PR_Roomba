@@ -8,6 +8,7 @@ using namespace std;
 
 int main()
 {
+
     //roomobjectclass *roomba;
     //roomba = new roombaclass(null);
     //delete roomba;

@@ -7,11 +7,20 @@
 #include <vector>
 #include <cmath>
 
+#ifdef __linux__
+#include <signal.h>
+#include <sys/time.h>
+#endif
+
+#ifdef _WIN32
+#endif
+
 using namespace std;
 
 class roomclass;
 class roomobjectclass;
 class sensorclass;
+class timerclass;
 
 class roombaclass;
 class wallclass;
@@ -49,6 +58,16 @@ public:
 
     bool getbBumpLeft(void)  {return(bBumpLeft);}
     bool getbBumpRight(void) {return(bBumpRight);}
+};
+class timerclass{
+private:
+    roombaclass* roomba;
+#ifdef __linux__
+    struct itimerval timer={0};
+#endif
+    void sigalrm_handler(int signum);
+public:
+    timerclass(roombaclass* roomba);
 };
 
 class roomobjectclass{
