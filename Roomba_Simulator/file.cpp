@@ -70,7 +70,6 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
         }
         if(/*checkbumpUL*/(iHorMov<0)&&(iVerMov>0)){
             //checkbumpUL();
-            #warning "THE FOLLOWING CODE HAS YET TO BE COMPILED AND TESTED"
             int iResult=0;
 
             float fResult;
@@ -133,15 +132,14 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
             }
             for(unsigned int i=0;i<viIanswerHor.size();i++){
                 if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
-                    room.roomba->iPosHor += viIanswerHor[i];
-                    room.roomba->iPosVer += viIanswerVer[i];
+                    room.roomba->iPosHor += viIanswerHor[i-1];
+                    room.roomba->iPosVer += viIanswerVer[i-1];
                     return(true);
                 }
             }
         }
         if(/*checkbumpDR*/(iHorMov>0)&&(iVerMov<0)){
             //checkbumpDR();
-            #warning "THE FOLLOWING CODE HAS YET TO BE COMPILED AND TESTED"
             int iResult=0;
 
             float fResult;
@@ -177,7 +175,6 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
         }
         if(/*checkbumpDL*/(iHorMov<0)&&(iVerMov<0)){
             //checkbumpDL();
-            #warning "THE FOLLOWING CODE HAS YET TO BE COMPILED AND TESTED"
             int iResult=0;
 
             float fResult;
@@ -266,15 +263,99 @@ bool sensorclass::checkbumpD(int iHorPos,int iVerPos){
     return(false);
 }
 bool sensorclass::checkbumpUL(int iHorPos,int iVerPos){
+    for(unsigned int i=0;i<room.roomobjects.size();i++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
+                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = true;
+                    return(true);
+                }
+                if(((iHorPos+1) == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = false;
+                    bBumpRight = true;
+                    return(true);
+                }
+                if((iHorPos == iHorI)&&((iVerPos-1) == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = false;
+                    return(true);
+                }
+            }
+        }
+    }
     return(false);
 }
 bool sensorclass::checkbumpUR(int iHorPos,int iVerPos){
+    for(unsigned int i=0;i<room.roomobjects.size();i++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
+                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = true;
+                    return(true);
+                }
+                if(((iHorPos-1) == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = false;
+                    return(true);
+                }
+                if((iHorPos == iHorI)&&((iVerPos-1) == iVerI)){
+                    bBumpLeft = false;
+                    bBumpRight = true;
+                    return(true);
+                }
+            }
+        }
+    }
     return(false);
 }
 bool sensorclass::checkbumpDL(int iHorPos,int iVerPos){
+    for(unsigned int i=0;i<room.roomobjects.size();i++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
+                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = true;
+                    return(true);
+                }
+                if(((iHorPos+1) == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = false;
+                    return(true);
+                }
+                if((iHorPos == iHorI)&&((iVerPos+1) == iVerI)){
+                    bBumpLeft = false;
+                    bBumpRight = true;
+                    return(true);
+                }
+            }
+        }
+    }
     return(false);
 }
 bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
+    for(unsigned int i=0;i<room.roomobjects.size();i++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
+                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = true;
+                    return(true);
+                }
+                if(((iHorPos-1) == iHorI)&&(iVerPos == iVerI)){
+                    bBumpLeft = false;
+                    bBumpRight = true;
+                    return(true);
+                }
+                if((iHorPos == iHorI)&&((iVerPos+1) == iVerI)){
+                    bBumpLeft = true;
+                    bBumpRight = false;
+                    return(true);
+                }
+            }
+        }
+    }
     return(false);
 }
 
