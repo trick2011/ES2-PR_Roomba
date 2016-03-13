@@ -47,8 +47,8 @@ public:
     sensorclass(roomclass& room);
     bool checkbump(int iHorMov, int iVerMov);
 
-    bool readbBumpLeft(void);
-    bool readbBumpRight(void);
+    bool getbBumpLeft(void)  {return(bBumpLeft);}
+    bool getbBumpRight(void) {return(bBumpRight);}
 };
 
 class roomobjectclass{
@@ -76,7 +76,11 @@ public:
     roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
     ~roombaclass();
 
+    void setangle(float fInputAngle);
     void setspeed(float fInputSpeed);
+    float getangle(void) {return(fAngle);}
+    float getspeed(void) {return(fSpeed);}
+
     void drive(void);
 };
 class wallclass : public roomobjectclass{

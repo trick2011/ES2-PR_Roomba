@@ -13,10 +13,18 @@ int main()
     //delete roomba;
     roomclass room;
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
+    room.roomba->setangle(90);
     for(int i=0;i<12;i++){
         room.roomba->setspeed(2);
         room.roomba->drive();
-        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << " " << room.sensors->readbBumpLeft() << " " << room.sensors->readbBumpRight() << endl;
+        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << " " << room.sensors->getbBumpLeft() << " " << room.sensors->getbBumpRight() << endl;
+        //cout << "---------------------" << endl;
+    }
+    room.roomba->setangle(180);
+    for(int i=0;i<20;i++){
+        room.roomba->setspeed(2);
+        room.roomba->drive();
+        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << " " << room.sensors->getbBumpLeft() << " " << room.sensors->getbBumpRight() << endl;
         //cout << "---------------------" << endl;
     }
     return 0;

@@ -4,8 +4,10 @@ roomclass::roomclass(){
     sensors = new sensorclass(*this);
     roomba = new roombaclass(sensors);
 
-    roomobjectclass object(-5,10,10,1);
+    roomobjectclass object(-5,-5,1,10);
     roomobjects.push_back(object);
+    roomobjectclass objectb(5,-5,1,10);
+    roomobjects.push_back(objectb);
 
 }
 roomclass::~roomclass(){
@@ -24,9 +26,9 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
     if(room.roomobjects.size() != 0){
         if(/*checkbumpUD */iHorMov == 0){
             if(iVerMov>0)
-                for(int iPosVer=0;iPosVer<iVerMov+1;iPosVer++){
+                for(int iPosVer=0;iPosVer<=iVerMov;iPosVer++){
                     if(checkbumpU(room.roomba->iPosHor,(room.roomba->iPosVer+iPosVer)) == true){
-                        iPosVer--;
+                       --iPosVer;
                         room.roomba->iPosVer += iPosVer;
                         bBumpLeft = true;
                         bBumpRight = true;
@@ -34,9 +36,9 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                     }
                 }
             else
-                for(int iPosVer=0;iPosVer>iVerMov-1;iPosVer--){
+                for(int iPosVer=0;iPosVer>=iVerMov;iPosVer--){
                     if(checkbumpD(room.roomba->iPosHor,(room.roomba->iPosVer+iPosVer)) == true){
-                        iPosVer++;
+                        //iPosVer++;
                         room.roomba->iPosVer += iPosVer;
                         bBumpLeft = true;
                         bBumpRight = true;
@@ -46,7 +48,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
         }
         if(/*checkbumpLR */iVerMov == 0){
             if(iHorMov>0)
-                for(int iPosHor=0;iPosHor<iHorMov+1;iPosHor++){
+                for(int iPosHor=0;iPosHor<=iHorMov;iPosHor++){
                     if(checkbumpR((room.roomba->iPosHor+iPosHor),room.roomba->iPosVer) == true){
                         iPosHor--;
                         room.roomba->iPosHor += iPosHor;
@@ -56,9 +58,9 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                     }
                 }
             else
-                for(int iPosHor=0;iPosHor>iHorMov-1;iPosHor--){
+                for(int iPosHor=0;iPosHor>=iHorMov;iPosHor--){
                     if(checkbumpL((room.roomba->iPosHor+iPosHor),room.roomba->iPosVer) == true){
-                        iPosHor++;
+                        //iPosHor++;
                         room.roomba->iPosHor += iPosHor;
                         bBumpLeft = true;
                         bBumpRight = true;
@@ -211,27 +213,56 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
         }
     }
 
+    bBumpLeft = false;
+    bBumpRight = false;
     return(false);
 }
 bool sensorclass::checkbumpL(int iHorPos,int iVerPos){
-    return(false);
-}
-bool sensorclass::checkbumpR(int iHorPos,int iVerPos){
-    return(false);
-}
-bool sensorclass::checkbumpU(int iHorPos,int iVerPos){
     for(unsigned int i=0;i<room.roomobjects.size();i++){
-        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor+1);iHorI++){
-            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer+1);iVerI++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
                 if((iHorPos == iHorI)&&(iVerPos == iVerI)){
                     return(true);
                 }
             }
         }
     }
-return(false);
+    return(false);
+}
+bool sensorclass::checkbumpR(int iHorPos,int iVerPos){
+    for(unsigned int i=0;i<room.roomobjects.size();i++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
+                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                    return(true);
+                }
+            }
+        }
+    }
+    return(false);
+}
+bool sensorclass::checkbumpU(int iHorPos,int iVerPos){
+    for(unsigned int i=0;i<room.roomobjects.size();i++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
+                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                    return(true);
+                }
+            }
+        }
+    }
+    return(false);
 }
 bool sensorclass::checkbumpD(int iHorPos,int iVerPos){
+    for(unsigned int i=0;i<room.roomobjects.size();i++){
+        for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
+            for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
+                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                    return(true);
+                }
+            }
+        }
+    }
     return(false);
 }
 bool sensorclass::checkbumpUL(int iHorPos,int iVerPos){
@@ -247,12 +278,6 @@ bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
     return(false);
 }
 
-bool sensorclass::readbBumpLeft(void){
-    return(bBumpLeft);
-}
-bool sensorclass::readbBumpRight(void){
-    return(bBumpRight);
-}
 
 roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer){
     iSizeHor = 0;
@@ -273,8 +298,8 @@ roombaclass::~roombaclass(){
 void roombaclass::drive(void){
     // sin(angle) * speed = hor movement
     // cos(angle) * speed = ver movementy
-    int iHorMov = sin(fAngle) * fSpeed;
-    int iVerMov = cos(fAngle) * fSpeed;
+    int iHorMov = (int)(sin(fAngle) * fSpeed);
+    int iVerMov = (int)(cos(fAngle) * fSpeed);
 
     if(sensors.checkbump(iHorMov,iVerMov) == false){
         iPosHor += iHorMov;
@@ -283,6 +308,9 @@ void roombaclass::drive(void){
 }
 void roombaclass::setspeed(float fInputSpeed){
     fSpeed = fInputSpeed;
+}
+void roombaclass::setangle(float fInputAngle){
+    fAngle = fInputAngle;
 }
 
 string wallclass::readobjectname(void){
