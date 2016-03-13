@@ -12,12 +12,12 @@ int main()
     //roomba = new roombaclass(null);
     //delete roomba;
     roomclass room;
-    for(int i=0;i<10;i++){
-        room.roomba->setspeed(1);
-        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
+    cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
+    for(int i=0;i<12;i++){
+        room.roomba->setspeed(2);
         room.roomba->drive();
-        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
-        cout << "---------------------" << endl;
+        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << " " << room.sensors->readbBumpLeft() << " " << room.sensors->readbBumpRight() << endl;
+        //cout << "---------------------" << endl;
     }
     return 0;
 }

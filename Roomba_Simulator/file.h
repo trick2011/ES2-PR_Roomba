@@ -46,13 +46,17 @@ private:
 public:
     sensorclass(roomclass& room);
     bool checkbump(int iHorMov, int iVerMov);
+
+    bool readbBumpLeft(void);
+    bool readbBumpRight(void);
 };
 
 class roomobjectclass{
 protected:
 
 public:
-    roomobjectclass(signed int iPosHor,signed int iPosVer);
+    roomobjectclass(signed int iPosHor, signed int iPosVer);
+    roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);
 
 
     signed int iPosHor;

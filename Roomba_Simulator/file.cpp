@@ -4,7 +4,7 @@ roomclass::roomclass(){
     sensors = new sensorclass(*this);
     roomba = new roombaclass(sensors);
 
-    roomobjectclass object(0,5);
+    roomobjectclass object(-5,10,10,1);
     roomobjects.push_back(object);
 
 }
@@ -14,7 +14,8 @@ roomclass::~roomclass(){
 }
 
 sensorclass::sensorclass(roomclass& room) : room(room){
-
+    bBumpLeft = false;
+    bBumpRight = false;
 }
 float sensorclass::calcmultiplication(float iDiffHor, float iDiffVer){
         return((float)(iDiffVer / iDiffHor));
@@ -28,7 +29,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                         iPosVer--;
                         room.roomba->iPosVer += iPosVer;
                         bBumpLeft = true;
-                        bBumpLeft = true;
+                        bBumpRight = true;
                         return(true);
                     }
                 }
@@ -38,7 +39,7 @@ bool sensorclass::checkbump(int iHorMov, int iVerMov){
                         iPosVer++;
                         room.roomba->iPosVer += iPosVer;
                         bBumpLeft = true;
-                        bBumpLeft = true;
+                        bBumpRight = true;
                         return(true);
                     }
                 }
@@ -246,10 +247,19 @@ bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
     return(false);
 }
 
+bool sensorclass::readbBumpLeft(void){
+    return(bBumpLeft);
+}
+bool sensorclass::readbBumpRight(void){
+    return(bBumpRight);
+}
 
 roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer){
     iSizeHor = 0;
     iSizeVer = 0;
+}
+roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned int iSizeHor,unsigned int iSizeVer):iPosHor(iPosHor),iPosVer(iPosVer),iSizeHor(iSizeHor),iSizeVer(iSizeVer){
+
 }
 
 
