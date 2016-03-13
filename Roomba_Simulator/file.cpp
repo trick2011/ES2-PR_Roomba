@@ -298,8 +298,8 @@ roombaclass::~roombaclass(){
 void roombaclass::drive(void){
     // sin(angle) * speed = hor movement
     // cos(angle) * speed = ver movementy
-    int iHorMov = (int)(sin(fAngle) * fSpeed);
-    int iVerMov = (int)(cos(fAngle) * fSpeed);
+    int iHorMov = sin((fAngle*(pi/180)) * fSpeed);
+    int iVerMov = cos((fAngle*(pi/180)) * fSpeed);
 
     if(sensors.checkbump(iHorMov,iVerMov) == false){
         iPosHor += iHorMov;
