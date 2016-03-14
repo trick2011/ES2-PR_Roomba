@@ -72,7 +72,7 @@ public:
 
 class roomobjectclass{
 protected:
-    const float pi =3.14159265;
+    const float pi = 3.14159265;
 public:
     roomobjectclass(signed int iPosHor, signed int iPosVer);
     roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);

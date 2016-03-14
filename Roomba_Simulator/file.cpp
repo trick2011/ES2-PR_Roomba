@@ -3,8 +3,12 @@
 roomclass::roomclass(){
     sensors = new sensorclass(*this);
     roomba = new roombaclass(sensors);
+#ifdef __WIN32
+#ifdef __linux__
 	timer = new timerclass(*roomba);
-	
+#endif
+#endif
+
     roomobjectclass object(-5,-5,1,10);
     roomobjects.push_back(object);
     roomobjectclass objectb(5,-5,1,10);
@@ -360,19 +364,22 @@ bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
     return(false);
 }
 
-timerclass::timerclass(roombaclass& roomba):roomba(roomba){
+#ifdef __WIN32
 #ifdef __linux__
+timerclass::timerclass(roombaclass& roomba):roomba(roomba){
     timer.it_value.tv_sec = 1;
 	timer.it_value.tv_usec = 0;
     timer.it_interval.tv_sec = 1;
 	timer.it_interval.tv_usec = 0;
     signal(SIGALRM, &sigalrm_handler);
     setitimer(ITIMER_REAL, &timer, NULL);
-#endif
+
 }
 void timerclass::sigalrm_handler(int signum){
 	roomba->drive();
 }
+#endif
+#endif
 
 roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer){
     iSizeHor = 0;
@@ -393,12 +400,13 @@ roombaclass::~roombaclass(){
 void roombaclass::drive(void){
     // sin(angle) * speed = hor movement
     // cos(angle) * speed = ver movementy
-    int iHorMov = sin((fAngle*(pi/180)) * fSpeed);
-    int iVerMov = cos((fAngle*(pi/180)) * fSpeed);
+    //float fHorMov = sin((fAngle*(pi/(float)180)) * fSpeed);
+    float fHorMov = sin(fAngle*pi/180) * fSpeed;
+    float fVerMov = cos(fAngle*pi/180) * fSpeed;
 
-    if(sensors.checkbump(iHorMov,iVerMov) == false){
-        iPosHor += iHorMov;
-        iPosVer += iVerMov;
+    if(sensors.checkbump(fHorMov,fVerMov) == false){
+        iPosHor += fHorMov;
+        iPosVer += fVerMov;
     }
 }
 void roombaclass::setspeed(float fInputSpeed){
