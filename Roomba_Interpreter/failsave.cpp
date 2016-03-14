@@ -1,4 +1,5 @@
 #include "failsave.h"
+#include "opcodes.h"
 
 failsave::failsave(std::mutex tex):tex(tex)
 {

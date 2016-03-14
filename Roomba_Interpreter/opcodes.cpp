@@ -31,22 +31,22 @@ void opcodes::drives(speed s)
     sentUart(drive);
     switch (s) {
     case SLOW:
-        sentUart(0x10); // Velocity high byte
-        sentUart(0x00); // Velocity low  byte
-        sentUart(0x80); // Radius high byte
-        sentUart(0x00); // Radius low  byte
+        uart->sentUart(0x10); // Velocity high byte
+        uart->sentUart(0x00); // Velocity low  byte
+        uart->sentUart(0x80); // Radius high byte
+        uart->sentUart(0x00); // Radius low  byte
         break;
     case CRUISE:
-        sentUart(0x08); // Velocity high byte
-        sentUart(0x00); // Velocity low  byte
-        sentUart(0x80); // Radius high byte
-        sentUart(0x00); // Radius low  byte
+        uart->sentUart(0x08); // Velocity high byte
+        uart->sentUart(0x00); // Velocity low  byte
+        uart->sentUart(0x80); // Radius high byte
+        uart->sentUart(0x00); // Radius low  byte
         break;
     case FAST: //2's complement is a bitch
-        sentUart(0x0F); // Velocity high byte
-        sentUart(0xFF); // Velocity low  byte
-        sentUart(0x80); // Radius high byte
-        sentUart(0x00); // Radius low  byte
+        uart->sentUart(0x0F); // Velocity high byte
+        uart->sentUart(0xFF); // Velocity low  byte
+        uart->sentUart(0x80); // Radius high byte
+        uart->sentUart(0x00); // Radius low  byte
         break;
     }
 }
@@ -57,10 +57,10 @@ void opcodes::turnRoomba(angles a)
     sentUart(drive);
     switch (a) {
     case RIGHT:
-        sentUart(0x00); // Velocity high byte
-        sentUart(0x00); // Velocity low  byte
-        sentUart(0xFF); // Radius high byte
-        sentUart(0xFF); // Radius low  byte
+        uart->sentUart(0x00); // Velocity high byte
+        uart->sentUart(0x00); // Velocity low  byte
+        uart->sentUart(0xFF); // Radius high byte
+        uart->sentUart(0xFF); // Radius low  byte
 
         while(1)
         {
@@ -74,10 +74,10 @@ void opcodes::turnRoomba(angles a)
 
         break;
     case LEFT:
-        sentUart(0x00); // Velocity high byte
-        sentUart(0x00); // Velocity low  byte
-        sentUart(0x00); // Radius high byte
-        sentUart(0x01); // Radius low  byte
+        uart->sentUart(0x00); // Velocity high byte
+        uart->sentUart(0x00); // Velocity low  byte
+        uart->sentUart(0x00); // Radius high byte
+        uart->sentUart(0x01); // Radius low  byte
 
         while(1)
         {
