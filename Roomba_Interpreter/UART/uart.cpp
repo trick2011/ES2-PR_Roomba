@@ -60,19 +60,7 @@ UART::UART()
     thread1.detach();
 }
 
-void UART::uartSend(uint8_t code)
-{
-    sendBuffer.push_back(code);
-}
-
-void UART::failSaveSend(uint8_t code)
-{
-    mTex.lock();
-    send(code);
-    mTex.unlock();
-}
-
-void UART::send(uint8_t code)
+void UART::sendUart(uint8_t code)
 {
     //----- TX BYTES -----
     unsigned char tx_buffer[20];
@@ -95,19 +83,7 @@ void UART::send(uint8_t code)
     }
 }
 
-void UART::threadSend()
-{
-    while(1)
-    {
-        mTex.lock();
-        send(sendBuffer.at(begin));
-        mTex.unlock();
-        sendBuffer.erase(begin);
-    }
-
-}
-
-uint8_t UART::receiveUart()
+void UART::receiveUart()
 {
     //----- CHECK FOR ANY RX BYTES -----
     if (uart0_filestream != -1)
