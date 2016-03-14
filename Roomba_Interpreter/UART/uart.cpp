@@ -7,16 +7,15 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
+/* code voor opstarten uart
+-------------------------
+----- SETUP USART 0 -----
+-------------------------
+At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 function) respectively*/
+int uart0_filestream = -1;
 
 UART::UART()
 {
-    /* code voor opstarten uart
-    -------------------------
-    ----- SETUP USART 0 -----
-    -------------------------
-    At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 function) respectively*/
-    int uart0_filestream = -1;
-
     /*OPEN THE UART
     The flags (defined in fcntl.h):
         Access modes (use 1 of these):
@@ -55,9 +54,6 @@ UART::UART()
     options.c_lflag = 0;
     tcflush(uart0_filestream, TCIFLUSH);
     tcsetattr(uart0_filestream, TCSANOW, &options);
-
-    std::thread thread1(threadSend);
-    thread1.detach();
 }
 
 void UART::sendUart(uint8_t code)
