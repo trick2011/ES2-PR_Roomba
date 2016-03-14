@@ -1,6 +1,6 @@
 #include "failsave.h"
 
-failsave::failsave()
+failsave::failsave(std::mutex tex):tex(tex)
 {
     stop = false;
     Opcodes = new opcodes;

@@ -3,12 +3,7 @@
 
 opcodes::opcodes()
 {
-    for(unsigned int i = 0; i < 58 ; ++i)
-    {
-        sensorWaarden[i]=0;
-    }
-    sensorWaarden[wheelOvercurrents] = 12;
-    FailSave = new failsave();
+    FailSave = new failsave(&sendTex);
 }
 
 void opcodes::print()
@@ -481,6 +476,7 @@ uint8_t opcodes::getStatis()
 /***********************************************************/
 bool opcodes::getBumpRight()
 {
+
     return (sensorWaarden[bumpAndWheel] & 0b00000001) == 0b00000001 ? 1 : 0;
 }
 

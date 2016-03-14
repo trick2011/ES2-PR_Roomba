@@ -8,7 +8,7 @@
 class failsave
 {
 public:
-    failsave();
+    failsave(std::mutex tex);
     ~failsave();
 
     void stopFailsave();
