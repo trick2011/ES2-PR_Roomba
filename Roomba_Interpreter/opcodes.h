@@ -5,12 +5,10 @@
 #include <iostream>
 #include <vector>
 #include <thread>
-#include <array>
-#include <unistd.h>             //Used for UART
-#include <fcntl.h>              //Used for UART
-#include <termios.h>          //USed for UART
+#include <mutex>
 
 #include "failsave.h"
+#include "./UART/uart.h"
 
 static const uint8_t Start =                        128;
 static const uint8_t Reset =                        7;
@@ -51,7 +49,6 @@ static const uint8_t cliffRight =                   12; // 1 databyte
 static const uint8_t virtualWall =                  13; // 1 databyte
 static const uint8_t wheelOvercurrents =            14; // 1 databyte
 static const uint8_t dirtDetect =                   15; // 1 databyte
-static const uint8_t unusedByte =                   16; // 1 databyte -- comes after dirt detect in packet 0,1 or 6
 static const uint8_t irReceiver =                   17; // 1 databyte
 static const uint8_t distance =                     19; // 2 databytes
 static const uint8_t angle =                        20; // 2 databytes
@@ -70,7 +67,6 @@ static const uint8_t chargingSource =               34; // 1 databyte
 static const uint8_t oiMode =                       35; // 1 databyte
 static const uint8_t songNumber =                   36; // 1 databyte
 static const uint8_t songPlaying =                  37; // 1 databyte
-static const uint8_t numberOfPackets =              38; // 1 databyte
 static const uint8_t requestedVelocity =            39; // 2 databytes
 static const uint8_t requestedRadius =              40; // 2 databytes
 static const uint8_t requestedRightVelocity =       41; // 2 databytes
@@ -83,7 +79,7 @@ static const uint8_t lightBumpFrontLeftSignal =     47; // 2 databytes
 static const uint8_t lightBumpCenterLeftSignal =    48; // 2 databytes
 static const uint8_t lightBumpCenterRightSignal =   49; // 2 databytes
 static const uint8_t lightBumpFrontRightSignal =    50; // 2 databytes
-static const uint8_t lightBumperRightSignal =       51; // 2 databytes
+static const uint8_t lightBumpRightSignal =       51; // 2 databytes
 static const uint8_t leftMotorCurrent =             54; // 2 databytes
 static const uint8_t rightMotorCurrent =            55; // 2 databytes
 static const uint8_t mainBrushMotorCurrent =        56; // 2 databytes
@@ -96,12 +92,12 @@ typedef enum{RIGHT = -90, LEFT = 90}angles;
 class opcodes
 {
 private:
-    int c = 0;
-    int uart0_filestream;
     std::array<uint16_t,58> sensorWaarden;
 
     failsave *FailSave;
-    
+    UART *uart;
+
+    std::mutex sendTex;
 
 public:
     opcodes();
@@ -114,11 +110,6 @@ public:
     void drives(speed s); // speedgrades: slow, medium & fast
     void turnRoomba(angles); // angle in degrees (-90 or 90)
 
-
-    void receiveUart();
-    void sentUart(uint8_t);
-    void startUart();
-
     bool getBumpAndWheel();
     uint8_t getWall();
     uint8_t getCliffLeft();
@@ -128,7 +119,6 @@ public:
     uint8_t getVirtualWall();
     bool getWheelOvercurrents();
     uint8_t getDirtDetect();
-    uint8_t getUnusedByte();
     uint8_t getIrReceiver();
     int16_t getDistance();
     int16_t getAngle();
@@ -147,7 +137,6 @@ public:
     uint8_t getOiMode();
     uint8_t getSongNumber();
     uint8_t getSongPlaying();
-    uint8_t getNumberOfPackets();
     int16_t getRequestedVelocity();
     int16_t getRequestedRadius();
     int16_t getRequestedRightVelocity();
@@ -160,7 +149,7 @@ public:
     uint16_t getLightBumpCenterLeftSignal();
     uint16_t getLightBumpCenterRightSignal();
     uint16_t getLightBumpFrontRightSignal();
-    uint16_t getLightBumperRightSignal();
+    uint16_t getLightBumpRightSignal();
     int16_t getLeftMotorCurrent();
     int16_t getRightMotorCurrent();
     int16_t getMainBrushMotorCurrent();
@@ -179,9 +168,10 @@ public:
     bool getLeftWheelOvercurrent();
     /*-------------------------------*/
 
-private:
-    uint8_t howManyDatabytes(uint8_t code);
-    uint8_t blablaUart();
+    void lockMutex();
+    void unlockMutex();
+
+
 };
 
 #endif // OPCODES_H

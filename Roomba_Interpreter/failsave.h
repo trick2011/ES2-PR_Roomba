@@ -1,13 +1,26 @@
 #ifndef FAILSAVE_H
 #define FAILSAVE_H
 
+#include "opcodes.h"
+#include <mutex>
+#include <unistd.h>
+
 class failsave
 {
 public:
     failsave();
+    ~failsave();
+
+    void stopFailsave();
 
 private:
     void checkCodes();
+    bool checkRunning();
+
+    bool stop;
+    std::mutex tex;
+
+    opcodes *Opcodes;
 };
 
 #endif // FAILSAVE_H
