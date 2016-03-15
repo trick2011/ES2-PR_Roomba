@@ -6,27 +6,14 @@ opcodes::opcodes()
     FailSave = new failsave(&sendTex);
 }
 
-void opcodes::print()
-{
-    while(1)
-    {
-        for(unsigned int i = 0; i < 58 ; ++i)
-        {
-
-            std::cout<<"Senson no"<<i<<": "<< sensorWaarden[i]<<std::endl;
-        }
-    }
-
-}
-
 void opcodes::startRoomba()
 {
-    sentUart(Start);
-    sentUart(safeMode);
-    sentUart(brushes);
+    uart->sentUart(Start);
+    uart->sentUart(safeMode);
+    uart->sentUart(brushes);
 }
 
-void opcodes::drives(speed s)
+void opcodes::drive(speed s)
 {
     sentUart(drive);
     switch (s) {

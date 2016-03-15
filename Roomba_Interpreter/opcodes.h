@@ -91,23 +91,11 @@ typedef enum{RIGHT = -90, LEFT = 90}angles;
 
 class opcodes
 {
-private:
-    std::array<uint16_t,58> sensorWaarden;
-
-    failsave *FailSave;
-    UART *uart;
-
-    std::mutex sendTex;
-
 public:
     opcodes();
-
-
-    void print();
-
     void startRoomba();
 
-    void drives(speed s); // speedgrades: slow, medium & fast
+    void drive(speed s); // speedgrades: slow, medium & fast
     void turnRoomba(angles); // angle in degrees (-90 or 90)
 
     bool getBumpAndWheel();
@@ -171,6 +159,13 @@ public:
     void lockMutex();
     void unlockMutex();
 
+private:
+    std::array<uint16_t,58> sensorWaarden;
+
+    failsave *FailSave;
+    UART *uart;
+
+    std::mutex sendTex;
 
 };
 
