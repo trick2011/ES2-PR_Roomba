@@ -77,9 +77,11 @@ public:
     roomobjectclass(signed int iPosHor, signed int iPosVer);
     roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);
 
-
     signed int iPosHor;
     signed int iPosVer;
+    float fPosVer;
+    float fPosHor;
+
     unsigned int iSizeHor;
     unsigned int iSizeVer;
 

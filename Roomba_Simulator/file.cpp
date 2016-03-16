@@ -364,28 +364,28 @@ bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
     return(false);
 }
 
-#ifdef __WIN32
-#ifdef __linux__
-timerclass::timerclass(roombaclass& roomba):roomba(roomba){
-    timer.it_value.tv_sec = 1;
-	timer.it_value.tv_usec = 0;
-    timer.it_interval.tv_sec = 1;
-	timer.it_interval.tv_usec = 0;
-    signal(SIGALRM, &sigalrm_handler);
-    setitimer(ITIMER_REAL, &timer, NULL);
+//#ifdef __WIN32
+//#ifdef __linux__
+//timerclass::timerclass(roombaclass& roomba):roomba(roomba){
+//    timer.it_value.tv_sec = 1;
+//	timer.it_value.tv_usec = 0;
+//    timer.it_interval.tv_sec = 1;
+//	timer.it_interval.tv_usec = 0;
+//    signal(SIGALRM, &sigalrm_handler);
+//    setitimer(ITIMER_REAL, &timer, NULL);
 
-}
-void timerclass::sigalrm_handler(int signum){
-	roomba->drive();
-}
-#endif
-#endif
+//}
+//void timerclass::sigalrm_handler(int signum){
+//	roomba->drive();
+//}
+//#endif
+//#endif
 
-roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer){
+roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor){
     iSizeHor = 0;
     iSizeVer = 0;
 }
-roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned int iSizeHor,unsigned int iSizeVer):iPosHor(iPosHor),iPosVer(iPosVer),iSizeHor(iSizeHor),iSizeVer(iSizeVer){
+roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned int iSizeHor,unsigned int iSizeVer):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor),iSizeHor(iSizeHor),iSizeVer(iSizeVer){
 
 }
 
@@ -401,12 +401,17 @@ void roombaclass::drive(void){
     // sin(angle) * speed = hor movement
     // cos(angle) * speed = ver movementy
     //float fHorMov = sin((fAngle*(pi/(float)180)) * fSpeed);
+
     float fHorMov = sin(fAngle*pi/180) * fSpeed;
     float fVerMov = cos(fAngle*pi/180) * fSpeed;
 
+
     if(sensors.checkbump(fHorMov,fVerMov) == false){
-        iPosHor += fHorMov;
-        iPosVer += fVerMov;
+        fPosHor += fHorMov;
+        fPosVer += fVerMov;
+
+        iPosHor += fPosHor-iPosHor;
+        iPosVer += fPosVer-iPosVer;
     }
 }
 void roombaclass::setspeed(float fInputSpeed){

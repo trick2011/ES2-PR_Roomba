@@ -18,14 +18,14 @@ int main()
     for(int i=0;i<12;i++){
         room.roomba->setspeed(2);
         room.roomba->drive();
-        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << " " << room.sensors->getbBumpLeft() << " " << room.sensors->getbBumpRight() << endl;
+        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
         //cout << "---------------------" << endl;
     }
-    room.roomba->setangle(-45);
+    room.roomba->setangle(-135);
     for(int i=0;i<20;i++){
         room.roomba->setspeed(2);
         room.roomba->drive();
-        cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << " " << room.sensors->getbBumpLeft() << " " << room.sensors->getbBumpRight() << endl;
+        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
         //cout << "---------------------" << endl;
     }
     return 0;
