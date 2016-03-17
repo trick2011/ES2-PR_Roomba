@@ -5,7 +5,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    UART();
+    UART aurt;
+    aurt.sendUart(8);
     //UART::sendUart(1);
     return 0;
 }

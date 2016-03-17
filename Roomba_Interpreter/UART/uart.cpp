@@ -28,7 +28,7 @@ UART::UART()
                                             immediately with a failure status if the output can't be written immediately.
 
     O_NOCTTY - When set and path identifies a terminal device, open() shall not cause the terminal device to become the controlling terminal for the process.*/
-    uart0_filestream = open("/dev/ttyAMA0", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
+    uart0_filestream = open("/dev/tty1", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
 
     if (uart0_filestream == -1)
     {
@@ -63,11 +63,11 @@ void UART::sendUart(uint8_t code)
     unsigned char *p_tx_buffer;
 
      p_tx_buffer   = &tx_buffer[0];
-    *p_tx_buffer++ = 'H';
-    *p_tx_buffer++ = 'e';
     *p_tx_buffer++ = 'l';
-    *p_tx_buffer++ = 'l';
-    *p_tx_buffer++ = 'o';
+    *p_tx_buffer++ = 's';
+    *p_tx_buffer++ = '\n';
+    //*p_tx_buffer++ = 'l';
+    //*p_tx_buffer++ = 'o';
 
     if (uart0_filestream != -1)
     {
@@ -79,14 +79,14 @@ void UART::sendUart(uint8_t code)
     }
 }
 
-uint8_t UART::receiveUart()
+uint8_t UART::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger
 {
     //----- CHECK FOR ANY RX BYTES -----
     if (uart0_filestream != -1)
     {
         // Read up to 255 characters from the port if they are there
         unsigned char rx_buffer[256];
-        int rx_length = read(uart0_filestream, (void*)rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max)
+        int rx_length = read(uart0_filestream, (void*)rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
         if (rx_length < 0)
         {
             //An error occured (will occur if there are no bytes)
@@ -99,9 +99,9 @@ uint8_t UART::receiveUart()
         {
             //Bytes received
             rx_buffer[rx_length] = '\0';
-            printf("%i bytes read : %s\n", rx_length, rx_buffer);
+            printf("%i bytes read : %s\n", rx_length, rx_buffer); // dit moet natuurlijk weg
         }
 
-        return()
+        return(0); // return hier de string 
     }
 }
