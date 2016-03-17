@@ -86,17 +86,20 @@ static const uint8_t mainBrushMotorCurrent =        56; // 2 databytes
 static const uint8_t sideBrushMotorCurrent =        57; // 2 databytes
 static const uint8_t statis =                       58; // 1 databyte
 
-typedef enum{SLOW,CRUISE,FAST}speed;
-typedef enum{RIGHT = -90, LEFT = 90}angles;
+class failsave;
 
 class opcodes
 {
 public:
+
+    typedef enum{SLOW,CRUISE,FAST}speed;
+    typedef enum{RIGHT = -90, LEFT = 90}angles;
+
     opcodes();
     ~opcodes();
     void startRoomba();
 
-    void drive(speed s); // speedgrades: slow, medium & fast
+    void drives(speed s); // speedgrades: slow, medium & fast
     void turnRoomba(angles); // angle in degrees (-90 or 90)
 
     bool getBumpAndWheel();

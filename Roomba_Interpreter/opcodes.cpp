@@ -3,44 +3,45 @@
 
 opcodes::opcodes()
 {
-    FailSave = new failsave(sendTex);
+    FailSave = new failsave();
     uart = new UART;
 }
 
 opcodes::~opcodes()
 {
-    delete Failsave;
+    FailSave->stopFailsave();
+    delete FailSave;
     delete uart;
 }
 
 void opcodes::startRoomba()
 {
-    uart->sentUart(Start);
-    uart->sentUart(safeMode);
-    uart->sentUart(brushes);
+    uart->sendUart(Start);
+    uart->sendUart(safeMode);
+    uart->sendUart(brushes);
 }
 
-void opcodes::drive(speed s)
+void opcodes::drives(speed s)
 {
-    sentUart(drive);
+    uart->sendUart(drive);
     switch (s) {
     case SLOW:
-        uart->sentUart(0x10); // Velocity high byte
-        uart->sentUart(0x00); // Velocity low  byte
-        uart->sentUart(0x80); // Radius high byte
-        uart->sentUart(0x00); // Radius low  byte
+        uart->sendUart(0x10); // Velocity high byte
+        uart->sendUart(0x00); // Velocity low  byte
+        uart->sendUart(0x80); // Radius high byte
+        uart->sendUart(0x00); // Radius low  byte
         break;
     case CRUISE:
-        uart->sentUart(0x08); // Velocity high byte
-        uart->sentUart(0x00); // Velocity low  byte
-        uart->sentUart(0x80); // Radius high byte
-        uart->sentUart(0x00); // Radius low  byte
+        uart->sendUart(0x08); // Velocity high byte
+        uart->sendUart(0x00); // Velocity low  byte
+        uart->sendUart(0x80); // Radius high byte
+        uart->sendUart(0x00); // Radius low  byte
         break;
     case FAST: //2's complement is a bitch
-        uart->sentUart(0x0F); // Velocity high byte
-        uart->sentUart(0xFF); // Velocity low  byte
-        uart->sentUart(0x80); // Radius high byte
-        uart->sentUart(0x00); // Radius low  byte
+        uart->sendUart(0x0F); // Velocity high byte
+        uart->sendUart(0xFF); // Velocity low  byte
+        uart->sendUart(0x80); // Radius high byte
+        uart->sendUart(0x00); // Radius low  byte
         break;
     }
 }
@@ -48,37 +49,37 @@ void opcodes::drive(speed s)
 void opcodes::turnRoomba(angles a)
 {
     uint8_t currentAngle = getAngle();
-    sentUart(drive);
+    uart->sendUart(drive);
     switch (a) {
     case RIGHT:
-        uart->sentUart(0x00); // Velocity high byte
-        uart->sentUart(0x00); // Velocity low  byte
-        uart->sentUart(0xFF); // Radius high byte
-        uart->sentUart(0xFF); // Radius low  byte
+        uart->sendUart(0x00); // Velocity high byte
+        uart->sendUart(0x00); // Velocity low  byte
+        uart->sendUart(0xFF); // Radius high byte
+        uart->sendUart(0xFF); // Radius low  byte
 
         while(1)
         {
             currentAngle += getAngle();
             if(currentAngle == RIGHT)
             {
-                sentUart(Stop);
+                uart->sendUart(Stop);
                 break;
             }
         }
 
         break;
     case LEFT:
-        uart->sentUart(0x00); // Velocity high byte
-        uart->sentUart(0x00); // Velocity low  byte
-        uart->sentUart(0x00); // Radius high byte
-        uart->sentUart(0x01); // Radius low  byte
+        uart->sendUart(0x00); // Velocity high byte
+        uart->sendUart(0x00); // Velocity low  byte
+        uart->sendUart(0x00); // Radius high byte
+        uart->sendUart(0x01); // Radius low  byte
 
         while(1)
         {
             currentAngle += getAngle();
             if(currentAngle == LEFT)
             {
-                sentUart(Stop);
+                uart->sendUart(Stop);
                 break;
             }
         }
@@ -152,9 +153,9 @@ uint8_t opcodes::getIrReceiver()
 int16_t opcodes::getDistance()
 {
     uart->sendUart(distance);
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -162,9 +163,9 @@ int16_t opcodes::getAngle()
 {
     uart->sendUart(angle);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -178,9 +179,9 @@ uint16_t opcodes::getBatteryVoltage()
 {
     uart->sendUart(batteryVoltage);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -188,9 +189,9 @@ int16_t opcodes::getBatteryCurrent()
 {
    uart->sendUart(batteryCurrent);
 
-   uint16_t halfWord;
-   halfWord << uart->receiveUart();
-   halfWord << uart->receiveUart();
+   uint16_t halfWord = 0;
+   halfWord = (uart->receiveUart() << 8);
+   halfWord |= uart->receiveUart();
    return halfWord;
 }
 
@@ -204,9 +205,9 @@ uint16_t opcodes::getBatteryCharge()
 {
     uart->sendUart(batteryCharge);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -214,9 +215,9 @@ uint16_t opcodes::getBatteryCapacity()
 {
     uart->sendUart(batteryCapacity);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -224,9 +225,9 @@ uint16_t opcodes::getWallSignal()
 {
     uart->sendUart(wallSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -234,9 +235,9 @@ uint16_t opcodes::getCliffLeftSignal()
 {
     uart->sendUart(cliffLeftSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -245,8 +246,8 @@ uint16_t opcodes::getCliffFrontLeftSignal()
     uart->sendUart(cliffFrontLeftSignal);
 
     uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -254,9 +255,9 @@ uint16_t opcodes::getCliffFrontRightSignal()
 {
     uart->sendUart(cliffFrontRightSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -264,9 +265,9 @@ uint16_t opcodes::getCliffRightSignal()
 {
     uart->sendUart(cliffRightSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -298,9 +299,9 @@ int16_t opcodes::getRequestedVelocity()
 {
     uart->sendUart(requestedVelocity);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -308,9 +309,9 @@ int16_t opcodes::getRequestedRadius()
 {
     uart->sendUart(requestedRadius);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -318,9 +319,9 @@ int16_t opcodes::getRequestedRightVelocity()
 {
     uart->sendUart(requestedRightVelocity);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -328,9 +329,9 @@ int16_t opcodes::getRequestedLeftVelocity()
 {
     uart->sendUart(requestedLeftVelocity);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -338,9 +339,9 @@ uint16_t opcodes::getLeftEncoderCount()
 {
     uart->sendUart(leftEncoderCount);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -348,9 +349,9 @@ uint16_t opcodes::getRightEncoderCount()
 {
     uart->sendUart(rightEncoderCount);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -364,9 +365,9 @@ uint16_t opcodes::getLightBumpLeftSignal()
 {
     uart->sendUart(lightBumpLeftSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -374,9 +375,9 @@ uint16_t opcodes::getLightBumpFrontLeftSignal()
 {
     uart->sendUart(lightBumpFrontLeftSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -384,9 +385,9 @@ uint16_t opcodes::getLightBumpCenterLeftSignal()
 {
     uart->sendUart(lightBumpCenterLeftSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -394,9 +395,9 @@ uint16_t opcodes::getLightBumpCenterRightSignal()
 {
     uart->sendUart(lightBumpCenterRightSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -404,9 +405,9 @@ uint16_t opcodes::getLightBumpFrontRightSignal()
 {
     uart->sendUart(lightBumpFrontRightSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -414,9 +415,9 @@ uint16_t opcodes::getLightBumpRightSignal()
 {
     uart->sendUart(lightBumpRightSignal);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -424,9 +425,9 @@ int16_t opcodes::getLeftMotorCurrent()
 {
     uart->sendUart(leftMotorCurrent);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -434,9 +435,9 @@ int16_t opcodes::getRightMotorCurrent()
 {
     uart->sendUart(rightMotorCurrent);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -444,9 +445,9 @@ int16_t opcodes::getMainBrushMotorCurrent()
 {
     uart->sendUart(mainBrushMotorCurrent);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 
@@ -454,9 +455,9 @@ int16_t opcodes::getSideBrushMotorCurrent()
 {
     uart->sendUart(sideBrushMotorCurrent);
 
-    uint16_t halfWord;
-    halfWord << uart->receiveUart();
-    halfWord << uart->receiveUart();
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
     return halfWord;
 }
 

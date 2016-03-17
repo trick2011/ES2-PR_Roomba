@@ -1,14 +1,16 @@
 #ifndef FAILSAVE_H
 #define FAILSAVE_H
 
-#include "opcodes.h"
-#include <mutex>
 #include <unistd.h>
+#include "opcodes.h"
+#include "UART/uart.h"
+
+class opcodes;
 
 class failsave
 {
 public:
-    failsave(std::mutex &tex);
+    failsave();
     ~failsave();
 
     void stopFailsave();
@@ -18,9 +20,9 @@ private:
     bool checkRunning();
 
     bool stop;
-    std::mutex tex;
 
-    opcodes *Opcodesa;
+    opcodes *Opcodes;
+    UART *uart;
 };
 
 #endif // FAILSAVE_H

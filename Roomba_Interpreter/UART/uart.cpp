@@ -79,7 +79,7 @@ void UART::sendUart(uint8_t code)
     }
 }
 
-void UART::receiveUart()
+uint8_t UART::receiveUart()
 {
     //----- CHECK FOR ANY RX BYTES -----
     if (uart0_filestream != -1)
