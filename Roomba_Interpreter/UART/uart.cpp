@@ -100,8 +100,7 @@ uint8_t UART::receiveUart() // geef een string terug want das makkelijker als rx
             //Bytes received
             rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer); // dit moet natuurlijk weg
-        }
-
-        return(0); // return hier de string 
+        }        
     }
+    return(rx_buffer); // << jelmer een char array kan niet terug gegeven worden met een uint8_t
 }
