@@ -14,9 +14,9 @@ int main()
     //delete roomba;
     roomclass room;
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
-    room.roomba->setangle(45);
+    room.roomba->setangle(40);
     for(int i=0;i<12;i++){
-        room.roomba->setspeed(2);
+        room.roomba->setspeed(1);
         room.roomba->drive();
         cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
         //cout << "---------------------" << endl;
