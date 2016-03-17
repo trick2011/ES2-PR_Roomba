@@ -3,7 +3,7 @@
 
 opcodes::opcodes()
 {
-    FailSave = new failsave(&sendTex);
+    FailSave = new failsave(sendTex);
 }
 
 void opcodes::startRoomba()
