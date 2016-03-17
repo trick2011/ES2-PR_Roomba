@@ -38,6 +38,7 @@ public:
 };
 class sensorclass{
 private:
+    const float fFloatRange = 0.10;
     roomclass& room;
 
     bool bBumpLeft;
@@ -52,9 +53,11 @@ private:
     bool checkbumpDL(int iHorPos,int iVerPos);
     bool checkbumpDR(int iHorPos,int iVerPos);
     float calcmultiplication(float iDiffHor, float iDiffVer);
+
+    bool floatcomp(float fIn1,float fIn2);
 public:
     sensorclass(roomclass& room);
-    bool checkbump(int iHorMov, int iVerMov);
+    bool checkbump(float iHorMov,float iVerMov);
 
     bool getbBumpLeft(void)  {return(bBumpLeft);}
     bool getbBumpRight(void) {return(bBumpRight);}
@@ -73,6 +76,7 @@ public:
 class roomobjectclass{
 protected:
     const float pi = 3.14159265;
+
 public:
     roomobjectclass(signed int iPosHor, signed int iPosVer);
     roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);
@@ -93,10 +97,13 @@ private:
     float fAngle;
     float fSpeed;
     sensorclass& sensors;
+
+
 public:
     roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
     ~roombaclass();
 
+    void move(float fHorMov,float fVerMov);
     void setangle(float fInputAngle);
     void setspeed(float fInputSpeed);
     float getangle(void) {return(fAngle);}
