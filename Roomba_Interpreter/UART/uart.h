@@ -9,7 +9,7 @@ class UART
 {
 public:
     UART();
-    void receiveUart();
+    uint8_t receiveUart();
     void sendUart(uint8_t code);
 };
 

@@ -1,10 +1,12 @@
 #include <iostream>
+#include "uart.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    cout << "Hello World!" << endl;
+    UART();
+    //UART::sendUart(1);
     return 0;
 }
 
