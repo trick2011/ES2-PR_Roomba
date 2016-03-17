@@ -93,6 +93,7 @@ class opcodes
 {
 public:
     opcodes();
+    ~opcodes();
     void startRoomba();
 
     void drive(speed s); // speedgrades: slow, medium & fast

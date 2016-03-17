@@ -20,7 +20,7 @@ private:
     bool stop;
     std::mutex tex;
 
-    opcodes *Opcodes;
+    opcodes *Opcodesa;
 };
 
 #endif // FAILSAVE_H

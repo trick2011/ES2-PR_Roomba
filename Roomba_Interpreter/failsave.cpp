@@ -4,13 +4,13 @@
 failsave::failsave(std::mutex &tex):tex(tex)
 {
     stop = false;
-    Opcodes = new opcodes;
+    Opcodesa = new opcodes;
 }
 
 failsave::~failsave()
 {
     stopFailsave();
-    delete Opcodes;
+    delete Opcodesa;
 }
 
 void failsave::stopFailsave()

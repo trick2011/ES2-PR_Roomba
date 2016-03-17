@@ -4,6 +4,13 @@
 opcodes::opcodes()
 {
     FailSave = new failsave(sendTex);
+    uart = new UART;
+}
+
+opcodes::~opcodes()
+{
+    delete Failsave;
+    delete uart;
 }
 
 void opcodes::startRoomba()
