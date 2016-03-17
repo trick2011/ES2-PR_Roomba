@@ -87,6 +87,7 @@ static const uint8_t sideBrushMotorCurrent =        57; // 2 databytes
 static const uint8_t statis =                       58; // 1 databyte
 
 class failsave;
+class UART;
 
 class opcodes
 {
