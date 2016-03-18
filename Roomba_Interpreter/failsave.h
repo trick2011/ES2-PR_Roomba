@@ -2,7 +2,7 @@
 #define FAILSAVE_H
 
 #include <unistd.h>
-#include "opcodes.h"
+#include "interpreter.h"
 #include "UART/uart.h"
 
 class opcodes;
@@ -21,7 +21,7 @@ private:
 
     bool stop;
 
-    opcodes *Opcodes;
+    interpreter Interpreter;
     Uart *uart;
 };
 

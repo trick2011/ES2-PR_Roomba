@@ -1,29 +1,28 @@
-#include "opcodes.h"
+#include "interpreter.h"
 
-
-opcodes::opcodes()
+interpreter::interpreter()
 {
     FailSave = new failsave;
     uart = new Uart;
 }
 
-opcodes::~opcodes()
+interpreter::~interpreter()
 {
     FailSave->stopFailsave();
     delete FailSave;
     delete uart;
 }
 
-void opcodes::startRoomba()
+void interpreter::startRoomba()
 {
-    uart->sendUart(Start);
-    uart->sendUart(safeMode);
-    uart->sendUart(brushes);
+    uart->sendUart(roomba::Start);
+    uart->sendUart(roomba::safeMode);
+    uart->sendUart(roomba::brushes);
 }
 
-void opcodes::drives(speed s)
+void interpreter::drives(speed s)
 {
-    uart->sendUart(drive);
+    uart->sendUart(roomba::drive);
     switch (s) {
     case SLOW:
         uart->sendUart(0x10); // Velocity high byte
@@ -46,10 +45,10 @@ void opcodes::drives(speed s)
     }
 }
 
-void opcodes::turnRoomba(angles a)
+void interpreter::turnRoomba(angles a)
 {
     uint8_t currentAngle = getAngle();
-    uart->sendUart(drive);
+    uart->sendUart(roomba::drive);
     switch (a) {
     case RIGHT:
         uart->sendUart(0x00); // Velocity high byte
@@ -62,7 +61,7 @@ void opcodes::turnRoomba(angles a)
             currentAngle += getAngle();
             if(currentAngle == RIGHT)
             {
-                uart->sendUart(Stop);
+                uart->sendUart(roomba::Stop);
                 break;
             }
         }
@@ -79,7 +78,7 @@ void opcodes::turnRoomba(angles a)
             currentAngle += getAngle();
             if(currentAngle == LEFT)
             {
-                uart->sendUart(Stop);
+                uart->sendUart(roomba::Stop);
                 break;
             }
         }
@@ -90,94 +89,78 @@ void opcodes::turnRoomba(angles a)
 
 }
 
-bool opcodes::getBumpAndWheel()
+bool interpreter::getBumpAndWheel()
 {
-    uart->sendUart(bumpAndWheel);
+    uart->sendUart(roomba::bumpAndWheel);
     return (uart->receiveUart() ? 1 : 0);
 }
 
-uint8_t opcodes::getWall()
+uint8_t interpreter::getWall()
 {
-    uart->sendUart(wall);
+    uart->sendUart(roomba::wall);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getCliffLeft()
+uint8_t interpreter::getCliffLeft()
 {
-    uart->sendUart(cliffLeft);
+    uart->sendUart(roomba::cliffLeft);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getCliffFrontLeft()
+uint8_t interpreter::getCliffFrontLeft()
 {
-    uart->sendUart(cliffFrontLeft);
+    uart->sendUart(roomba::cliffFrontLeft);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getCliffFrontRight()
+uint8_t interpreter::getCliffFrontRight()
 {
-    uart->sendUart(cliffFrontRight);
+    uart->sendUart(roomba::cliffFrontRight);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getCliffRight()
+uint8_t interpreter::getCliffRight()
 {
-    uart->sendUart(cliffRight);
+    uart->sendUart(roomba::cliffRight);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getVirtualWall()
+uint8_t interpreter::getVirtualWall()
 {
-    uart->sendUart(virtualWall);
+    uart->sendUart(roomba::virtualWall);
     return uart->receiveUart();
 }
 
-bool opcodes::getWheelOvercurrents()
+bool interpreter::getWheelOvercurrents()
 {
-    uart->sendUart(wheelOvercurrents);
+    uart->sendUart(roomba::wheelOvercurrents);
     return (uart->receiveUart() ? 1 : 0);
 }
 
-uint8_t opcodes::getDirtDetect()
+uint8_t interpreter::getDirtDetect()
 {
-    uart->sendUart(dirtDetect);
+    uart->sendUart(roomba::dirtDetect);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getIrReceiver()
+uint8_t interpreter::getIrReceiver()
 {
-    uart->sendUart(irReceiver);
+    uart->sendUart(roomba::irReceiver);
     return uart->receiveUart();
 }
 
-int16_t opcodes::getDistance()
+int16_t interpreter::getDistance()
 {
-    uart->sendUart(distance);
+    uart->sendUart(roomba::distance);
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
     halfWord |= uart->receiveUart();
     return halfWord;
 }
 
-int16_t opcodes::getAngle()
+int16_t interpreter::getAngle()
 {
-    uart->sendUart(angle);
-
-    uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
-    return halfWord;
-}
-
-uint8_t opcodes::getChargingState()
-{
-    uart->sendUart(chargingState);
-    return uart->receiveUart();
-}
-
-uint16_t opcodes::getBatteryVoltage()
-{
-    uart->sendUart(batteryVoltage);
+    uart->sendUart(roomba::angle);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -185,9 +168,25 @@ uint16_t opcodes::getBatteryVoltage()
     return halfWord;
 }
 
-int16_t opcodes::getBatteryCurrent()
+uint8_t interpreter::getChargingState()
 {
-   uart->sendUart(batteryCurrent);
+    uart->sendUart(roomba::chargingState);
+    return uart->receiveUart();
+}
+
+uint16_t interpreter::getBatteryVoltage()
+{
+    uart->sendUart(roomba::batteryVoltage);
+
+    uint16_t halfWord = 0;
+    halfWord = (uart->receiveUart() << 8);
+    halfWord |= uart->receiveUart();
+    return halfWord;
+}
+
+int16_t interpreter::getBatteryCurrent()
+{
+   uart->sendUart(roomba::batteryCurrent);
 
    uint16_t halfWord = 0;
    halfWord = (uart->receiveUart() << 8);
@@ -195,15 +194,15 @@ int16_t opcodes::getBatteryCurrent()
    return halfWord;
 }
 
-int8_t opcodes::getBatteryTemperature()
+int8_t interpreter::getBatteryTemperature()
 {
-    uart->sendUart(batteryTemperature);
+    uart->sendUart(roomba::batteryTemperature);
     return uart->receiveUart();
 }
 
-uint16_t opcodes::getBatteryCharge()
+uint16_t interpreter::getBatteryCharge()
 {
-    uart->sendUart(batteryCharge);
+    uart->sendUart(roomba::batteryCharge);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -211,9 +210,9 @@ uint16_t opcodes::getBatteryCharge()
     return halfWord;
 }
 
-uint16_t opcodes::getBatteryCapacity()
+uint16_t interpreter::getBatteryCapacity()
 {
-    uart->sendUart(batteryCapacity);
+    uart->sendUart(roomba::batteryCapacity);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -221,9 +220,9 @@ uint16_t opcodes::getBatteryCapacity()
     return halfWord;
 }
 
-uint16_t opcodes::getWallSignal()
+uint16_t interpreter::getWallSignal()
 {
-    uart->sendUart(wallSignal);
+    uart->sendUart(roomba::wallSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -231,9 +230,9 @@ uint16_t opcodes::getWallSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getCliffLeftSignal()
+uint16_t interpreter::getCliffLeftSignal()
 {
-    uart->sendUart(cliffLeftSignal);
+    uart->sendUart(roomba::cliffLeftSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -241,9 +240,9 @@ uint16_t opcodes::getCliffLeftSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getCliffFrontLeftSignal()
+uint16_t interpreter::getCliffFrontLeftSignal()
 {
-    uart->sendUart(cliffFrontLeftSignal);
+    uart->sendUart(roomba::cliffFrontLeftSignal);
 
     uint16_t halfWord;
     halfWord = (uart->receiveUart() << 8);
@@ -251,9 +250,9 @@ uint16_t opcodes::getCliffFrontLeftSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getCliffFrontRightSignal()
+uint16_t interpreter::getCliffFrontRightSignal()
 {
-    uart->sendUart(cliffFrontRightSignal);
+    uart->sendUart(roomba::cliffFrontRightSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -261,9 +260,9 @@ uint16_t opcodes::getCliffFrontRightSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getCliffRightSignal()
+uint16_t interpreter::getCliffRightSignal()
 {
-    uart->sendUart(cliffRightSignal);
+    uart->sendUart(roomba::cliffRightSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -271,33 +270,33 @@ uint16_t opcodes::getCliffRightSignal()
     return halfWord;
 }
 
-uint8_t opcodes::getChargingSource()
+uint8_t interpreter::getChargingSource()
 {
-    uart->sendUart(chargingSource);
+    uart->sendUart(roomba::chargingSource);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getOiMode()
+uint8_t interpreter::getOiMode()
 {
-    uart->sendUart(oiMode);
+    uart->sendUart(roomba::oiMode);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getSongNumber()
+uint8_t interpreter::getSongNumber()
 {
-    uart->sendUart(songNumber);
+    uart->sendUart(roomba::songNumber);
     return uart->receiveUart();
 }
 
-uint8_t opcodes::getSongPlaying()
+uint8_t interpreter::getSongPlaying()
 {
-    uart->sendUart(songPlaying);
+    uart->sendUart(roomba::songPlaying);
     return uart->receiveUart();
 }
 
-int16_t opcodes::getRequestedVelocity()
+int16_t interpreter::getRequestedVelocity()
 {
-    uart->sendUart(requestedVelocity);
+    uart->sendUart(roomba::requestedVelocity);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -305,9 +304,9 @@ int16_t opcodes::getRequestedVelocity()
     return halfWord;
 }
 
-int16_t opcodes::getRequestedRadius()
+int16_t interpreter::getRequestedRadius()
 {
-    uart->sendUart(requestedRadius);
+    uart->sendUart(roomba::requestedRadius);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -315,9 +314,9 @@ int16_t opcodes::getRequestedRadius()
     return halfWord;
 }
 
-int16_t opcodes::getRequestedRightVelocity()
+int16_t interpreter::getRequestedRightVelocity()
 {
-    uart->sendUart(requestedRightVelocity);
+    uart->sendUart(roomba::requestedRightVelocity);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -325,9 +324,9 @@ int16_t opcodes::getRequestedRightVelocity()
     return halfWord;
 }
 
-int16_t opcodes::getRequestedLeftVelocity()
+int16_t interpreter::getRequestedLeftVelocity()
 {
-    uart->sendUart(requestedLeftVelocity);
+    uart->sendUart(roomba::requestedLeftVelocity);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -335,9 +334,9 @@ int16_t opcodes::getRequestedLeftVelocity()
     return halfWord;
 }
 
-uint16_t opcodes::getLeftEncoderCount()
+uint16_t interpreter::getLeftEncoderCount()
 {
-    uart->sendUart(leftEncoderCount);
+    uart->sendUart(roomba::leftEncoderCount);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -345,9 +344,9 @@ uint16_t opcodes::getLeftEncoderCount()
     return halfWord;
 }
 
-uint16_t opcodes::getRightEncoderCount()
+uint16_t interpreter::getRightEncoderCount()
 {
-    uart->sendUart(rightEncoderCount);
+    uart->sendUart(roomba::rightEncoderCount);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -355,15 +354,15 @@ uint16_t opcodes::getRightEncoderCount()
     return halfWord;
 }
 
-uint8_t opcodes::getLightBumper()
+uint8_t interpreter::getLightBumper()
 {
-    uart->sendUart(lightBumper);
+    uart->sendUart(roomba::lightBumper);
     return (uart->receiveUart() ? 1 : 0);
 }
 
-uint16_t opcodes::getLightBumpLeftSignal()
+uint16_t interpreter::getLightBumpLeftSignal()
 {
-    uart->sendUart(lightBumpLeftSignal);
+    uart->sendUart(roomba::lightBumpLeftSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -371,9 +370,9 @@ uint16_t opcodes::getLightBumpLeftSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getLightBumpFrontLeftSignal()
+uint16_t interpreter::getLightBumpFrontLeftSignal()
 {
-    uart->sendUart(lightBumpFrontLeftSignal);
+    uart->sendUart(roomba::lightBumpFrontLeftSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -381,9 +380,9 @@ uint16_t opcodes::getLightBumpFrontLeftSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getLightBumpCenterLeftSignal()
+uint16_t interpreter::getLightBumpCenterLeftSignal()
 {
-    uart->sendUart(lightBumpCenterLeftSignal);
+    uart->sendUart(roomba::lightBumpCenterLeftSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -391,9 +390,9 @@ uint16_t opcodes::getLightBumpCenterLeftSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getLightBumpCenterRightSignal()
+uint16_t interpreter::getLightBumpCenterRightSignal()
 {
-    uart->sendUart(lightBumpCenterRightSignal);
+    uart->sendUart(roomba::lightBumpCenterRightSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -401,9 +400,9 @@ uint16_t opcodes::getLightBumpCenterRightSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getLightBumpFrontRightSignal()
+uint16_t interpreter::getLightBumpFrontRightSignal()
 {
-    uart->sendUart(lightBumpFrontRightSignal);
+    uart->sendUart(roomba::lightBumpFrontRightSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -411,9 +410,9 @@ uint16_t opcodes::getLightBumpFrontRightSignal()
     return halfWord;
 }
 
-uint16_t opcodes::getLightBumpRightSignal()
+uint16_t interpreter::getLightBumpRightSignal()
 {
-    uart->sendUart(lightBumpRightSignal);
+    uart->sendUart(roomba::lightBumpRightSignal);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -421,9 +420,9 @@ uint16_t opcodes::getLightBumpRightSignal()
     return halfWord;
 }
 
-int16_t opcodes::getLeftMotorCurrent()
+int16_t interpreter::getLeftMotorCurrent()
 {
-    uart->sendUart(leftMotorCurrent);
+    uart->sendUart(roomba::leftMotorCurrent);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -431,9 +430,9 @@ int16_t opcodes::getLeftMotorCurrent()
     return halfWord;
 }
 
-int16_t opcodes::getRightMotorCurrent()
+int16_t interpreter::getRightMotorCurrent()
 {
-    uart->sendUart(rightMotorCurrent);
+    uart->sendUart(roomba::rightMotorCurrent);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -441,9 +440,9 @@ int16_t opcodes::getRightMotorCurrent()
     return halfWord;
 }
 
-int16_t opcodes::getMainBrushMotorCurrent()
+int16_t interpreter::getMainBrushMotorCurrent()
 {
-    uart->sendUart(mainBrushMotorCurrent);
+    uart->sendUart(roomba::mainBrushMotorCurrent);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -451,9 +450,9 @@ int16_t opcodes::getMainBrushMotorCurrent()
     return halfWord;
 }
 
-int16_t opcodes::getSideBrushMotorCurrent()
+int16_t interpreter::getSideBrushMotorCurrent()
 {
-    uart->sendUart(sideBrushMotorCurrent);
+    uart->sendUart(roomba::sideBrushMotorCurrent);
 
     uint16_t halfWord = 0;
     halfWord = (uart->receiveUart() << 8);
@@ -461,63 +460,61 @@ int16_t opcodes::getSideBrushMotorCurrent()
     return halfWord;
 }
 
-uint8_t opcodes::getStatis()
+uint8_t interpreter::getStatis()
 {
-    uart->sendUart(statis);
+    uart->sendUart(roomba::statis);
     return uart->receiveUart();
 }
 
 
 /***********************************************************/
-bool opcodes::getBumpRight()
+bool interpreter::getBumpRight()
 {
 
     return (sensorWaarden[bumpAndWheel] & 0b00000001) == 0b00000001 ? 1 : 0;
 }
 
-bool opcodes::getBumpLeft()
+bool interpreter::getBumpLeft()
 {
     return (sensorWaarden[bumpAndWheel] & 0b00000010) == 0b00000010 ? 1 : 0;
 }
 
-bool opcodes::getWheelDropRight()
+bool interpreter::getWheelDropRight()
 {
     return (sensorWaarden[bumpAndWheel] & 0b00000100) == 0b00000100 ? 1 : 0;
 }
 
-bool opcodes::getWheelDropLeft()
+bool interpreter::getWheelDropLeft()
 {
     return (sensorWaarden[bumpAndWheel] & 0b00001000) == 0b00001000 ? 1 : 0;
 }
 
-bool opcodes::getSideBrushOvercurrent()
+bool interpreter::getSideBrushOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00000001) == 0b00000001 ? 1 : 0;
 }
 
-bool opcodes::getMainBrushOvercurrent()
+bool interpreter::getMainBrushOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00000100) == 0b00000100 ? 1 : 0;
 }
 
-bool opcodes::getRightWheelOvercurrent()
+bool interpreter::getRightWheelOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00001000) == 0b00001000 ? 1 : 0;
 }
 
-bool opcodes::getLeftWheelOvercurrent()
+bool interpreter::getLeftWheelOvercurrent()
 {
     return (sensorWaarden[wheelOvercurrents] & 0b00010000) == 0b00010000 ? 1 : 0;
 }
 
-void opcodes::lockMutex()
+void interpreter::lockMutex()
 {
     sendTex.lock();
 }
 
-void opcodes::unlockMutex()
+void interpreter::unlockMutex()
 {
     sendTex.unlock();
 }
-
-
