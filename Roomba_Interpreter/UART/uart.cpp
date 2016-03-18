@@ -14,7 +14,7 @@
 At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 function) respectively*/
 int uart0_filestream = -1;
 
-UART::UART()
+Uart::Uart()
 {
     /*OPEN THE UART
     The flags (defined in fcntl.h):
@@ -56,7 +56,7 @@ UART::UART()
     tcsetattr(uart0_filestream, TCSANOW, &options);
 }
 
-void UART::sendUart(uint8_t code)
+void Uart::sendUart(uint8_t code)
 {
     //----- TX BYTES -----
     unsigned char tx_buffer[20];
@@ -79,7 +79,7 @@ void UART::sendUart(uint8_t code)
     }
 }
 
-uint8_t UART::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger
+uint8_t Uart::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger
 {
     //----- CHECK FOR ANY RX BYTES -----
     if (uart0_filestream != -1)
@@ -102,5 +102,5 @@ uint8_t UART::receiveUart() // geef een string terug want das makkelijker als rx
             printf("%i bytes read : %s\n", rx_length, rx_buffer); // dit moet natuurlijk weg
         }        
     }
-    return(rx_buffer); // << jelmer een char array kan niet terug gegeven worden met een uint8_t
+    return 1; // << jelmer een char array kan niet terug gegeven worden met een uint8_t
 }

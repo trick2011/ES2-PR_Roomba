@@ -22,7 +22,7 @@ private:
     bool stop;
 
     opcodes *Opcodes;
-    UART *uart;
+    Uart *uart;
 };
 
 #endif // FAILSAVE_H

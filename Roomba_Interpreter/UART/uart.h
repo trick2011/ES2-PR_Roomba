@@ -5,10 +5,10 @@
 #include <vector>
 #include <thread>
 
-class UART
+class Uart
 {
 public:
-    UART();
+    Uart();
     uint8_t receiveUart();
     void sendUart(uint8_t code);
 };

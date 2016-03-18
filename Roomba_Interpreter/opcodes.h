@@ -87,7 +87,7 @@ static const uint8_t sideBrushMotorCurrent =        57; // 2 databytes
 static const uint8_t statis =                       58; // 1 databyte
 
 class failsave;
-class UART;
+class Uart;
 
 class opcodes
 {
@@ -168,7 +168,7 @@ private:
     std::array<uint16_t,58> sensorWaarden;
 
     failsave *FailSave;
-    UART *uart;
+    Uart *uart;
 
     std::mutex sendTex;
 

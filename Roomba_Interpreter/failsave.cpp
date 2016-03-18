@@ -5,6 +5,7 @@ failsave::failsave()
 {
     stop = false;
     Opcodes = new opcodes;
+    uart = new Uart;
 }
 
 failsave::~failsave()

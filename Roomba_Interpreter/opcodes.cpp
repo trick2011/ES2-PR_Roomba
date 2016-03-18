@@ -3,8 +3,8 @@
 
 opcodes::opcodes()
 {
-    FailSave = new failsave();
-    uart = new UART;
+    FailSave = new failsave;
+    uart = new Uart;
 }
 
 opcodes::~opcodes()

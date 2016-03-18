@@ -6,8 +6,8 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout << "Hello World!" << endl;
-    opcodes Opcodes;
-    //Opcodes.receiveUart();
+    opcodes* Opcodes;
+//	Opcodes = new opcodes;
 
     return 0;
 }
