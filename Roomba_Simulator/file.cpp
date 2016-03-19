@@ -9,16 +9,16 @@ roomclass::roomclass(){
 #endif
 #endif
 
-    roomobjectclass object(-5,-5,1,10);
+    roomobjectclass object(-5,-5,0,10);
     roomobjects.push_back(object);
-    roomobjectclass objectb(5,-5,1,10);
+    roomobjectclass objectb(5,-5,0,10);
     roomobjects.push_back(objectb);
 
 
-    roomobjectclass objectc(-5,-5,10,1);
+    roomobjectclass objectc(-5,-5,10,0);
     roomobjects.push_back(objectc);
 
-    roomobjectclass objectd(-5,5,10,1);
+    roomobjectclass objectd(-5,5,10,0);
     roomobjects.push_back(objectd);
 
 }
@@ -135,7 +135,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
             
             }
             for(unsigned int i=0;i<viIanswerHor.size();i++){
-            	if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
+                if(checkbumpUL(viIanswerHor[i],viIanswerVer[i]) == true){
                     //room.roomba->iPosHor += viIanswerHor[i];
                     //room.roomba->iPosVer += viIanswerVer[i];
                     room.roomba->move(viIanswerHor[i],viIanswerVer[i]);
@@ -207,7 +207,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
 
             }
             for(unsigned int i=0;i<viIanswerHor.size();i++){
-                if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
+                if(checkbumpDR(viIanswerHor[i],viIanswerVer[i]) == true){
                     //room.roomba->iPosHor += viIanswerHor[i];
                     //room.roomba->iPosVer += viIanswerVer[i];
                     room.roomba->move(viIanswerHor[i],viIanswerVer[i]);
@@ -243,7 +243,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
             
             }
             for(unsigned int i=0;i<viIanswerHor.size();i++){
-            	if(checkbumpUR(viIanswerHor[i],viIanswerVer[i]) == true){
+                if(checkbumpDL(room.roomba->iPosHor+viIanswerHor[i],room.roomba->iPosVer+viIanswerVer[i]) == true){
                     //room.roomba->iPosHor += viIanswerHor[i];
                     //room.roomba->iPosVer += viIanswerVer[i];
                     room.roomba->move(viIanswerHor[i],viIanswerVer[i]);
@@ -306,28 +306,35 @@ bool sensorclass::checkbumpD(int iHorPos,int iVerPos){
     return(false);
 }
 bool sensorclass::checkbumpUL(int iHorPos,int iVerPos){
+    bool bDoubleBump = false;
+    bool bLeftBump = false;
+    bool bRightBump = false;
     for(unsigned int i=0;i<room.roomobjects.size();i++){
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
-                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
-                    bBumpLeft = true;
-                    bBumpRight = true;
-
-                }
-                if(((iHorPos+1) == iHorI)&&(iVerPos == iVerI)){
-                    bBumpLeft = false;
-                    bBumpRight = true;
-
-                }
-                if((iHorPos == iHorI)&&((iVerPos-1) == iVerI)){
-                    bBumpLeft = true;
-                    bBumpRight = false;
-                }
-                if(((iHorPos == iHorI)&&(iVerPos == iVerI))||(((iHorPos+1) == iHorI)&&(iVerPos == iVerI))||((iHorPos == iHorI)&&((iVerPos-1) == iVerI)))
-                    return(true);
+                if(bDoubleBump == false)
+                    bDoubleBump = (iHorPos-1 == iHorI)&&(iVerPos+1 == iVerI);
+                if(bLeftBump == false)
+                    bLeftBump = (((iHorPos-1) == iHorI)&&(iVerPos == iVerI));
+                if(bRightBump == false)
+                    bRightBump = ((iHorPos == iHorI)&&((iVerPos+1) == iVerI));
             }
 
         }
+    }
+    if(bDoubleBump||bLeftBump||bRightBump){
+        if(bDoubleBump){
+            bBumpLeft = true;
+            bBumpRight = true;
+            return(true);
+        }
+        else{
+            if(bLeftBump)
+                bBumpLeft = true;
+            if(bRightBump)
+                bBumpRight = true;
+        }
+        return(true);
     }
     return(false);
 }
@@ -339,22 +346,11 @@ bool sensorclass::checkbumpUR(int iHorPos,int iVerPos){
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
                 if(bDoubleBump == false)
-                    bDoubleBump = (iHorPos == iHorI)&&(iVerPos == iVerI);
+                    bDoubleBump = (iHorPos+1 == iHorI)&&(iVerPos+1 == iVerI);
                 if(bLeftBump == false)
                     bLeftBump = (((iHorPos+1) == iHorI)&&(iVerPos == iVerI));
                 if(bRightBump == false)
                     bRightBump = ((iHorPos == iHorI)&&((iVerPos+1) == iVerI));
-
-//                if(((iHorPos-1) == iHorI)&&(iVerPos == iVerI)){
-//                    bBumpLeft = true;
-//                    bBumpRight = false;
-//                    return(true);
-//                }
-//                if((iHorPos == iHorI)&&((iVerPos-1) == iVerI)){
-//                    bBumpLeft = false;
-//                    bBumpRight = true;
-//                    return(true);
-//                }
             }
         }
     }
@@ -375,26 +371,34 @@ bool sensorclass::checkbumpUR(int iHorPos,int iVerPos){
     return(false);
 }
 bool sensorclass::checkbumpDL(int iHorPos,int iVerPos){
+    bool bDoubleBump = false;
+    bool bLeftBump = false;
+    bool bRightBump = false;
     for(unsigned int i=0;i<room.roomobjects.size();i++){
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
-                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
-                    bBumpLeft = true;
-                    bBumpRight = true;
-                    return(true);
-                }
-                if(((iHorPos+1) == iHorI)&&(iVerPos == iVerI)){
-                    bBumpLeft = true;
-                    bBumpRight = false;
-                    return(true);
-                }
-                if((iHorPos == iHorI)&&((iVerPos+1) == iVerI)){
-                    bBumpLeft = false;
-                    bBumpRight = true;
-                    return(true);
-                }
+                if(bDoubleBump == false)
+                    bDoubleBump = ((iHorPos-1) == iHorI)&&((iVerPos-1)== iVerI);
+                if(bLeftBump == false)
+                    bLeftBump = ((iHorPos == iHorI)&&((iVerPos-1) == iVerI));
+                if(bRightBump == false)
+                    bRightBump = (((iHorPos-1) == iHorI)&&(iVerPos == iVerI));
             }
         }
+    }
+    if(bDoubleBump||bLeftBump||bRightBump){
+        if(bDoubleBump){
+            bBumpLeft = true;
+            bBumpRight = true;
+            return(true);
+        }
+        else{
+            if(bLeftBump)
+                bBumpLeft = true;
+            if(bRightBump)
+                bBumpRight = true;
+        }
+        return(true);
     }
     return(false);
 }
