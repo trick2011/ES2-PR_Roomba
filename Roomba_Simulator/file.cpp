@@ -135,7 +135,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
             
             }
             for(unsigned int i=0;i<viIanswerHor.size();i++){
-                if(checkbumpUL(viIanswerHor[i],viIanswerVer[i]) == true){
+                if(checkbumpUL(room.roomba->iPosHor+viIanswerHor[i],room.roomba->iPosVer+viIanswerVer[i]) == true){
                     //room.roomba->iPosHor += viIanswerHor[i];
                     //room.roomba->iPosVer += viIanswerVer[i];
                     room.roomba->move(viIanswerHor[i],viIanswerVer[i]);
@@ -210,7 +210,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                 if(checkbumpDR(viIanswerHor[i],viIanswerVer[i]) == true){
                     //room.roomba->iPosHor += viIanswerHor[i];
                     //room.roomba->iPosVer += viIanswerVer[i];
-                    room.roomba->move(viIanswerHor[i],viIanswerVer[i]);
+                    room.roomba->move(room.roomba->iPosHor+viIanswerHor[i],room.roomba->iPosVer+viIanswerVer[i]);
                     return(true);
                 }
             }
