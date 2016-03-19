@@ -5,7 +5,7 @@
 #include "interpreter.h"
 #include "UART/uart.h"
 
-class opcodes;
+class interpreter;
 
 class failsave
 {
