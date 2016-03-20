@@ -207,10 +207,10 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
 
             }
             for(unsigned int i=0;i<viIanswerHor.size();i++){
-                if(checkbumpDR(viIanswerHor[i],viIanswerVer[i]) == true){
+                if(checkbumpDR(room.roomba->iPosHor+viIanswerHor[i],room.roomba->iPosVer+viIanswerVer[i]) == true){
                     //room.roomba->iPosHor += viIanswerHor[i];
                     //room.roomba->iPosVer += viIanswerVer[i];
-                    room.roomba->move(room.roomba->iPosHor+viIanswerHor[i],room.roomba->iPosVer+viIanswerVer[i]);
+                    room.roomba->move(viIanswerHor[i],viIanswerVer[i]);
                     return(true);
                 }
             }
@@ -403,26 +403,34 @@ bool sensorclass::checkbumpDL(int iHorPos,int iVerPos){
     return(false);
 }
 bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
-    for(unsigned int i=0;i<room.roomobjects.size();i++){
+    bool bDoubleBump = false;
+    bool bLeftBump = false;
+    bool bRightBump = false;
+    for(unsigned int i=0;i<room.roomobjects.size();i++){ // dit
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){
-                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
-                    bBumpLeft = true;
-                    bBumpRight = true;
-                    return(true);
-                }
-                if(((iHorPos-1) == iHorI)&&(iVerPos == iVerI)){
-                    bBumpLeft = false;
-                    bBumpRight = true;
-                    return(true);
-                }
-                if((iHorPos == iHorI)&&((iVerPos+1) == iVerI)){
-                    bBumpLeft = true;
-                    bBumpRight = false;
-                    return(true);
-                }
+                if(bDoubleBump == false)
+                    bDoubleBump = (iHorPos+1 == iHorI)&&(iVerPos-1 == iVerI);
+                if(bLeftBump == false)
+                    bLeftBump = (((iHorPos+1) == iHorI)&&(iVerPos == iVerI));
+                if(bRightBump == false)
+                    bRightBump = ((iHorPos == iHorI)&&((iVerPos-1) == iVerI));
             }
         }
+    }
+    if(bDoubleBump||bLeftBump||bRightBump){
+        if(bDoubleBump){
+            bBumpLeft = true;
+            bBumpRight = true;
+            return(true);
+        }
+        else{
+            if(bLeftBump)
+                bBumpLeft = true;
+            if(bRightBump)
+                bBumpRight = true;
+        }
+        return(true);
     }
     return(false);
 }
