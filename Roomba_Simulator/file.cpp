@@ -8,11 +8,7 @@
 roomclass::roomclass(){
     sensors = new sensorclass(*this);
     roomba = new roombaclass(sensors);
-#ifdef __WIN32
-#ifdef __linux__
-	timer = new timerclass(*roomba);
-#endif
-#endif
+    timer = new timerclass(*roomba);
 
     roomobjectclass object(-5,-5,0,10);
     roomobjects.push_back(object);
@@ -25,7 +21,6 @@ roomclass::roomclass(){
 
     roomobjectclass objectd(-5,5,10,0);
     roomobjects.push_back(objectd);
-
 }
 /**
  * @brief roomclass::~roomclass
@@ -549,22 +544,23 @@ bool sensorclass::floatcomp(float fIn1,float fIn2){
         return(true);
 }
 
-//#ifdef __WIN32
-//#ifdef __linux__
-//timerclass::timerclass(roombaclass& roomba):roomba(roomba){
-//    timer.it_value.tv_sec = 1;
-//	timer.it_value.tv_usec = 0;
-//    timer.it_interval.tv_sec = 1;
-//	timer.it_interval.tv_usec = 0;
-//    signal(SIGALRM, &sigalrm_handler);
-//    setitimer(ITIMER_REAL, &timer, NULL);
+timerclass::timerclass(roombaclass& roomba,double dTimerDurationb = 0.5):roomba(roomba),dTimerDuration{dTimerDurationb}{
+    thread timerthread(timer);
+}
+void timerclass::timer(void){
+    start = chrono::system_clock::now();
+    chrono::duration<double> elapsed_seconds;
+    while(bRunning){
+        end = chrono::system_clock::now();
+        elapsed_seconds = end - start;
+        if(elapsed_seconds.count() >= dTimerDuration){
+            start = chrono::system_clock::now();
+            roomba.drive();
+        }
 
-//}
-//void timerclass::sigalrm_handler(int signum){
-//	roomba->drive();
-//}
-//#endif
-//#endif
+    }
+}
+
 /**
  * @brief roomobjectclass::roomobjectclass
  * @param iPosHor

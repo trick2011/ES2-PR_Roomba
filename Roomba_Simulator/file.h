@@ -7,13 +7,8 @@
 #include <vector>
 #include <cmath>
 
-#ifdef __linux__
-#include <signal.h>
-#include <sys/time.h>
-#endif
-
-#ifdef _WIN32
-#endif
+#include <chrono> /**< timer **/
+#include <thread> /**< timer **/
 
 using namespace std;
 /**  This class is the master class in which all other
@@ -82,15 +77,22 @@ public:
     bool getbBumpLeft(void)  {return(bBumpLeft);}
     bool getbBumpRight(void) {return(bBumpRight);}
 };
-class timerclass{
+static class timerclass{
 private:
     roombaclass& roomba;
-#ifdef __linux__
-    struct itimerval timer;//={0,0};
-#endif
-    static void sigalrm_handler(int signum);
+    chrono::time_point<chrono::system_clock> start,end;
+    bool bRunning;
+    double dTimerDuration;
+
+    void timer(void);
 public:
-    timerclass(roombaclass& roomba);
+    timerclass(roombaclass &roomba) : timerclass(roomba,0.5){;}
+    timerclass(roombaclass& roomba,double dTimerDuration);
+
+    void setTimerDuration(double dInput) {dTimerDuration = dInput;}
+    double readTimerDuration(void) {return(dTimerDuration);}
+    void setTimerEnable(bool bInput) {bRunning = bInput;}
+    double readTimerEnable(void) {return(bRunning);}
 };
 
 class roomobjectclass{
