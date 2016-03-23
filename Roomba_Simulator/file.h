@@ -77,14 +77,14 @@ public:
     bool getbBumpLeft(void)  {return(bBumpLeft);}
     bool getbBumpRight(void) {return(bBumpRight);}
 };
-static class timerclass{
+class timerclass{
 private:
     roombaclass& roomba;
     chrono::time_point<chrono::system_clock> start,end;
     bool bRunning;
     double dTimerDuration;
 
-    void timer(void);
+    void timer(/*roombaclass& roomba*/);
 public:
     timerclass(roombaclass &roomba) : timerclass(roomba,0.5){;}
     timerclass(roombaclass& roomba,double dTimerDuration);

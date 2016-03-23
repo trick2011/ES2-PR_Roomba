@@ -545,9 +545,9 @@ bool sensorclass::floatcomp(float fIn1,float fIn2){
 }
 
 timerclass::timerclass(roombaclass& roomba,double dTimerDurationb = 0.5):roomba(roomba),dTimerDuration{dTimerDurationb}{
-    thread timerthread(timer);
+    //thread timerthread(thread(timerclass::timer,roomba),this);
 }
-void timerclass::timer(void){
+void timerclass::timer(/*roombaclass& roomba*/){
     start = chrono::system_clock::now();
     chrono::duration<double> elapsed_seconds;
     while(bRunning){
