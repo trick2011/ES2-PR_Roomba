@@ -1,21 +1,13 @@
 #include "uart.h"
-#include <stdio.h>
-#include <unistd.h>			//Used for UART
-#include <fcntl.h>			//Used for UART
-#include <termios.h>		//Used for UART
-#include <errno.h>
-#include <fcntl.h>
-#include <sys/stat.h>
 
+UARTClass::UARTClass(){
 /* code voor opstarten uart
 -------------------------
 ----- SETUP USART 0 -----
 -------------------------
 At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 function) respectively*/
-int uart0_filestream = -1;
 
-Uart::Uart()
-{
+    iUARTFileStream = -1;
     /*OPEN THE UART
     The flags (defined in fcntl.h):
         Access modes (use 1 of these):
@@ -28,13 +20,11 @@ Uart::Uart()
                                             immediately with a failure status if the output can't be written immediately.
 
     O_NOCTTY - When set and path identifies a terminal device, open() shall not cause the terminal device to become the controlling terminal for the process.*/
-    uart0_filestream = open("/dev/tty1", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
+    iUARTFileStream = open("/dev/tty1", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
 
-    if (uart0_filestream == -1)
-    {
+    if (iUARTFileStream == -1)
         //ERROR - CAN'T OPEN SERIAL PORT
         printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
-    }
 
     /*CONFIGURE THE UART
     The flags (defined in /usr/include/termios.h - see http://pubs.opengroup.org/onlinepubs/007908799/xsh/termios.h.html):
@@ -47,60 +37,87 @@ Uart::Uart()
         PARENB - Parity enable
         PARODD - Odd parity (else even)*/
     struct termios options;
-    tcgetattr(uart0_filestream, &options);
+    tcgetattr(iUARTFileStream, &options);
     options.c_cflag = B115200 | CS8 | CLOCAL | CREAD;		//<Set baud rate
     options.c_iflag = IGNPAR;
     options.c_oflag = 0;
     options.c_lflag = 0;
-    tcflush(uart0_filestream, TCIFLUSH);
-    tcsetattr(uart0_filestream, TCSANOW, &options);
+    tcflush(iUARTFileStream, TCIFLUSH);
+    tcsetattr(iUARTFileStream, TCSANOW, &options);
+}
+UARTClass::UARTClass(string sTTY){
+    iUARTFileStream = -1;
+    
+    iUARTFileStream = open(sTTY.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+
+    if (iUARTFileStream == -1)
+        printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
+
+    struct termios options;
+    tcgetattr(iUARTFileStream, &options);
+    options.c_cflag = B115200 | CS8 | CLOCAL | CREAD;
+    options.c_iflag = IGNPAR;
+    options.c_oflag = 0;
+    options.c_lflag = 0;
+    tcflush(iUARTFileStream, TCIFLUSH);
+    tcsetattr(iUARTFileStream, TCSANOW, &options);
 }
 
-void Uart::sendUart(uint8_t code)
-{
+bool UARTClass::sendUart(uint8_t code){
     //----- TX BYTES -----
-    unsigned char tx_buffer[20];
-    unsigned char *p_tx_buffer;
-
-     p_tx_buffer   = &tx_buffer[0];
-    *p_tx_buffer++ = 'l';
-    *p_tx_buffer++ = 's';
-    *p_tx_buffer++ = '\n';
-    //*p_tx_buffer++ = 'l';
-    //*p_tx_buffer++ = 'o';
-
-    if (uart0_filestream != -1)
-    {
-        int count = write(uart0_filestream, &tx_buffer[0], (p_tx_buffer - &tx_buffer[0]));		//Filestream, bytes to write, number of bytes to write
+    if (iUARTFileStream != -1){
+        int count = write(iUARTFileStream,(void *)code,0);		//Filestream, bytes to write, number of bytes to write
         if (count < 0)
-        {
-            printf("UART TX error\n");
-        }
+            return(false);
+        else
+            return(true);
     }
 }
 
-uint8_t Uart::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger
-{
+uint8_t UARTClass::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger{
     //----- CHECK FOR ANY RX BYTES -----
-    if (uart0_filestream != -1)
-    {
+    if (iUARTFileStream != -1){
         // Read up to 255 characters from the port if they are there
         unsigned char rx_buffer[256];
-        int rx_length = read(uart0_filestream, (void*)rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
-        if (rx_length < 0)
-        {
+        int rx_length = read(iUARTFileStream, (void*)rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
+        if (rx_length < 0){
             //An error occured (will occur if there are no bytes)
         }
-        else if (rx_length == 0)
-        {
+        else if (rx_length == 0){
             //No data waiting
         }
-        else
-        {
+        else{
             //Bytes received
             rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer); // dit moet natuurlijk weg
         }        
     }
     return 1; // << jelmer een char array kan niet terug gegeven worden met een uint8_t
+}
+
+bool UARTClass::sendstring(string sInput){
+    int count = -1;
+    if(iUARTFileStream != -1)
+        count = write(iUARTFileStream,sInput.c_str(),sInput.size());		//Filestream, bytes to write, number of bytes to write
+
+    if (count < 0)
+        return(false);
+    else
+        return(true);
+}
+string UARTClass::recieveString(void){
+    if(iUARTFileStream != -1){
+        char rx_buffer[256];
+        int rx_length = read(iUARTFileStream, (void*)rx_buffer, 255);
+        if(rx_length < 0){
+            cerr << "ERROR" << endl;
+            return("\0");
+        }
+        if(rx_length == 0)
+            return("\0");
+        else{
+            string returnvalue(rx_buffer);
+            return(returnvalue);
+        }    
+    }
 }
