@@ -8,5 +8,5 @@
 #g++ -c -std=c++11 -o ./libnaviclass.so naviclass.cpp
 #g++ main.cpp -o simulator.out -std=c++11 -L./ -lnaviclass -lhighlevelsimclass
 
-g++ main.cpp -o simulator.out -std=c++11 file.cpp -Wall
+g++ main.cpp -o simulator.out -std=c++11 file.cpp
 

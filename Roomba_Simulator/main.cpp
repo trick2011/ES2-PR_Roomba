@@ -6,6 +6,11 @@
 
 using namespace std;
 
+/*****************************************************//*
+ * This is test code and as such won't be commented on
+ * any further.
+ *******************************************************/
+
 int main()
 {
 
@@ -15,7 +20,7 @@ int main()
     roomclass room;
 
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
-    room.roomba->setangle(-45);
+    room.roomba->setangle(45);
     room.roomba->setspeed(1);
     for(int i=0;i<12;i++){
         room.roomba->drive();
@@ -25,9 +30,9 @@ int main()
     cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
 
     //cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
-    room.roomba->setangle(-225);
+    room.roomba->setangle(180);
     room.roomba->setspeed(1);
-    for(int i=0;i<16;i++){
+    for(int i=0;i<14;i++){
         room.roomba->drive();
         cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
         //cout << "---------------------" << endl;

@@ -5,11 +5,13 @@
 #include <vector>
 #include <thread>
 #include <mutex>
+#include <chrono>
 
 #include "opcodes.h"
-#include "failsave.h"
 #include "./UART/uart.h"
+#include "fail_error.h"
 
+std::chrono::milliseconds interval(500);
 
 class interpreter
 {
@@ -18,13 +20,13 @@ public:
     ~interpreter();
 
     typedef enum{SLOW,CRUISE,FAST}speed;
-    typedef enum{RIGHT = -90, LEFT = 90}angles;
-
 
     void startRoomba();
 
     void drives(speed s); // speedgrades: slow, medium & fast
-    void turnRoomba(angles); // angle in degrees (-90 or 90)
+    void turnRoomba(int); // angle in degrees
+
+    static void failSave();
 
     bool getBumpAndWheel();
     uint8_t getWall();
@@ -59,7 +61,7 @@ public:
     int16_t getRequestedLeftVelocity();
     uint16_t getLeftEncoderCount();
     uint16_t getRightEncoderCount();
-    uint8_t getLightBumper();
+    bool getLightBumper();
     uint16_t getLightBumpLeftSignal();
     uint16_t getLightBumpFrontLeftSignal();
     uint16_t getLightBumpCenterLeftSignal();
@@ -84,16 +86,15 @@ public:
     bool getLeftWheelOvercurrent();
     /*-------------------------------*/
 
-    void lockMutex();
-    void unlockMutex();
 
 private:
     std::array<uint16_t,58> sensorWaarden;
-
-    failsave *FailSave;
     Uart *uart;
-
+    bool stopFailSave = 0;
     std::mutex sendTex;
+
+    void stopFailSaveThread();
+
 };
 
 #endif // INTERPRETER_H
