@@ -3,8 +3,9 @@
 interpreter::interpreter()
 {
     uart = new Uart;
-    std::thread fails(failSave);
-    fails.detach();
+    //std::thread fails(failSave);
+    //fails.detach();
+
 }
 
 interpreter::~interpreter()
