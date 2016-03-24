@@ -72,7 +72,7 @@ namespace roomba {
     static const uint8_t lightBumpCenterLeftSignal =    48; // 2 databytes
     static const uint8_t lightBumpCenterRightSignal =   49; // 2 databytes
     static const uint8_t lightBumpFrontRightSignal =    50; // 2 databytes
-    static const uint8_t lightBumpRightSignal =       51; // 2 databytes
+    static const uint8_t lightBumpRightSignal =         51; // 2 databytes
     static const uint8_t leftMotorCurrent =             54; // 2 databytes
     static const uint8_t rightMotorCurrent =            55; // 2 databytes
     static const uint8_t mainBrushMotorCurrent =        56; // 2 databytes
