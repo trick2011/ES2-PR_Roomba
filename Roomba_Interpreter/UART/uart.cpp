@@ -74,7 +74,8 @@ bool UARTClass::sendUart(uint8_t code){
     }
 }
 
-uint8_t UARTClass::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger{
+uint8_t UARTClass::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger
+{
     //----- CHECK FOR ANY RX BYTES -----
     if (iUARTFileStream != -1){
         // Read up to 255 characters from the port if they are there
