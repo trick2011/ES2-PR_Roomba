@@ -89,7 +89,7 @@ public:
 
 private:
     std::array<uint16_t,58> sensorWaarden;
-    Uart *uart;
+    UARTClass *uart;
     bool stopFailSave = 0;
     std::mutex sendTex;
 

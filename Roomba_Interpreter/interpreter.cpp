@@ -2,7 +2,7 @@
 
 interpreter::interpreter()
 {
-    uart = new Uart;
+    uart = new UARTClass;
     //std::thread fails(failSave);
     //fails.detach();
 
