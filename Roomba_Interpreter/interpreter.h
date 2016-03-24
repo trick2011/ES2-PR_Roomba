@@ -28,7 +28,7 @@ public:
     void drives(speed s); // speedgrades: slow, medium & fast
     void turnRoomba(int); // angle in degrees
 
-    static void failSave();
+    void failSave();
 
     bool getBumpAndWheel();
     uint8_t getWall();
