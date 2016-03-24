@@ -13,6 +13,8 @@
 
 std::chrono::milliseconds interval(500);
 
+class UARTClass;
+
 class interpreter
 {
 public:
@@ -90,7 +92,7 @@ public:
 private:
     std::array<uint16_t,58> sensorWaarden;
     UARTClass *uart;
-    bool stopFailSave = 0;
+    bool stopFailSave = false;
     std::mutex sendTex;
 
     void stopFailSaveThread();
