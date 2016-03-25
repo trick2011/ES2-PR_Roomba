@@ -41,8 +41,6 @@ class wallclass;
 
 
 class roomclass{
-private:
-	timerclass * timer;
 public:
     vector<roomobjectclass> roomobjects;
     roombaclass * roomba;
@@ -149,6 +147,7 @@ private:
     float fSpeed;
     sensorclass& sensors;
 
+    timerclass * timer;
 
 public:
     roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
