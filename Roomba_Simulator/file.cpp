@@ -8,7 +8,7 @@
 roomclass::roomclass(){
     sensors = new sensorclass(*this);
     roomba = new roombaclass(sensors);
-    timer = new timerclass(*roomba);
+    
 
     roomobjectclass object(-5,-5,0,10);
     roomobjects.push_back(object);
@@ -591,6 +591,8 @@ roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned 
 roombaclass::roombaclass(sensorclass* sensors):roomobjectclass(0,0),sensors(*sensors){
     fAngle = 0;
     fSpeed = 0;
+    
+    timer = new timerclass(*roomba);
 }
 roombaclass::~roombaclass(){
 
