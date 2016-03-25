@@ -56,8 +56,37 @@ private:
     const float fFloatRange = 0.10;
     roomclass& room;
 
+    // wheel drop sensors // half implemented
+    bool bWheelDropLeft;		// will not be implemented
+    bool bWheelDropRight;		// will not be implemented
     bool bBumpLeft;
     bool bBumpRight;
+
+    // wall sensor	// not implemented
+    int iWallSignal;                // 0 - 1023
+
+    // cliff sensor	// not implemented
+    int iCliffLeftSignal;           // 0 - 4095
+    int iCliffFrontLeftSignal;      // 0 - 4095
+    int iCliffFrontSignal;          // 0 - 4095
+    int iCliffFrontRightSignal;     // 0 - 4095
+    int iCliffRightSignal;          // 0 - 4095
+
+    // light bump sensors	// not implemented
+    int iLightBumpLeft;             // 0 - 4095
+    int iLightBumpFrontLeft;        // 0 - 4095
+    int iLightBumpCenter;           // 0 - 4095
+    int iLightBumpFrontRight;       // 0 - 4095
+    int iLightBumpRight;            // 0 - 4095
+
+    // cliff sensor	// not implemented
+    bool bCliffLeft;
+    bool bCliffFrontLeft;
+    bool bCliffFrontRight;
+    bool bCliffRight;
+
+    // wall sensor	// not implemented
+    bool bWallBump;
 
     bool checkbumpL(int iHorPos,int iVerPos);
     bool checkbumpR(int iHorPos,int iVerPos);
