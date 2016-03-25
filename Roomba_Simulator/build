@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#g++ main.cpp naviclass.cpp -o simulator.out -std=c++11
+#g++ main.cpp naviclass.cpp -o simulator.out -std=c++14
 #g++ main.cpp -o ~/bin/libtest -L$HOME/libs -lmylibrary
 
 
