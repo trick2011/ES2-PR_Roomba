@@ -546,6 +546,8 @@ bool sensorclass::floatcomp(float fIn1,float fIn2){
 
 timerclass::timerclass(roombaclass& roomba,double dTimerDurationb = 0.5):roomba(roomba),dTimerDuration{dTimerDurationb}{
     //thread timerthread(thread(timerclass::timer,roomba),this);
+
+    //timer();
 }
 void timerclass::timer(/*roombaclass& roomba*/){
     start = chrono::system_clock::now();
@@ -556,6 +558,7 @@ void timerclass::timer(/*roombaclass& roomba*/){
         if(elapsed_seconds.count() >= dTimerDuration){
             start = chrono::system_clock::now();
             roomba.drive();
+            cout << "TEST" << endl;
         }
 
     }
@@ -588,12 +591,26 @@ roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned 
  * @param sensors
  * default constructor for roombaclass
  */
+void infinitloop(void){
+    while(true)
+        cout << "hoi" << endl;
+}
+
 roombaclass::roombaclass(sensorclass* sensors):roomobjectclass(0,0),sensors(*sensors){
     fAngle = 0;
     fSpeed = 0;
-    
-    timer = new timerclass(*roomba);
+
+    timer = new timerclass(*this,0.5);
+//    timerclass tim(*this,0.1);
+//    thread t(tim);
+//    t.detach();
+
+    //timerclass tim(*this,0.1);
+    //thread t(&timerclass::timer,&tim);
+    //thread (infinitloop).detach();
+    //t.detach();
 }
+
 roombaclass::~roombaclass(){
 
 }
