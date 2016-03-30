@@ -600,15 +600,15 @@ roombaclass::roombaclass(sensorclass* sensors):roomobjectclass(0,0),sensors(*sen
     fAngle = 0;
     fSpeed = 0;
 
-    timer = new timerclass(*this,0.5);
-//    timerclass tim(*this,0.1);
-//    thread t(tim);
-//    t.detach();
+//    timer = new timerclass(*this,0.5);
+    timerclass tim(*this,0.5);
+    thread t(tim);
+    t.detach();
 
-    //timerclass tim(*this,0.1);
-    //thread t(&timerclass::timer,&tim);
-    //thread (infinitloop).detach();
-    //t.detach();
+//    timerclass tim(*this,0.1);
+//    thread t(&timerclass::timer,&tim);
+//    thread (infinitloop).detach();
+//    t.detach();
 }
 
 roombaclass::~roombaclass(){
