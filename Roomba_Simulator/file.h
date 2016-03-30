@@ -41,8 +41,6 @@ class wallclass;
 
 
 class roomclass{
-private:
-	timerclass * timer;
 public:
     vector<roomobjectclass> roomobjects;
     roombaclass * roomba;
@@ -112,11 +110,13 @@ private:
     chrono::time_point<chrono::system_clock> start,end;
     bool bRunning;
     double dTimerDuration;
-
     void timer(/*roombaclass& roomba*/);
 public:
-    timerclass(roombaclass &roomba) : timerclass(roomba,0.5){;}
+    //timerclass(roombaclass &roomba) : timerclass(roomba,0.5){;}
     timerclass(roombaclass& roomba,double dTimerDuration);
+
+
+    void operator()(){timer();}
 
     void setTimerDuration(double dInput) {dTimerDuration = dInput;}
     double readTimerDuration(void) {return(dTimerDuration);}
@@ -127,7 +127,7 @@ public:
 class roomobjectclass{
 protected:
     const float pi = 3.14159265;
-
+    //enum roomobjecttypes{roomba=1,wall,stairs};
 public:
     roomobjectclass(signed int iPosHor, signed int iPosVer);
     roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);
