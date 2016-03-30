@@ -78,6 +78,18 @@ namespace roomba {
     static const uint8_t mainBrushMotorCurrent =        56; // 2 databytes
     static const uint8_t sideBrushMotorCurrent =        57; // 2 databytes
     static const uint8_t statis =                       58; // 1 databyte
+
+    namespace charger {
+
+        static const uint8_t Red =                      248;
+        static const uint8_t Green =                    244;
+        static const uint8_t RedAndGreen =              252;
+        static const uint8_t RedAndForceField =         250;
+        static const uint8_t GreenAndForField =         246;
+        static const uint8_t RedGreenAndForceField =    254;
+
+    }
+
     }
 
 #endif // OPCODES_H

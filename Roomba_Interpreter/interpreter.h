@@ -90,7 +90,63 @@ public:
 
 
 private:
-    std::array<uint16_t,58> sensorWaarden;
+    // automode functions //
+    void startAutoMode();
+    static void autoMode();
+    std::thread AUTO;
+    std::mutex autoModeTex;
+    static bool autoRunning;
+
+    struct sWheelDrops
+    {
+        bool bLeft;
+        bool bRight;
+    };
+    struct sOverCurrent
+    {
+        bool bWheelLeft;
+        bool bWheelRight;
+        bool bMainBrush;
+        bool bSideBrush;
+    };
+    struct sCliff
+    {
+        bool bLeft;
+        bool bFrontLeft;
+        bool bFrontRight;
+        bool bRight;
+    };
+    struct sInfraRed
+    {
+        bool bLeft;
+        bool bRight;
+        bool bClose;
+    };
+    struct sBumps
+    {
+        bool bLeft;
+        bool bRight;
+    };
+    struct sWall
+    {
+        bool bRight;
+        bool bFrontRight;
+        bool bCenterRight;
+        bool bCenterLeft;
+        bool bFrontLeft;
+        bool bLeft;
+    };
+public:
+    static sWheelDrops WheelDrops;
+    static sOverCurrent OverCurrent;
+    static sCliff Cliff;
+    static sInfraRed InfraRed;
+    static sBumps Bumps;
+    static sWall Wall;
+
+    // end automode functions //
+
+
     UARTClass *uart;
     bool stopFailSave = false;
     std::mutex sendTex;

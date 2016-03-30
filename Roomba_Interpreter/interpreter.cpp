@@ -713,6 +713,177 @@ bool interpreter::getLeftWheelOvercurrent()
 
 }
 
+void interpreter::startAutoMode()
+{
+    AUTO = std::thread(&interpreter::autoMode);
+    AUTO.detach();
+}
+
+void interpreter::autoMode()
+{
+    UARTClass *uart2;
+    uint8_t received;
+    interpreter::autoRunning = true;
+
+    while(interpreter::autoRunning)
+        {
+            // bump and wheel functions
+            uart2->sendUart(roomba::bumpAndWheel);
+            received = uart2->receiveUart();
+            interpreter::Bumps.bRight      = received && 0b00000001 == 0b00000001 ? true : false;
+            interpreter::Bumps.bLeft       = received && 0b00000010 == 0b00000010 ? true : false;
+            interpreter::WheelDrops.bRight = received && 0b00000100 == 0b00000100 ? true : false;
+            interpreter::WheelDrops.bLeft  = received && 0b00001000 == 0b00001000 ? true : false;
+
+            // overcurrent functions
+            uart2->sendUart(roomba::wheelOvercurrents);
+            received = uart2->receiveUart();
+            interpreter::OverCurrent.bSideBrush  = received && 0b00000001 == 0b00000001 ? true : false;
+            interpreter::OverCurrent.bMainBrush  = received && 0b00000100 == 0b00000100 ? true : false;
+            interpreter::OverCurrent.bWheelRight = received && 0b00001000 == 0b00001000 ? true : false;
+            interpreter::OverCurrent.bWheelLeft  = received && 0b00010000 == 0b00010000 ? true : false;
+
+            // cliff functions
+            uart2->sendUart(roomba::cliffLeft);
+            interpreter::Cliff.bLeft = uart2->receiveUart() ? true : false;
+            uart2->sendUart(roomba::cliffRight);
+            interpreter::Cliff.bRight = uart2->receiveUart() ? true : false;
+            uart2->sendUart(roomba::cliffFrontLeft);
+            interpreter::Cliff.bFrontLeft = uart2->receiveUart() ? true : false;
+            uart2->sendUart(roomba::cliffFrontRight);
+            interpreter::Cliff.bFrontRight = uart2->receiveUart() ? true : false;
+
+            // infrared functions
+            uart2->sendUart(roomba::irReceiver);
+            switch (uart2->receiveUart()) {
+            case roomba::charger::Red:
+                interpreter::InfraRed.bLeft  = true;
+                interpreter::InfraRed.bRight = false;
+                interpreter::InfraRed.bClose = false;
+                break;
+            case roomba::charger::Green:
+                interpreter::InfraRed.bLeft  = false;
+                interpreter::InfraRed.bRight = true;
+                interpreter::InfraRed.bClose = false;
+                break;
+            case roomba::charger::RedAndGreen:
+                interpreter::InfraRed.bLeft  = true;
+                interpreter::InfraRed.bRight = true;
+                interpreter::InfraRed.bClose = false;
+                break;
+            case roomba::charger::RedAndForceField:
+                interpreter::InfraRed.bLeft  = true;
+                interpreter::InfraRed.bRight = false;
+                interpreter::InfraRed.bClose = true;
+                break;
+            case roomba::charger::GreenAndForField:
+                interpreter::InfraRed.bLeft  = false;
+                interpreter::InfraRed.bRight = true;
+                interpreter::InfraRed.bClose = true;
+                break;
+            case roomba::charger::RedGreenAndForceField:
+                interpreter::InfraRed.bLeft  = true;
+                interpreter::InfraRed.bRight = true;
+                interpreter::InfraRed.bClose = true;
+                break;
+            default:
+                interpreter::InfraRed.bLeft  = false;
+                interpreter::InfraRed.bRight = false;
+                interpreter::InfraRed.bClose = false;
+                break;
+            }
+            // wall signal functions
+            uart2->sendUart(roomba::lightBumper);
+            received = uart2->receiveUart();
+            interpreter::Wall.bLeft        = received && 0b00000001 == 0b00000001 ? true : false;
+            interpreter::Wall.bFrontLeft   = received && 0b00000010 == 0b00000010 ? true : false;
+            interpreter::Wall.bCenterLeft  = received && 0b00000100 == 0b00000100 ? true : false;
+            interpreter::Wall.bCenterRight = received && 0b00001000 == 0b00001000 ? true : false;
+            interpreter::Wall.bFrontRight  = received && 0b00010000 == 0b00010000 ? true : false;
+            interpreter::Wall.bRight       = received && 0b00100000 == 0b00100000 ? true : false;
+        }
+
+
+    /*while(autoRunning)
+    {
+        // bump and wheel functions
+        uart2->sendUart(roomba::bumpAndWheel);
+        received = uart2->receiveUart();
+        this->Bumps.bRight      = received && 0b00000001 == 0b00000001 ? true : false;
+        this->Bumps.bLeft       = received && 0b00000010 == 0b00000010 ? true : false;
+        this->WheelDrops.bRight = received && 0b00000100 == 0b00000100 ? true : false;
+        this->WheelDrops.bLeft  = received && 0b00001000 == 0b00001000 ? true : false;
+
+        // overcurrent functions
+        uart2->sendUart(roomba::wheelOvercurrents);
+        received = uart2->receiveUart();
+        this->OverCurrent.bSideBrush  = received && 0b00000001 == 0b00000001 ? true : false;
+        this->OverCurrent.bMainBrush  = received && 0b00000100 == 0b00000100 ? true : false;
+        this->OverCurrent.bWheelRight = received && 0b00001000 == 0b00001000 ? true : false;
+        this->OverCurrent.bWheelLeft  = received && 0b00010000 == 0b00010000 ? true : false;
+
+        // cliff functions
+        uart2->sendUart(roomba::cliffLeft);
+        this->Cliff.bLeft = uart2->receiveUart() ? true : false;
+        uart2->sendUart(roomba::cliffRight);
+        this->Cliff.bRight = uart2->receiveUart() ? true : false;
+        uart2->sendUart(roomba::cliffFrontLeft);
+        this->Cliff.bFrontLeft = uart2->receiveUart() ? true : false;
+        uart2->sendUart(roomba::cliffFrontRight);
+        this->Cliff.bFrontRight = uart2->receiveUart() ? true : false;
+
+        // infrared functions
+        uart2->sendUart(roomba::irReceiver);
+        switch (uart2->receiveUart()) {
+        case roomba::charger::Red:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = false;
+            this->InfraRed.bClose = false;
+            break;
+        case roomba::charger::Green:
+            this->InfraRed.bLeft  = false;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = false;
+            break;
+        case roomba::charger::RedAndGreen:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = false;
+            break;
+        case roomba::charger::RedAndForceField:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = false;
+            this->InfraRed.bClose = true;
+            break;
+        case roomba::charger::GreenAndForField:
+            this->InfraRed.bLeft  = false;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = true;
+            break;
+        case roomba::charger::RedGreenAndForceField:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = true;
+            break;
+        default:
+            this->InfraRed.bLeft  = false;
+            this->InfraRed.bRight = false;
+            this->InfraRed.bClose = false;
+            break;
+        }
+        // wall signal functions
+        uart2->sendUart(roomba::lightBumper);
+        received = uart2->receiveUart();
+        this->Wall.bLeft        = received && 0b00000001 == 0b00000001 ? true : false;
+        this->Wall.bFrontLeft   = received && 0b00000010 == 0b00000010 ? true : false;
+        this->Wall.bCenterLeft  = received && 0b00000100 == 0b00000100 ? true : false;
+        this->Wall.bCenterRight = received && 0b00001000 == 0b00001000 ? true : false;
+        this->Wall.bFrontRight  = received && 0b00010000 == 0b00010000 ? true : false;
+        this->Wall.bRight       = received && 0b00100000 == 0b00100000 ? true : false;
+    }*/
+
+}
+
 void interpreter::stopFailSaveThread()
 {
     stopFailSave = true;
