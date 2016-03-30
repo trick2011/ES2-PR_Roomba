@@ -110,12 +110,11 @@ private:
     chrono::time_point<chrono::system_clock> start,end;
     bool bRunning;
     double dTimerDuration;
-
+    void timer(/*roombaclass& roomba*/);
 public:
     //timerclass(roombaclass &roomba) : timerclass(roomba,0.5){;}
     timerclass(roombaclass& roomba,double dTimerDuration);
 
-    void timer(/*roombaclass& roomba*/);
 
     void operator()(){timer();}
 
@@ -150,7 +149,6 @@ private:
     float fSpeed;
     sensorclass& sensors;
 
-    timerclass * timer;
 
 public:
     roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
