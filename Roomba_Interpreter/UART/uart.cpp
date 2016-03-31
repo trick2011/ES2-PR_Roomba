@@ -66,7 +66,7 @@ UARTClass::UARTClass(string sTTY){
 bool UARTClass::sendUart(uint8_t code){
     //----- TX BYTES -----
     if (iUARTFileStream != -1){
-        int count = write(iUARTFileStream,(void *)code,0);		//Filestream, bytes to write, number of bytes to write
+        int count = write(iUARTFileStream,&code,1);		//Filestream, bytes to write, number of bytes to write
         if (count < 0)
             return(false);
         else
