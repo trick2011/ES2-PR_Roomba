@@ -24,6 +24,7 @@ class UARTClass  /**< hier mag eigenlijk ook een betere naam voor gekozen worden
 {
 private: 
     int iUARTFileStream; /**< geen globale variabelen maken maar het netjes in een classe opnemen, dit is een belangrijk onderdeel van C++ **/
+    bool bReceive;
 public:
     UARTClass();
     UARTClass(string sTTY);
@@ -31,7 +32,7 @@ public:
     bool sendUart(uint8_t code);
     
     bool sendstring(string sInput);
-    string recieveString(void);
+    string receiveString(void);
 };
 
 #endif // UART_H
