@@ -33,6 +33,8 @@ public:
     
     bool sendstring(string sInput);
     string receiveString(void);
+    
+    void breakreceive(void) {bReceive = false;}
 };
 
 #endif // UART_H
