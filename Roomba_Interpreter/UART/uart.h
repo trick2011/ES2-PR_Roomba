@@ -32,7 +32,9 @@ public:
     bool sendUart(uint8_t code);
     
     bool sendstring(string sInput);
-    string recieveString(void);
+    string receiveString(void);
+    
+    void breakreceive(void) {bReceive = false;}
 };
 
 #endif // UART_H
