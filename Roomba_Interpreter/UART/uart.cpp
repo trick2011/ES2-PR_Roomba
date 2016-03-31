@@ -106,17 +106,12 @@ bool UARTClass::sendstring(string sInput){
     else
         return(true);
 }
-string UARTClass::recieveString(void){
+string UARTClass::receiveString(void){
+    bReceive = true;
     if(iUARTFileStream != -1){
         char rx_buffer[256];
         int rx_length = read(iUARTFileStream, (void*)rx_buffer, 255);
-        if(rx_length < 0){
-            cerr << "ERROR" << endl;
-            return("\0");
-        }
-        if(rx_length == 0)
-            return("\0");
-        else{
+        while(rx_length > 0 && bReceive){
             string returnvalue(rx_buffer);
             return(returnvalue);
         }    
