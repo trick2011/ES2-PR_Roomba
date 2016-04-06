@@ -66,36 +66,13 @@ UARTClass::UARTClass(string sTTY){
 bool UARTClass::sendUart(uint8_t code){
     //----- TX BYTES -----
     if (iUARTFileStream != -1){
-        int count = write(iUARTFileStream,(void *)code,0);		//Filestream, bytes to write, number of bytes to write
+        int count = write(iUARTFileStream,&code,1);		//Filestream, bytes to write, number of bytes to write
         if (count < 0)
             return(false);
         else
             return(true);
     }
 }
-
-uint8_t UARTClass::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger
-{
-    //----- CHECK FOR ANY RX BYTES -----
-    if (iUARTFileStream != -1){
-        // Read up to 255 characters from the port if they are there
-        unsigned char rx_buffer[256];
-        int rx_length = read(iUARTFileStream, (void*)rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
-        if (rx_length < 0){
-            //An error occured (will occur if there are no bytes)
-        }
-        else if (rx_length == 0){
-            //No data waiting
-        }
-        else{
-            //Bytes received
-            rx_buffer[rx_length] = '\0';
-            printf("%i bytes read : %s\n", rx_length, rx_buffer); // dit moet natuurlijk weg
-        }        
-    }
-    return 1; // << jelmer een char array kan niet terug gegeven worden met een uint8_t
-}
-
 bool UARTClass::sendstring(string sInput){
     int count = -1;
     if(iUARTFileStream != -1)
@@ -106,19 +83,36 @@ bool UARTClass::sendstring(string sInput){
     else
         return(true);
 }
-string UARTClass::recieveString(void){
+
+uint8_t UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
+    bReceive = true;
+    unsigned char rx_buffer[256] = "\0";
+    if (iUARTFileStream != -1){
+        //int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
+        
+        while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
+        
+        if(bReceive){
+                return *rx_buffer;
+        }
+        else
+                return(0x00);
+    }
+    return(0x00);
+}
+string UARTClass::receiveString(void){
+    bReceive = true;
     if(iUARTFileStream != -1){
         char rx_buffer[256];
-        int rx_length = read(iUARTFileStream, (void*)rx_buffer, 255);
-        if(rx_length < 0){
-            cerr << "ERROR" << endl;
-            return("\0");
+//        int rx_length = read(iUARTFileStream, &rx_buffer, 255);
+        while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
+        
+        if(bReceive){
+                string returnvalue(rx_buffer);
+                return(returnvalue);
         }
-        if(rx_length == 0)
-            return("\0");
-        else{
-            string returnvalue(rx_buffer);
-            return(returnvalue);
-        }    
+        else
+                return("\0");
     }
+    return("\0");
 }
