@@ -8,9 +8,11 @@
 #include <chrono>
 
 #include "opcodes.h"
-#include "./UART/uart.h"
+#include "../Roomba_Interpreter/UART/uart.h"
 #include "fail_error.h"
 
+#define debug
+#define fulldebug
 //std::chrono::milliseconds interval(500);
 
 class UARTClass;
@@ -21,12 +23,13 @@ public:
     interpreter();
     ~interpreter();
 
-    typedef enum{SLOW,CRUISE,FAST}speed;
-
     void startRoomba();
+    void stopRoomba();
+
+    void brushes(int);
 
     void drives(int s); // speedgrades: slow, medium & fast
-    void turnRoomba(int); // angle in degrees
+    void turnRoomba(int16_t angle); // angle in degrees
 
     void failSave();
 

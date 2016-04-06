@@ -1,9 +1,10 @@
 #include <iostream>
 #include "interpreter.h"
-#include "UART/uart.h"
+#include "opcodes.h"
+#include "../Roomba_Interpreter/UART/uart.h"
 
+#define debug
 using namespace std;
-
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +13,11 @@ int main(int argc, char *argv[])
 
     interpreter *Peter;
     Peter = new interpreter;
+    while(1)
+    {
+#ifndef debug
+    system("clear");
+#endif
     cout << "Welcome to Roomba Interpreter" << endl << endl;
 
     cout << "Options:" << endl <<
@@ -19,9 +25,10 @@ int main(int argc, char *argv[])
             "2. Drive roomba" << endl <<
             "3. turn Roomba" << endl <<
             "4. Start automode - receives from sensors" << endl <<
-            "       (exit with ctrl-c)"<< endl;
-    while(1)
-    {
+            "       (exit with ctrl-c)"<< endl <<
+	    "5. Stop Roomba" << endl <<
+        "6. Brushes"<<endl;
+
         int i = 0;
         cout << "choice: ";
         cin>>i;
@@ -38,7 +45,7 @@ int main(int argc, char *argv[])
             break;
         case 3:
             cout<<"give angle: ";
-            int a;
+            int16_t a;
             cin>>a;
             cout<<endl;
             Peter->turnRoomba(a);
@@ -46,8 +53,24 @@ int main(int argc, char *argv[])
         case 4:
             Peter->autoMode();
             break;
+        case 5:
+            Peter->stopRoomba();
+            break;
+        case 6:
+            //Peter->brushes(1);
+            cout<<"Which brush do you want?" << endl<<
+                  "0 - no brush"<<endl<<
+                  "1 - side brush"<<endl<<
+                  "2 - main brush"<<endl<<
+                  "3 - both"<<endl;
+            int i;
+            cin>>i;
+            Peter->brushes(i);
+
+            break;
         default:
             break;
+		
         }
     }
     //}

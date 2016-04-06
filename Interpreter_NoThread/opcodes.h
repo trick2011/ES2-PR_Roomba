@@ -4,6 +4,9 @@
 
 namespace roomba {
 
+    typedef enum{SLOW,CRUISE,FAST,STOP,BACKWARDS}speed;
+    typedef enum{NOBRUSH,SIDEBRUSH,MAINBRUSH,BOTH}bush;
+
     static const uint8_t Start =                        128;
     static const uint8_t Reset =                        7;
     static const uint8_t Stop =                         173;

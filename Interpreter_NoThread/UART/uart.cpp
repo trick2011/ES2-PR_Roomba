@@ -1,8 +1,6 @@
 #include "uart.h"
-#include <iostream>
 
 UARTClass::UARTClass(){
-    std::cout << "begin uart constructor" << std::endl;
 /* code voor opstarten uart
 -------------------------
 ----- SETUP USART 0 -----
@@ -26,7 +24,7 @@ At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 fu
 
     if (iUARTFileStream == -1)
         //ERROR - CAN'T OPEN SERIAL PORT
-        std::cout<< " \033[1;31m Error - Unable to open UART.  Ensure it is not in use by another application \033[0m "<<std::endl;
+        printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
 
     /*CONFIGURE THE UART
     The flags (defined in /usr/include/termios.h - see http://pubs.opengroup.org/onlinepubs/007908799/xsh/termios.h.html):
@@ -46,7 +44,6 @@ At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 fu
     options.c_lflag = 0;
     tcflush(iUARTFileStream, TCIFLUSH);
     tcsetattr(iUARTFileStream, TCSANOW, &options);
-    std::cout << "end uart constructor" << std::endl;
 }
 UARTClass::UARTClass(string sTTY){
     iUARTFileStream = -1;
@@ -54,7 +51,7 @@ UARTClass::UARTClass(string sTTY){
     iUARTFileStream = open(sTTY.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (iUARTFileStream == -1)
-        std::cout<< " \033[1;31m Error - Unable to open UART.  Ensure it is not in use by another application \033[0m "<<std::endl;
+        printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
 
     struct termios options;
     tcgetattr(iUARTFileStream, &options);
@@ -69,36 +66,13 @@ UARTClass::UARTClass(string sTTY){
 bool UARTClass::sendUart(uint8_t code){
     //----- TX BYTES -----
     if (iUARTFileStream != -1){
-        int count = write(iUARTFileStream,(void *)code,0);		//Filestream, bytes to write, number of bytes to write
+        int count = write(iUARTFileStream,&code,1);		//Filestream, bytes to write, number of bytes to write
         if (count < 0)
             return(false);
         else
             return(true);
     }
 }
-
-uint8_t UARTClass::receiveUart() // geef een string terug want das makkelijker als rx_buffer vervanger
-{
-    //----- CHECK FOR ANY RX BYTES -----
-    if (iUARTFileStream != -1){
-        // Read up to 255 characters from the port if they are there
-        unsigned char rx_buffer[256];
-        int rx_length = read(iUARTFileStream, (void*)rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
-        if (rx_length < 0){
-            //An error occured (will occur if there are no bytes)
-        }
-        else if (rx_length == 0){
-            //No data waiting
-        }
-        else{
-            //Bytes received
-            rx_buffer[rx_length] = '\0';
-            printf("%i bytes read : %s\n", rx_length, rx_buffer); // dit moet natuurlijk weg
-        }        
-    }
-    return 1; // << jelmer een char array kan niet terug gegeven worden met een uint8_t
-}
-
 bool UARTClass::sendstring(string sInput){
     int count = -1;
     if(iUARTFileStream != -1)
@@ -109,19 +83,36 @@ bool UARTClass::sendstring(string sInput){
     else
         return(true);
 }
-string UARTClass::recieveString(void){
+
+uint8_t UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
+    bReceive = true;
+    unsigned char rx_buffer[256] = "\0";
+    if (iUARTFileStream != -1){
+        //int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
+        
+        while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
+        
+        if(bReceive){
+                return *rx_buffer;
+        }
+        else
+                return(0x00);
+    }
+    return(0x00);
+}
+string UARTClass::receiveString(void){
+    bReceive = true;
     if(iUARTFileStream != -1){
         char rx_buffer[256];
-        int rx_length = read(iUARTFileStream, (void*)rx_buffer, 255);
-        if(rx_length < 0){
-            cerr << "ERROR" << endl;
-            return("\0");
+//        int rx_length = read(iUARTFileStream, &rx_buffer, 255);
+        while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
+        
+        if(bReceive){
+                string returnvalue(rx_buffer);
+                return(returnvalue);
         }
-        if(rx_length == 0)
-            return("\0");
-        else{
-            string returnvalue(rx_buffer);
-            return(returnvalue);
-        }    
+        else
+                return("\0");
     }
+    return("\0");
 }
