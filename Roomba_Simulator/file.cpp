@@ -788,9 +788,9 @@ roombaclass::roombaclass(sensorclass& sensors):roomobjectclass(0,0),sensors(sens
     fSpeed = 0;
     roomobjecttype = /*roomobjectclass::*/roomba;
 
-//    timerclass timer(*this,0.5);
-//    thread tTimerThread(timer);
-//    tTimerThread.detach();
+    timerclass timer(*this,0.5);
+    thread tTimerThread(timer);
+    tTimerThread.detach();
 }
 
 roombaclass::~roombaclass(){

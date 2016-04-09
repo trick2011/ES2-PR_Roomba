@@ -37,8 +37,11 @@ int main()
 //        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
 //        //cout << "---------------------" << endl;
 //    }
-    room.roomba->drive();
+
+    //std::string tmp;
     while(1){
+        //room.roomba->drive();
+        //cin >> tmp;
         cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
     }
     return 0;
