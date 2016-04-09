@@ -10,16 +10,16 @@ roomclass::roomclass(){
     roomba = new roombaclass(*sensors);
     
 
-    roomobjectclass object(-5,-5,0,10);
+    roomobjectclass object(-5,-5,0,10,roomobjectclass::drop);
     roomobjects.push_back(object);
-    roomobjectclass objectb(5,-5,0,10);
+    roomobjectclass objectb(5,-5,0,10,roomobjectclass::drop);
     roomobjects.push_back(objectb);
 
 
-    roomobjectclass objectc(-5,-5,10,0);
+    roomobjectclass objectc(-5,-5,10,0,roomobjectclass::drop);
     roomobjects.push_back(objectc);
 
-    roomobjectclass objectd(-5,5,10,0);
+    roomobjectclass objectd(-5,5,10,0,roomobjectclass::drop);
     roomobjects.push_back(objectd);
 }
 /**
@@ -756,10 +756,10 @@ void timerclass::timer(/*roombaclass& roomba*/){
  * @param iPosVer
  * standard roomobjectclass constructor
  */
-roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor){
+roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer, roomobjecttypes roomobjecttypeIn = roomobjectclass::standard):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor){
     iSizeHor = 0;
     iSizeVer = 0;
-    roomobjecttype = /*roomobjectclass::*/standard;
+    roomobjecttype = /*roomobjectclass::*/roomobjecttypeIn;
 }
 /**
  * @brief roomobjectclass::roomobjectclass
@@ -769,8 +769,8 @@ roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(
  * @param iSizeVer
  * second constructor for roomobjectclass
  */
-roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned int iSizeHor,unsigned int iSizeVer):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor),iSizeHor(iSizeHor),iSizeVer(iSizeVer){
-    roomobjecttype = /*roomobjectclass::*/standard;
+roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned int iSizeHor,unsigned int iSizeVer, roomobjecttypes roomobjecttypeIn = roomobjectclass::standard):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor),iSizeHor(iSizeHor),iSizeVer(iSizeVer){
+    roomobjecttype = /*roomobjectclass::*/roomobjecttypeIn;
 }
 
 /**

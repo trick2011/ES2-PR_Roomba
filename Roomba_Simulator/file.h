@@ -144,8 +144,8 @@ protected:
     const float pi = 3.14159265;
     roomobjecttypes roomobjecttype;
 public:
-    roomobjectclass(signed int iPosHor, signed int iPosVer);
-    roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);
+    roomobjectclass(signed int iPosHor, signed int iPosVer, roomobjecttypes roomobjecttypeIn);
+    roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer, roomobjecttypes roomobjecttypeIn);
 
     signed int iPosHor;
     signed int iPosVer;
@@ -182,12 +182,12 @@ class wallclass : public roomobjectclass{
 private:
     string sObjectName;
 public:
-    wallclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer){roomobjecttype = wall;}
+    wallclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,wall){roomobjecttype = wall;}
     string readobjectname(void);
     void writeobjectname(string sInput);
 };
 class dropclass : public roomobjectclass{
-    dropclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer){roomobjecttype = drop;}
+    dropclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,drop){roomobjecttype = drop;}
 };
 
 #endif // FILE
