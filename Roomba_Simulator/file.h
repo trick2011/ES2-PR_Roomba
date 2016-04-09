@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include <vector>
 #include <cmath>
@@ -37,7 +38,7 @@ class roombaclass;
  *  implements natural objects which appear inside a room.
  */
 class wallclass;
-
+class dropclass;
 
 
 class roomclass{
@@ -51,12 +52,16 @@ public:
 };
 class sensorclass{
 private:
+    vector<string> vsErrorVector;
+
     const float fFloatRange = 0.10;
     roomclass& room;
 
-    // wheel drop sensors // half implemented
+    // wheel drop sensors // not implemented
     bool bWheelDropLeft;		// will not be implemented
     bool bWheelDropRight;		// will not be implemented
+
+    // physical bump sensors
     bool bBumpLeft;
     bool bBumpRight;
 
@@ -96,9 +101,13 @@ private:
     bool checkbumpDR(int iHorPos,int iVerPos);
     float calcmultiplication(float iDiffHor, float iDiffVer);
 
+    void resetphysicalsensors(void); // resets bBump(L/R) and bCLiff(L/LF/FR/R)
+    void setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositions);
+
     bool floatcomp(float fIn1,float fIn2);
 public:
     sensorclass(roomclass& room);
+    ~sensorclass();
     bool checkbump(float iHorMov,float iVerMov);
 
     bool getbBumpLeft(void)  {return(bBumpLeft);}
@@ -125,9 +134,11 @@ public:
 };
 
 class roomobjectclass{
+public:
+    enum roomobjecttypes{roomba=1,wall,drop,stairs};
 protected:
     const float pi = 3.14159265;
-    //enum roomobjecttypes{roomba=1,wall,stairs};
+    roomobjecttypes roomobjecttype;
 public:
     roomobjectclass(signed int iPosHor, signed int iPosVer);
     roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);
@@ -140,6 +151,7 @@ public:
     unsigned int iSizeHor;
     unsigned int iSizeVer;
 
+    roomobjecttypes getroomobjecttype(void){return(roomobjecttype);}
     //virtual ~roomobjectclass();
     //virtual void drive(void);
 };
@@ -151,7 +163,7 @@ private:
 
 
 public:
-    roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
+    roombaclass(sensorclass& sensors); // <-- die werkte ineens niet
     ~roombaclass();
 
     void move(float fHorMov,float fVerMov);
@@ -166,8 +178,12 @@ class wallclass : public roomobjectclass{
 private:
     string sObjectName;
 public:
+    wallclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer){roomobjecttype = wall;}
     string readobjectname(void);
     void writeobjectname(string sInput);
+};
+class dropclass : public roomobjectclass{
+    dropclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer){roomobjecttype = drop;}
 };
 
 #endif // FILE
