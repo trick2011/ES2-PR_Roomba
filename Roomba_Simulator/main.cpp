@@ -20,7 +20,7 @@ int main()
     roomclass room;
 
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
-    room.roomba->setangle(45);
+    room.roomba->setangle(135+180);
     room.roomba->setspeed(1);
 //    for(int i=0;i<12;i++){
 //        room.roomba->drive();
@@ -37,7 +37,7 @@ int main()
 //        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
 //        //cout << "---------------------" << endl;
 //    }
-
+    room.roomba->drive();
     while(1){
         cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
     }

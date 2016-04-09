@@ -102,7 +102,7 @@ private:
     float calcmultiplication(float iDiffHor, float iDiffVer);
 
     void resetphysicalsensors(void); // resets bBump(L/R) and bCLiff(L/LF/FR/R)
-    void setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositions);
+    void setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositionOne,int iPositionTwo,int iPositionThree);
 
     bool floatcomp(float fIn1,float fIn2);
 public:
@@ -135,7 +135,7 @@ public:
 
 class roomobjectclass{
 public:
-    enum roomobjecttypes{roomba=1,wall,drop,stairs};
+    enum roomobjecttypes{roomba=1,wall=2,standard=2,drop,stairs};
 protected:
     const float pi = 3.14159265;
     roomobjecttypes roomobjecttype;
