@@ -7,19 +7,19 @@
  */
 roomclass::roomclass(){
     sensors = new sensorclass(*this);
-    roomba = new roombaclass(sensors);
+    roomba = new roombaclass(*sensors);
     
 
-    roomobjectclass object(-5,-5,0,10);
+    roomobjectclass object(-5,-5,0,10,roomobjectclass::drop);
     roomobjects.push_back(object);
-    roomobjectclass objectb(5,-5,0,10);
+    roomobjectclass objectb(5,-5,0,10,roomobjectclass::drop);
     roomobjects.push_back(objectb);
 
 
-    roomobjectclass objectc(-5,-5,10,0);
+    roomobjectclass objectc(-5,-5,10,0,roomobjectclass::drop);
     roomobjects.push_back(objectc);
 
-    roomobjectclass objectd(-5,5,10,0);
+    roomobjectclass objectd(-5,5,10,0,roomobjectclass::drop);
     roomobjects.push_back(objectd);
 }
 /**
@@ -36,10 +36,26 @@ roomclass::~roomclass(){
  * @param room
  * Default constructor for sensorclass and takes a reference param room in order to access the room
  */
-sensorclass::sensorclass(roomclass& room) : room(room){
-    bBumpLeft = false;
-    bBumpRight = false;
+sensorclass::sensorclass(roomclass& room) : room(room),bWheelDropLeft{false},bWheelDropRight{false},bBumpLeft{false},bBumpRight{false},iWallSignal{0},
+iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
+iLightBumpFrontLeft{false},iLightBumpCenter{false},iLightBumpFrontRight{false},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
+bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
+sensorclass::~sensorclass(){
+    if(vsErrorVector.empty()){
+        ofstream ofp;
+        ofp.open("errorlog_sensorclass.txt",fstream::out|fstream::app);
+
+        time_t end_time = chrono::system_clock::to_time_t(chrono::system_clock::now());
+        ofp << std::ctime(&end_time) << endl;
+
+        //ofp << ctime(çhrono::system_clock::to_time now());
+        for(auto i: vsErrorVector){
+            ofp << i << endl;
+        }
+        ofp.close();
+    }
 }
+
 /**
  * @brief sensorclass::calcmultiplication
  * @param iDiffHor
@@ -93,10 +109,8 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
             if(iVerMov>0) /**< check if vertical movement is positive or negative **/
                 for(int iPosVer=0;iPosVer<=iVerMov;iPosVer++){ /**< follow the complete move path through and check for obstacles **/
                     if(checkbumpU(room.roomba->iPosHor,(room.roomba->iPosVer+iPosVer)) == true){
-                       --iPosVer;
+                       //--iPosVer;
                         room.roomba->move(0,iPosVer);
-                        bBumpLeft = true;
-                        bBumpRight = true;
                         return(true);
                     }
                 }
@@ -104,23 +118,18 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                 for(int iPosVer=0;iPosVer>=iVerMov;iPosVer--){ /**< follow the complete move path through and check for obstacles **/
                     if(checkbumpD(room.roomba->iPosHor,(room.roomba->iPosVer+iPosVer)) == true){ /**< check the current position + movement for objects **/
                         room.roomba->move(0,iPosVer);
-                        bBumpLeft = true;
-                        bBumpRight = true;
                         return(true);
                     }
                 }
-            bBumpLeft = false;
-            bBumpRight = false;
+            resetphysicalsensors();
             return(false);
         }
         if(/*checkbumpLR */floatcomp(iVerMov,0)){    /**< if the direction is horizontal  **/
             if(iHorMov>0) /**< check if horizontal movement is positive or negative **/
                 for(int iPosHor=0;iPosHor<=iHorMov;iPosHor++){ /**< follow the complete move path through and check for obstacles **/
                     if(checkbumpR((room.roomba->iPosHor+iPosHor),room.roomba->iPosVer) == true){
-                        iPosHor--;
+                        //iPosHor--;
                         room.roomba->move(iPosHor,0);
-                        bBumpLeft = true;
-                        bBumpRight = true;
                         return(true);
                     }
                 }
@@ -128,13 +137,10 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                 for(int iPosHor=0;iPosHor>=iHorMov;iPosHor--){ /**< follow the complete move path through and check for obstacles **/
                     if(checkbumpL((room.roomba->iPosHor+iPosHor),room.roomba->iPosVer) == true){
                         room.roomba->move(iPosHor,0);
-                        bBumpLeft = true;
-                        bBumpRight = true;
                         return(true);
                     }
                 }
-            bBumpLeft = false;
-            bBumpRight = false;
+            resetphysicalsensors();
             return(false);
         }
         if(/*checkbumpUL*/(iHorMov<0)&&(iVerMov>0)){ /**< if the direction is diagonal UL **/
@@ -169,8 +175,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                     return(true);
             	}
             }
-            bBumpLeft = false;
-            bBumpRight = false;
+            resetphysicalsensors();
             return(false);
         }
         if(/*checkbumpUR*/(iHorMov>0)&&(iVerMov>0)){ /**< if the direction is diagonal UR **/
@@ -206,8 +211,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                     return(true);
                 }
             }
-            bBumpLeft = false;
-            bBumpRight = false;
+            resetphysicalsensors();
             return(false);
         }
         if(/*checkbumpDR*/(iHorMov>0)&&(iVerMov<0)){ /**< if the direction is diagonal DL **/
@@ -247,8 +251,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                     return(true);
                 }
             }
-            bBumpLeft = false;
-            bBumpRight = false;
+            resetphysicalsensors();
             return(false);
         }
         if(/*checkbumpDL*/(iHorMov<0)&&(iVerMov<0)){ /**< if the direction is diagonal DR **/
@@ -287,8 +290,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                     return(true);
             	}
             }
-            bBumpLeft = false;
-            bBumpRight = false;
+            resetphysicalsensors();
             return(false);
         }
     }
@@ -308,7 +310,24 @@ bool sensorclass::checkbumpL(int iHorPos,int iVerPos){
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                if((iHorPos-1 == iHorI)&&(iVerPos == iVerI)){
+                    //resetphysicalsensors();
+                    switch(room.roomobjects[i].getroomobjecttype()){
+                        case roomobjectclass::drop:
+                                                    bCliffFrontLeft = true;
+                                                    bCliffFrontRight = true;
+                                                    break;
+                        case roomobjectclass::roomba:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        //case roomobjectclass::stairs: break;
+                        case roomobjectclass::wall:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        default: break;
+                    }
                     return(true);
                 }
             }
@@ -327,7 +346,26 @@ bool sensorclass::checkbumpR(int iHorPos,int iVerPos){
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                if((iHorPos+1 == iHorI)&&(iVerPos == iVerI)){
+                    //resetphysicalsensors();
+                    switch(room.roomobjects[i].getroomobjecttype()){
+                        case roomobjectclass::drop:
+                                                    bCliffLeft = false;
+                                                    bCliffFrontLeft = true;
+                                                    bCliffFrontRight = true;
+                                                    bCliffRight = false;
+                                                    break;
+                        case roomobjectclass::roomba:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        //case roomobjectclass::stairs: break;
+                        case roomobjectclass::wall:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        default: break;
+                    }
                     return(true);
                 }
             }
@@ -346,7 +384,26 @@ bool sensorclass::checkbumpU(int iHorPos,int iVerPos){
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                if((iHorPos == iHorI)&&(iVerPos+1 == iVerI)){
+                    //resetphysicalsensors();
+                    switch(room.roomobjects[i].getroomobjecttype()){
+                        case roomobjectclass::drop:
+                                                    bCliffLeft = false;
+                                                    bCliffFrontLeft = true;
+                                                    bCliffFrontRight = true;
+                                                    bCliffRight = false;
+                                                    break;
+                        case roomobjectclass::roomba:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        //case roomobjectclass::stairs: break;
+                        case roomobjectclass::wall:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        default: break;
+                    }
                     return(true);
                 }
             }
@@ -365,7 +422,26 @@ bool sensorclass::checkbumpD(int iHorPos,int iVerPos){
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if((iHorPos == iHorI)&&(iVerPos == iVerI)){
+                if((iHorPos == iHorI)&&(iVerPos-1 == iVerI)){
+                    //resetphysicalsensors();
+                    switch(room.roomobjects[i].getroomobjecttype()){
+                        case roomobjectclass::drop:
+                                                    bCliffLeft = false;
+                                                    bCliffFrontLeft = true;
+                                                    bCliffFrontRight = true;
+                                                    bCliffRight = false;
+                                                    break;
+                        case roomobjectclass::roomba:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        //case roomobjectclass::stairs: break;
+                        case roomobjectclass::wall:
+                                                    bBumpLeft = true;
+                                                    bBumpRight = true;
+                                                    break;
+                        default: break;
+                    }
                     return(true);
                 }
             }
@@ -381,34 +457,31 @@ bool sensorclass::checkbumpD(int iHorPos,int iVerPos){
  * This function checks for a bump at the position where the roomba will move into.
  */
 bool sensorclass::checkbumpUL(int iHorPos,int iVerPos){
+    int iPositions[3]{0,0,0};
     bool bDoubleBump = false;
     bool bLeftBump = false;
     bool bRightBump = false;
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if(bDoubleBump == false)
+                if(bDoubleBump == false){
+                    iPositions[0] = i;
                     bDoubleBump = (iHorPos-1 == iHorI)&&(iVerPos+1 == iVerI);
-                if(bLeftBump == false)
+                }
+                if(bLeftBump == false){
+                    iPositions[2] = i;
                     bLeftBump = (((iHorPos-1) == iHorI)&&(iVerPos == iVerI));
-                if(bRightBump == false)
+                }
+                if(bRightBump == false){
+                    iPositions[3] = i;
                     bRightBump = ((iHorPos == iHorI)&&((iVerPos+1) == iVerI));
+                }
             }
 
         }
     }
     if(bDoubleBump||bLeftBump||bRightBump){ /**< if any bumps where detected set the senor bools **/
-        if(bDoubleBump){
-            bBumpLeft = true;
-            bBumpRight = true;
-            return(true);
-        }
-        else{
-            if(bLeftBump)
-                bBumpLeft = true;
-            if(bRightBump)
-                bBumpRight = true;
-        }
+        setbumpcomplex(bDoubleBump,bLeftBump,bRightBump,iPositions[0],iPositions[1],iPositions[2]);
         return(true);
     }
     return(false);
@@ -421,33 +494,87 @@ bool sensorclass::checkbumpUL(int iHorPos,int iVerPos){
  * This function checks for a bump at the position where the roomba will move into.
  */
 bool sensorclass::checkbumpUR(int iHorPos,int iVerPos){
+    int iPositions[3]{0,0,0};
     bool bDoubleBump = false;
     bool bLeftBump = false;
     bool bRightBump = false;
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if(bDoubleBump == false)
+                if(bDoubleBump == false){
+                    iPositions[0] = i;
                     bDoubleBump = (iHorPos+1 == iHorI)&&(iVerPos+1 == iVerI);
-                if(bLeftBump == false)
+                    if(bDoubleBump)
+                        bDoubleBump = true;
+                }
+                if(bLeftBump == false){
+                    iPositions[1] = i;
                     bLeftBump = (((iHorPos+1) == iHorI)&&(iVerPos == iVerI));
-                if(bRightBump == false)
+                }
+                if(bRightBump == false){
+                    iPositions[2] = i;
                     bRightBump = ((iHorPos == iHorI)&&((iVerPos+1) == iVerI));
+                }
             }
         }
     }
     if(bDoubleBump||bLeftBump||bRightBump){ /**< if any bumps where detected set the senor bools **/
-        if(bDoubleBump){
-            bBumpLeft = true;
-            bBumpRight = true;
-            return(true);
-        }
-        else{
-            if(bLeftBump)
-                bBumpLeft = true;
-            if(bRightBump)
-                bBumpRight = true;
-        }
+        //setbumpcomplex(bDoubleBump,bLeftBump,bRightBump,iPostions[0]);
+        resetphysicalsensors();
+        setbumpcomplex(bDoubleBump,bLeftBump,bRightBump,iPositions[0],iPositions[1],iPositions[2]);
+//        if(bDoubleBump){
+//            switch(room.roomobjects[iPositions[0]].getroomobjecttype()){
+//                case roomobjectclass::drop:
+//                                            bCliffLeft = true;
+//                                            bCliffFrontLeft = true;
+//                                            bCliffFrontRight = true;
+//                                            bCliffRight = true;
+//                                            break;
+//                case roomobjectclass::roomba:
+//                                            bBumpLeft = true;
+//                                            bBumpRight = true;
+//                                            break;
+//                //case roomobjectclass::stairs: break;
+//                case roomobjectclass::wall:
+//                                            bBumpLeft = true;
+//                                            bBumpRight = true;
+//                                            break;
+//                default: break;
+//            }
+//            return(true);
+//        }
+//        else{
+//            if(bLeftBump)
+//                switch(room.roomobjects[iPositions[1]].getroomobjecttype()){
+//                    case roomobjectclass::drop:
+//                                                bCliffLeft = true;
+//                                                bCliffFrontLeft = true;
+//                                                break;
+//                    case roomobjectclass::roomba:
+//                                                bBumpLeft = true;
+//                                                break;
+//                    case roomobjectclass::wall:
+//                                                bBumpLeft = true;
+//                                                break;
+//                    default: break;
+//                }
+//            if(bRightBump)
+//                switch(room.roomobjects[iPositions[2]].getroomobjecttype()){
+//                    case roomobjectclass::drop:
+//                                                bCliffFrontRight = true;
+//                                                bCliffRight = true;
+//                                                break;
+//                    case roomobjectclass::roomba:
+//                                                bBumpRight = true;
+//                                                break;
+//                    //case roomobjectclass::stairs: break;
+//                    case roomobjectclass::wall:
+//                                                bBumpRight = true;
+//                                                break;
+//                    default: break;
+//                }
+//                return(true);
+//        }
         return(true);
     }
     return(false);
@@ -460,33 +587,30 @@ bool sensorclass::checkbumpUR(int iHorPos,int iVerPos){
  * This function checks for a bump at the position where the roomba will move into.
  */
 bool sensorclass::checkbumpDL(int iHorPos,int iVerPos){
+    int iPositions[3]{0,0,0};
     bool bDoubleBump = false;
     bool bLeftBump = false;
     bool bRightBump = false;
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if(bDoubleBump == false)
+                if(bDoubleBump == false){
+                    iPositions[0] = i;
                     bDoubleBump = ((iHorPos-1) == iHorI)&&((iVerPos-1)== iVerI);
-                if(bLeftBump == false)
+                }
+                if(bLeftBump == false){
+                    iPositions[1] = 0;
                     bLeftBump = ((iHorPos == iHorI)&&((iVerPos-1) == iVerI));
-                if(bRightBump == false)
+                }
+                if(bRightBump == false){
+                    iPositions[2] = 0;
                     bRightBump = (((iHorPos-1) == iHorI)&&(iVerPos == iVerI));
+                }
             }
         }
     }
     if(bDoubleBump||bLeftBump||bRightBump){ /**< if any bumps where detected set the senor bools **/
-        if(bDoubleBump){
-            bBumpLeft = true;
-            bBumpRight = true;
-            return(true);
-        }
-        else{
-            if(bLeftBump)
-                bBumpLeft = true;
-            if(bRightBump)
-                bBumpRight = true;
-        }
+        setbumpcomplex(bDoubleBump,bLeftBump,bRightBump,iPositions[0],iPositions[1],iPositions[2]);
         return(true);
     }
     return(false);
@@ -499,33 +623,30 @@ bool sensorclass::checkbumpDL(int iHorPos,int iVerPos){
  * This function checks for a bump at the position where the roomba will move into.
  */
 bool sensorclass::checkbumpDR(int iHorPos,int iVerPos){
+    int iPositions[3]{0,0,0};
     bool bDoubleBump = false;
     bool bLeftBump = false;
     bool bRightBump = false;
     for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
         for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
             for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
-                if(bDoubleBump == false)
+                if(bDoubleBump == false){
+                    iPositions[0] = i;
                     bDoubleBump = (iHorPos+1 == iHorI)&&(iVerPos-1 == iVerI);
-                if(bLeftBump == false)
+                }
+                if(bLeftBump == false){
+                    iPositions[1] = i;
                     bLeftBump = (((iHorPos+1) == iHorI)&&(iVerPos == iVerI));
-                if(bRightBump == false)
+                }
+                if(bRightBump == false){
+                    iPositions[2] = i;
                     bRightBump = ((iHorPos == iHorI)&&((iVerPos-1) == iVerI));
+                }
             }
         }
     }
     if(bDoubleBump||bLeftBump||bRightBump){ /**< if any bumps where detected set the senor bools **/
-        if(bDoubleBump){
-            bBumpLeft = true;
-            bBumpRight = true;
-            return(true);
-        }
-        else{
-            if(bLeftBump)
-                bBumpLeft = true;
-            if(bRightBump)
-                bBumpRight = true;
-        }
+        setbumpcomplex(bDoubleBump,bLeftBump,bRightBump,iPositions[0],iPositions[1],iPositions[2]);
         return(true);
     }
     return(false);
@@ -543,6 +664,71 @@ bool sensorclass::floatcomp(float fIn1,float fIn2){
     else
         return(true);
 }
+void sensorclass::resetphysicalsensors(void){
+    bBumpLeft = false;
+    bBumpRight = false;
+
+    bCliffLeft = false;
+    bCliffFrontLeft = false;
+    bCliffFrontRight = false;
+    bCliffRight = false;
+}
+void sensorclass::setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositionOne,int iPositionTwo,int iPositionThree){
+    resetphysicalsensors();
+    if(bDoubleBump){
+        switch(room.roomobjects[iPositionOne].getroomobjecttype()){
+            case roomobjectclass::drop:
+                                        bCliffLeft = true;
+                                        bCliffFrontLeft = true;
+                                        bCliffFrontRight = true;
+                                        bCliffRight = true;
+                                        break;
+            case roomobjectclass::roomba:
+                                        bBumpLeft = true;
+                                        bBumpRight = true;
+                                        break;
+            //case roomobjectclass::stairs: break;
+            case roomobjectclass::wall:
+                                        bBumpLeft = true;
+                                        bBumpRight = true;
+                                        break;
+            default: break;
+        }
+        return;
+    }
+    else{
+        if(bLeftBump)
+            switch(room.roomobjects[iPositionTwo].getroomobjecttype()){
+                case roomobjectclass::drop:
+                                            bCliffLeft = true;
+                                            bCliffFrontLeft = true;
+                                            break;
+                case roomobjectclass::roomba:
+                                            bBumpLeft = true;
+                                            break;
+                case roomobjectclass::wall:
+                                            bBumpLeft = true;
+                                            break;
+                default: break;
+            }
+        if(bRightBump)
+            switch(room.roomobjects[iPositionThree].getroomobjecttype()){
+                case roomobjectclass::drop:
+                                            bCliffFrontRight = true;
+                                            bCliffRight = true;
+                                            break;
+                case roomobjectclass::roomba:
+                                            bBumpRight = true;
+                                            break;
+                //case roomobjectclass::stairs: break;
+                case roomobjectclass::wall:
+                                            bBumpRight = true;
+                                            break;
+                default: break;
+            }
+            return;
+    }
+}
 
 timerclass::timerclass(roombaclass& roomba,double dTimerDurationb = 0.5):roomba(roomba),dTimerDuration{dTimerDurationb}{
     //thread timerthread(thread(timerclass::timer,roomba),this);
@@ -558,7 +744,7 @@ void timerclass::timer(/*roombaclass& roomba*/){
         if(elapsed_seconds.count() >= dTimerDuration){
             start = chrono::system_clock::now();
             roomba.drive();
-            cout << "TEST" << endl;
+            //cout << "TEST" << endl;
         }
 
     }
@@ -570,9 +756,10 @@ void timerclass::timer(/*roombaclass& roomba*/){
  * @param iPosVer
  * standard roomobjectclass constructor
  */
-roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor){
+roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer, roomobjecttypes roomobjecttypeIn = roomobjectclass::standard):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor){
     iSizeHor = 0;
     iSizeVer = 0;
+    roomobjecttype = /*roomobjectclass::*/roomobjecttypeIn;
 }
 /**
  * @brief roomobjectclass::roomobjectclass
@@ -582,8 +769,8 @@ roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer):iPosHor(
  * @param iSizeVer
  * second constructor for roomobjectclass
  */
-roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned int iSizeHor,unsigned int iSizeVer):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor),iSizeHor(iSizeHor),iSizeVer(iSizeVer){
-
+roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned int iSizeHor,unsigned int iSizeVer, roomobjecttypes roomobjecttypeIn = roomobjectclass::standard):iPosHor(iPosHor),iPosVer(iPosVer),fPosVer(iPosVer),fPosHor(iPosHor),iSizeHor(iSizeHor),iSizeVer(iSizeVer){
+    roomobjecttype = /*roomobjectclass::*/roomobjecttypeIn;
 }
 
 /**
@@ -591,14 +778,10 @@ roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned 
  * @param sensors
  * default constructor for roombaclass
  */
-void infinitloop(void){
-    while(true)
-        cout << "hoi" << endl;
-}
-
-roombaclass::roombaclass(sensorclass* sensors):roomobjectclass(0,0),sensors(*sensors){
+roombaclass::roombaclass(sensorclass& sensors):roomobjectclass(0,0,roomobjectclass::roomba),sensors(sensors){
     fAngle = 0;
     fSpeed = 0;
+    //roomobjecttype = /*roomobjectclass::*/roomba;
 
     timerclass timer(*this,0.5);
     thread tTimerThread(timer);
@@ -655,17 +838,17 @@ void roombaclass::move(float fHorMov,float fVerMov){
     iPosVer += fPosVer-iPosVer;
 }
 
-/**
- * @brief wallclass::readobjectname
- * @return
- */
-string wallclass::readobjectname(void){
-    return(sObjectName);
-}
-/**
- * @brief wallclass::writeobjectname
- * @param sInput
- */
-void wallclass::writeobjectname(string sInput){
-   sObjectName = sInput;
-}
+///**
+// * @brief wallclass::readobjectname
+// * @return
+// */
+//string wallclass::readobjectname(void){
+//    return(sObjectName);
+//}
+///**
+// * @brief wallclass::writeobjectname
+// * @param sInput
+// */
+//void wallclass::writeobjectname(string sInput){
+//   sObjectName = sInput;
+//}

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include <vector>
 #include <cmath>
@@ -37,7 +38,7 @@ class roombaclass;
  *  implements natural objects which appear inside a room.
  */
 class wallclass;
-
+class dropclass;
 
 
 class roomclass{
@@ -51,39 +52,43 @@ public:
 };
 class sensorclass{
 private:
+    vector<string> vsErrorVector;
+
     const float fFloatRange = 0.10;
     roomclass& room;
 
-    // wheel drop sensors // half implemented
-    bool bWheelDropLeft;		// will not be implemented
-    bool bWheelDropRight;		// will not be implemented
+    // wheel drop sensors           // not implemented
+    bool bWheelDropLeft;            // will not be implemented
+    bool bWheelDropRight;           // will not be implemented
+
+    // physical bump sensors        // implemented
     bool bBumpLeft;
     bool bBumpRight;
 
-    // wall sensor	// not implemented
+    // wall sensor                  // not implemented
     int iWallSignal;                // 0 - 1023
 
-    // cliff sensor	// not implemented
+    // cliff sensor                 // not implemented
     int iCliffLeftSignal;           // 0 - 4095
     int iCliffFrontLeftSignal;      // 0 - 4095
     int iCliffFrontSignal;          // 0 - 4095
     int iCliffFrontRightSignal;     // 0 - 4095
     int iCliffRightSignal;          // 0 - 4095
 
-    // light bump sensors	// not implemented
+    // light bump sensors           // not implemented
     int iLightBumpLeft;             // 0 - 4095
     int iLightBumpFrontLeft;        // 0 - 4095
     int iLightBumpCenter;           // 0 - 4095
     int iLightBumpFrontRight;       // 0 - 4095
     int iLightBumpRight;            // 0 - 4095
 
-    // cliff sensor	// not implemented
+    // cliff sensor                 // implemented
     bool bCliffLeft;
     bool bCliffFrontLeft;
     bool bCliffFrontRight;
     bool bCliffRight;
 
-    // wall sensor	// not implemented
+    // wall sensor                  // not implemented
     bool bWallBump;
 
     bool checkbumpL(int iHorPos,int iVerPos);
@@ -96,13 +101,22 @@ private:
     bool checkbumpDR(int iHorPos,int iVerPos);
     float calcmultiplication(float iDiffHor, float iDiffVer);
 
+    void resetphysicalsensors(void); // resets bBump(L/R) and bCLiff(L/LF/FR/R)
+    void setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositionOne,int iPositionTwo,int iPositionThree);
+
     bool floatcomp(float fIn1,float fIn2);
 public:
     sensorclass(roomclass& room);
+    ~sensorclass();
     bool checkbump(float iHorMov,float iVerMov);
 
-    bool getbBumpLeft(void)  {return(bBumpLeft);}
-    bool getbBumpRight(void) {return(bBumpRight);}
+    bool getbBumpLeft(void){return(bBumpLeft);}
+    bool getbBumpRight(void){return(bBumpRight);}
+
+    bool getCliffLeft(void){return(bCliffLeft);}
+    bool getCliffFrontLeft(void){return(bCliffFrontLeft);}
+    bool getCliffFrontRight(void){return(bCliffFrontRight);}
+    bool getCliffRight(void){return(bCliffRight);}
 };
 class timerclass{
 private:
@@ -125,12 +139,14 @@ public:
 };
 
 class roomobjectclass{
+public:
+    enum roomobjecttypes{roomba=1,wall=2,standard=2,drop,stairs};
 protected:
     const float pi = 3.14159265;
-    //enum roomobjecttypes{roomba=1,wall,stairs};
+    roomobjecttypes roomobjecttype;
 public:
-    roomobjectclass(signed int iPosHor, signed int iPosVer);
-    roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer);
+    roomobjectclass(signed int iPosHor, signed int iPosVer, roomobjecttypes roomobjecttypeIn);
+    roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer, roomobjecttypes roomobjecttypeIn);
 
     signed int iPosHor;
     signed int iPosVer;
@@ -140,6 +156,7 @@ public:
     unsigned int iSizeHor;
     unsigned int iSizeVer;
 
+    roomobjecttypes getroomobjecttype(void){return(roomobjecttype);}
     //virtual ~roomobjectclass();
     //virtual void drive(void);
 };
@@ -151,7 +168,7 @@ private:
 
 
 public:
-    roombaclass(sensorclass* sensors); // <-- die werkte ineens niet
+    roombaclass(sensorclass& sensors); // <-- die werkte ineens niet
     ~roombaclass();
 
     void move(float fHorMov,float fVerMov);
@@ -162,13 +179,17 @@ public:
 
     void drive(void);
 };
-class wallclass : public roomobjectclass{
-private:
-    string sObjectName;
-public:
-    string readobjectname(void);
-    void writeobjectname(string sInput);
-};
+//class wallclass : public roomobjectclass{
+//private:
+//    string sObjectName;
+//public:
+//    wallclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,wall){roomobjecttype = wall;}
+//    string readobjectname(void);
+//    void writeobjectname(string sInput);
+//};
+//class dropclass : public roomobjectclass{
+//    dropclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,drop){roomobjecttype = drop;}
+//};
 
 #endif // FILE
 
