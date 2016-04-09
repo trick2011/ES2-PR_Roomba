@@ -57,38 +57,38 @@ private:
     const float fFloatRange = 0.10;
     roomclass& room;
 
-    // wheel drop sensors // not implemented
-    bool bWheelDropLeft;		// will not be implemented
-    bool bWheelDropRight;		// will not be implemented
+    // wheel drop sensors           // not implemented
+    bool bWheelDropLeft;            // will not be implemented
+    bool bWheelDropRight;           // will not be implemented
 
-    // physical bump sensors
+    // physical bump sensors        // implemented
     bool bBumpLeft;
     bool bBumpRight;
 
-    // wall sensor	// not implemented
+    // wall sensor                  // not implemented
     int iWallSignal;                // 0 - 1023
 
-    // cliff sensor	// not implemented
+    // cliff sensor                 // not implemented
     int iCliffLeftSignal;           // 0 - 4095
     int iCliffFrontLeftSignal;      // 0 - 4095
     int iCliffFrontSignal;          // 0 - 4095
     int iCliffFrontRightSignal;     // 0 - 4095
     int iCliffRightSignal;          // 0 - 4095
 
-    // light bump sensors	// not implemented
+    // light bump sensors           // not implemented
     int iLightBumpLeft;             // 0 - 4095
     int iLightBumpFrontLeft;        // 0 - 4095
     int iLightBumpCenter;           // 0 - 4095
     int iLightBumpFrontRight;       // 0 - 4095
     int iLightBumpRight;            // 0 - 4095
 
-    // cliff sensor	// not implemented
+    // cliff sensor                 // implemented
     bool bCliffLeft;
     bool bCliffFrontLeft;
     bool bCliffFrontRight;
     bool bCliffRight;
 
-    // wall sensor	// not implemented
+    // wall sensor                  // not implemented
     bool bWallBump;
 
     bool checkbumpL(int iHorPos,int iVerPos);
@@ -110,12 +110,13 @@ public:
     ~sensorclass();
     bool checkbump(float iHorMov,float iVerMov);
 
-    bool getbBumpLeft(void)  {return(bBumpLeft);}
-    bool getbBumpRight(void) {return(bBumpRight);}
-    bool getCliffLeft(void)  {return(bCliffLeft);}
-    bool getCliffFrontLeft(void)  {return(bCliffFrontLeft);}
-    bool getCliffFrontRight(void)  {return(bCliffFrontRight);}
-    bool getCliffRight(void)  {return(bCliffRight);}
+    bool getbBumpLeft(void){return(bBumpLeft);}
+    bool getbBumpRight(void){return(bBumpRight);}
+
+    bool getCliffLeft(void){return(bCliffLeft);}
+    bool getCliffFrontLeft(void){return(bCliffFrontLeft);}
+    bool getCliffFrontRight(void){return(bCliffFrontRight);}
+    bool getCliffRight(void){return(bCliffRight);}
 };
 class timerclass{
 private:
@@ -178,17 +179,17 @@ public:
 
     void drive(void);
 };
-class wallclass : public roomobjectclass{
-private:
-    string sObjectName;
-public:
-    wallclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,wall){roomobjecttype = wall;}
-    string readobjectname(void);
-    void writeobjectname(string sInput);
-};
-class dropclass : public roomobjectclass{
-    dropclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,drop){roomobjecttype = drop;}
-};
+//class wallclass : public roomobjectclass{
+//private:
+//    string sObjectName;
+//public:
+//    wallclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,wall){roomobjecttype = wall;}
+//    string readobjectname(void);
+//    void writeobjectname(string sInput);
+//};
+//class dropclass : public roomobjectclass{
+//    dropclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,drop){roomobjecttype = drop;}
+//};
 
 #endif // FILE
 

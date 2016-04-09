@@ -778,15 +778,10 @@ roomobjectclass::roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned 
  * @param sensors
  * default constructor for roombaclass
  */
-void infinitloop(void){
-    while(true)
-        cout << "hoi" << endl;
-}
-
-roombaclass::roombaclass(sensorclass& sensors):roomobjectclass(0,0),sensors(sensors){
+roombaclass::roombaclass(sensorclass& sensors):roomobjectclass(0,0,roomobjectclass::roomba),sensors(sensors){
     fAngle = 0;
     fSpeed = 0;
-    roomobjecttype = /*roomobjectclass::*/roomba;
+    //roomobjecttype = /*roomobjectclass::*/roomba;
 
     timerclass timer(*this,0.5);
     thread tTimerThread(timer);
@@ -843,17 +838,17 @@ void roombaclass::move(float fHorMov,float fVerMov){
     iPosVer += fPosVer-iPosVer;
 }
 
-/**
- * @brief wallclass::readobjectname
- * @return
- */
-string wallclass::readobjectname(void){
-    return(sObjectName);
-}
-/**
- * @brief wallclass::writeobjectname
- * @param sInput
- */
-void wallclass::writeobjectname(string sInput){
-   sObjectName = sInput;
-}
+///**
+// * @brief wallclass::readobjectname
+// * @return
+// */
+//string wallclass::readobjectname(void){
+//    return(sObjectName);
+//}
+///**
+// * @brief wallclass::writeobjectname
+// * @param sInput
+// */
+//void wallclass::writeobjectname(string sInput){
+//   sObjectName = sInput;
+//}
