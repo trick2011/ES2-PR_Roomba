@@ -692,7 +692,11 @@ void sensorclass::setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump
                                         bBumpLeft = true;
                                         bBumpRight = true;
                                         break;
-            default: break;
+            default:    stringstream ss;
+                        string tmp;
+                        ss << "Defaulted inside bDoubleBump with info: " << bDoubleBump << " " << bLeftBump <<" "<< bRightBump << " " << iPositionOne << " " << iPositionTwo << " " << iPositionThree << endl;
+                        getline(ss,tmp);
+                        vsErrorVector.push_back(tmp); break;
         }
         return;
     }
@@ -709,7 +713,11 @@ void sensorclass::setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump
                 case roomobjectclass::wall:
                                             bBumpLeft = true;
                                             break;
-                default: break;
+                default: stringstream ss;
+                        string tmp;
+                        ss << "Defaulted inside bLeftBump with info: " << bDoubleBump << " " << bLeftBump <<" "<< bRightBump << " " << iPositionOne << " " << iPositionTwo << " " << iPositionThree << endl;
+                        getline(ss,tmp);
+                        vsErrorVector.push_back(tmp); break;
             }
         if(bRightBump)
             switch(room.roomobjects[iPositionThree].getroomobjecttype()){
@@ -724,7 +732,11 @@ void sensorclass::setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump
                 case roomobjectclass::wall:
                                             bBumpRight = true;
                                             break;
-                default: break;
+                default:    stringstream ss;
+                            string tmp;
+                            ss << "Defaulted inside bRightBump with info: " << bDoubleBump << " " << bLeftBump <<" "<< bRightBump << " " << iPositionOne << " " << iPositionTwo << " " << iPositionThree << endl;
+                            getline(ss,tmp);
+                            vsErrorVector.push_back(tmp); break;
             }
             return;
     }
