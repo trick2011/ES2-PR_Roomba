@@ -42,7 +42,9 @@ int main()
     while(1){
         //room.roomba->drive();
         //cin >> tmp;
-        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight() << endl;
+        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "      " << room.sensors->getbBumpLeft() << "      " << room.sensors->getbBumpRight();
+        cout << "      " << room.sensors->getCliffLeft() << "      " << room.sensors->getCliffFrontLeft() << "      " << room.sensors->getCliffFrontRight() << "      ";
+        cout << room.sensors->getCliffRight() << endl;
     }
     return 0;
 }

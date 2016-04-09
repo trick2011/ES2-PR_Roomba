@@ -112,6 +112,10 @@ public:
 
     bool getbBumpLeft(void)  {return(bBumpLeft);}
     bool getbBumpRight(void) {return(bBumpRight);}
+    bool getCliffLeft(void)  {return(bCliffLeft);}
+    bool getCliffFrontLeft(void)  {return(bCliffFrontLeft);}
+    bool getCliffFrontRight(void)  {return(bCliffFrontRight);}
+    bool getCliffRight(void)  {return(bCliffRight);}
 };
 class timerclass{
 private:
