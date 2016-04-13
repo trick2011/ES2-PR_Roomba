@@ -8,7 +8,7 @@
 //signals are seen like (site->roombacontrol)
 //Send
 #define	MoveForward	'a'
-#define MoveRearword 	'b'
+#define MoveBackward 	'b'
 #define	MoveRight	'c'
 #define	MoveLeft	'd'
 #define EnableAuto	'e'
@@ -75,9 +75,9 @@ char RecievePipe()
 			printf("Pipe: MoveForward\n ");
 			commando = MoveForward;
 			break;
-		case 'b':	//MoveRearword
+		case 'b':	//MoveBackward
 			printf("Pipe: MoveRearward\n ");
-			commando = MoveRearword;
+			commando = MoveBackward;
 			break;
 		case 'c':	//MoveRight
 			printf("Pipe: MoveRight\n ");
