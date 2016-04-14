@@ -79,6 +79,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
      *  above -1 and is not equal to 0 (+/- fFloatRange) that it wil
      *  be rounded up or down to the nearest full int value.
      */
+    bool bReturnValue = false;
     int iHorMov = fHorMov;
     int iVerMov = fVerMov;
     if(iVerMov == 0){
@@ -105,6 +106,8 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
     if(room.roomobjects.size() != 0){ /**< check if there are objects inside the room other than the roomba. if not do nothing an return false **/
         //#warning "the following code should be optimized, it will now evaluate all if statements altough a if statement has already been true"
         /**< The following if statements will check the direction of the movement and trigger the right checkbumpXX() function **/
+        bReturnValue = checkLightBump();
+
         if(/*checkbumpUD */floatcomp(iHorMov,0)){    /**< if the direction is vertical    **/
             if(iVerMov>0) /**< check if vertical movement is positive or negative **/
                 for(int iPosVer=0;iPosVer<=iVerMov;iPosVer++){ /**< follow the complete move path through and check for obstacles **/
@@ -122,7 +125,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                     }
                 }
             resetphysicalsensors();
-            return(false);
+            return(bReturnValue);
         }
         if(/*checkbumpLR */floatcomp(iVerMov,0)){    /**< if the direction is horizontal  **/
             if(iHorMov>0) /**< check if horizontal movement is positive or negative **/
@@ -141,7 +144,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                     }
                 }
             resetphysicalsensors();
-            return(false);
+            return(bReturnValue);
         }
         if(/*checkbumpUL*/(iHorMov<0)&&(iVerMov>0)){ /**< if the direction is diagonal UL **/
             //checkbumpUL();
@@ -176,7 +179,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
             	}
             }
             resetphysicalsensors();
-            return(false);
+            return(bReturnValue);
         }
         if(/*checkbumpUR*/(iHorMov>0)&&(iVerMov>0)){ /**< if the direction is diagonal UR **/
             //checkbumpUR();
@@ -212,7 +215,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                 }
             }
             resetphysicalsensors();
-            return(false);
+            return(bReturnValue);
         }
         if(/*checkbumpDR*/(iHorMov>0)&&(iVerMov<0)){ /**< if the direction is diagonal DL **/
             //checkbumpDR();
@@ -252,7 +255,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                 }
             }
             resetphysicalsensors();
-            return(false);
+            return(bReturnValue);
         }
         if(/*checkbumpDL*/(iHorMov<0)&&(iVerMov<0)){ /**< if the direction is diagonal DR **/
             //checkbumpDL();
@@ -267,20 +270,20 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
               * Those x,y positions will be pushed inside the vectors and tested for bumps by checkbumpUL()
               */
             for(float fCounterHor=0;fCounterHor>((float)iHorMov-0.1);fCounterHor-=0.1){
-            	fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
-            	iResult= (int)(fResult * fCounterHor);
-            	bAnswerUsed = false;
-            	for(unsigned int i=0;i<viIanswerVer.size();i++){
-            		if(viIanswerVer[i] == iResult){
-            			bAnswerUsed = true;
-            			break;
-            		}
-            	}
-            	if(bAnswerUsed == false){
-            		viIanswerVer.push_back(iResult);
-            		viIanswerHor.push_back((int)fCounterHor);
-            	}
-            
+                fResult = calcmultiplication((float)iHorMov,(float)iVerMov);
+                iResult= (int)(fResult * fCounterHor);
+                bAnswerUsed = false;
+                for(unsigned int i=0;i<viIanswerVer.size();i++){
+                    if(viIanswerVer[i] == iResult){
+                        bAnswerUsed = true;
+                        break;
+                    }
+                }
+                if(bAnswerUsed == false){
+                    viIanswerVer.push_back(iResult);
+                    viIanswerHor.push_back((int)fCounterHor);
+                }
+
             }
             for(unsigned int i=0;i<viIanswerHor.size();i++){ /**< check the found x,y positions for obstacles **/
                 if(checkbumpDL(room.roomba->iPosHor+viIanswerHor[i],room.roomba->iPosVer+viIanswerVer[i]) == true){
@@ -288,16 +291,16 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
                     //room.roomba->iPosVer += viIanswerVer[i];
                     room.roomba->move(viIanswerHor[i],viIanswerVer[i]);
                     return(true);
-            	}
+                }
             }
             resetphysicalsensors();
-            return(false);
+            return(bReturnValue);
         }
     }
 
-    bBumpLeft = false;
-    bBumpRight = false;
-    return(false);
+    //resetlightbump();
+    resetphysicalsensors();
+    return(bReturnValue);
 }
 /**
  * @brief sensorclass::checkbumpL
@@ -673,6 +676,13 @@ void sensorclass::resetphysicalsensors(void){
     bCliffFrontRight = false;
     bCliffRight = false;
 }
+void sensorclass::resetlightbump(void){
+    iLightBumpLeft = 0;
+    iLightBumpFrontLeft = 0;
+    iLightBumpCenter = 0;
+    iLightBumpFrontRight = 0;
+    iLightBumpRight = 0;
+}
 void sensorclass::setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositionOne,int iPositionTwo,int iPositionThree){
     resetphysicalsensors();
     if(bDoubleBump){
@@ -741,6 +751,80 @@ void sensorclass::setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump
             return;
     }
 }
+bool sensorclass::checkLightBump(void){
+    //room.roomba->iPosHor
+    //room.roomba->iPosVer
+    bool bReturnBool = false;
+    if(checkLightBumpUL())
+        bReturnBool = true;
+    if(checkLightBumpUR())
+        bReturnBool = true;
+    if(checkLightBumpU())
+        bReturnBool = true;
+    if(!bReturnBool)
+        resetlightbump();
+    return(bReturnBool);
+}
+bool sensorclass::checkLightBumpUL(void){
+    for(unsigned int iPos=iLightBumpRange;iPos>0;--iPos){
+        for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
+            for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
+                for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
+                    //iHorI
+                    //iVerI
+                    if(((room.roomba->iPosHor+static_cast<signed int>(iPos)) == iHorI)&&((room.roomba->iPosVer+static_cast<signed int>(iPos)) == iVerI)){
+                        determineLightBumpValue(iPos,iPos);
+                        return(true);
+                    }
+                }
+
+            }
+        }
+    }
+    return(false);
+}
+bool sensorclass::checkLightBumpUR(void){
+    for(unsigned int iPos=0;iPos<iLightBumpRange;++iPos){
+        for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
+            for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
+                for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
+                    //iHorI
+                    //iVerI
+                    if(((room.roomba->iPosHor+static_cast<signed int>(iPos)) == iHorI)&&((room.roomba->iPosVer+static_cast<signed int>(iPos)) == iVerI)){
+                        determineLightBumpValue(iPos,iPos);
+                        return(true);
+                    }
+                }
+
+            }
+        }
+    }
+    return(false);
+}
+bool sensorclass::checkLightBumpU(void){
+    for(unsigned int iPos=0;iPos>iLightBumpRange;++iPos){
+        for(unsigned int i=0;i<room.roomobjects.size();i++){ /**< loops through all objects inside the room**/
+            for(int iHorI=room.roomobjects[i].iPosHor;iHorI<=(room.roomobjects[i].iPosHor+(signed int)room.roomobjects[i].iSizeHor);iHorI++){ /**< loops through all horizontal positions of that object **/
+                for(int iVerI=room.roomobjects[i].iPosVer;iVerI<=(room.roomobjects[i].iPosVer+(signed int)room.roomobjects[i].iSizeVer);iVerI++){ /**< loops throught all vertical positions of that object **/
+                    //iHorI
+                    //iVerI
+                    if(((room.roomba->iPosHor) == iHorI)&&((room.roomba->iPosVer+static_cast<signed int>(iPos)) == iVerI)){
+                        determineLightBumpValue(0,iPos);
+                        return(true);
+                    }
+                }
+
+            }
+        }
+    }
+    return(false);
+}
+unsigned int sensorclass::determineLightBumpValue(const unsigned int iHor,const unsigned int iVer){
+    //// iLightBumpRange
+    //unsigned int uiReturnValue = iLightBumpValueMax - (static_cast<float>(iLightBumpValueMax)/static_cast<float>(iLightBumpRange));
+    //return(uiReturnValue);
+}
+
 
 timerclass::timerclass(roombaclass& roomba,double dTimerDurationb = 0.5):roomba(roomba),dTimerDuration{dTimerDurationb}{
     //thread timerthread(thread(timerclass::timer,roomba),this);

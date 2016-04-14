@@ -53,7 +53,11 @@ public:
 };
 class sensorclass{
 private:
+    bool floatcomp(float fIn1,float fIn2);
     vector<string> vsErrorVector;
+
+    const unsigned int iLightBumpRange = 7;
+    const unsigned int iLightBumpValueMax = 4095;
 
     const float fFloatRange = 0.10;
     roomclass& room;
@@ -102,10 +106,16 @@ private:
     bool checkbumpDR(int iHorPos,int iVerPos);
     float calcmultiplication(float iDiffHor, float iDiffVer);
 
+    unsigned int determineLightBumpValue(const unsigned int iHor,const unsigned int iVer);
+    bool checkLightBumpUL(void);
+    bool checkLightBumpUR(void);
+    bool checkLightBumpU(void);
+    bool checkLightBump(void);
+
+    void resetlightbump(void);
     void resetphysicalsensors(void); // resets bBump(L/R) and bCLiff(L/LF/FR/R)
     void setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositionOne,int iPositionTwo,int iPositionThree);
 
-    bool floatcomp(float fIn1,float fIn2);
 public:
     sensorclass(roomclass& room);
     ~sensorclass();
@@ -118,6 +128,13 @@ public:
     bool getCliffFrontLeft(void){return(bCliffFrontLeft);}
     bool getCliffFrontRight(void){return(bCliffFrontRight);}
     bool getCliffRight(void){return(bCliffRight);}
+
+    int getLightBumpLeft(void){return(iLightBumpLeft);}
+    int getLightBumpFrontLeft(void){return(iLightBumpFrontLeft);}
+    int getLightBumpCenter(void){return(iLightBumpCenter);}
+    int getLightBumpFrontRight(void){return(iLightBumpFrontRight);}
+    int getLightBumpRight(void){return(iLightBumpRight);}
+
 };
 class timerclass{
 private:
