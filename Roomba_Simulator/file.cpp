@@ -820,9 +820,17 @@ bool sensorclass::checkLightBumpU(void){
     return(false);
 }
 unsigned int sensorclass::determineLightBumpValue(const unsigned int iHor,const unsigned int iVer){
+
+    // steps = pythagoras(iHor,iVer);
+    float fDistance = exp(iHor) + exp(iVer);
+    fDistance = sqrt(fDistance);
+
+    unsigned int uiReturnValue = iLightBumpValueMax - ((static_cast<float>(iLightBumpValueMax)/static_cast<float>(iLightBumpRange))*fDistance);
+    // lightbumpvalue = total - (total / maxsteps) * steps;
+
     //// iLightBumpRange
     //unsigned int uiReturnValue = iLightBumpValueMax - (static_cast<float>(iLightBumpValueMax)/static_cast<float>(iLightBumpRange));
-    //return(uiReturnValue);
+    return(uiReturnValue);
 }
 
 
