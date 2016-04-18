@@ -80,7 +80,7 @@ private:
     int iCliffFrontRightSignal;     // 0 - 4095
     int iCliffRightSignal;          // 0 - 4095
 
-    // light bump sensors           // not implemented
+    // light bump sensors           // implementing
     int iLightBumpLeft;             // 0 - 4095
     int iLightBumpFrontLeft;        // 0 - 4095
     int iLightBumpCenter;           // 0 - 4095
@@ -119,6 +119,12 @@ private:
 public:
     sensorclass(roomclass& room);
     ~sensorclass();
+
+    friend ostream& operator<<(ostream& output,sensorclass &sensors){
+        output << "   " << sensors.getbBumpLeft() << sensors.getbBumpRight() << sensors.getCliffLeft() << sensors.getCliffFrontLeft() << sensors.getCliffFrontRight() << sensors.getCliffRight() << endl;
+        return(output);
+    }
+
     bool checkbump(float iHorMov,float iVerMov);
 
     bool getbBumpLeft(void){return(bBumpLeft);}
@@ -184,8 +190,11 @@ private:
     float fSpeed;
     sensorclass& sensors;
 
-
 public:
+    friend ostream& operator<<(ostream& output,const roombaclass &roomba){
+             return (output << roomba.iPosHor << "   " << roomba.iPosVer);
+    }
+
     roombaclass(sensorclass& sensors); // <-- die werkte ineens niet
     ~roombaclass();
 
