@@ -1,5 +1,5 @@
 #include <iostream>
-#include "interpreter.h"
+#include "inv_interpreter.h"
 #include "opcodes.h"
 
 using namespace std;
@@ -37,51 +37,35 @@ int main(void)
             LByte2 = Uart::receiveUart();
             break;
 
-        case sensorstreamrequest:
+        case sensors:
             //verzend gevraagde sensor info
             //welke sensor info is gevraagd?
             //meer ontvangen
             UartTemp = Uart::receiveUart();
             switch(UartTemp){
                 case 1:
-                    //send bumpAndWheel
+                    sendBumpAndWheel();
                     break;
                 case 2:
-                    //send wall
+                    sendWall();
                     break;
                 case 3:
-                    //send Cliff
-                        //cliffLeft
-                        //cliffFrontLeft
-                        //cliffFrontRight
-                        //cliffRight
+                    sendCliff();
                     break;
                 case 4:
-                    //send distance
+                    sendDistance();
                     break;
                 case 5:
-                    //send angle
-                    //reset angle
+                    sendAngle();
                     break;
                 case 6:
-                    //send wallSignal
+                    sendWallSignal();
                     break;
                 case 7:
-                    //send Cliff Signal
-                        //cliffLeftSignal
-                        //cliffFrontLeftSignal
-                        //cliffFrontRightSignal
-                        //cliffRightSignal
+                    sendCliffSignal();
                     break;
                 case 8:
-                    //send lightBumper
-                        //lightBumper
-                        //lightBumpLeftSignal
-                        //lightBumpFrontLeftSignal
-                        //lightBumpCenterLeftSignal
-                        //lightBumpCenterRightSignal
-                        //lightBumpFrontRightSignal
-                        //lightBumpRightSignal
+                    sendLightBumper();
                     break;
                 case 9:
                     //send ?
@@ -89,11 +73,9 @@ int main(void)
                 case 10:
                     //send ?
                     break;
-
                 default:
                     //do nothing
                     break;
-
             }
 
             break;

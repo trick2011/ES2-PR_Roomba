@@ -1,5 +1,5 @@
-#ifndef INTERPRETER_H
-#define INTERPRETER_H
+#ifndef inv_INTERPRETER_H
+#define inv_INTERPRETER_H
 
 #include <iostream>
 #include <vector>
@@ -8,15 +8,24 @@
 #include <chrono>
 
 #include "opcodes.h"
-#include "./UART/uart.h"
+#include "../Roomba_Interpreter/UART/uart.h"
 
 //std::chrono::milliseconds interval(500);
 
-class interpreter
+class inv_interpreter
 {
 public:
     interpreter();
     ~interpreter();
+    sendBumpAndWheel();
+    sendWall();
+    sendCliff();
+    sendDistance();
+    sendAngle();
+    sendWallSignal();
+    sendCliffSignal();
+    sendLightBumper();
+
 
     typedef enum{SLOW,CRUISE,FAST}speed;
 
@@ -28,4 +37,4 @@ private:
 
 };
 
-#endif // INTERPRETER_H
+#endif // inv_INTERPRETER_H
