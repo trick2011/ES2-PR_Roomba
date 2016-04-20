@@ -1,6 +1,7 @@
 #include <iostream>
 //#include <iomanip> // setw() setfill()
 #include <string>
+#include <fstream>
 
 #include "file.h"
 
@@ -12,6 +13,9 @@ using namespace std;
  *******************************************************/
 
 int main(){
+    ofstream ofp("output.txt");
+
+
     roomclass room;
 
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
@@ -21,6 +25,9 @@ int main(){
     while(1){
         cout << *room.roomba;
         cout << *room.sensors;
+
+        ofp << *room.roomba;
+        ofp << *room.sensors;
 
 //        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "   " << room.sensors->getbBumpLeft() << room.sensors->getbBumpRight();
 

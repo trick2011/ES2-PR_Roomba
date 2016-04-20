@@ -38,7 +38,7 @@ roomclass::~roomclass(){
  */
 sensorclass::sensorclass(roomclass& room) : room(room),bWheelDropLeft{false},bWheelDropRight{false},bBumpLeft{false},bBumpRight{false},iWallSignal{0},
 iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
-iLightBumpFrontLeft{false},iLightBumpCenter{false},iLightBumpFrontRight{false},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
+iLightBumpFrontLeft{iLightBumpLeft},iLightBumpCenter{false},iLightBumpFrontRight{iLightBumpRight},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
 bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
 sensorclass::~sensorclass(){
     if(vsErrorVector.empty()){
@@ -107,7 +107,7 @@ bool sensorclass::checkbump(float fHorMov, float fVerMov){
         //#warning "the following code should be optimized, it will now evaluate all if statements altough a if statement has already been true"
         /**< The following if statements will check the direction of the movement and trigger the right checkbumpXX() function **/
 
-         //bReturnValue = checkLightBump(); /**< this does NOT work yet **/
+        checkLightBump(); /**< this does NOT work yet **/
 
         if(/*checkbumpUD */floatcomp(iHorMov,0)){    /**< if the direction is vertical    **/
             if(iVerMov>0) /**< check if vertical movement is positive or negative **/
@@ -752,19 +752,19 @@ void sensorclass::setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump
             return;
     }
 }
-bool sensorclass::checkLightBump(void){
+void sensorclass::checkLightBump(void){
     //room.roomba->iPosHor
     //room.roomba->iPosVer
     bool bReturnBool = false;
     if(checkLightBumpUL())
         bReturnBool = true;
-//    if(checkLightBumpUR())
-//        bReturnBool = true;
-//    if(checkLightBumpU())
-//        bReturnBool = true;
-//    if(!bReturnBool)
-//        resetlightbump();
-    return(bReturnBool);
+    if(checkLightBumpUR())
+        bReturnBool = true;
+    if(checkLightBumpU())
+        bReturnBool = true;
+    if(!bReturnBool)
+        resetlightbump();
+    return;
 }
 bool sensorclass::checkLightBumpUL(void){
     for(unsigned int iPos=iLightBumpRange;iPos>0;--iPos){
@@ -774,7 +774,9 @@ bool sensorclass::checkLightBumpUL(void){
                     //iHorI
                     //iVerI
                     if(((room.roomba->iPosHor+static_cast<signed int>(iPos)) == iHorI)&&((room.roomba->iPosVer+static_cast<signed int>(iPos)) == iVerI)){
-                        determineLightBumpValue(iPos,iPos);
+                        iLightBumpLeft = determineLightBumpValue(iPos,iPos);
+                        //iLightBumpFrontLeft = iLightBumpLeft;
+
                         return(true);
                     }
                 }
@@ -792,7 +794,8 @@ bool sensorclass::checkLightBumpUR(void){
                     //iHorI
                     //iVerI
                     if(((room.roomba->iPosHor+static_cast<signed int>(iPos)) == iHorI)&&((room.roomba->iPosVer+static_cast<signed int>(iPos)) == iVerI)){
-                        determineLightBumpValue(iPos,iPos);
+                        iLightBumpRight = determineLightBumpValue(iPos,iPos);
+                        //iLightBumpFrontRight = iLightBumpRight;
                         return(true);
                     }
                 }
@@ -810,7 +813,7 @@ bool sensorclass::checkLightBumpU(void){
                     //iHorI
                     //iVerI
                     if(((room.roomba->iPosHor) == iHorI)&&((room.roomba->iPosVer+static_cast<signed int>(iPos)) == iVerI)){
-                        determineLightBumpValue(0,iPos);
+                        iLightBumpCenter = determineLightBumpValue(0,iPos);
                         return(true);
                     }
                 }

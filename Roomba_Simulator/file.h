@@ -82,9 +82,9 @@ private:
 
     // light bump sensors           // implementing
     int iLightBumpLeft;             // 0 - 4095
-    int iLightBumpFrontLeft;        // 0 - 4095
+    int& iLightBumpFrontLeft;       // 0 - 4095 this is made a reference to iLightBumpLeft because in implementing the lightbump left and front left have been taken toghether
     int iLightBumpCenter;           // 0 - 4095
-    int iLightBumpFrontRight;       // 0 - 4095
+    int& iLightBumpFrontRight;      // 0 - 4095 this is made a reference to iLightBumpRight because in implementing the lightbump right and front right have been taken toghether
     int iLightBumpRight;            // 0 - 4095
 
     // cliff sensor                 // implemented
@@ -110,7 +110,7 @@ private:
     bool checkLightBumpUL(void);
     bool checkLightBumpUR(void);
     bool checkLightBumpU(void);
-    bool checkLightBump(void);
+    void checkLightBump(void);
 
     void resetlightbump(void);
     void resetphysicalsensors(void); // resets bBump(L/R) and bCLiff(L/LF/FR/R)
@@ -121,7 +121,8 @@ public:
     ~sensorclass();
 
     friend ostream& operator<<(ostream& output,sensorclass &sensors){
-        output << "   " << sensors.getbBumpLeft() << sensors.getbBumpRight() << sensors.getCliffLeft() << sensors.getCliffFrontLeft() << sensors.getCliffFrontRight() << sensors.getCliffRight() << endl;
+        output << "   " << sensors.getbBumpLeft() << sensors.getbBumpRight() << sensors.getCliffLeft() << sensors.getCliffFrontLeft() << sensors.getCliffFrontRight() << sensors.getCliffRight();
+        output << " " << sensors.getLightBumpLeft() << " " << sensors.getLightBumpFrontLeft() << " " << sensors.getLightBumpCenter() << " " << sensors.getLightBumpFrontRight() << " " << sensors.getLightBumpRight()  << endl;
         return(output);
     }
 
