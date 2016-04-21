@@ -56,7 +56,7 @@ private:
     bool floatcomp(float fIn1,float fIn2);
     vector<string> vsErrorVector;
 
-    const unsigned int iLightBumpRange = 7;
+    const unsigned int iLightBumpRange = 30;
     const unsigned int iLightBumpValueMax = 4095;
 
     const float fFloatRange = 0.10;
@@ -106,7 +106,6 @@ private:
     bool checkbumpDR(int iHorPos,int iVerPos);
     float calcmultiplication(float iDiffHor, float iDiffVer);
 
-    unsigned int determineLightBumpValue(const unsigned int iHor,const unsigned int iVer);
     bool checkLightBumpUL(void);
     bool checkLightBumpUR(void);
     bool checkLightBumpU(void);
@@ -117,7 +116,9 @@ private:
     void setbumpcomplex(bool bDoubleBump,bool bLeftBump,bool bRightBump,int iPositionOne,int iPositionTwo,int iPositionThree);
 
 public:
+    unsigned int determineLightBumpValue(const unsigned int iHor,const unsigned int iVer);
     sensorclass(roomclass& room);
+    sensorclass();/**< this constructor should NEVER be used outside of testing! IT WILL BREAK FUNCTIONS **/
     ~sensorclass();
 
     friend ostream& operator<<(ostream& output,sensorclass &sensors){

@@ -40,6 +40,10 @@ sensorclass::sensorclass(roomclass& room) : room(room),bWheelDropLeft{false},bWh
 iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
 iLightBumpFrontLeft{iLightBumpLeft},iLightBumpCenter{false},iLightBumpFrontRight{iLightBumpRight},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
 bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
+sensorclass::sensorclass() : room(room),bWheelDropLeft{false},bWheelDropRight{false},bBumpLeft{false},bBumpRight{false},iWallSignal{0},
+iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
+iLightBumpFrontLeft{false},iLightBumpCenter{false},iLightBumpFrontRight{false},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
+bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
 sensorclass::~sensorclass(){
     if(vsErrorVector.empty()){
         ofstream ofp;
@@ -826,10 +830,21 @@ bool sensorclass::checkLightBumpU(void){
 unsigned int sensorclass::determineLightBumpValue(const unsigned int iHor,const unsigned int iVer){
 
     // steps = pythagoras(iHor,iVer);
-    float fDistance = exp(iHor) + exp(iVer);
+    float fDistance = 0;
+//    if(iHor == 0||iVer == 0)
+//        fDistance = 0;
+//    else
+//        fDistance = exp(iHor) + exp(iVer);
+    fDistance = pow(iHor,2) + pow(iVer,2);
     fDistance = sqrt(fDistance);
 
-    unsigned int uiReturnValue = iLightBumpValueMax - ((static_cast<float>(iLightBumpValueMax)/static_cast<float>(iLightBumpRange))*fDistance);
+    float tmp2 = static_cast<float>(iLightBumpValueMax)/static_cast<float>(iLightBumpRange);
+    float tmp = tmp2*fDistance;
+    unsigned int uiReturnValue = 0;
+    if(tmp > iLightBumpValueMax)
+        return(0);
+    else
+        uiReturnValue = iLightBumpValueMax - tmp;
     // lightbumpvalue = total - (total / maxsteps) * steps;
 
     //// iLightBumpRange
