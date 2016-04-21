@@ -86,27 +86,14 @@ bool UARTClass::sendstring(string sInput){
 
 uint8_t UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
     bReceive = true;
-    std::queue<int> myqueue;
-
     unsigned char rx_buffer[256] = "\0";
-    if (iUARTFileStream != -1)
-    {
+    if (iUARTFileStream != -1){
         //int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
         
-        while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive)
-        {
-            ;
-        }
+        while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
         
-        if(bReceive)
-        {
-                myqueue.push (*rx_buffer);
-                while(!myqueue.empty())
-                {
-                    myqueue.pop();
-                }
-
-                return myqueue;
+        if(bReceive){
+                return *rx_buffer;
         }
         else
                 return(0x00);
