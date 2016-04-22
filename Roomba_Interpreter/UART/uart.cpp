@@ -85,7 +85,7 @@ bool UARTClass::sendstring(string sInput){
         return(true);
 }
 
-uint8_t UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
+bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
     bReceive = true;
     unsigned char rx_buffer[256] = "\0";
     if (iUARTFileStream != -1){
@@ -96,30 +96,26 @@ uint8_t UARTClass::receiveUart(){ // geef een string terug want das makkelijker 
         unsigned char * pBuffer = rx_buffer;
         while(*pBuffer != 0x00)
         {
-            myqueue.push (*pBuffer);
+            RecieveQueue.push (*pBuffer);
             pBuffer++;
         }
 
-        if(bReceive){
-            //return *rx_buffer;
-        }
+        if(bReceive)
+            return(true)
         else
-            return(0x00);
+            return(false);
     }
-    return(0x00);
+    return(false);
 }
 
 uint8_t UARTClass::getElement(){
-    unsigned char ucElement;
-    ucElement = myqueue.front();
-
-    myqueue.pop();
-
+    unsigned char ucElement = RecieveQueue.front();
+    RecieveQueue.pop();
     return(ucElement);
 }
 
 int UARTClass::getQueSize(){
-    return(myqueue.size());
+    return(RecieveQueue.size());
 }
 
 string UARTClass::receiveString(void){
