@@ -1,7 +1,7 @@
 #include "uart.h"
 
 UARTClass::UARTClass(){
-/* code voor opstarten uart
+    /* code voor opstarten uart
 -------------------------
 ----- SETUP USART 0 -----
 -------------------------
@@ -72,6 +72,7 @@ bool UARTClass::sendUart(uint8_t code){
         else
             return(true);
     }
+    return(false);
 }
 bool UARTClass::sendstring(string sInput){
     int count = -1;
@@ -92,27 +93,48 @@ uint8_t UARTClass::receiveUart(){ // geef een string terug want das makkelijker 
         
         while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
         
+        unsigned char * pBuffer = rx_buffer;
+        while(*pBuffer != 0x00)
+        {
+            myqueue.push (*pBuffer);
+            pBuffer++;
+        }
+
         if(bReceive){
-                return *rx_buffer;
+            //return *rx_buffer;
         }
         else
-                return(0x00);
+            return(0x00);
     }
     return(0x00);
 }
+
+uint8_t UARTClass::getElement(){
+    unsigned char ucElement;
+    ucElement = myqueue.front();
+
+    myqueue.pop();
+
+    return(ucElement);
+}
+
+int UARTClass::getQueSize(){
+    return(myqueue.size());
+}
+
 string UARTClass::receiveString(void){
     bReceive = true;
     if(iUARTFileStream != -1){
         char rx_buffer[256];
-//        int rx_length = read(iUARTFileStream, &rx_buffer, 255);
+        //        int rx_length = read(iUARTFileStream, &rx_buffer, 255);
         while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
         
         if(bReceive){
-                string returnvalue(rx_buffer);
-                return(returnvalue);
+            string returnvalue(rx_buffer);
+            return(returnvalue);
         }
         else
-                return("\0");
+            return("\0");
     }
     return("\0");
 }
