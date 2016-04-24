@@ -96,7 +96,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         unsigned char * pBuffer = rx_buffer;
         while(*pBuffer != 0x00)
         {
-            RecieveQueue.push (*pBuffer);
+            ReceiveQueue.push (*pBuffer);
             pBuffer++;
         }
 
@@ -109,13 +109,21 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 }
 
 uint8_t UARTClass::getElement(){
-    unsigned char ucElement = RecieveQueue.front();
-    RecieveQueue.pop();
+    unsigned char ucElement = ReceiveQueue.front();
+    ReceiveQueue.pop();
     return(ucElement);
 }
 
 int UARTClass::getQueSize(){
-    return(RecieveQueue.size());
+    return(ReceiveQueue.size());
+}
+
+void UARTClass::flushQueue()
+{
+	while(!ReceiveQueue.empty())
+	{
+		ReceiveQueue.pop();
+	}
 }
 
 string UARTClass::receiveString(void){
