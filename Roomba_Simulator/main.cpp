@@ -5,18 +5,19 @@
 
 #include "file.h"
 
-using namespace std;
+//using namespace std;
 
 /*****************************************************//*
  * This is test code and as such won't be commented on
  * any further.
  *******************************************************/
 
-int main(){
-    ofstream ofp("output.txt");
+void testinit(roomclass& room);
 
+int main(){
 
     roomclass room;
+    testinit(room);
 
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
     room.roomba->setangle(-135/*135+180*/);
@@ -25,9 +26,6 @@ int main(){
     while(1){
         cout << *room.roomba;
         cout << *room.sensors;
-
-        ofp << *room.roomba;
-        ofp << *room.sensors;
 
 //        cout << room.roomba->iPosHor << "   " << room.roomba->iPosVer << "   " << room.sensors->getbBumpLeft() << room.sensors->getbBumpRight();
 
@@ -40,12 +38,19 @@ int main(){
     for(unsigned int i=0;i<8;++i){
         cout << *room.roomba;
         cout << *room.sensors;
-
-        ofp << *room.roomba;
-        ofp << *room.sensors;
         room.roomba->drive();
     }
 #endif
     return 0;
 }
 
+void testinit(roomclass& room){
+    roomobjectclass object(-5,-5,0,10,roomobjectclass::drop);
+    room.roomobjects.push_back(object);
+    roomobjectclass objectb(5,-5,0,10,roomobjectclass::drop);
+    room.roomobjects.push_back(objectb);
+    roomobjectclass objectc(-5,-5,10,0,roomobjectclass::drop);
+    room.roomobjects.push_back(objectc);
+    roomobjectclass objectd(-5,5,10,0,roomobjectclass::drop);
+    room.roomobjects.push_back(objectd);
+}

@@ -8,19 +8,6 @@
 roomclass::roomclass(){
     sensors = new sensorclass(*this);
     roomba = new roombaclass(*sensors);
-    
-
-    roomobjectclass object(-5,-5,0,10,roomobjectclass::drop);
-    roomobjects.push_back(object);
-    roomobjectclass objectb(5,-5,0,10,roomobjectclass::drop);
-    roomobjects.push_back(objectb);
-
-
-    roomobjectclass objectc(-5,-5,10,0,roomobjectclass::drop);
-    roomobjects.push_back(objectc);
-
-    roomobjectclass objectd(-5,5,10,0,roomobjectclass::drop);
-    roomobjects.push_back(objectd);
 }
 /**
  * @brief roomclass::~roomclass

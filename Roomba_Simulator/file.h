@@ -210,17 +210,6 @@ public:
 
     void drive(void);
 };
-//class wallclass : public roomobjectclass{
-//private:
-//    string sObjectName;
-//public:
-//    wallclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,wall){roomobjecttype = wall;}
-//    string readobjectname(void);
-//    void writeobjectname(string sInput);
-//};
-//class dropclass : public roomobjectclass{
-//    dropclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer):roomobjectclass(iPosHor,iPosVer,iSizeHor,iSizeVer,drop){roomobjecttype = drop;}
-//};
 
 #endif // FILE
 
