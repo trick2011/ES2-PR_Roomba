@@ -946,18 +946,3 @@ void roombaclass::move(float fHorMov,float fVerMov){
     iPosHor += fPosHor-iPosHor;
     iPosVer += fPosVer-iPosVer;
 }
-
-///**
-// * @brief wallclass::readobjectname
-// * @return
-// */
-//string wallclass::readobjectname(void){
-//    return(sObjectName);
-//}
-///**
-// * @brief wallclass::writeobjectname
-// * @param sInput
-// */
-//void wallclass::writeobjectname(string sInput){
-//   sObjectName = sInput;
-//}
