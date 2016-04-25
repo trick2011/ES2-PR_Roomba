@@ -7,10 +7,10 @@ using namespace std;
 int main(void)
 {
     string UartTemp;
-    string HByte1;
-    string LByte1;
-    string HByte2;
-    string LByte2;
+    char HByte1;
+    char LByte1;
+    char HByte2;
+    char LByte2;
 
     cout << "Hello World!" << endl;
 
