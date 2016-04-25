@@ -24,6 +24,10 @@ class roomclass;
  *   It contains general attributes for relative position.
  */
 class roomobjectclass;
+/** This class implements all the roomba sensors
+ *
+ */
+class sensors;
 /**  This class implementens all the roomba sensors and
  *   contains the functions to trigger the sensors.
  */
@@ -53,17 +57,8 @@ public:
     roomclass();
     ~roomclass();
 };
-class sensorclass{
-private:
-    bool floatcomp(float fIn1,float fIn2);
-    vector<string> vsErrorVector;
-
-    const unsigned int iLightBumpRange = 10;
-    const unsigned int iLightBumpValueMax = 4095;
-
-    const float fFloatRange = 0.10;
-    roomclass& room;
-
+class sensors{
+protected:
     // wheel drop sensors           // not implemented
     bool bWheelDropLeft;            // will not be implemented
     bool bWheelDropRight;           // will not be implemented
@@ -97,6 +92,34 @@ private:
 
     // wall sensor                  // not implemented
     bool bWallBump;
+public:
+    sensors();
+
+    bool getbBumpLeft(void){return(bBumpLeft);}
+    bool getbBumpRight(void){return(bBumpRight);}
+
+    bool getCliffLeft(void){return(bCliffLeft);}
+    bool getCliffFrontLeft(void){return(bCliffFrontLeft);}
+    bool getCliffFrontRight(void){return(bCliffFrontRight);}
+    bool getCliffRight(void){return(bCliffRight);}
+
+    int getLightBumpLeft(void){return(iLightBumpLeft);}
+    int getLightBumpFrontLeft(void){return(iLightBumpFrontLeft);}
+    int getLightBumpCenter(void){return(iLightBumpCenter);}
+    int getLightBumpFrontRight(void){return(iLightBumpFrontRight);}
+    int getLightBumpRight(void){return(iLightBumpRight);}
+};
+
+class sensorclass : public sensors{
+protected:
+    bool floatcomp(float fIn1,float fIn2);
+    vector<string> vsErrorVector;
+
+    const unsigned int iLightBumpRange = 10;
+    const unsigned int iLightBumpValueMax = 4095;
+
+    const float fFloatRange = 0.10;
+    roomclass& room;
 
     bool checkbumpL(int iHorPos,int iVerPos);
     bool checkbumpR(int iHorPos,int iVerPos);
@@ -130,21 +153,6 @@ public:
     }
 
     bool checkbump(float iHorMov,float iVerMov);
-
-    bool getbBumpLeft(void){return(bBumpLeft);}
-    bool getbBumpRight(void){return(bBumpRight);}
-
-    bool getCliffLeft(void){return(bCliffLeft);}
-    bool getCliffFrontLeft(void){return(bCliffFrontLeft);}
-    bool getCliffFrontRight(void){return(bCliffFrontRight);}
-    bool getCliffRight(void){return(bCliffRight);}
-
-    int getLightBumpLeft(void){return(iLightBumpLeft);}
-    int getLightBumpFrontLeft(void){return(iLightBumpFrontLeft);}
-    int getLightBumpCenter(void){return(iLightBumpCenter);}
-    int getLightBumpFrontRight(void){return(iLightBumpFrontRight);}
-    int getLightBumpRight(void){return(iLightBumpRight);}
-
 };
 class timerclass{
 private:

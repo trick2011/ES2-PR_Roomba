@@ -101,7 +101,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         }
 
         if(bReceive)
-            return(true)
+            return(true);
         else
             return(false);
     }

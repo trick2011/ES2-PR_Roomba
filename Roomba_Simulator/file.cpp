@@ -18,19 +18,17 @@ roomclass::~roomclass(){
     delete roomba;
 }
 
+sensors::sensors() : bWheelDropLeft{false},bWheelDropRight{false},bBumpLeft{false},bBumpRight{false},iWallSignal{0},
+    iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
+    iLightBumpFrontLeft{iLightBumpLeft},iLightBumpCenter{false},iLightBumpFrontRight{iLightBumpRight},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
+    bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
 /**
  * @brief sensorclass::sensorclass
  * @param room
  * Default constructor for sensorclass and takes a reference param room in order to access the room
  */
-sensorclass::sensorclass(roomclass& room) : room(room),bWheelDropLeft{false},bWheelDropRight{false},bBumpLeft{false},bBumpRight{false},iWallSignal{0},
-iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
-iLightBumpFrontLeft{iLightBumpLeft},iLightBumpCenter{false},iLightBumpFrontRight{iLightBumpRight},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
-bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
-sensorclass::sensorclass() : room(room),bWheelDropLeft{false},bWheelDropRight{false},bBumpLeft{false},bBumpRight{false},iWallSignal{0},
-iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
-iLightBumpFrontLeft{iLightBumpLeft},iLightBumpCenter{false},iLightBumpFrontRight{iLightBumpRight},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
-bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
+sensorclass::sensorclass(roomclass& room) : sensors(),room{room}{}
+sensorclass::sensorclass() : sensors(),room{room}{}
 sensorclass::~sensorclass(){
     if(vsErrorVector.empty()){
         ofstream ofp;
