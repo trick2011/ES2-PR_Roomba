@@ -43,41 +43,71 @@ int main(void)
             //meer ontvangen
             UartTemp = Uart::receiveUart();
             switch(UartTemp){
-                case 1:
+                case 7:
                     sendBumpAndWheel();
                     break;
-                case 2:
+                case 8:
                     sendWall();
                     break;
-                case 3:
-                    sendCliff();
-                    break;
-                case 4:
-                    sendDistance();
-                    break;
-                case 5:
-                    sendAngle();
-                    break;
-                case 6:
-                    sendWallSignal();
-                    break;
-                case 7:
-                    sendCliffSignal();
-                    break;
-                case 8:
-                    sendLightBumper();
-                    break;
                 case 9:
-                    //send ?
+                    sendCliffLeft();
                     break;
                 case 10:
-                    //send ?
+                    sendCliffFrontLeft();
+                    break;
+                case 11:
+                    sendCliffFrontRight();
+                    break;
+                case 12:
+                    sendCliffRight();
+                    break;
+                   case 19:
+                    sendDistance();
+                    break;
+                case 20:
+                    sendAngle();
+                    break;
+                case 27:
+                    sendWallSignal();
+                    //2 bytes
+                    break;
+                case 28:
+                    sendCliffLeftSignal();
+                    break;
+                case 29:
+                    sendCliffFrontLeftSignal();
+                    break;
+                case 30:
+                    sendCliffFrontSignal();
+                    break;
+                case 31:
+                    sendCliffRightSignal();
+                    break;
+                case 45:
+                    sendLightBumper();
+                    break;
+                case 46:
+                    sendLightBumpLeftSignal();
+                    break;
+                case 47:
+                    sendLightBumpFrontLeftSignal();
+                    break;
+                case 48:
+                    sendLightBumpCenterLeftSignal();
+                    break;
+                case 49:
+                    sendLightBumpCenterRightSignal();
+                    break;
+                case 50:
+                    sendLightBumpFrontRightSignal();
+                    break;
+                case 51:
+                    sendLightBumpRightSignal();
                     break;
                 default:
                     //do nothing
                     break;
             }
-
             break;
         default:
             //do nothing

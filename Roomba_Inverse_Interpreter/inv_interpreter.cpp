@@ -23,13 +23,27 @@ inv_interpreter::sendWall()
 
 }
 
-inv_interpreter::sendCliff()
+inv_interpreter::sendCliffLeft()
 {
-    //send Cliff
-    //cliffLeft
-    //cliffFrontLeft
-    //cliffFrontRight
-    //cliffRight
+    //send cliffLeft
+
+}
+
+inv_interpreter::sendCliffFrontLeft()
+{
+    //send cliffFrontLeft
+
+}
+
+inv_interpreter::sendCliffFrontRight()
+{
+    //send cliffFrontRight
+
+}
+
+inv_interpreter::sendCliffRight()
+{
+    //send cliffRight
 
 }
 
@@ -52,25 +66,66 @@ inv_interpreter::sendWallSignal()
 
 }
 
-inv_interpreter::sendCliffSignal()
+inv_interpreter::sendCliffLeftSignal()
 {
     //send cliffSignal
-    //cliffLeftSignal
-    //cliffFrontLeftSignal
-    //cliffFrontRightSignal
-    //cliffRightSignal
+    //2 bytes
 
 }
 
-inv_interpreter::sendLightBumper()
+inv_interpreter::sendCliffFrontLeftSignal()
+{
+    //send cliffSignal
+    //2 bytes
+
+}
+
+inv_interpreter::sendCliffFrontRightSignal()
+{
+    //send cliffSignal
+    //2 bytes
+
+}
+
+inv_interpreter::sendCliffRightSignal()
+{
+    //send cliffSignal
+    //2 bytes
+
+}
+
+inv_interpreter::sendLightBump()
 {
     //send lightBumper
-    //lightBumper
-    //lightBumpLeftSignal
-    //lightBumpFrontLeftSignal
-    //lightBumpCenterLeftSignal
-    //lightBumpCenterRightSignal
-    //lightBumpFrontRightSignal
-    //lightBumpRightSignal
+
+}
+
+inv_interpreter::sendLightBump()
+{
+    //send lightBumper
+
+}
+
+inv_interpreter::sendLightBump()
+{
+    //send lightBumper
+
+}
+
+inv_interpreter::sendLightBump()
+{
+    //send lightBumper
+
+}
+
+inv_interpreter::sendLightBump()
+{
+    //send lightBumper
+
+}
+
+inv_interpreter::sendLightBump()
+{
+    //send lightBumper
 
 }
