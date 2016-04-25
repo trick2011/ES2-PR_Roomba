@@ -21,7 +21,7 @@ int main(){
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
     room.roomba->setangle(-135/*135+180*/);
     room.roomba->setspeed(1);
-
+#ifndef TIMER_DEBUG
     while(1){
         cout << *room.roomba;
         cout << *room.sensors;
@@ -35,6 +35,17 @@ int main(){
 //        cout << room.sensors->getCliffLeft() << room.sensors->getCliffFrontLeft() << room.sensors->getCliffFrontRight();
 //        cout << room.sensors->getCliffRight() << endl;
     }
+#endif
+#ifdef TIMER_DEBUG
+    for(unsigned int i=0;i<8;++i){
+        cout << *room.roomba;
+        cout << *room.sensors;
+
+        ofp << *room.roomba;
+        ofp << *room.sensors;
+        room.roomba->drive();
+    }
+#endif
     return 0;
 }
 

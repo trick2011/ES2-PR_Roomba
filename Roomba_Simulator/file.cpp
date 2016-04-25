@@ -42,7 +42,7 @@ iLightBumpFrontLeft{iLightBumpLeft},iLightBumpCenter{false},iLightBumpFrontRight
 bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
 sensorclass::sensorclass() : room(room),bWheelDropLeft{false},bWheelDropRight{false},bBumpLeft{false},bBumpRight{false},iWallSignal{0},
 iCliffLeftSignal{false},iCliffFrontLeftSignal{false},iCliffFrontSignal{false},iCliffFrontRightSignal{false},iCliffRightSignal{false},iLightBumpLeft{false},
-iLightBumpFrontLeft{false},iLightBumpCenter{false},iLightBumpFrontRight{false},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
+iLightBumpFrontLeft{iLightBumpLeft},iLightBumpCenter{false},iLightBumpFrontRight{iLightBumpRight},iLightBumpRight{false},bCliffLeft{false},bCliffFrontLeft{false},
 bCliffFrontRight{false},bCliffRight{false},bWallBump{false}{}
 sensorclass::~sensorclass(){
     if(vsErrorVector.empty()){
@@ -841,7 +841,7 @@ unsigned int sensorclass::determineLightBumpValue(const unsigned int iHor,const 
     float tmp2 = static_cast<float>(iLightBumpValueMax)/static_cast<float>(iLightBumpRange);
     float tmp = tmp2*fDistance;
     unsigned int uiReturnValue = 0;
-    if(tmp > iLightBumpValueMax)
+    if(!(tmp < iLightBumpValueMax))
         return(0);
     else
         uiReturnValue = iLightBumpValueMax - tmp;
@@ -905,10 +905,11 @@ roombaclass::roombaclass(sensorclass& sensors):roomobjectclass(0,0,roomobjectcla
     fAngle = 0;
     fSpeed = 0;
     //roomobjecttype = /*roomobjectclass::*/roomba;
-
+#ifndef TIMER_DEBUG
     timerclass timer(*this,0.5);
     thread tTimerThread(timer);
     tTimerThread.detach();
+#endif
 }
 
 roombaclass::~roombaclass(){

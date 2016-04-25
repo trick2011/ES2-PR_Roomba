@@ -1,6 +1,8 @@
 #ifndef FILE_H
 #define FILE_H
 
+//#define TIMER_DEBUG
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -56,7 +58,7 @@ private:
     bool floatcomp(float fIn1,float fIn2);
     vector<string> vsErrorVector;
 
-    const unsigned int iLightBumpRange = 30;
+    const unsigned int iLightBumpRange = 10;
     const unsigned int iLightBumpValueMax = 4095;
 
     const float fFloatRange = 0.10;
