@@ -6,6 +6,7 @@ using namespace std;
 
 int main(void)
 {
+	// het is beter om dit als een klassefunctie te maken{
     string UartTemp;
     char HByte1;
     char LByte1;
@@ -17,7 +18,8 @@ int main(void)
     while(true)
     {
         //receive opcode
-        UartTemp = Uart::receiveUart();
+		//receiveUart(); geeft niks meer terug en moet los aangeroepen worden
+        UartTemp = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
         switch(UartTemp){
         case power:
             //uitzetten?
@@ -31,10 +33,10 @@ int main(void)
 
         case drive:
             //meer ontvangen
-            HByte1 = Uart::receiveUart();
-            LByte1 = Uart::receiveUart();
-            HByte2 = Uart::receiveUart();
-            LByte2 = Uart::receiveUart();
+            HByte1 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
+            LByte1 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
+            HByte2 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
+            LByte2 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
             break;
 
         case sensors:
@@ -114,6 +116,7 @@ int main(void)
             break;
         }
     }
+	//}
 
 
 
