@@ -11,6 +11,17 @@ inv_interpreter::~interpreter()
 }
 
 
+inv_interpreter::drive()
+{
+    UARTClass::receiveUart();
+    HByte1 = UARTClass::getElement();
+    LByte1 = UARTClass::getElement();
+    HByte2 = UARTClass::getElement();
+    LByte2 = UARTClass::getElement();
+
+
+}
+
 inv_interpreter::sendBumpAndWheel()
 {
     //send bumpAndWheel
@@ -23,25 +34,25 @@ inv_interpreter::sendWall()
 
 }
 
-inv_interpreter::sendCliffLeft()
+inv_interpreter::sendCliffL()
 {
     //send cliffLeft
 
 }
 
-inv_interpreter::sendCliffFrontLeft()
+inv_interpreter::sendCliffFL()
 {
     //send cliffFrontLeft
 
 }
 
-inv_interpreter::sendCliffFrontRight()
+inv_interpreter::sendCliffFR()
 {
     //send cliffFrontRight
 
 }
 
-inv_interpreter::sendCliffRight()
+inv_interpreter::sendCliffR()
 {
     //send cliffRight
 
@@ -66,66 +77,72 @@ inv_interpreter::sendWallSignal()
 
 }
 
-inv_interpreter::sendCliffLeftSignal()
+inv_interpreter::sendCliffL_Signal()
 {
-    //send cliffSignal
+    //send cliffLeftSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendCliffFrontLeftSignal()
+inv_interpreter::sendCliffFL_Signal()
 {
-    //send cliffSignal
+    //send cliffFrontLeftSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendCliffFrontRightSignal()
+inv_interpreter::sendCliffFR_Signal()
 {
-    //send cliffSignal
+    //send cliffFrontRightSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendCliffRightSignal()
+inv_interpreter::sendCliffR_Signal()
 {
-    //send cliffSignal
+    //send cliffRightSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendLightBump()
+inv_interpreter::sendLightBumper()
 {
     //send lightBumper
 
 }
 
-inv_interpreter::sendLightBump()
+inv_interpreter::sendLightBumpL_Signal()
 {
-    //send lightBumper
+    //send lightBumper L
 
 }
 
-inv_interpreter::sendLightBump()
+inv_interpreter::sendLightBumpFL_Signal()
 {
-    //send lightBumper
+    //send lightBumper FL
 
 }
 
-inv_interpreter::sendLightBump()
+inv_interpreter::sendLightBumpCL_Signal()
 {
-    //send lightBumper
+    //send lightBumper CL
 
 }
 
-inv_interpreter::sendLightBump()
+inv_interpreter::sendLightBumpCR_Signal()
 {
-    //send lightBumper
+    //send lightBumper CR
 
 }
 
-inv_interpreter::sendLightBump()
+inv_interpreter::sendLightBumpFR_Signal()
 {
-    //send lightBumper
+    //send lightBumper FR
+
+}
+
+inv_interpreter::sendLightBumpR_Signal()
+{
+    //send lightBumper R
 
 }

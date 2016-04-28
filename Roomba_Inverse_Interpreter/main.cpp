@@ -6,20 +6,14 @@ using namespace std;
 
 int main(void)
 {
-	// het is beter om dit als een klassefunctie te maken{
-    string UartTemp;
-    char HByte1;
-    char LByte1;
-    char HByte2;
-    char LByte2;
-
     cout << "Hello World!" << endl;
 
     while(true)
     {
         //receive opcode
 		//receiveUart(); geeft niks meer terug en moet los aangeroepen worden
-        UartTemp = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
+        UARTClass::receiveUart();
+        UartTemp = UARTClass::getElement(); // dit werkt niet meer en moet getElement() worden
         switch(UartTemp){
         case power:
             //uitzetten?
@@ -32,18 +26,19 @@ int main(void)
             break;
 
         case drive:
-            //meer ontvangen
-            HByte1 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
-            LByte1 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
-            HByte2 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
-            LByte2 = Uart::receiveUart(); // dit werkt niet meer en moet getElement() worden
+
+
+
+
+
             break;
 
         case sensors:
             //verzend gevraagde sensor info
             //welke sensor info is gevraagd?
             //meer ontvangen
-            UartTemp = Uart::receiveUart();
+            UARTClass::receiveUart();
+            UartTemp = UARTClass::getElement();
             switch(UartTemp){
                 case 7:
                     sendBumpAndWheel();
@@ -52,16 +47,16 @@ int main(void)
                     sendWall();
                     break;
                 case 9:
-                    sendCliffLeft();
+                    sendCliffL();
                     break;
                 case 10:
-                    sendCliffFrontLeft();
+                    sendCliffFL();
                     break;
                 case 11:
-                    sendCliffFrontRight();
+                    sendCliffFR();
                     break;
                 case 12:
-                    sendCliffRight();
+                    sendCliffR();
                     break;
                    case 19:
                     sendDistance();
@@ -74,37 +69,37 @@ int main(void)
                     //2 bytes
                     break;
                 case 28:
-                    sendCliffLeftSignal();
+                    sendCliffL_Signal();
                     break;
                 case 29:
-                    sendCliffFrontLeftSignal();
+                    sendCliffFL_Signal();
                     break;
                 case 30:
-                    sendCliffFrontSignal();
+                    sendCliffFR_Signal();
                     break;
                 case 31:
-                    sendCliffRightSignal();
+                    sendCliffR_Signal();
                     break;
                 case 45:
                     sendLightBumper();
                     break;
                 case 46:
-                    sendLightBumpLeftSignal();
+                    sendLightBumpL_Signal();
                     break;
                 case 47:
-                    sendLightBumpFrontLeftSignal();
+                    sendLightBumpFL_Signal();
                     break;
                 case 48:
-                    sendLightBumpCenterLeftSignal();
+                    sendLightBumpCL_Signal();
                     break;
                 case 49:
-                    sendLightBumpCenterRightSignal();
+                    sendLightBumpCR_Signal();
                     break;
                 case 50:
-                    sendLightBumpFrontRightSignal();
+                    sendLightBumpFR_Signal();
                     break;
                 case 51:
-                    sendLightBumpRightSignal();
+                    sendLightBumpR_Signal();
                     break;
                 default:
                     //do nothing

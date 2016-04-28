@@ -17,14 +17,27 @@ class inv_interpreter
 public:
     interpreter();
     ~interpreter();
+    drive();
     sendBumpAndWheel();
     sendWall();
+    sendCliff();
+    sendCliff();
+    sendCliff();
     sendCliff();
     sendDistance();
     sendAngle();
     sendWallSignal();
     sendCliffSignal();
+    sendCliffSignal();
+    sendCliffSignal();
+    sendCliffSignal();
     sendLightBumper();
+    sendLightBump();
+    sendLightBump();
+    sendLightBump();
+    sendLightBump();
+    sendLightBump();
+    sendLightBump();
 
 
     typedef enum{SLOW,CRUISE,FAST}speed;
@@ -34,6 +47,11 @@ public:
 private:
     std::array<uint16_t,58> sensorWaarden;
     Uart *uart;
+    char UartTemp;
+    char HByte1;
+    char LByte1;
+    char HByte2;
+    char LByte2;
 
 };
 
