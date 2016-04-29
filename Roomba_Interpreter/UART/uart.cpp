@@ -1,4 +1,4 @@
-#include "../Roomba_Interpreter/UART/uart.h"
+#include "uart.h"
 
 UARTClass::UARTClass(){
     /* code voor opstarten uart
