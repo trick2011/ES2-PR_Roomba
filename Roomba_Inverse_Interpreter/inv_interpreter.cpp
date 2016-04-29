@@ -19,11 +19,36 @@ inv_interpreter::drive()
     HByte2 = UARTClass::getElement();   //Radius high byte
     LByte2 = UARTClass::getElement();   //Radius low  byte
 
+    //speed
     if((HByte1 == 0x00)&&(LByte1 <= 0x7F)){
-        iCurrentSpeed = roomba::speed:SLOW;
+        iCurrentSpeed = roomba::speed::SLOW;
+    }
+    if((HByte1 == 0x08)&&(LByte1 <= 0x00)){
+        iCurrentSpeed = roomba::speed::CRUISE;
+    }
+    if((HByte1 == 0x7F)&&(LByte1 <= 0xFF)){
+        iCurrentSpeed = roomba::speed::FAST;
+    }
+    if((HByte1 == 0x00)&&(LByte1 <= 0x00)){
+        iCurrentSpeed = roomba::speed::STOP;
+    }
+    if((HByte1 == 0xFF)&&(LByte1 <= 0x81)){
+        iCurrentSpeed = roomba::speed::BACKWARDS;
     }
 
-
+    //radius
+    if((HByte2 == 0x00)&&(LByte2 <= 0x81)){
+        iCurrentRadius = roomba::radius::SMALL_LEFT;
+    }
+    if((HByte2 == 0x08)&&(LByte2 <= 0x60)){
+        iCurrentRadius = roomba::radius::BIG_LEFT;
+    }
+    if((HByte2 == 0x80)&&(LByte2 <= 0x7F)){
+        iCurrentRadius = roomba::radius::SMALL_RIGHT;
+    }
+    if((HByte2 == 0xF7)&&(LByte2 <= 0xA0)){
+        iCurrentRadius = roomba::radius::BIG_RIGHT;
+    }
 
 }
 

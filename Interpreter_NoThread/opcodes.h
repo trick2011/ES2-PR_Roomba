@@ -91,7 +91,6 @@ namespace roomba {
     }
 
     namespace speed {
-
         static const int SLOW =                         0;
         static const int CRUISE =                       1;
         static const int FAST =                         2;
@@ -113,6 +112,6 @@ namespace roomba {
         static const int BIG_RIGHT =                    3;
     }
 
-    }
+}
 
 #endif // OPCODES_H

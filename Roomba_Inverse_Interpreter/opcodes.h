@@ -78,6 +78,21 @@ namespace roomba {
     static const uint8_t mainBrushMotorCurrent =        56; // 2 databytes
     static const uint8_t sideBrushMotorCurrent =        57; // 2 databytes
     static const uint8_t statis =                       58; // 1 databyte
+
+    namespace speed {
+        static const int SLOW =                         0;
+        static const int CRUISE =                       1;
+        static const int FAST =                         2;
+        static const int STOP =                         3;
+        static const int BACKWARDS  =                   4;
     }
+
+    namespace radius {
+        static const int SMALL_LEFT =                   0;
+        static const int BIG_LEFT =                     1;
+        static const int SMALL_RIGHT =                  2;
+        static const int BIG_RIGHT =                    3;
+    }
+}
 
 #endif // OPCODES_H

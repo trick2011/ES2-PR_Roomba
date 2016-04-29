@@ -38,7 +38,6 @@ public:
     sendLightBumpCR_Signal();
     sendLightBumpFR_Signal();
     sendLightBumpR_Signal();
-    typedef enum{SLOW,CRUISE,FAST}speed;
 
     uint8_t UartTemp;
     uint8_t HByte1;
@@ -46,6 +45,7 @@ public:
     uint8_t HByte2;
     uint8_t LByte2;
     int iCurrentSpeed;
+    int iCurrentRadius;
 
 private:
     std::array<uint16_t,58> sensorWaarden;
