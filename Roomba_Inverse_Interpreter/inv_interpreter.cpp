@@ -1,11 +1,11 @@
 #include "inv_interpreter.h"
 
-inv_interpreter::interpreter()
+inv_interpreter::inv_interpreter()
 {
     uart = new Uart;
 }
 
-inv_interpreter::~interpreter()
+inv_interpreter::~inv_interpreter()
 {
     delete uart;
 }
@@ -14,10 +14,15 @@ inv_interpreter::~interpreter()
 inv_interpreter::drive()
 {
     UARTClass::receiveUart();
-    HByte1 = UARTClass::getElement();
-    LByte1 = UARTClass::getElement();
-    HByte2 = UARTClass::getElement();
-    LByte2 = UARTClass::getElement();
+    HByte1 = UARTClass::getElement();   //Velocity high byte
+    LByte1 = UARTClass::getElement();   //Velocity low  byte
+    HByte2 = UARTClass::getElement();   //Radius high byte
+    LByte2 = UARTClass::getElement();   //Radius low  byte
+
+    if((HByte1 == 0x00)&&(LByte1 <= 0x7F)){
+        iCurrentSpeed = roomba::speed:SLOW;
+    }
+
 
 
 }

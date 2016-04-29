@@ -15,43 +15,40 @@
 class inv_interpreter
 {
 public:
-    interpreter();
-    ~interpreter();
+    inv_interpreter();
+    ~inv_interpreter();
     drive();
     sendBumpAndWheel();
     sendWall();
-    sendCliff();
-    sendCliff();
-    sendCliff();
-    sendCliff();
+    sendCliffL();
+    sendCliffFL();
+    sendCliffFR();
+    sendCliffR();
     sendDistance();
     sendAngle();
     sendWallSignal();
-    sendCliffSignal();
-    sendCliffSignal();
-    sendCliffSignal();
-    sendCliffSignal();
+    sendCliffL_Signal();
+    sendCliffFL_Signal();
+    sendCliffFR_Signal();
+    sendCliffR_Signal();
     sendLightBumper();
-    sendLightBump();
-    sendLightBump();
-    sendLightBump();
-    sendLightBump();
-    sendLightBump();
-    sendLightBump();
-
-
+    sendLightBumpL_Signal();
+    sendLightBumpFL_Signal();
+    sendLightBumpCL_Signal();
+    sendLightBumpCR_Signal();
+    sendLightBumpFR_Signal();
+    sendLightBumpR_Signal();
     typedef enum{SLOW,CRUISE,FAST}speed;
 
-
+    uint8_t UartTemp;
+    uint8_t HByte1;
+    uint8_t LByte1;
+    uint8_t HByte2;
+    uint8_t LByte2;
+    int iCurrentSpeed;
 
 private:
     std::array<uint16_t,58> sensorWaarden;
-    Uart *uart;
-    char UartTemp;
-    char HByte1;
-    char LByte1;
-    char HByte2;
-    char LByte2;
 
 };
 

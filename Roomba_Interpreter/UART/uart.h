@@ -4,7 +4,7 @@
 //#include <stdio.h> /**< jelmer dit is c++ oftwele we gebruiken <iostream> en niet <stdio.h>
 #include <unistd.h>			//Used for UART
 #include <fcntl.h>			//Used for UART
-#include <termios.h>		        //Used for UART
+#include "../Roomba_Interpreter/UART/termios.h"		        //Used for UART
 //#include <errno.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
 //#include <fcntl.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
 //#include <sys/stat.h>  /**< als includes niet nodig zijn moet je ze niet includen **/

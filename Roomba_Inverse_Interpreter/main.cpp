@@ -3,18 +3,21 @@
 #include "opcodes.h"
 
 using namespace std;
+using namespace roomba;
 
 int main(void)
 {
     cout << "Hello World!" << endl;
 
+    inv_interpreter inv_interpreter_OBJECT;
+    UARTClass UARTClass_OBJECT;
     while(true)
     {
         //receive opcode
 		//receiveUart(); geeft niks meer terug en moet los aangeroepen worden
-        UARTClass::receiveUart();
-        UartTemp = UARTClass::getElement(); // dit werkt niet meer en moet getElement() worden
-        switch(UartTemp){
+        UARTClass_OBJECT.receiveUart();
+        inv_interpreter_OBJECT.UartTemp = UARTClass_OBJECT.getElement(); // dit werkt niet meer en moet getElement() worden
+        switch(inv_interpreter_OBJECT.UartTemp){
         case power:
             //uitzetten?
             break;
@@ -26,80 +29,76 @@ int main(void)
             break;
 
         case drive:
-
-
-
-
-
+            inv_interpreter_OBJECT.drive();
             break;
 
         case sensors:
             //verzend gevraagde sensor info
             //welke sensor info is gevraagd?
             //meer ontvangen
-            UARTClass::receiveUart();
-            UartTemp = UARTClass::getElement();
-            switch(UartTemp){
+            UARTClass_OBJECT.receiveUart();
+            inv_interpreter_OBJECT.UartTemp = UARTClass_OBJECT.getElement();
+            switch(inv_interpreter_OBJECT.UartTemp){
                 case 7:
-                    sendBumpAndWheel();
+                    inv_interpreter_OBJECT.sendBumpAndWheel();
                     break;
                 case 8:
-                    sendWall();
+                    inv_interpreter_OBJECT.sendWall();
                     break;
                 case 9:
-                    sendCliffL();
+                    inv_interpreter_OBJECT.sendCliffL();
                     break;
                 case 10:
-                    sendCliffFL();
+                    inv_interpreter_OBJECT.sendCliffFL();
                     break;
                 case 11:
-                    sendCliffFR();
+                    inv_interpreter_OBJECT.sendCliffFR();
                     break;
                 case 12:
-                    sendCliffR();
+                    inv_interpreter_OBJECT.sendCliffR();
                     break;
                    case 19:
-                    sendDistance();
+                    inv_interpreter_OBJECT.sendDistance();
                     break;
                 case 20:
-                    sendAngle();
+                    inv_interpreter_OBJECT.sendAngle();
                     break;
                 case 27:
-                    sendWallSignal();
+                    inv_interpreter_OBJECT.sendWallSignal();
                     //2 bytes
                     break;
                 case 28:
-                    sendCliffL_Signal();
+                    inv_interpreter_OBJECT.sendCliffL_Signal();
                     break;
                 case 29:
-                    sendCliffFL_Signal();
+                    inv_interpreter_OBJECT.sendCliffFL_Signal();
                     break;
                 case 30:
-                    sendCliffFR_Signal();
+                    inv_interpreter_OBJECT.sendCliffFR_Signal();
                     break;
                 case 31:
-                    sendCliffR_Signal();
+                    inv_interpreter_OBJECT.sendCliffR_Signal();
                     break;
                 case 45:
-                    sendLightBumper();
+                    inv_interpreter_OBJECT.sendLightBumper();
                     break;
                 case 46:
-                    sendLightBumpL_Signal();
+                    inv_interpreter_OBJECT.sendLightBumpL_Signal();
                     break;
                 case 47:
-                    sendLightBumpFL_Signal();
+                    inv_interpreter_OBJECT.sendLightBumpFL_Signal();
                     break;
                 case 48:
-                    sendLightBumpCL_Signal();
+                    inv_interpreter_OBJECT.sendLightBumpCL_Signal();
                     break;
                 case 49:
-                    sendLightBumpCR_Signal();
+                    inv_interpreter_OBJECT.sendLightBumpCR_Signal();
                     break;
                 case 50:
-                    sendLightBumpFR_Signal();
+                    inv_interpreter_OBJECT.sendLightBumpFR_Signal();
                     break;
                 case 51:
-                    sendLightBumpR_Signal();
+                    inv_interpreter_OBJECT.sendLightBumpR_Signal();
                     break;
                 default:
                     //do nothing
