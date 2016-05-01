@@ -2,7 +2,7 @@
 
 inv_interpreter::inv_interpreter()
 {
-    uart = new Uart;
+    uart = new UARTClass;
 }
 
 inv_interpreter::~inv_interpreter()
@@ -11,7 +11,7 @@ inv_interpreter::~inv_interpreter()
 }
 
 
-inv_interpreter::drive()
+void inv_interpreter::drive()
 {
     UARTClass::receiveUart();
     HByte1 = UARTClass::getElement();   //Velocity high byte
@@ -52,126 +52,126 @@ inv_interpreter::drive()
 
 }
 
-inv_interpreter::sendBumpAndWheel()
+void inv_interpreter::sendBumpAndWheel()
 {
     //send bumpAndWheel
 
 }
 
-inv_interpreter::sendWall()
+void inv_interpreter::sendWall()
 {
     //send wall
 
 }
 
-inv_interpreter::sendCliffL()
+void inv_interpreter::sendCliffL()
 {
     //send cliffLeft
 
 }
 
-inv_interpreter::sendCliffFL()
+void inv_interpreter::sendCliffFL()
 {
     //send cliffFrontLeft
 
 }
 
-inv_interpreter::sendCliffFR()
+void inv_interpreter::sendCliffFR()
 {
     //send cliffFrontRight
 
 }
 
-inv_interpreter::sendCliffR()
+void inv_interpreter::sendCliffR()
 {
     //send cliffRight
 
 }
 
-inv_interpreter::sendDistance()
+void inv_interpreter::sendDistance()
 {
     //send distance
 
 }
 
-inv_interpreter::sendAngle()
+void inv_interpreter::sendAngle()
 {
     //send angle
     //reset angle
 
 }
 
-inv_interpreter::sendWallSignal()
+void inv_interpreter::sendWallSignal()
 {
     //send wallSignal
 
 }
 
-inv_interpreter::sendCliffL_Signal()
+void inv_interpreter::sendCliffL_Signal()
 {
     //send cliffLeftSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendCliffFL_Signal()
+void inv_interpreter::sendCliffFL_Signal()
 {
     //send cliffFrontLeftSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendCliffFR_Signal()
+void inv_interpreter::sendCliffFR_Signal()
 {
     //send cliffFrontRightSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendCliffR_Signal()
+void inv_interpreter::sendCliffR_Signal()
 {
     //send cliffRightSignal
     //2 bytes
 
 }
 
-inv_interpreter::sendLightBumper()
+void inv_interpreter::sendLightBumper()
 {
     //send lightBumper
 
 }
 
-inv_interpreter::sendLightBumpL_Signal()
+void inv_interpreter::sendLightBumpL_Signal()
 {
     //send lightBumper L
 
 }
 
-inv_interpreter::sendLightBumpFL_Signal()
+void inv_interpreter::sendLightBumpFL_Signal()
 {
     //send lightBumper FL
 
 }
 
-inv_interpreter::sendLightBumpCL_Signal()
+void inv_interpreter::sendLightBumpCL_Signal()
 {
     //send lightBumper CL
 
 }
 
-inv_interpreter::sendLightBumpCR_Signal()
+void inv_interpreter::sendLightBumpCR_Signal()
 {
     //send lightBumper CR
 
 }
 
-inv_interpreter::sendLightBumpFR_Signal()
+void inv_interpreter::sendLightBumpFR_Signal()
 {
     //send lightBumper FR
 
 }
 
-inv_interpreter::sendLightBumpR_Signal()
+void inv_interpreter::sendLightBumpR_Signal()
 {
     //send lightBumper R
 
