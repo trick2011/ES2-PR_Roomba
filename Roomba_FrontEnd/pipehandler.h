@@ -9,7 +9,10 @@
 #include<sys/types.h>
 #include<sys/stat.h>
 //#include<string.h>
+
+#ifdef __linux
 #include <linux/stat.h>
+#endif
 
 class pipehandler{
 private:

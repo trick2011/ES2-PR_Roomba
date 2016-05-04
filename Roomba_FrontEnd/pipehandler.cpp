@@ -1,6 +1,6 @@
 #include "pipehandler.h"
 
-
+#ifdef __linux
 bool pipehandler::makeFIFO(){
     /* Create the FIFO if it does not exist */
     umask(0777); // dit was 0666
@@ -36,3 +36,4 @@ void pipehandler::writeFIFO(char cTosend){
         fwrite(&cTosend,1, 1, fifo);		//printf("past write\n");
 //    fclose(fifo);				//printf("pipe closed\n");
 }
+ #endif

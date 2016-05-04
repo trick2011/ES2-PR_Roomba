@@ -1,5 +1,6 @@
 #include "uart.h"
 
+#ifdef __linux
 UARTClass::UARTClass(){
     /* code voor opstarten uart
 -------------------------
@@ -142,3 +143,5 @@ string UARTClass::receiveString(void){
     }
     return("\0");
 }
+
+#endif

@@ -7,8 +7,8 @@ using namespace std;
 
 
 int main(void){
-    roombacontroller RoombaController;
-    cleaningprogram CleaningProgram(RoombaController.getSensorsReference());
+	Roombacontroller RoombaController;
+	Spotclean cleaningProgram(RoombaController.getSensorsReference());
 
         
         
