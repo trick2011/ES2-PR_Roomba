@@ -71,6 +71,8 @@ int main(int argc, char *argv[])
             Peter->brushes(i);
 
             break;
+        case 7:
+            Peter->testSensors();
         default:
             break;
 		

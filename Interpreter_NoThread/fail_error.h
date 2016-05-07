@@ -1,6 +1,6 @@
 #ifndef FAIL_ERROR_H
 #define FAIL_ERROR_H
 
-typedef enum{BUMPWHEEL,CLIFF,OVERCURRENT,BATTERY}ERROR;
+class UartReceiveBufferEmpty;
 
 #endif // FAIL_ERROR_H

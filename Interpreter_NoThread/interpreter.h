@@ -7,13 +7,14 @@
 #include <mutex>
 #include <chrono>
 #include <unistd.h>
+#include <iomanip>
 
 #include "opcodes.h"
 #include "../Roomba_Interpreter/UART/uart.h"
 #include "fail_error.h"
 
-#define debug
-#define fulldebug
+//#define debug
+//#define fulldebug
 //std::chrono::milliseconds interval(500);
 
 //unsigned int microseconds = 100;
@@ -33,7 +34,7 @@ public:
 
     void drives(int s); // speedgrades: slow, medium & fast
     void turnAndDrive(int speed, int radius);
-    void turnRoomba(int16_t angle); // angle in degrees
+    void turnRoomba(uint16_t angle); // angle in degrees
 
     void failSave();
 
@@ -48,7 +49,7 @@ public:
     uint8_t getDirtDetect();
     uint8_t getIrReceiver();
     int16_t getDistance();
-    int16_t getAngle();
+    uint16_t getAngle();
     uint8_t getChargingState();
     uint16_t getBatteryVoltage();
     int16_t getBatteryCurrent();
@@ -106,7 +107,7 @@ public:
 
     struct sWheelDrops
     {
-        bool bLeft = false;
+        bool bLeft;
         bool bRight;
     };
     struct sOverCurrent
@@ -143,6 +144,34 @@ public:
         bool bFrontLeft;
         bool bLeft;
     };
+
+    struct sBattery
+    {
+        uint16_t uiVoltage;
+        uint16_t uiCurrent;
+        int8_t   iTemperature;
+        uint16_t uiCharge;
+        uint16_t uiCapacity;
+    };
+
+    struct sCliffDepth
+    {
+        uint16_t uiLeft;
+        uint16_t uiFrontLeft;
+        uint16_t uiFrontRight;
+        uint16_t uiRight;
+    };
+
+    struct sWallDistance
+    {
+        uint16_t bRight;
+        uint16_t bFrontRight;
+        uint16_t bCenterRight;
+        uint16_t bCenterLeft;
+        uint16_t bFrontLeft;
+        uint16_t bLeft;
+    };
+
 public:
     sWheelDrops WheelDrops;
     sOverCurrent OverCurrent;
@@ -150,6 +179,9 @@ public:
     sInfraRed InfraRed;
     sBumps Bumps;
     sWall Wall;
+    sBattery Battery;
+    sCliffDepth CliffDepth;
+    sWallDistance WallDistance;
 
     // end automode functions //
 
@@ -159,6 +191,9 @@ public:
     std::mutex sendTex;
 
     void stopFailSaveThread();
+
+    void testSensors();
+    void printTest();
 
 };
 

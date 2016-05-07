@@ -27,6 +27,8 @@
 #include <string>
 #include <iostream>
 
+#include "../fail_error.h"
+
 using namespace std;
 
 class UARTClass  /**< hier mag eigenlijk ook een betere naam voor gekozen worden want Uart voelt gewoon raar en kan beter benoemt worden **/

@@ -110,8 +110,13 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 }
 
 uint8_t UARTClass::getElement(){
-    unsigned char ucElement = ReceiveQueue.front();
-    ReceiveQueue.pop();
+	if(!ReceiveQueue.empty())
+	{
+		unsigned char ucElement = ReceiveQueue.front();
+    	ReceiveQueue.pop();
+	}
+    else throw UartReceiveBufferEmpty;
+    
     return(ucElement);
 }
 

@@ -34,7 +34,8 @@ void interpreter::startRoomba()
 #endif
 
     uart->sendUart(roomba::Start);
-    uart->sendUart(roomba::fullMode);
+    uart->sendUart(roomba::modes::safeMode);
+    uart->sendUart(roomba::cleanModes::Clean);
 
 #ifdef fulldebug
     std::cout<<"\033[31m end function startRoomba\033[0m"<<std::endl;
@@ -44,7 +45,7 @@ void interpreter::startRoomba()
 
 void interpreter::stopRoomba()
 {
-	uart->sendUart(roomba::Stop);
+    uart->sendUart(roomba::Stop);
 }
 
 void interpreter::brushes(int brush)
@@ -165,22 +166,20 @@ void interpreter::turnAndDrive(int speed, int radius) // define in header file, 
 }
 
 
-void interpreter::turnRoomba(int16_t angle)/*******************************************************************/
+void interpreter::turnRoomba(uint16_t angle)/*******************************************************************/
 {
 #ifdef fulldebug
     std::cout<<"start function turnRoomba"<<std::endl;
 #endif
 
     bool error = false;
-
-    //uart->sendUart(roomba::Stop);   // stop roomba
-    int16_t i = getAngle();          // reset angle
+    uint16_t i = getAngle();          // reset angle
 
 #ifdef fulldebug
     std::cout<<"got (reset) angle: "<<i<<std::endl;
 #endif
 
-    int16_t currentAngle = 0x0000;
+    uint16_t currentAngle = 0x0000;
     uart->sendUart(roomba::drive);
 
     if((angle >= 0x8000)&&(angle <= 0xFFFF)) // counter clockwise
@@ -224,10 +223,10 @@ void interpreter::turnRoomba(int16_t angle)/************************************
 
             while(currentAngle < angle) /*********************/
             {
-                int16_t tempAngle = getAngle();
+                uint16_t tempAngle = getAngle();
                 /*int16_t currentAngle2;
                 currentAngle2 += tempAngle;*/
-                int16_t temp = ~tempAngle;
+                uint16_t temp = ~tempAngle;
                 temp += 0x0001;
                 currentAngle += temp; // testen!!
 
@@ -255,52 +254,51 @@ void interpreter::failSave()
         if(stopFailSave)break;
 
 
-        /* check critical sensors and intervene if neccesary */
-        using namespace roomba;
+        /* check critical individual and intervene if neccesary */
 
-        uart->sendUart(bumpAndWheel);
-        if(uart->receiveUart())
+        uart->sendUart(roomba::sensors::bumpAndWheel);
+        if(uart->getElement())
         {
-            uart->sendUart(Stop);
+            uart->sendUart(roomba::Stop);
         }
 
-        uart->sendUart(cliffLeftSignal);
-        if(uart->receiveUart() > 2048)
+        uart->sendUart(roomba::sensors::cliffLeftSignal);
+        if(uart->getElement() > 2048)
         {
-            uart->sendUart(Stop);
+            uart->sendUart(roomba::Stop);
         }
 
-        uart->sendUart(cliffFrontLeftSignal);
-        if(uart->receiveUart() > 2048)
+        uart->sendUart(roomba::sensors::cliffFrontLeftSignal);
+        if(uart->getElement() > 2048)
         {
-            uart->sendUart(Stop);
+            uart->sendUart(roomba::Stop);
         }
 
-        uart->sendUart(cliffFrontRightSignal);
-        if(uart->receiveUart() > 2048)
+        uart->sendUart(roomba::sensors::cliffFrontRightSignal);
+        if(uart->getElement() > 2048)
         {
-            uart->sendUart(Stop);
+            uart->sendUart(roomba::Stop);
         }
 
-        uart->sendUart(cliffRightSignal);
-        if(uart->receiveUart() > 2048)
+        uart->sendUart(roomba::sensors::cliffRightSignal);
+        if(uart->getElement() > 2048)
         {
-            uart->sendUart(Stop);
+            uart->sendUart(roomba::Stop);
         }
 
-        uart->sendUart(wheelOvercurrents);
-        if(uart->receiveUart())
+        uart->sendUart(roomba::sensors::wheelOvercurrents);
+        if(uart->getElement())
         {
-            uart->sendUart(Stop);
+            uart->sendUart(roomba::Stop);
         }
 
-        uart->sendUart(batteryCapacity);
-        uint16_t cap = uart->receiveUart();
-        uart->sendUart(batteryCharge);
-        uint16_t charg = uart->receiveUart();
+        uart->sendUart(roomba::sensors::batteryCapacity);
+        uint16_t cap = uart->getElement();
+        uart->sendUart(roomba::sensors::batteryCharge);
+        uint16_t charg = uart->getElement();
         if((cap/charg*100) < 10)
         {
-            uart->sendUart(Stop); // stop roomba when battery is under 10%
+            uart->sendUart(roomba::Stop); // stop roomba when battery is under 10%
         }
 
 
@@ -315,9 +313,20 @@ bool interpreter::getBumpAndWheel()
 #ifdef fulldebug
     std::cout<<"start function getBumpAndWheel"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::bumpAndWheel);
-    bool tmp = (uart->receiveUart() ? 1 : 0);
+    bool tmp;
+
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::bumpAndWheel);
+    uart->receiveUart();
+
+    try
+    {
+        tmp = (uart->getElement() ? 1 : 0);
+    }
+    catch(UartReceiveBufferEmpty)
+    {
+
+    }
 
 #ifdef fulldebug
     std::cout<<"end function getBumpAndWheel"<<std::endl;
@@ -330,9 +339,10 @@ uint8_t interpreter::getWall()
 #ifdef fulldebug
     std::cout<<"start function getWall"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::wall);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::wall);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 
 #ifdef fulldebug
     std::cout<<"end function getWall"<<std::endl;
@@ -345,9 +355,10 @@ uint8_t interpreter::getCliffLeft()
 #ifdef fulldebug
     std::cout<<"start function getCliffLeft"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffLeft);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffLeft);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 
 #ifdef fulldebug
     std::cout<<"end function getCliffLeft"<<std::endl;
@@ -360,9 +371,10 @@ uint8_t interpreter::getCliffFrontLeft()
 #ifdef fulldebug
     std::cout<<"start function getCliffFrontLeft"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffFrontLeft);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffFrontLeft);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getCliffFrontLeft"<<std::endl;
 #endif
@@ -374,9 +386,10 @@ uint8_t interpreter::getCliffFrontRight()
 #ifdef fulldebug
     std::cout<<"start function getCliffFrontRight"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffFrontRight);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffFrontRight);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getCliffFrontRight"<<std::endl;
 #endif
@@ -388,9 +401,10 @@ uint8_t interpreter::getCliffRight()
 #ifdef fulldebug
     std::cout<<"start function getCliffRight"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffRight);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffRight);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getCliffRight"<<std::endl;
 #endif
@@ -402,9 +416,10 @@ uint8_t interpreter::getVirtualWall()
 #ifdef fulldebug
     std::cout<<"start function getVirtualWall"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::virtualWall);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::virtualWall);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getVirtualWall"<<std::endl;
 #endif
@@ -416,9 +431,10 @@ bool interpreter::getWheelOvercurrents()
 #ifdef fulldebug
     std::cout<<"start function getWheelOvercurrents"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::wheelOvercurrents);
-    bool tmp = (uart->receiveUart() ? 1 : 0);
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::wheelOvercurrents);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() ? 1 : 0);
 #ifdef fulldebug
     std::cout<<"end function getWheelOvercurrents"<<std::endl;
 #endif
@@ -430,9 +446,10 @@ uint8_t interpreter::getDirtDetect()
 #ifdef fulldebug
     std::cout<<"start function getDirtDetect"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::dirtDetect);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::dirtDetect);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getDirtDetect"<<std::endl;
 #endif
@@ -444,9 +461,10 @@ uint8_t interpreter::getIrReceiver()
 #ifdef fulldebug
     std::cout<<"start function getIrReceiver"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::irReceiver);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::irReceiver);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getIrReceiver"<<std::endl;
 #endif
@@ -458,32 +476,33 @@ int16_t interpreter::getDistance()
 #ifdef fulldebug
     std::cout<<"Start function getDistance"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::distance);
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::distance);
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getDistance"<<std::endl;
 #endif
     return halfWord;
 }
 
-int16_t interpreter::getAngle() /*******************************************************************/
+uint16_t interpreter::getAngle() /*******************************************************************/
 {
 #ifdef fulldebug
     std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
 #endif
 
     uint16_t halfWord = 0x0000;
-    uint8_t highByte = 0x00;
-    uint8_t lowByte = 0x00;
+    uint8_t  highByte = 0x00;
+    uint8_t  lowByte  = 0x00;
 
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::angle);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::angle);
     //usleep(microseconds);
-    highByte = uart->receiveUart();
+    uart->receiveUart();
+    highByte = uart->getElement();
 
 
 #ifdef fulldebug
@@ -491,7 +510,7 @@ int16_t interpreter::getAngle() /***********************************************
 #endif
 
     //usleep(microseconds);
-    lowByte = uart->receiveUart();
+    lowByte = uart->getElement();
 
 #ifdef fulldebug
     std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
@@ -515,9 +534,10 @@ uint8_t interpreter::getChargingState()
 #ifdef fulldebug
     std::cout<<"start function getChargingState"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::chargingState);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::chargingState);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 
 #ifdef fulldebug
     std::cout<<"\033[31m end function getChargingState\033[0m"<<std::endl;
@@ -530,12 +550,12 @@ uint16_t interpreter::getBatteryVoltage()
 #ifdef fulldebug
     std::cout<<"start function getBatteryVoltage"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::batteryVoltage);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::batteryVoltage);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getBatteryVoltage"<<std::endl;
 #endif
@@ -547,12 +567,12 @@ int16_t interpreter::getBatteryCurrent()
 #ifdef fulldebug
     std::cout<<"start function getBatteryCurrent"<<std::endl;
 #endif
-   uart->sendUart(0x8E);
-   uart->sendUart(roomba::batteryCurrent);
-
+   uart->sendUart(roomba::requestType::individual);
+   uart->sendUart(roomba::sensors::batteryCurrent);
+   uart->receiveUart();
    uint16_t halfWord = 0;
-   halfWord = (uart->receiveUart() << 8);
-   halfWord |= uart->receiveUart();
+   halfWord = (uart->getElement() << 8);
+   halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getBatteryCurrent"<<std::endl;
 #endif
@@ -564,9 +584,10 @@ int8_t interpreter::getBatteryTemperature()
 #ifdef fulldebug
     std::cout<<"start function getBatteryTemperature"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::batteryTemperature);
-    int8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::batteryTemperature);
+    uart->receiveUart();
+    int8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getBatteryTemperature"<<std::endl;
 #endif
@@ -578,12 +599,12 @@ uint16_t interpreter::getBatteryCharge()
 #ifdef fulldebug
     std::cout<<"start function getBatteryCharge"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::batteryCharge);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::batteryCharge);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getBatteryCharge"<<std::endl;
 #endif
@@ -595,12 +616,12 @@ uint16_t interpreter::getBatteryCapacity()
 #ifdef fulldebug
     std::cout<<"start function getBatteryCapacity"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::batteryCapacity);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::batteryCapacity);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getBatteryCapacity"<<std::endl;
 #endif
@@ -612,12 +633,12 @@ uint16_t interpreter::getWallSignal()
 #ifdef fulldebug
     std::cout<<"start function getWallSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::wallSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::wallSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getWallSignal"<<std::endl;
 #endif
@@ -629,12 +650,12 @@ uint16_t interpreter::getCliffLeftSignal()
 #ifdef fulldebug
     std::cout<<"start function getCliffLeftSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffLeftSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffLeftSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getCliffLeftSignal"<<std::endl;
 #endif
@@ -646,12 +667,12 @@ uint16_t interpreter::getCliffFrontLeftSignal()
 #ifdef fulldebug
     std::cout<<"start function getCliffFrontLeftSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffFrontLeftSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffFrontLeftSignal);
+    uart->receiveUart();
     uint16_t halfWord;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getCliffFrontLeftSignal"<<std::endl;
 #endif
@@ -663,12 +684,12 @@ uint16_t interpreter::getCliffFrontRightSignal()
 #ifdef fulldebug
     std::cout<<"start function getCliffFrontRightSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffFrontRightSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffFrontRightSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getCliffFrontRightSignal"<<std::endl;
 #endif
@@ -680,12 +701,12 @@ uint16_t interpreter::getCliffRightSignal()
 #ifdef fulldebug
     std::cout<<"start function getCliffRightSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::cliffRightSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::cliffRightSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getCliffRightSignal"<<std::endl;
 #endif
@@ -697,9 +718,10 @@ uint8_t interpreter::getChargingSource()
 #ifdef fulldebug
     std::cout<<"start function getChargingSource"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::chargingSource);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::chargingSource);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getChargingSource"<<std::endl;
 #endif
@@ -711,9 +733,10 @@ uint8_t interpreter::getOiMode()
 #ifdef fulldebug
     std::cout<<"start function getOiMode"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::oiMode);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::oiMode);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getOiMode"<<std::endl;
 #endif
@@ -725,9 +748,10 @@ uint8_t interpreter::getSongNumber()
 #ifdef fulldebug
     std::cout<<"start function getSongNumber"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::songNumber);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::songNumber);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getSongNumber"<<std::endl;
 #endif
@@ -739,9 +763,10 @@ uint8_t interpreter::getSongPlaying()
 #ifdef fulldebug
     std::cout<<"start function getSongPlaying"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::songPlaying);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::songPlaying);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getSongPlaying"<<std::endl;
 #endif
@@ -753,12 +778,12 @@ int16_t interpreter::getRequestedVelocity()
 #ifdef fulldebug
     std::cout<<"start function getRequestedVelocity"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::requestedVelocity);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::requestedVelocity);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getRequestedVelocity"<<std::endl;
 #endif
@@ -770,12 +795,12 @@ int16_t interpreter::getRequestedRadius()
 #ifdef fulldebug
     std::cout<<"start function getRequestedRadius"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::requestedRadius);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::requestedRadius);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getRequestedRadius"<<std::endl;
 #endif
@@ -787,12 +812,12 @@ int16_t interpreter::getRequestedRightVelocity()
 #ifdef fulldebug
     std::cout<<"start function getRequestedRightVelocity"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::requestedRightVelocity);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::requestedRightVelocity);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getRequestedRightVelocity"<<std::endl;
 #endif
@@ -804,12 +829,12 @@ int16_t interpreter::getRequestedLeftVelocity()
 #ifdef fulldebug
     std::cout<<"start function getRequestedLeftVelocity"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::requestedLeftVelocity);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::requestedLeftVelocity);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getRequestedLeftVelocity"<<std::endl;
 #endif
@@ -821,12 +846,12 @@ uint16_t interpreter::getLeftEncoderCount()
 #ifdef fulldebug
     std::cout<<"start function getLeftEncoderCount"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::leftEncoderCount);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::leftEncoderCount);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLeftEncoderCount"<<std::endl;
 #endif
@@ -838,12 +863,12 @@ uint16_t interpreter::getRightEncoderCount()
 #ifdef fulldebug
     std::cout<<"start function getRightEncoderCount"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::rightEncoderCount);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::rightEncoderCount);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getRightEncoderCount"<<std::endl;
 #endif
@@ -855,9 +880,10 @@ bool interpreter::getLightBumper()
 #ifdef fulldebug
     std::cout<<"start function getLightBumper"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::lightBumper);
-    bool tmp = (uart->receiveUart() ? 1 : 0);
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::lightBumper);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() ? 1 : 0);
 #ifdef fulldebug
     std::cout<<"end function getLightBumper"<<std::endl;
 #endif
@@ -869,12 +895,12 @@ uint16_t interpreter::getLightBumpLeftSignal()
 #ifdef fulldebug
     std::cout<<"start function getLightBumpLeftSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::lightBumpLeftSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::lightBumpLeftSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLightBumpLeftSignal"<<std::endl;
 #endif
@@ -886,12 +912,12 @@ uint16_t interpreter::getLightBumpFrontLeftSignal()
 #ifdef fulldebug
     std::cout<<"start function getLightBumpFrontLeftSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::lightBumpFrontLeftSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::lightBumpFrontLeftSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLightBumpFrontLeftSignal"<<std::endl;
 #endif
@@ -903,12 +929,12 @@ uint16_t interpreter::getLightBumpCenterLeftSignal()
 #ifdef fulldebug
     std::cout<<"start function getLightBumpCenterLeftSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::lightBumpCenterLeftSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::lightBumpCenterLeftSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLightBumpCenterLeftSignal"<<std::endl;
 #endif
@@ -920,12 +946,12 @@ uint16_t interpreter::getLightBumpCenterRightSignal()
 #ifdef fulldebug
     std::cout<<"start function getLightBumpCenterRightSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::lightBumpCenterRightSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::lightBumpCenterRightSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLightBumpCenterRightSignal"<<std::endl;
 #endif
@@ -937,12 +963,12 @@ uint16_t interpreter::getLightBumpFrontRightSignal()
 #ifdef fulldebug
     std::cout<<"start function getLightBumpFrontRightSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::lightBumpFrontRightSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::lightBumpFrontRightSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLightBumpFrontRightSignal"<<std::endl;
 #endif
@@ -954,12 +980,12 @@ uint16_t interpreter::getLightBumpRightSignal()
 #ifdef fulldebug
     std::cout<<"start function getLightBumpRightSignal"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::lightBumpRightSignal);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::lightBumpRightSignal);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLightBumpRightSignal"<<std::endl;
 #endif
@@ -971,12 +997,12 @@ int16_t interpreter::getLeftMotorCurrent()
 #ifdef fulldebug
     std::cout<<"start function getLeftMotorCurrent"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::leftMotorCurrent);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::leftMotorCurrent);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getLeftMotorCurrent"<<std::endl;
 #endif
@@ -988,12 +1014,12 @@ int16_t interpreter::getRightMotorCurrent()
 #ifdef fulldebug
     std::cout<<"start function getRightMotorCurrent"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::rightMotorCurrent);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::rightMotorCurrent);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getRightMotorCurrent"<<std::endl;
 #endif
@@ -1005,12 +1031,12 @@ int16_t interpreter::getMainBrushMotorCurrent()
 #ifdef fulldebug
     std::cout<<"start function getMainBrushMotorCurrent"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::mainBrushMotorCurrent);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::mainBrushMotorCurrent);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getMainBrushMotorCurrent"<<std::endl;
 #endif
@@ -1022,12 +1048,12 @@ int16_t interpreter::getSideBrushMotorCurrent()
 #ifdef fulldebug
     std::cout<<"start function getSideBrushMotorCurrent"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::sideBrushMotorCurrent);
-
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::sideBrushMotorCurrent);
+    uart->receiveUart();
     uint16_t halfWord = 0;
-    halfWord = (uart->receiveUart() << 8);
-    halfWord |= uart->receiveUart();
+    halfWord = (uart->getElement() << 8);
+    halfWord |= uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getSideBrushMotorCurrent"<<std::endl;
 #endif
@@ -1039,9 +1065,10 @@ uint8_t interpreter::getStatis()
 #ifdef fulldebug
     std::cout<<"start function getStatis"<<std::endl;
 #endif
-    uart->sendUart(0x8E);
-    uart->sendUart(roomba::statis);
-    uint8_t tmp = uart->receiveUart();
+    uart->sendUart(roomba::requestType::individual);
+    uart->sendUart(roomba::sensors::statis);
+    uart->receiveUart();
+    uint8_t tmp = uart->getElement();
 #ifdef fulldebug
     std::cout<<"end function getStatis"<<std::endl;
 #endif
@@ -1052,72 +1079,72 @@ uint8_t interpreter::getStatis()
 /***********************************************************/
 bool interpreter::getBumpRight()
 {
-
-    uart->sendUart(roomba::bumpAndWheel);
-    bool tmp = (uart->receiveUart() & 0b00000001) == 0b00000001 ? 1 : 0;
+    uart->sendUart(roomba::sensors::bumpAndWheel);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00000001) == 0b00000001 ? 1 : 0;
 
     return tmp;
 }
 
 bool interpreter::getBumpLeft()
 {
-
-    uart->sendUart(roomba::bumpAndWheel);
-    bool tmp = (uart->receiveUart() & 0b00000010) == 0b00000010 ? 1 : 0;
+    uart->sendUart(roomba::sensors::bumpAndWheel);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
 
     return tmp;
 }
 
 bool interpreter::getWheelDropRight()
 {
-
-    uart->sendUart(roomba::bumpAndWheel);
-    bool tmp = (uart->receiveUart() & 0b00000100) == 0b00000100 ? 1 : 0;
+    uart->sendUart(roomba::sensors::bumpAndWheel);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00000100) == 0b00000100 ? 1 : 0;
 
     return tmp;
 }
 
 bool interpreter::getWheelDropLeft()
 {
-
-    uart->sendUart(roomba::bumpAndWheel);
-    bool tmp = (uart->receiveUart() & 0b00001000) == 0b00001000 ? 1 : 0;
+    uart->sendUart(roomba::sensors::bumpAndWheel);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00001000) == 0b00001000 ? 1 : 0;
 
     return tmp;
 }
 
 bool interpreter::getSideBrushOvercurrent()
 {
-
-    uart->sendUart(roomba::wheelOvercurrents);
-    bool tmp = (uart->receiveUart() & 0b00000001) == 0b00000001 ? 1 : 0;
+    uart->sendUart(roomba::sensors::wheelOvercurrents);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00000001) == 0b00000001 ? 1 : 0;
 
     return tmp;
 }
 
 bool interpreter::getMainBrushOvercurrent()
 {
-
-    uart->sendUart(roomba::wheelOvercurrents);
-    bool tmp = (uart->receiveUart() & 0b00000100) == 0b00000100 ? 1 : 0;
+    uart->sendUart(roomba::sensors::wheelOvercurrents);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00000100) == 0b00000100 ? 1 : 0;
 
     return tmp;
 }
 
 bool interpreter::getRightWheelOvercurrent()
 {
-
-    uart->sendUart(roomba::wheelOvercurrents);
-    bool tmp = (uart->receiveUart() & 0b00001000) == 0b00001000 ? 1 : 0;
+    uart->sendUart(roomba::sensors::wheelOvercurrents);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00001000) == 0b00001000 ? 1 : 0;
 
     return tmp;
 }
 
 bool interpreter::getLeftWheelOvercurrent()
-{
-
-    uart->sendUart(roomba::wheelOvercurrents);
-    bool tmp = (uart->receiveUart() & 0b00010000) == 0b00010000 ? 1 : 0;
+{ 
+    uart->sendUart(roomba::sensors::wheelOvercurrents);
+    uart->receiveUart();
+    bool tmp = (uart->getElement() & 0b00010000) == 0b00010000 ? 1 : 0;
 
     return tmp;
 
@@ -1136,39 +1163,45 @@ void interpreter::autoMode()
 
     while(autoRunning)
     {
+        uart->flushQueue();
         // bump and wheel functions
-        uart->sendUart(0x8E);
-        uart->sendUart(roomba::bumpAndWheel);
-        received = uart->receiveUart();
-        this->Bumps.bRight      = received && 0b00000001 == 0b00000001 ? true : false;
-        this->Bumps.bLeft       = received && 0b00000010 == 0b00000010 ? true : false;
-        this->WheelDrops.bRight = received && 0b00000100 == 0b00000100 ? true : false;
-        this->WheelDrops.bLeft  = received && 0b00001000 == 0b00001000 ? true : false;
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::bumpAndWheel);
+        uart->receiveUart();
+        received = uart->getElement();
+        uint8_t temp = received;
+        this->Bumps.bRight      = (received & 0b00000001) == 0b00000001 ? true : false;
+        this->Bumps.bLeft       = (received & 0b00000010) == 0b00000010 ? true : false;
+        this->WheelDrops.bRight = (received & 0b00000100) == 0b00000100 ? true : false;
+        this->WheelDrops.bLeft  = (received & 0b00001000) == 0b00001000 ? true : false;
 
         // overcurrent functions
-        uart->sendUart(0x8E);
-        uart->sendUart(roomba::wheelOvercurrents);
-        received = uart->receiveUart();
-        this->OverCurrent.bSideBrush  = received && 0b00000001 == 0b00000001 ? true : false;
-        this->OverCurrent.bMainBrush  = received && 0b00000100 == 0b00000100 ? true : false;
-        this->OverCurrent.bWheelRight = received && 0b00001000 == 0b00001000 ? true : false;
-        this->OverCurrent.bWheelLeft  = received && 0b00010000 == 0b00010000 ? true : false;
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::wheelOvercurrents);
+        uart->receiveUart();
+        received = uart->getElement();
+        this->OverCurrent.bSideBrush  = (received & 0b00000001) == 0b00000001 ? true : false;
+        this->OverCurrent.bMainBrush  = (received & 0b00000100) == 0b00000100 ? true : false;
+        this->OverCurrent.bWheelRight = (received & 0b00001000) == 0b00001000 ? true : false;
+        this->OverCurrent.bWheelLeft  = (received & 0b00010000) == 0b00010000 ? true : false;
 
         // cliff functions
-        uart->sendUart(0x8E);
-        uart->sendUart(roomba::cliffLeft);
-        this->Cliff.bLeft = uart->receiveUart() ? true : false;
-        uart->sendUart(roomba::cliffRight);
-        this->Cliff.bRight = uart->receiveUart() ? true : false;
-        uart->sendUart(roomba::cliffFrontLeft);
-        this->Cliff.bFrontLeft = uart->receiveUart() ? true : false;
-        uart->sendUart(roomba::cliffFrontRight);
-        this->Cliff.bFrontRight = uart->receiveUart() ? true : false;
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::cliffLeft);
+        uart->receiveUart();
+        this->Cliff.bLeft = uart->getElement() ? true : false;
+        uart->sendUart(roomba::sensors::cliffRight);
+        this->Cliff.bRight = uart->getElement() ? true : false;
+        uart->sendUart(roomba::sensors::cliffFrontLeft);
+        this->Cliff.bFrontLeft = uart->getElement() ? true : false;
+        uart->sendUart(roomba::sensors::cliffFrontRight);
+        this->Cliff.bFrontRight = uart->getElement() ? true : false;
 
         // infrared functions
-        uart->sendUart(0x8E);
-        uart->sendUart(roomba::irReceiver);
-        switch (uart->receiveUart()) {
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::irReceiver);
+        uart->receiveUart();
+        switch (uart->getElement()) {
         case roomba::charger::Red:
             this->InfraRed.bLeft  = true;
             this->InfraRed.bRight = false;
@@ -1206,17 +1239,20 @@ void interpreter::autoMode()
             break;
         }
         // wall signal functions
-        uart->sendUart(0x8E);
-        uart->sendUart(roomba::lightBumper);
-        received = uart->receiveUart();
-        this->Wall.bLeft        = received && 0b00000001 == 0b00000001 ? true : false;
-        this->Wall.bFrontLeft   = received && 0b00000010 == 0b00000010 ? true : false;
-        this->Wall.bCenterLeft  = received && 0b00000100 == 0b00000100 ? true : false;
-        this->Wall.bCenterRight = received && 0b00001000 == 0b00001000 ? true : false;
-        this->Wall.bFrontRight  = received && 0b00010000 == 0b00010000 ? true : false;
-        this->Wall.bRight       = received && 0b00100000 == 0b00100000 ? true : false;
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumper);
+        uart->receiveUart();
+        received = uart->getElement();
+        this->Wall.bLeft        = (received & 0b00000001) == 0b00000001 ? true : false;
+        this->Wall.bFrontLeft   = (received & 0b00000010) == 0b00000010 ? true : false;
+        this->Wall.bCenterLeft  = (received & 0b00000100) == 0b00000100 ? true : false;
+        this->Wall.bCenterRight = (received & 0b00001000) == 0b00001000 ? true : false;
+        this->Wall.bFrontRight  = (received & 0b00010000) == 0b00010000 ? true : false;
+        this->Wall.bRight       = (received & 0b00100000) == 0b00100000 ? true : false;
 
         system("clear");
+        temp = static_cast<int>(temp);
+        std::cout<< std::endl << "Bump value: " <<std::dec<<temp<<std::endl;
         std::cout << "Left Wheel drop:          " << this->WheelDrops.bLeft << std::endl;
         std::cout << "Right Wheel drop:         " << this->WheelDrops.bRight << std::endl;
         std::cout << "Left Wheel overcurrent:   " << this->OverCurrent.bWheelLeft << std::endl;
@@ -1225,6 +1261,13 @@ void interpreter::autoMode()
         std::cout << "Side brush overcurrent:   " << this->OverCurrent.bSideBrush << std::endl;
         std::cout << "Left Bumper:              " << this->Bumps.bLeft << std::endl;
         std::cout << "Right Bumper:             " << this->Bumps.bLeft << std::endl;
+        std::cout << "Wall signal Left:         " << this->Wall.bLeft << std::endl;
+        std::cout << "Wall signal FrontLeft:    " << this->Wall.bFrontLeft << std::endl;
+        std::cout << "Wall signal CenterLeft:   " << this->Wall.bCenterLeft << std::endl;
+        std::cout << "Wall signal CenterRight:  " << this->Wall.bCenterRight << std::endl;
+        std::cout << "Wall signal FrontRight:   " << this->Wall.bFrontRight << std::endl;
+        std::cout << "Wall signal Right:        " << this->Wall.bRight << std::endl;
+
     }
 
 }
@@ -1234,3 +1277,199 @@ void interpreter::stopFailSaveThread()
     stopFailSave = true;
 }
 
+void interpreter::testSensors()
+{
+    uint8_t received;
+
+    while(1)
+    {
+        uart->flushQueue();
+        // bump and wheel functions
+        this->Bumps.bLeft = getBumpLeft();
+        this->Bumps.bRight = getBumpRight();
+        this->WheelDrops.bLeft = getWheelDropLeft();
+        this->WheelDrops.bRight = getWheelDropRight();
+
+        // overcurrent functions
+        this->OverCurrent.bMainBrush = getMainBrushOvercurrent();
+        this->OverCurrent.bSideBrush = getSideBrushOvercurrent();
+        this->OverCurrent.bWheelLeft = getLeftWheelOvercurrent();
+        this->OverCurrent.bWheelRight = getRightWheelOvercurrent();
+
+        // cliff functions
+        this->Cliff.bFrontLeft = getCliffFrontLeft() ? true : false;
+        this->Cliff.bFrontRight = getCliffFrontRight() ? true : false;
+        this->Cliff.bLeft = getCliffLeft() ? true : false;
+        this->Cliff.bRight = getCliffRight() ? true : false;
+
+        this->CliffDepth.uiFrontLeft = getCliffFrontLeftSignal();
+        this->CliffDepth.uiFrontRight = getCliffFrontRightSignal();
+        this->CliffDepth.uiLeft = getCliffLeftSignal();
+        this->CliffDepth.uiRight = getCliffRightSignal();
+
+        // infrared functions
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::irReceiver);
+        uart->receiveUart();
+        switch (uart->getElement()) {
+        case roomba::charger::Red:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = false;
+            this->InfraRed.bClose = false;
+            break;
+        case roomba::charger::Green:
+            this->InfraRed.bLeft  = false;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = false;
+            break;
+        case roomba::charger::RedAndGreen:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = false;
+            break;
+        case roomba::charger::RedAndForceField:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = false;
+            this->InfraRed.bClose = true;
+            break;
+        case roomba::charger::GreenAndForField:
+            this->InfraRed.bLeft  = false;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = true;
+            break;
+        case roomba::charger::RedGreenAndForceField:
+            this->InfraRed.bLeft  = true;
+            this->InfraRed.bRight = true;
+            this->InfraRed.bClose = true;
+            break;
+        default:
+            this->InfraRed.bLeft  = false;
+            this->InfraRed.bRight = false;
+            this->InfraRed.bClose = false;
+            break;
+        }
+
+        // wall signal functions
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumper);
+        uart->receiveUart();
+        received = uart->getElement();
+        this->Wall.bLeft        = (received & 0b00000001) == 0b00000001 ? true : false;
+        this->Wall.bFrontLeft   = (received & 0b00000010) == 0b00000010 ? true : false;
+        this->Wall.bCenterLeft  = (received & 0b00000100) == 0b00000100 ? true : false;
+        this->Wall.bCenterRight = (received & 0b00001000) == 0b00001000 ? true : false;
+        this->Wall.bFrontRight  = (received & 0b00010000) == 0b00010000 ? true : false;
+        this->Wall.bRight       = (received & 0b00100000) == 0b00100000 ? true : false;
+
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumpCenterLeftSignal);
+        uart->receiveUart();
+        this->WallDistance.bCenterLeft = uart->getElement();
+
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumpCenterRightSignal);
+        uart->receiveUart();
+        this->WallDistance.bCenterRight = uart->getElement();
+
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumpFrontLeftSignal);
+        uart->receiveUart();
+        this->WallDistance.bFrontLeft = uart->getElement();
+
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumpFrontRightSignal);
+        uart->receiveUart();
+        this->WallDistance.bFrontRight = uart->getElement();
+
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumpLeftSignal);
+        uart->receiveUart();
+        this->WallDistance.bLeft = uart->getElement();
+
+        uart->sendUart(roomba::requestType::individual);
+        uart->sendUart(roomba::sensors::lightBumpRightSignal);
+        uart->receiveUart();
+        this->WallDistance.bRight = uart->getElement();
+
+        // battery signal functions
+        this->Battery.iTemperature = getBatteryTemperature();
+        this->Battery.uiCapacity = getBatteryCapacity();
+        this->Battery.uiCharge = getBatteryCharge();
+        this->Battery.uiCurrent = getBatteryCurrent();
+        this->Battery.uiVoltage = getBatteryVoltage();
+
+        system("clear");
+        std::cout<<std::endl;
+        std::cout<<"SPEED = " << getRequestedVelocity();
+        std::cout<<std::endl;
+        std::cout<<"Bumpers "<<std::endl;
+        std::cout<<"  - Left  = " <<this->Bumps.bLeft<<std::endl;
+        std::cout<<"  - Right = " <<this->Bumps.bRight<<std::endl;
+        std::cout<<std::endl;
+        std::cout<<"Wheeldrop"<<std::endl;
+        std::cout<<"  - Left  = " <<this->WheelDrops.bLeft<<std::endl;
+        std::cout<<"  - Right = " <<this->WheelDrops.bRight<<std::endl;
+        std::cout<<std::endl;
+        std::cout<<"Cliff"<<std::endl;
+        std::cout<<"  - Left        = "<<this->Cliff.bLeft       << " - " << this->CliffDepth.uiLeft<<std::endl;
+        std::cout<<"  - Front Left  = "<<this->Cliff.bFrontLeft  << " - " << this->CliffDepth.uiFrontLeft<<std::endl;
+        std::cout<<"  - Front Right = "<<this->Cliff.bFrontRight << " - " << this->CliffDepth.uiFrontRight<<std::endl;
+        std::cout<<"  - Right       = "<<this->Cliff.bRight      << " - " << this->CliffDepth.uiRight<<std::endl;
+        std::cout<<std::endl;
+        std::cout<<"LightBump"<<std::endl;
+        std::cout<<"  - Left         = " << this->Wall.bLeft        <<  " - " << this->WallDistance.bLeft <<std::endl;
+        std::cout<<"  - Front Left   = " << this->Wall.bFrontLeft   <<  " - " << this->WallDistance.bFrontLeft <<std::endl;
+        std::cout<<"  - Center Left  = " << this->Wall.bCenterLeft  <<  " - " << this->WallDistance.bCenterLeft <<std::endl;
+        std::cout<<"  - Center Right = " << this->Wall.bCenterRight <<  " - " << this->WallDistance.bCenterRight <<std::endl;
+        std::cout<<"  - Front Right  = " << this->Wall.bFrontRight  <<  " - " << this->WallDistance.bFrontRight <<std::endl;
+        std::cout<<"  - Right        = " << this->Wall.bRight       <<  " - " << this->WallDistance.bRight <<std::endl;
+        std::cout<<std::endl;
+        std::cout<<"Battery"<<std::endl;
+        std::cout<<"  - Temperature = " << this->Battery.iTemperature << std::endl;
+        std::cout<<"  - Capacity    = " << this->Battery.uiCapacity   << std::endl;
+        std::cout<<"  - Charge      = " << this->Battery.uiCharge     << std::endl;
+        std::cout<<"  - Current     = " << this->Battery.uiCurrent    << std::endl;
+        std::cout<<"  - Voltage     = " << this->Battery.uiVoltage    << std::endl;
+
+
+
+    }
+
+}
+
+void interpreter::printTest()
+{
+    usleep(100);
+    system("clear");
+    std::cout<<std::endl;
+    std::cout<<"SPEED = " << getRequestedVelocity();
+    std::cout<<std::endl;
+    std::cout<<"Bumpers "<<std::endl;
+    std::cout<<"  - Left  = " <<this->Bumps.bLeft<<std::endl;
+    std::cout<<"  - Right = " <<this->Bumps.bRight<<std::endl;
+    std::cout<<std::endl;
+    std::cout<<"Wheeldrop"<<std::endl;
+    std::cout<<"  - Left  = " <<this->WheelDrops.bLeft<<std::endl;
+    std::cout<<"  - Right = " <<this->WheelDrops.bRight<<std::endl;
+    std::cout<<std::endl;
+    std::cout<<"Cliff"<<std::endl;
+    std::cout<<"  - Left        = "<<this->Cliff.bLeft       << " - " << this->CliffDepth.uiLeft<<std::endl;
+    std::cout<<"  - Front Left  = "<<this->Cliff.bFrontLeft  << " - " << this->CliffDepth.uiFrontLeft<<std::endl;
+    std::cout<<"  - Front Right = "<<this->Cliff.bFrontRight << " - " << this->CliffDepth.uiFrontRight<<std::endl;
+    std::cout<<"  - Right       = "<<this->Cliff.bRight      << " - " << this->CliffDepth.uiRight<<std::endl;
+    std::cout<<std::endl;
+    std::cout<<"LightBump"<<std::endl;
+    std::cout<<"  - Left         = " << this->Wall.bLeft        <<  " - " << this->WallDistance.bLeft <<std::endl;
+    std::cout<<"  - Front Left   = " << this->Wall.bFrontLeft   <<  " - " << this->WallDistance.bFrontLeft <<std::endl;
+    std::cout<<"  - Center Left  = " << this->Wall.bCenterLeft  <<  " - " << this->WallDistance.bCenterLeft <<std::endl;
+    std::cout<<"  - Center Right = " << this->Wall.bCenterRight <<  " - " << this->WallDistance.bCenterRight <<std::endl;
+    std::cout<<"  - Front Right  = " << this->Wall.bFrontRight  <<  " - " << this->WallDistance.bFrontRight <<std::endl;
+    std::cout<<"  - Right        = " << this->Wall.bRight       <<  " - " << this->WallDistance.bRight <<std::endl;
+    std::cout<<std::endl;
+    std::cout<<"Battery"<<std::endl;
+    std::cout<<"  - Temperature = " << this->Battery.iTemperature << std::endl;
+    std::cout<<"  - Capacity    = " << this->Battery.uiCapacity   << std::endl;
+    std::cout<<"  - Charge      = " << this->Battery.uiCharge     << std::endl;
+    std::cout<<"  - Current     = " << this->Battery.uiCurrent    << std::endl;
+    std::cout<<"  - Voltage     = " << this->Battery.uiVoltage    << std::endl;
+}
