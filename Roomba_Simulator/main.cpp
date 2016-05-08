@@ -11,11 +11,13 @@
  * This is test code and as such won't be commented on
  * any further.
  *******************************************************/
+#define INTERPERTER_TEST
 
 void testinit(roomclass& room);
 
 int main(){
 
+#ifndef INTERPERTER_TEST
     roomclass room;
     testinit(room);
 
@@ -40,6 +42,7 @@ int main(){
         cout << *room.sensors;
         room.roomba->drive();
     }
+#endif
 #endif
     return 0;
 }

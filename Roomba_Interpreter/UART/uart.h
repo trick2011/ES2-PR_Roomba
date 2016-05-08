@@ -9,7 +9,7 @@
 #include <termios.h>		        //Used for UART on linux and builds with the native header
 #endif
 
-#ifdef _WIN32 || _WIN64  // Windows Includes Here
+#ifdef _WIN32 //|| _WIN64  // Windows Includes Here
 #include "../../Roomba_Interpreter/UART/termios.h"		        //Used for UART on windows and builds with a copied version of the native header
 #endif
 
