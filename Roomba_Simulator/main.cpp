@@ -13,7 +13,7 @@
  *******************************************************/
 #define INTERPERTER_TEST
 
-void testinit(roomclass& room);
+void testinit(Roomclass& room);
 
 int main(){
 
@@ -47,13 +47,13 @@ int main(){
     return 0;
 }
 
-void testinit(roomclass& room){
-    roomobjectclass object(-5,-5,0,10,roomobjectclass::drop);
+void testinit(Roomclass& room){
+	Roomobjectclass object(-5,-5,0,10,Roomobjectclass::drop);
     room.roomobjects.push_back(object);
-    roomobjectclass objectb(5,-5,0,10,roomobjectclass::drop);
+	Roomobjectclass objectb(5,-5,0,10,Roomobjectclass::drop);
     room.roomobjects.push_back(objectb);
-    roomobjectclass objectc(-5,-5,10,0,roomobjectclass::drop);
+	Roomobjectclass objectc(-5,-5,10,0,Roomobjectclass::drop);
     room.roomobjects.push_back(objectc);
-    roomobjectclass objectd(-5,5,10,0,roomobjectclass::drop);
+	Roomobjectclass objectd(-5,5,10,0,Roomobjectclass::drop);
     room.roomobjects.push_back(objectd);
 }

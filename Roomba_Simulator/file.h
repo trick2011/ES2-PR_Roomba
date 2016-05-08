@@ -18,46 +18,46 @@ using namespace std;
 /**  This class is the master class in which all other
  *   classes will be created.
  * */
-class roomclass;
+class Roomclass;
 /**  This class is a masterclass for all objects to be
  *   created inside roomclass.
  *   It contains general attributes for relative position.
  */
-class roomobjectclass;
+class Roomobjectclass;
 /** This class implements all the roomba sensors
  *
  */
-class sensors;
+class Sensors;
 /**  This class implementens all the roomba sensors and
  *   contains the functions to trigger the sensors.
  */
-class sensorclass;
+class Sensorclass;
 /**  This class will be responsible for triggering
  *   roomba->drive() at a specified amount
  */
-class timerclass;
+class Timerclass;
 
 /**  This class is a subclass of roomobjectclass and
  *   implements the roomba.
  */
-class roombaclass;
+class Roombaclass;
 /** This class is a sublcass of roomobject class and
  *  implements natural objects which appear inside a room.
  */
-class wallclass;
-class dropclass;
+class Wallclass;
+class Dropclass;
 
 
-class roomclass{
+class Roomclass{
 public:
-    vector<roomobjectclass> roomobjects;
-    roombaclass * roomba;
-    sensorclass * sensors;
+	vector<Roomobjectclass> roomobjects;
+	Roombaclass * roomba;
+	Sensorclass * sensors;
 
-    roomclass();
-    ~roomclass();
+	Roomclass();
+	~Roomclass();
 };
-class sensors{
+class Sensors{
 protected:
     // wheel drop sensors           // not implemented
     bool bWheelDropLeft;            // will not be implemented
@@ -93,7 +93,7 @@ protected:
     // wall sensor                  // not implemented
     bool bWallBump;
 public:
-    sensors();
+	Sensors();
 
     bool getbBumpLeft(void){return(bBumpLeft);}
     bool getbBumpRight(void){return(bBumpRight);}
@@ -110,7 +110,7 @@ public:
     int getLightBumpRight(void){return(iLightBumpRight);}
 };
 
-class sensorclass : public sensors{
+class Sensorclass : public Sensors{
 protected:
     bool floatcomp(float fIn1,float fIn2);
     vector<string> vsErrorVector;
@@ -119,7 +119,7 @@ protected:
     const unsigned int iLightBumpValueMax = 4095;
 
     const float fFloatRange = 0.10;
-    roomclass& room;
+	Roomclass& room;
 
     bool checkbumpL(int iHorPos,int iVerPos);
     bool checkbumpR(int iHorPos,int iVerPos);
@@ -142,11 +142,11 @@ protected:
 
 public:
     unsigned int determineLightBumpValue(const unsigned int iHor,const unsigned int iVer);
-    sensorclass(roomclass& room);
-    sensorclass();/**< this constructor should NEVER be used outside of testing! IT WILL BREAK FUNCTIONS **/
-    ~sensorclass();
+	Sensorclass(Roomclass& room);
+	Sensorclass();/**< this constructor should NEVER be used outside of testing! IT WILL BREAK FUNCTIONS **/
+	~Sensorclass();
 
-    friend ostream& operator<<(ostream& output,sensorclass &sensors){
+	friend ostream& operator<<(ostream& output,Sensorclass &sensors){
         output << "   " << sensors.getbBumpLeft() << sensors.getbBumpRight() << sensors.getCliffLeft() << sensors.getCliffFrontLeft() << sensors.getCliffFrontRight() << sensors.getCliffRight();
         output << " " << sensors.getLightBumpLeft() << " " << sensors.getLightBumpFrontLeft() << " " << sensors.getLightBumpCenter() << " " << sensors.getLightBumpFrontRight() << " " << sensors.getLightBumpRight()  << endl;
         return(output);
@@ -154,16 +154,16 @@ public:
 
     bool checkbump(float iHorMov,float iVerMov);
 };
-class timerclass{
+class Timerclass{
 private:
-    roombaclass& roomba;
+	Roombaclass& roomba;
     chrono::time_point<chrono::system_clock> start,end;
     bool bRunning;
     double dTimerDuration;
     void timer(/*roombaclass& roomba*/);
 public:
     //timerclass(roombaclass &roomba) : timerclass(roomba,0.5){;}
-    timerclass(roombaclass& roomba,double dTimerDuration);
+	Timerclass(Roombaclass& roomba,double dTimerDuration);
 
 
     void operator()(){timer();}
@@ -174,15 +174,15 @@ public:
     double readTimerEnable(void) {return(bRunning);}
 };
 
-class roomobjectclass{
+class Roomobjectclass{
 public:
     enum roomobjecttypes{roomba=1,wall=2,standard=2,drop,stairs};
 protected:
     const float pi = 3.14159265;
     roomobjecttypes roomobjecttype;
 public:
-    roomobjectclass(signed int iPosHor, signed int iPosVer, roomobjecttypes roomobjecttypeIn);
-    roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer, roomobjecttypes roomobjecttypeIn);
+	Roomobjectclass(signed int iPosHor, signed int iPosVer, roomobjecttypes roomobjecttypeIn);
+	Roomobjectclass(signed int iPosHor, signed int iPosVer, unsigned int iSizeHor, unsigned int iSizeVer, roomobjecttypes roomobjecttypeIn);
 
     signed int iPosHor;
     signed int iPosVer;
@@ -196,19 +196,19 @@ public:
     //virtual ~roomobjectclass();
     //virtual void drive(void);
 };
-class roombaclass : public roomobjectclass{
+class Roombaclass : public Roomobjectclass{
 private:
     float fAngle;
     float fSpeed;
-    sensorclass& sensors;
+	Sensorclass& sensors;
 
 public:
-    friend ostream& operator<<(ostream& output,const roombaclass &roomba){
+	friend ostream& operator<<(ostream& output,const Roombaclass &roomba){
              return (output << roomba.iPosHor << "   " << roomba.iPosVer);
     }
 
-    roombaclass(sensorclass& sensors); // <-- die werkte ineens niet
-    ~roombaclass();
+	Roombaclass(Sensorclass& sensors); // <-- die werkte ineens niet
+	~Roombaclass();
 
     void move(float fHorMov,float fVerMov);
     void setangle(float fInputAngle);

@@ -17,7 +17,7 @@ class Inv_interpreter{
 private:
 	UARTClass uart;
 	std::array<uint16_t,58> sensorWaarden;
-	roomclass& room;
+	Roomclass& room;
 
 	uint8_t UartTemp;
 	uint8_t HByte1;
@@ -48,11 +48,13 @@ private:
 	void sendLightBumpCR_Signal();
 	void sendLightBumpFR_Signal();
 	void sendLightBumpR_Signal();
+
+	void receivestart(void);
 public:
-	Inv_interpreter(roomclass& room);
+	Inv_interpreter(Roomclass& room);
 	~Inv_interpreter();
 
-
+	void mainroutine(void);
 };
 
 #endif // inv_INTERPRETER_H

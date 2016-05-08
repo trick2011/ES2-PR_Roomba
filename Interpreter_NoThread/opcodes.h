@@ -3,8 +3,6 @@
 #include <stdint.h>
 
 namespace roomba {
-
-
     static const uint8_t Start =                        128;
     static const uint8_t Reset =                        7;
     static const uint8_t Stop =                         173;
@@ -122,7 +120,6 @@ namespace roomba {
         static const int SMALL_RIGHT =                  2;
         static const int BIG_RIGHT =                    3;
     }
-
 }
 
 #endif // OPCODES_H
