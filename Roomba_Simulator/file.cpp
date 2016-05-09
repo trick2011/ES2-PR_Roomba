@@ -886,7 +886,7 @@ Roomobjectclass::Roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned 
  * @param sensors
  * default constructor for roombaclass
  */
-Roombaclass::Roombaclass(Sensorclass& sensors):Roomobjectclass(0,0,Roomobjectclass::roomba),sensors(sensors){
+Roombaclass::Roombaclass(Sensorclass& sensors):Roomobjectclass(0,0,Roomobjectclass::roomba),sensors(sensors),sensorref(sensors){
     fAngle = 0;
     fSpeed = 0;
     //roomobjecttype = /*roomobjectclass::*/roomba;

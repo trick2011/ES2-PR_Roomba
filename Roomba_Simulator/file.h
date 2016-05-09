@@ -203,6 +203,7 @@ private:
 	Sensorclass& sensors;
 
 public:
+	Sensorclass& sensorref;
 	friend ostream& operator<<(ostream& output,const Roombaclass &roomba){
              return (output << roomba.iPosHor << "   " << roomba.iPosVer);
     }

@@ -51,7 +51,8 @@ void Inv_interpreter::drive(){
 }
 void Inv_interpreter::sendBumpAndWheel(){
     //send bumpAndWheel
-	room.roomba->sensors.
+	//room.roomba->sensorref.getbBumpLeft();
+#warning " HERE "
 
 }
 void Inv_interpreter::sendWall(){
