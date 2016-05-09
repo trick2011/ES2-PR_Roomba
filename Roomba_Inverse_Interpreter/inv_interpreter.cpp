@@ -50,6 +50,14 @@ void inv_interpreter::drive()
         iCurrentRadius = roomba::radius::BIG_RIGHT;
     }
 
+    //for Jelle's angle function, smallest turn possible is needed (counter clockwise)
+    if((HByte2 == 0x00)&&(LByte2 <= 0x01)){
+        //iCurrentRadius = roomba::radius::##TBI##;
+    }
+    //for Jelle's angle function, smallest turn possible is needed (clockwise)
+    if((HByte2 == 0xFF)&&(LByte2 <= 0xFF)){
+        //iCurrentRadius = roomba::radius::##TBI##;
+    }
 }
 
 void inv_interpreter::sendBumpAndWheel()
