@@ -25,7 +25,7 @@ private:
 	uint8_t HByte2;
 	uint8_t LByte2;
 	int iCurrentSpeed;
-	int iCurrentRadius;
+    int16_t iCurrentAngle;
 
 	void drive(void);
 	void sendBumpAndWheel();

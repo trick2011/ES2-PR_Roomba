@@ -3,13 +3,13 @@
 Inv_interpreter::Inv_interpreter(Roomclass& room):room(room){
 
 }
+
 Inv_interpreter::~Inv_interpreter(){
-	//delete uart;
+
 }
 
-
 void Inv_interpreter::drive(){
-	//uart.receiveUart();
+    uart.receiveUart();
 	HByte1 = uart.getElement();   //Velocity high byte
 	LByte1 = uart.getElement();   //Velocity low  byte
 	HByte2 = uart.getElement();   //Radius high byte
@@ -28,26 +28,13 @@ void Inv_interpreter::drive(){
         iCurrentSpeed = roomba::speed::BACKWARDS;
 
     //radius
-	if((HByte2 == 0x00)&&(LByte2 <= 0x81))
-        iCurrentRadius = roomba::radius::SMALL_LEFT;
-	if((HByte2 == 0x08)&&(LByte2 <= 0x60))
-        iCurrentRadius = roomba::radius::BIG_LEFT;
-	if((HByte2 == 0x80)&&(LByte2 <= 0x7F))
-        iCurrentRadius = roomba::radius::SMALL_RIGHT;
-	if((HByte2 == 0xF7)&&(LByte2 <= 0xA0))
-        iCurrentRadius = roomba::radius::BIG_RIGHT;
-
-    //for Jelle's angle function, smallest turn possible is needed (counter clockwise)
-    if((HByte2 == 0x00)&&(LByte2 <= 0x01)){
-        //iCurrentRadius = roomba::radius::##TBD##;
-    }
-    //for Jelle's angle function, smallest turn possible is needed (clockwise)
-    if((HByte2 == 0xFF)&&(LByte2 <= 0xFF)){
-        //iCurrentRadius = roomba::radius::##TBD##;
-    }
+    iCurrentAngle = (LByte2 | (HByte2 << 8));
+    //negatief getal draait met klok mee en positief getal draait tegen de klok in
+    //dus logisch maken en nu is negatief tegen de klok in en positief met de klok mee
+    iCurrentAngle = iCurrentAngle * (-1);
 
 	room.roomba->setspeed(iCurrentSpeed);
-	room.roomba->setangle(iCurrentRadius);
+    room.roomba->setangle(iCurrentAngle);
 }
 void Inv_interpreter::sendBumpAndWheel(){
     //send bumpAndWheel
