@@ -37,6 +37,15 @@ void Inv_interpreter::drive(){
 	if((HByte2 == 0xF7)&&(LByte2 <= 0xA0))
         iCurrentRadius = roomba::radius::BIG_RIGHT;
 
+    //for Jelle's angle function, smallest turn possible is needed (counter clockwise)
+    if((HByte2 == 0x00)&&(LByte2 <= 0x01)){
+        //iCurrentRadius = roomba::radius::##TBD##;
+    }
+    //for Jelle's angle function, smallest turn possible is needed (clockwise)
+    if((HByte2 == 0xFF)&&(LByte2 <= 0xFF)){
+        //iCurrentRadius = roomba::radius::##TBD##;
+    }
+
 	room.roomba->setspeed(iCurrentSpeed);
 	room.roomba->setangle(iCurrentRadius);
 }
