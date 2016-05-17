@@ -18,7 +18,7 @@ void testinit(Roomclass& room);
 int main(){
 
 #ifndef INTERPERTER_TEST
-    roomclass room;
+	Roomclass room;
     testinit(room);
 
     cout << room.roomba->iPosHor << " " << room.roomba->iPosVer << endl;
