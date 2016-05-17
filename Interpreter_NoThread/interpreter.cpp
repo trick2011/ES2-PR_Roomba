@@ -178,7 +178,7 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     uint16_t currentAngle = 0x0000;
     uart->sendUart(roomba::drive);
 
-    if((angle >= 0x8000)&&(angle <= 0xFFFF)) // counter clockwise
+    if((angle >= 0x8000)&&(angle <= 0xFFFE)) // counter clockwise
     {
 
 #ifdef fulldebug
