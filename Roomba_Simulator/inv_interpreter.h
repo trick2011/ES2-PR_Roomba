@@ -26,6 +26,7 @@ private:
 	uint8_t LByte2;
 	int iCurrentSpeed;
     int16_t iCurrentAngle;
+    uint16_t iLightBump = 3072;
 
 	void drive(void);
 	void sendBumpAndWheel();

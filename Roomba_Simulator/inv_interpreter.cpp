@@ -2,9 +2,13 @@
 
 /*
     to do:
-    Lightbumper normal
     wall?
+    Statis?
     angle
+    distance
+    cliffSignal
+
+    IR!!!
 */
 
 Inv_interpreter::Inv_interpreter(Roomclass& room):room(room){
@@ -56,10 +60,6 @@ void Inv_interpreter::sendBumpAndWheel(){
 
     uart.sendUart(temp);
 }
-void Inv_interpreter::sendWall(){
-    //send wall
-    //Not Implemented
-}
 void Inv_interpreter::sendCliffL(){
     //send cliffLeft
     uint8_t temp = 0;
@@ -84,42 +84,32 @@ void Inv_interpreter::sendCliffR(){
     if((room.roomba->sensorref.getCliffRight()) == true){temp = (temp | 0x00000001);}
     uart.sendUart(temp);
 }
-void Inv_interpreter::sendDistance(){
-    //send distance
-    //Not Implemented
-}
 void Inv_interpreter::sendAngle(){
     //send angle
     //reset angle
-//Not Implemented ###
-}
-void Inv_interpreter::sendWallSignal(){
-    //send wallSignal
-    //Not Implemented
-}
-void Inv_interpreter::sendCliffL_Signal(){
-    //send cliffLeftSignal
-    //2 bytes
-    //Not Implemented
-}
-void Inv_interpreter::sendCliffFL_Signal(){
-    //send cliffFrontLeftSignal
-    //2 bytes
-    //Not Implemented
-}
-void Inv_interpreter::sendCliffFR_Signal(){
-    //send cliffFrontRightSignal
-    //2 bytes
-    //Not Implemented
-}
-void Inv_interpreter::sendCliffR_Signal(){
-    //send cliffRightSignal
-    //2 bytes
-    //Not Implemented
+    uart.sendUart(iCurrentAngle << 8);
+    uart.sendUart(iCurrentAngle);
+    iCurrentAngle = 0;
 }
 void Inv_interpreter::sendLightBumper(){
     //send lightBumper
-    //Not Implemented YET!!!
+    uint8_t temp = 0;
+    if((room.roomba->sensorref.getLightBumpLeft()) >= iLightBump){
+    temp = (temp | 0x00000001);
+    }
+    if((room.roomba->sensorref.getLightBumpFrontLeft()) >= iLightBump){
+    temp = (temp | 0x00000010);
+    }
+    if((room.roomba->sensorref.getLightBumpCenter()) >= iLightBump){
+    temp = (temp | 0x00001100);
+    }
+    if((room.roomba->sensorref.getLightBumpFrontRight()) >= iLightBump){
+    temp = (temp | 0x00010000);
+    }
+    if((room.roomba->sensorref.getLightBumpRight()) >= iLightBump){
+    temp = (temp | 0x00100000);
+    }
+    uart.sendUart(temp);
 }
 void Inv_interpreter::sendLightBumpL_Signal(){
     //send lightBumper L
@@ -144,6 +134,14 @@ void Inv_interpreter::sendLightBumpFR_Signal(){
 void Inv_interpreter::sendLightBumpR_Signal(){
     //send lightBumper R
     uart.sendUart(room.roomba->sensorref.getLightBumpRight());
+}
+
+void Inv_interpreter::sendRequestedVelocity()
+{
+    //send requestedVelocity
+    uint16_t temp = iCurrentSpeed;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
 }
 
 void Inv_interpreter::receivestart(void){
@@ -204,8 +202,7 @@ void Inv_interpreter::mainroutine(void){
 					sendAngle();
 					break;
 			case roomba::sensors::wallSignal:
-					sendWallSignal();
-					//2 bytes
+                    sendWallSignal();
 					break;
 			case roomba::sensors::cliffLeftSignal:
 					sendCliffL_Signal();
@@ -240,7 +237,11 @@ void Inv_interpreter::mainroutine(void){
 			case roomba::sensors::lightBumpRightSignal:
 					sendLightBumpR_Signal();
 					break;
-			default:
+//#####################################################################################################################
+            case roomba::sensors::something:
+                    sendLightBumpR_Signal();
+                    break;
+            default:
 					//do nothing
 					break;
 			}
@@ -251,3 +252,234 @@ void Inv_interpreter::mainroutine(void){
 				uart.getElement();
 	}
 }
+
+
+//#####################################################################################################################
+//#####################################################################################################################
+//#####################################################################################################################
+//v Dummy Functions     ^real functions
+
+void Inv_interpreter::sendWall()
+{
+    //send wall
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendVirtualWall()
+{
+    //send virtualWall
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendDirtDetect()
+{
+    //send dirtDetect
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendIrReceiver()
+{
+    //send irReceiver
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendDistance()
+{
+    //2 bytes
+}
+
+void Inv_interpreter::sendChargingState()
+{
+    //send chargingState
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendBatteryVoltage()
+{
+    //send batteryVoltage
+    int16_t temp = 12000;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendBatteryCurrent()
+{
+    //send batteryCurrent
+    int16_t temp = -800;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendBatteryTemperature()
+{
+    //send batteryTemperature
+    uint8_t temp = 30;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendBatteryCharge()
+{
+    //send batteryCharge
+    uint16_t temp = 10000;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendBatteryCapacity()
+{
+    //send batteryCapacity
+    uint16_t temp = 14000;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendWallSignal()
+{
+    //send wallSignal
+    uint16_t temp = 0;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendCliffL_Signal(){
+    //send cliffLeftSignal
+    uint16_t temp = 0;
+    if((room.roomba->sensorref.getCliffLeft()) == true){temp = 2050;}
+    uart.sendUart(temp);
+}
+void Inv_interpreter::sendCliffFL_Signal(){
+    //send cliffFrontLeftSignal
+    uint16_t temp = 0;
+    if((room.roomba->sensorref.getCliffFrontLeft()) == true){temp = 2050;}
+    uart.sendUart(temp);
+}
+void Inv_interpreter::sendCliffFR_Signal(){
+    //send cliffFrontRightSignal
+    uint16_t temp = 0;
+    if((room.roomba->sensorref.getCliffFrontRight()) == true){temp = 2050;}
+    uart.sendUart(temp);
+}
+void Inv_interpreter::sendCliffR_Signal(){
+    //send cliffRightSignal
+    uint16_t temp = 0;
+    if((room.roomba->sensorref.getCliffRight()) == true){temp = 2050;}
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendChargingSource()
+{
+    //send chargingSource
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendOiMode()
+{
+    //send oiMode
+    uint8_t temp = 3;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendSongNumber()
+{
+    //send songNumber
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendSongPlaying()
+{
+    //send songPlaying
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendRequestedRadius()
+{
+    //send requestedRadius
+    int16_t temp = 0;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendRequestedRightVelocity()
+{
+    //send requestedRightVelocity
+    int16_t temp = (iCurrentSpeed / 2);
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendRequestedLeftVelocity()
+{
+    //send requestedLeftVelocity
+    int16_t temp = (iCurrentSpeed / 2);
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendLeftEncoderCount()
+{
+    //send LeftEncoderCount
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendRightEncoderCount()
+{
+    //send RightEncoderCount
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendLeftMotorCurrent()
+{
+    //send LeftMotorCurrent
+    int16_t temp = 500;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendRightMotorCurrent()
+{
+    //send RightMotorCurrent
+    int16_t temp = 500;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendMainBrushMotorCurrent()
+{
+    //send MainBrushMotorCurrent
+    int16_t temp = 300;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendSideBrushMotorCurrent()
+{
+    //send SideBrushMotorCurrent
+    int16_t temp = 100;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendStatis()
+{
+    //send Statis
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
+void Inv_interpreter::sendWheelOvercurrents()
+{
+    //send wheelOvercurrents
+    uint8_t temp = 0;
+    uart.sendUart(temp);
+}
+
