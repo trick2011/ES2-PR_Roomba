@@ -50,6 +50,33 @@ private:
 	void sendLightBumpFR_Signal();
 	void sendLightBumpR_Signal();
 
+    void sendVirtualWall();
+    void sendDirtDetect();
+    void sendIrReceiver();
+    void sendChargingState();
+    void sendBatteryVoltage();
+    void sendBatteryCurrent();
+    void sendBatteryTemperature();
+    void sendBatteryCharge();
+    void sendBatteryCapacity();
+    void sendWallSignal();
+    void sendChargingSource();
+    void sendOiMode();
+    void sendSongNumber();
+    void sendSongPlaying();
+    void sendRequestedRadius();
+    void sendRequestedVelocity();
+    void sendRequestedRightVelocity();
+    void sendRequestedLeftVelocity();
+    void sendLeftEncoderCount();
+    void sendRightEncoderCount();
+    void sendLeftMotorCurrent();
+    void sendRightMotorCurrent();
+    void sendMainBrushMotorCurrent();
+    void sendSideBrushMotorCurrent();
+    void sendStatis();
+    void sendWheelOvercurrents();
+
 	void receivestart(void);
 public:
 	Inv_interpreter(Roomclass& room);

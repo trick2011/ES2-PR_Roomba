@@ -6,9 +6,8 @@
     Statis?
     angle
     distance
-    cliffSignal
 
-    IR!!!
+    IR!!!???
 */
 
 Inv_interpreter::Inv_interpreter(Roomclass& room):room(room){
@@ -238,8 +237,80 @@ void Inv_interpreter::mainroutine(void){
 					sendLightBumpR_Signal();
 					break;
 //#####################################################################################################################
-            case roomba::sensors::something:
-                    sendLightBumpR_Signal();
+            case roomba::sensors::virtualWall:
+                    sendVirtualWall();
+                    break;
+            case roomba::sensors::wheelOvercurrents:
+                    sendWheelOvercurrents();
+                    break;
+            case roomba::sensors::dirtDetect:
+                    sendDirtDetect();
+                    break;
+            case roomba::sensors::irReceiver:
+                    sendIrReceiver();
+                    break;
+            case roomba::sensors::chargingState:
+                    sendChargingState();
+                    break;
+            case roomba::sensors::chargingSource:
+                    sendChargingSource();
+                    break;
+            case roomba::sensors::batteryVoltage:
+                    sendBatteryVoltage();
+                    break;
+            case roomba::sensors::batteryCurrent:
+                    sendBatteryCurrent();
+                    break;
+            case roomba::sensors::batteryTemperature:
+                    sendBatteryTemperature();
+                    break;
+            case roomba::sensors::batteryCharge:
+                    sendBatteryCharge();
+                    break;
+            case roomba::sensors::batteryCapacity:
+                    sendBatteryCapacity();
+                    break;
+            case roomba::sensors::oiMode:
+                    sendOiMode();
+                    break;
+            case roomba::sensors::songNumber:
+                    sendSongNumber();
+                    break;
+            case roomba::sensors::songPlaying:
+                    sendSongPlaying();
+                    break;
+            case roomba::sensors::requestedVelocity:
+                    sendRequestedVelocity();
+                    break;
+            case roomba::sensors::requestedRadius:
+                    sendRequestedRadius();
+                    break;
+            case roomba::sensors::requestedRightVelocity:
+                    sendRequestedRightVelocity();
+                    break;
+            case roomba::sensors::requestedLeftVelocity:
+                    sendRequestedLeftVelocity();
+                    break;
+            case roomba::sensors::leftEncoderCount:
+                    sendLeftEncoderCount();
+                    break;
+            case roomba::sensors::rightEncoderCount:
+                    sendRightEncoderCount();
+                    break;
+            case roomba::sensors::leftMotorCurrent:
+                    sendLeftMotorCurrent();
+                    break;
+            case roomba::sensors::rightMotorCurrent:
+                    sendRightMotorCurrent();
+                    break;
+            case roomba::sensors::mainBrushMotorCurrent:
+                    sendMainBrushMotorCurrent();
+                    break;
+            case roomba::sensors::sideBrushMotorCurrent:
+                    sendSideBrushMotorCurrent();
+                    break;
+            case roomba::sensors::statis:
+                    sendStatis();
                     break;
             default:
 					//do nothing
@@ -289,7 +360,10 @@ void Inv_interpreter::sendIrReceiver()
 
 void Inv_interpreter::sendDistance()
 {
-    //2 bytes
+    //send distance
+    int16_t temp = 0;
+    uart.sendUart(temp << 8);
+    uart.sendUart(temp);
 }
 
 void Inv_interpreter::sendChargingState()
