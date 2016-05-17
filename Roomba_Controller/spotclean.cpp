@@ -1,4 +1,5 @@
 #include "spotclean.h"
+#include "autoclean.h"
 
 Spotclean::Spotclean()
 {

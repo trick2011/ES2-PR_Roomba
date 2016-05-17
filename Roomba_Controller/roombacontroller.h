@@ -5,18 +5,14 @@
 #include "basicclean.h"
 #include "spotclean.h"
 
-class Roombacontroller;
 //class Cleaningprogram;
 //class Wallclean;
 
 class Roombacontroller{
 private:
-//        sensors Sensors;
-
-/**< hier moet een reference naar de interpreter komen **/
-	interpreter& interpreterreference;
+    interpreter& interpreterreference; //reference naar interpreter
 public:
-		Basicclean * CleaningProgram;
+        Basicclean * CleaningProgram;
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
 		~Roombacontroller(){;}
 

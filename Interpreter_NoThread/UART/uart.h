@@ -4,15 +4,15 @@
 //#include <stdio.h> /**< jelmer dit is c++ oftwele we gebruiken <iostream> en niet <stdio.h>
 #include <unistd.h>			//Used for UART
 #include <fcntl.h>			//Used for UART
-#include <termios.h>
-/*
+//#include <termios.h>
+
 #ifdef __linux__  // Linux Includes Here
 #include <termios.h>		        //Used for UART on linux and builds with the native header
 #endif
 
-#ifdef _WIN32 || _WIN64  // Windows Includes Here
+#ifdef _WIN32 // Windows Includes Here
 #include "../../Roomba_Interpreter/UART/termios.h"		        //Used for UART on windows and builds with a copied version of the native header
-#endif*/
+#endif
 
 //#include <errno.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
 //#include <sys/stat.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
