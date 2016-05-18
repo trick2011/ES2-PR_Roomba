@@ -13,5 +13,9 @@ public:
 	int function_type_checker(char cCommand);
 	int function_activator_static(char cCommand);
 	int function_activator_volitail(char cCommand);
+	check_class();
+	roombacontroller& roomref;
+	interpreter& inter;
+	
 };
 #endif

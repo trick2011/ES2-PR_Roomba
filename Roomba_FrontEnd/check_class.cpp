@@ -10,6 +10,8 @@
 #include "macros.h"
 #include "com_class.h"
 #include "check_class.h"
+#include "roombacontroller.h"
+#include "interpreter.h"
 
 using namespace std;
 
@@ -28,6 +30,9 @@ return 0;
 }
 
 
+//constructor
+	check_class::check_clas(roombacontroller& roomref,interpreter& inter):inter{inter},roomref{roomref};
+
 //pipe checker
 	void check_class::pipe_checker(){
 	char cRcommand;
@@ -35,7 +40,7 @@ return 0;
 	cRcommand = pipe_object.readFIFO();
 	pipe_object.function_type_checker(cRcommand);
 	
-	if(cRcommand == 'k'){cout<<"pipe empty"<<endl;}
+	if(cRcommand == 'o'){cout<<"pipe empty"<<endl;}
 	else{pipe_object.function_type_checker(cRcommand);}
 
 	}
@@ -45,7 +50,7 @@ return 0;
 	check_class functiondevider_object;	
 	
 	//static function
-	if(cCommand >= 'e' && cCommand <= 'g')
+	if(cCommand >= 'e' && cCommand <= 'k')
 		{functiondevider_object.function_activator_static(cCommand);}
 
 	//volitail function
@@ -68,52 +73,37 @@ return 0;
 	int check_class::function_activator_static(char cCommand){
 	switch(cCommand){
 		case 'e':	//AutoClean
-			if(Auto_clean_Flag == false)
-			{
-				Auto_clean_Flag = true; 
-				cout<<"AutoClean ON"<<endl;
-			}
-			else if(Auto_clean_Flag == true)
-			{
-				Auto_clean_Flag = false; 
-				cout<<"AutoClean OFF"<<endl;
-			}
-			else
-			{
-				cout<<"could not set the Auto clean flag"<<endl;
-			}
+			Autoclean* autoclean_object = new Autoclean();
+    			roomref.stelcleaningin(autoclean_object); 
+			cout<<"AutoClean ON"<<endl;
 			break;
-		case 'f':	//ManClean
-			if(Man_clean_Flag == false)
-			{
-				Man_clean_Flag = true; 
-				cout<<"ManClean ON"<<endl;
-			}
-			else if(Man_clean_Flag == true)
-			{
-				Man_clean_Flag = false; 
-				cout<<"ManClean OFF"<<endl;
-			}
-			else
-			{
-				cout<<"could not set the Man clean flag"<<endl;
-			}
+		case 'f':	//CellClean
+			Cellclean* cellclean_object = new Cellclean();
+    			roomref.stelcleaningin(cellclean_object); 
+			cout<<"CellClean ON"<<endl;
 			break;
-		case 'g':	//Dock
-			if(Dock_roomba_Flag == false)
-			{
-				Dock_roomba_Flag = true; 
-				cout<<"Docking ON"<<endl;
-			}
-			else if(Dock_roomba_Flag == true)
-			{
-				Dock_roomba_Flag = false; 
-				cout<<"Docking OFF"<<endl;
-			}
-			else
-			{
-				cout<<"could not set the dock roomba flag"<<endl;
-			}
+		case 'g':	//Walltrace
+			Walltrace* walltrace_object = new Walltrace();
+    			roomref.stelcleaningin(walltrace_object);
+			cout<<"Walltrace ON"<<endl;
+			break;
+		case 'h':	//Spotclean
+			Spotclean* spotcleanobj = new Spotclean();
+    			roomref.stelcleaningin(spotcleanobj);
+			cout<<"Spotclean ON"<<endl;
+			break;
+		case 'i':	//manclean
+			Manclean* manclean_object = new Manclean();
+    			roomref.stelcleaningin(manclean_object);
+			cout<<"ManClean ON"<<endl;
+			break;
+		case 'j':	//Stop Clean
+			roomref.stop();
+			cout<<"Stopped all Clean programs"<<endl;
+			break;
+		case 'k':	//Dock
+			roomref.dock();
+			cout<<"Dock Roomba"<<endl;
 			break;
 		default :
 			return -1;
@@ -125,85 +115,29 @@ return 0;
 	switch(cCommand){
 		case 'a':
 			//execute function here
+			//inter.rijd(1); //ga rechtdoor
 			cout<<"case 1"<<endl;
 			break;
 		case 'b':
 			//execute function here
+			//inter.rijd(1); //ga achteruit
 			cout<<"case 2"<<endl;
 			break;
 		case 'c':
 			//execute function here
+			//inter.rijd(1); //ga rechts
 			cout<<"case 3"<<endl;
 			break;
 		case 'd':
 			//execute function here
+			//inter.rijd(1); //ga links
 			cout<<"case 4"<<endl;
 			break;
-		case 'e':
-			//execute function here
-			cout<<"case 5"<<endl;
-			break;
-		case 'i':
-			//execute function here
-			cout<<"case 6"<<endl;
-			break;
-		case 'j':
-			//execute function here
-			cout<<"case 7"<<endl;
-			break;
-		case 'k':
-			//execute function here
-			cout<<"case 8"<<endl;
-			break;
+
 		default :
 			return -1;
 			break;}
 	}
 
-/*
-//write fifo
-        void Communicate::writeFIFO(char cTosend){
-                FILE *fifo;
-                unsigned char message[1];
 
-		if (cTosend = 'w'|'v'|'x'|'y'|'z'){
-	                message[0] = cTosend;		
-	                fifo = fopen(W_FIFO_FILE.c_str(), "w");		//printf("past open\n");
-	                fwrite(&message,1, 1, fifo);		//printf("past write\n");
-	                fclose(fifo);}				//printf("pipe closed\n");
-		//error
-		else {printf("Something weird has happend");}      
-        }
-//read fifo
-        char Communicate::readFIFO(){
-                unsigned char readbuf[1];
-                char cBuff;
-                FILE *fifo;
-
-                fifo = fopen(R_FIFO_FILE.c_str(), "r");		//printf("past fopen\n");
-                fread(&readbuf, 1, 1, fifo);      
-                fclose(fifo);				//printf("read pipe closed\n");
-		
-		if(readbuf[0] == NULL){cBuff = 'k'; return cBuff;}
-		else{cBuff = readbuf[0]; return cBuff;}
-                
-
-                
-        }
-//make read and write fifo
-        void Communicate::makeFIFO()        {
-                int r_status;
-                int w_status;
-
-                // Create the reading side FIFO if it does not exist 
-                umask(0666);
-                r_status = mknod(R_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
-                if (r_status == -1 ) {cout<<"Cannot create fifo"<<endl;} else{cout<<"FIFO made"<< endl;}
-
-		// Create the writing side FIFO if it does not exist 
-                umask(0666);
-                w_status = mknod(W_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
-                if (w_status == -1 ) {cout<<"Cannot create fifo"<<endl;} else{cout<<"FIFO made"<<endl;}
-        }
-*/
 

@@ -47,7 +47,7 @@ using namespace std;
 	//error: pipe empty
 		if(readbuf[0] == NULL)
 		{
-			cBuff = 'k';  
+			cBuff = 'o';  
 			return cBuff;
 		}
 	//if pipe != empty, passtrough data
