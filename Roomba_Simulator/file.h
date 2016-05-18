@@ -92,6 +92,9 @@ protected:
 
     // wall sensor                  // not implemented
     bool bWallBump;
+
+	// distance
+	int distance_travelled;
 public:
 	Sensors();
 
@@ -108,6 +111,9 @@ public:
     int getLightBumpCenter(void){return(iLightBumpCenter);}
     int getLightBumpFrontRight(void){return(iLightBumpFrontRight);}
     int getLightBumpRight(void){return(iLightBumpRight);}
+
+	void setdistance_travelled(int in){distance_travelled += in;}
+	int getdistance_travelled(void);
 };
 
 class Sensorclass : public Sensors{

@@ -836,6 +836,11 @@ unsigned int Sensorclass::determineLightBumpValue(const unsigned int iHor,const 
     //unsigned int uiReturnValue = iLightBumpValueMax - (static_cast<float>(iLightBumpValueMax)/static_cast<float>(iLightBumpRange));
     return(uiReturnValue);
 }
+int Sensors::getdistance_travelled(void){
+	int tmp_value = distance_travelled;
+	distance_travelled = 0;
+	return(tmp_value);
+}
 
 
 Timerclass::Timerclass(Roombaclass& roomba,double dTimerDurationb = 0.5):roomba(roomba),dTimerDuration{dTimerDurationb}{
@@ -945,4 +950,17 @@ void Roombaclass::move(float fHorMov,float fVerMov){
 
     iPosHor += fPosHor-iPosHor;
     iPosVer += fPosVer-iPosVer;
+
+	static LeftOVer = 0;
+	float fDistance = 0;
+	fDistance = pow(fHorMov,2) + pow(fVerMov,2);
+	fDistance = sqrt(fDistance);
+
+	int iDistance = fDistance;
+	LeftOver += fDistance - iDistance;
+	if(static_cast<int>(LeftOver) != 0)
+		fDistance += (LeftOver-static_cast<int>(LeftOver));
+
+	sensors.setdistance_travelled(fDistance);
+	//sensors.distance_travelled
 }

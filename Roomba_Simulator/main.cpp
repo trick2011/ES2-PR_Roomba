@@ -11,7 +11,7 @@
  * This is test code and as such won't be commented on
  * any further.
  *******************************************************/
-#define INTERPERTER_TEST
+//#define INTERPERTER_TEST
 
 void testinit(Roomclass& room);
 

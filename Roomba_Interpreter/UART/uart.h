@@ -27,7 +27,7 @@
 #include <string>
 #include <iostream>
 
-#include "../fail_error.h"
+#include "../../Interpreter_NoThread/fail_error.h"
 
 using namespace std;
 
