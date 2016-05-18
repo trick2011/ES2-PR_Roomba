@@ -6,11 +6,14 @@
 class Basicclean
 {
 private:
+    bool bEnableCleaning = false;
+    bool Run = false;
 protected:
 	int ID;
 	interpreter& interpreterreference;
 public:
 	Basicclean(interpreter& interpreterreference):interpreterreference{interpreterreference}{}
+    virtual ~Basicclean() =0;
 
 	virtual void clean(void) = 0;
 };

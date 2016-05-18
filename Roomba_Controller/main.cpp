@@ -11,11 +11,10 @@ using namespace std;
 int main(void){
 	interpreter inter;
 	Roombacontroller RoombaController(inter);
-    Basicclean* basic = new Autoclean(inter);
+//    Basicclean* basic = new Autoclean();
+    Basicclean* basic;
+    Autoclean* autoo;
+    autoo = new Autoclean;
     RoombaController.CleaningProgram = basic;
-	RoombaController.CleaningProgram->clean();
-        
-        
-        
-        
+	RoombaController.CleaningProgram->clean();       
 }
