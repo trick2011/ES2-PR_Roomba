@@ -1,0 +1,10 @@
+to use in code, delete the main in check_class.
+
+it can be tested, do the following;
+-compiling check_class.cpp, com_class.cpp, macros.h, check_class.h & com_class.h.
+-open a new terminal and compile pipe_writer.c
+-then run the output file of pipe_writer.c
+-go back to your first compiler window and run the output file.
+
+the output on the terminal will be the case number defined in the writer.
+ 
