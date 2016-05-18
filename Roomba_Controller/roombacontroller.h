@@ -13,8 +13,12 @@ private:
     interpreter& interpreterreference; //reference naar interpreter
 public:
         Basicclean * CleaningProgram;
+        EnableCleaning(Basicclean*);
+        Enablesetter();
+        Disablesetter();
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
 		~Roombacontroller(){;}
+
 
 //        timerclass timer(*this,0.5); // this is just some code for threading and the pipe
 //        thread tTimerThread(timer);
