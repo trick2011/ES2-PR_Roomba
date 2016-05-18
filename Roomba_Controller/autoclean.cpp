@@ -4,19 +4,24 @@
 
 void Basicclean::clean(void)
 {
-    while(Run){
-            //roomba turn left
-            Run |= interpreterreference.getbBumpLeft();
-            Run |= interpreterreference.getbBumpRight();
-            Run |= interpreterreference.getCliffLeft();
-            Run |= interpreterreference.getCliffFrontLeft();
-            Run |= interpreterreference.getCliffFrontRight();
-            Run |= interpreterreference.getCliffRight();
-            interpreterreference.Bumps.bLeft
-        }
-        // stop
+    do
+    {
+      interpreterreference.drives(CRUISE);
+
+      Run |= interpreterreference.Bumps.bLeft;
+      Run |= interpreterreference.Bumps.bRight;
+      Run |= interpreterreference.Cliff.bFrontLeft;
+      Run |= interpreterreference.Cliff.bFrontRight;
+      Run |= interpreterreference.Cliff.bLeft;
+      Run |= interpreterreference.Cliff.bRight;
     }
-    interpreterreference.drives(5);
+    while(Run = 0);
+
+    interpreterreference.turnRoomba(90);
+    interpreterreference.drives(SLOW);
+    interpreterreference.turnRoomba(90);
+
+
 }
 
 
