@@ -59,7 +59,6 @@ private:
     void sendBatteryTemperature();
     void sendBatteryCharge();
     void sendBatteryCapacity();
-    void sendWallSignal();
     void sendChargingSource();
     void sendOiMode();
     void sendSongNumber();
