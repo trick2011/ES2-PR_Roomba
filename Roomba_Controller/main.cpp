@@ -13,8 +13,8 @@ int main(void){
 	Roombacontroller RoombaController(inter);
 //    Basicclean* basic = new Autoclean();
     Basicclean* basic;
-    Autoclean* autoo;
-    autoo = new Autoclean;
+    Spotclean* autoo;
+    //autoo = new Autoclean;
     RoombaController.CleaningProgram = basic;
 	RoombaController.CleaningProgram->clean();       
 }

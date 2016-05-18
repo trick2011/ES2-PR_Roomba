@@ -1,7 +1,8 @@
 #include "spotclean.h"
 #include "autoclean.h"
 
-Spotclean::Spotclean()
+Spotclean::Spotclean(interpreter& interpreterreference)
+    : Basicclean(interpreterreference)
 {
 
 }

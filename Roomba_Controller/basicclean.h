@@ -12,8 +12,8 @@ protected:
 	int ID;
 	interpreter& interpreterreference;
 public:
-	Basicclean(interpreter& interpreterreference):interpreterreference{interpreterreference}{}
-    virtual ~Basicclean() =0;
+    Basicclean(interpreter& iref);
+    virtual ~Basicclean();
 
 	virtual void clean(void) = 0;
 };
