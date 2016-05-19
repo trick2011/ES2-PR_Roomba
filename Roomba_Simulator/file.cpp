@@ -951,7 +951,7 @@ void Roombaclass::move(float fHorMov,float fVerMov){
     iPosHor += fPosHor-iPosHor;
     iPosVer += fPosVer-iPosVer;
 
-	static LeftOVer = 0;
+	static int LeftOver = 0;
 	float fDistance = 0;
 	fDistance = pow(fHorMov,2) + pow(fVerMov,2);
 	fDistance = sqrt(fDistance);
