@@ -46,26 +46,33 @@ int check_class::function_type_checker(char cCommand){
 }
 //static function selector
 int check_class::function_activator_static(char cCommand){
+	if(Cleaningprogram != NULL)
+		Cleaningprogram = NULL;
+
 	switch(cCommand){
 	case 'e':	//AutoClean
 //		Autotmp* a;
-//		Autoclean* autoclean_object = new Autoclean();
-			//roomref.stelcleaningin(autoclean_object);
+		Cleaningprogram = new AutoClean(inter);
+		roomref.LoadCleaningProgram(Cleaningprogram);
+		Cleaningprogram = NULL;
 		cout<<"AutoClean ON"<<endl;
 		break;
 	case 'f':	//CellClean
-//		Cell* cellclean_object = new Cell();
-			//roomref.stelcleaningin(cellclean_object);
+		Cleaningprogram = new Cell(inter);
+		roomref.LoadCleaningProgram(Cleaningprogram);
+		Cleaningprogram = NULL;
 		cout<<"CellClean ON"<<endl;
 		break;
 	case 'g':	//Walltrace
-//		Walltrace* walltrace_object = new Walltrace();
-			//roomref.stelcleaningin(walltrace_object);
+		Cleaningprogram = new Walltrace(inter);
+		roomref.LoadCleaningProgram(Cleaningprogram);
+		Cleaningprogram = NULL;
 		cout<<"Walltrace ON"<<endl;
 		break;
 	case 'h':	//Spotclean
-//		Spotclean* spotcleanobj = new Spotclean;
-			//roomref.stelcleaningin(spotcleanobj);
+		Cleaningprogram = new Spotclean(inter);
+		roomref.LoadCleaningProgram(Cleaningprogram);
+		Cleaningprogram = NULL;
 		cout<<"Spotclean ON"<<endl;
 		break;
 	case 'i':	//manclean
@@ -94,11 +101,13 @@ int check_class::function_activator_volitail(char cCommand){
 	case 'a':
 		//execute function here
 		//inter.rijd(1); //ga rechtdoor
+		inter.drives(roomba::speed::CRUISE);
 		cout<<"case 1"<<endl;
 		break;
 	case 'b':
 		//execute function here
 		//inter.rijd(1); //ga achteruit
+		inter.drives(roomba::speed::BACKWARDS);
 		cout<<"case 2"<<endl;
 		break;
 	case 'c':

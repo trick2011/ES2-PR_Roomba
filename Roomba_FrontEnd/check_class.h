@@ -25,6 +25,7 @@ private:
 	bool Man_clean_Flag;
 	bool Dock_roomba_Flag;
 	
+	Basicclean* Cleaningprogram;
 	interpreter& inter;
 	Roombacontroller& roomref;
 public:
