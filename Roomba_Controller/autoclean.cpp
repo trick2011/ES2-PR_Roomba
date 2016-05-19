@@ -1,8 +1,14 @@
 #include "autoclean.h"
-#include <iostream>
-#include "basicclean.h"
+//#include <iostream>
+//#include "basicclean.h"
 
-void Basicclean::clean(void)
+///class AutoClean;
+
+AutoClean::~AutoClean(){
+
+}
+
+void AutoClean::clean(void)
 {
     while(bEnableCleaning == true)
     {

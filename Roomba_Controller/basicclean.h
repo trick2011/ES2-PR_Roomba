@@ -6,16 +6,16 @@
 class Basicclean
 {
 private:
-    bool Run = false;
-    bool bEnableCleaning = false;
 protected:
+	bool Run = false;
+	bool bEnableCleaning = false;
 	int ID;
 	interpreter& interpreterreference;
 public:
     Basicclean(interpreter& iref);
     virtual ~Basicclean();
-    SetEnableCleaning();
-    SetDisableCleaning();
+	void SetEnableCleaning(void);
+	void SetDisableCleaning(void);
 	virtual void clean(void) = 0;
 };
 

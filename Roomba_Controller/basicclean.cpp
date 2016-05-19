@@ -6,12 +6,12 @@ Basicclean::Basicclean(interpreter& iref):interpreterreference(iref)
 
 }
 
-Basicclean::SetEnableCleaning()
+void Basicclean::SetEnableCleaning(void)
 {
     bEnableCleaning = true;
 }
 
-Basicclean::SetDisableCleaning()
+void Basicclean::SetDisableCleaning(void)
 {
     bEnableCleaning = false;
 }

@@ -1,7 +1,7 @@
 #include "roombacontroller.h"
 
 
-Roombacontroller::EnableCleaning(Basicclean* input)
+void Roombacontroller::EnableCleaning(Basicclean* input)
 {
 
     if(CleaningProgram != NULL)
@@ -11,17 +11,14 @@ Roombacontroller::EnableCleaning(Basicclean* input)
     CleaningProgram = input;
     input->clean();
 //Moet gethread
-    return 0;
 }
 
-Roombacontroller::Enablesetter()
+void Roombacontroller::Enablesetter()
 {
     CleaningProgram->SetEnableCleaning();
-    return 0;
 }
 
-Roombacontroller::Disablesetter()
+void Roombacontroller::Disablesetter()
 {
     CleaningProgram->SetDisableCleaning();
-    return 0;
 }

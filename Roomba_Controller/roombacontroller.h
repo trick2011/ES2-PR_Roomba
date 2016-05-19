@@ -2,8 +2,12 @@
 //#include "../Roomba_FrontEnd/pipehandler.h"
 #include "../Interpreter_NoThread/interpreter.h"
 
+#include "autoclean.h"
 #include "basicclean.h"
+#include "cell.h"
+#include "dock.h"
 #include "spotclean.h"
+#include "walltrace.h"
 
 //class Cleaningprogram;
 //class Wallclean;
@@ -13,9 +17,9 @@ private:
     interpreter& interpreterreference; //reference naar interpreter
 public:
         Basicclean * CleaningProgram;
-        EnableCleaning(Basicclean*);
-        Enablesetter();
-        Disablesetter();
+		void EnableCleaning(Basicclean*);
+		void Enablesetter();
+		void Disablesetter();
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
 		~Roombacontroller(){;}
 

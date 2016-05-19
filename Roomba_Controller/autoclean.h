@@ -1,19 +1,21 @@
-#ifdef AUTOCLEAN_H
+#ifndef AUTOCLEAN_H
 #define AUTOCLEAN_H
 
 #include "basicclean.h"
 
-class Autoclean : public Basicclean
+#include <iostream>
+
+//class AutoCleana;
+//class AutoClean : public Basicclean
+class AutoClean : public Basicclean
 {
 public:
-    Autoclean(interpreter& interpreterreference):Basicclean(interpreterreference){}
-    ~Autoclean() = 0;
-    Autoclean();
-    void clean(void);
+	//AutoClean(){}
+	AutoClean(interpreter& interpreterreference):Basicclean(interpreterreference){}
+	~AutoClean();
+	void clean(void);
 private:
 
 };
 
 #endif // AUTOCLEAN_H
-
-
