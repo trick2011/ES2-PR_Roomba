@@ -2,8 +2,8 @@
 #include <thread>
 
 #include "roombacontroller.h"
-#include "spotclean.h"
-#include "autoclean.h"
+//#include "Cleaningprograms/spotclean.h"
+//#include "Cleaningprograms/autoclean.h"
 
 using namespace std;
 

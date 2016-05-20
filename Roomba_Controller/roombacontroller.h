@@ -2,12 +2,12 @@
 //#include "../Roomba_FrontEnd/pipehandler.h"
 #include "../Roomba_Interpreter/interpreter.h"
 
-#include "autoclean.h"
-#include "basicclean.h"
-#include "cell.h"
-#include "dock.h"
-#include "spotclean.h"
-#include "walltrace.h"
+#include "Cleaningprograms/autoclean.h"
+#include "Cleaningprograms/basicclean.h"
+#include "Cleaningprograms/cell.h"
+#include "Cleaningprograms/dock.h"
+#include "Cleaningprograms/spotclean.h"
+#include "Cleaningprograms/walltrace.h"
 
 //class Cleaningprogram;
 //class Wallclean;
