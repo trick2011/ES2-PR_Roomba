@@ -1,33 +1,30 @@
 #ifndef UART_H
 #define UART_H
 
-//#include <stdio.h> /**< jelmer dit is c++ oftwele we gebruiken <iostream> en niet <stdio.h>
+#include <iostream>
+#include <string>
+#include <thread>
+#include <vector>
+#include <queue>
+
+#include <stdint.h>
+
 #include <unistd.h>			//Used for UART
 #include <fcntl.h>			//Used for UART
+//#include <errno.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
+//#include <sys/stat.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
+//#include <sys/types.h> //JEROEN IS HIER VERANTOWOORDELIJK VOOR
+//#include <sys/stat.h> //JEROEN IS HIER VERANTOWOORDELIJK VOOR
 
 #ifdef __linux__  // Linux Includes Here
 #include <termios.h>		        //Used for UART on linux and builds with the native header
 #endif
 
 #ifdef _WIN32 //|| _WIN64  // Windows Includes Here
-#include "../../Roomba_Interpreter/UART/termios.h"		        //Used for UART on windows and builds with a copied version of the native header
+#include "../../Roomba_UART/termios.h"		        //Used for UART on windows and builds with a copied version of the native header
 #endif
 
-
-//#include <errno.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
-//#include <sys/stat.h>  /**< als includes niet nodig zijn moet je ze niet includen **/
-#include <sys/types.h> //JEROEN IS HIER VERANTOWOORDELIJK VOOR
-#include <sys/stat.h> //JEROEN IS HIER VERANTOWOORDELIJK VOOR
-
-#include <stdint.h>
-#include <vector>
-#include <thread>
-#include <queue>
-
-#include <string>
-#include <iostream>
-
-#include "../../Interpreter_NoThread/fail_error.h"
+#include "../../Roomba_Interpreter/fail_error.h"
 
 using namespace std;
 
