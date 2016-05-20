@@ -117,7 +117,7 @@ uint8_t UARTClass::getElement(){
     	ReceiveQueue.pop();
 	}
 	else
-		throw UartReceiveBufferEmpty();
+		throw 1;
     
     return(ucElement);
 }
