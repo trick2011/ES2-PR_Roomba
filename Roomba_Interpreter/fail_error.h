@@ -1,6 +1,0 @@
-#ifndef FAIL_ERROR_H
-#define FAIL_ERROR_H
-
-typedef enum{BUMPWHEEL,CLIFF,OVERCURRENT,BATTERY}ERROR;
-
-#endif // FAIL_ERROR_H
