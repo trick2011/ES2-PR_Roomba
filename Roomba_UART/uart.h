@@ -24,8 +24,6 @@
 #include "../../Roomba_UART/termios.h"		        //Used for UART on windows and builds with a copied version of the native header
 #endif
 
-#include "../../Roomba_Interpreter/fail_error.h"
-
 using namespace std;
 
 class UARTClass  /**< hier mag eigenlijk ook een betere naam voor gekozen worden want Uart voelt gewoon raar en kan beter benoemt worden **/

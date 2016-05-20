@@ -9,5 +9,5 @@ main.o: main.cpp opcodes.h
 interpreter.o: interpreter.cpp interpreter.h opcodes.h
 	g++ -Wall -c interpreter.cpp -std=c++11
 
-uart.o: ./UART/uart.cpp ./UART/uart.h
-	g++ -Wall -c ./UART/uart.cpp -std=c++11
+uart.o: ../Roomba_UART/uart.cpp ../Roomba_UART/uart.h
+	g++ -Wall -c ../Roomba_UART/uart.cpp -std=c++11
