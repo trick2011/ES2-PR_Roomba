@@ -18,14 +18,14 @@ protected:
 	int ID;
 	interpreter& interpreterreference;
 public:
-
 	Basicclean(interpreter& iref);
     virtual ~Basicclean();
 
-	bool getEnableCleaning(void){return(bEnableCleaning);}
-	void EnableCleaning(void){bEnableCleaning=true;}
-	void DisableCleaning(void){bEnableCleaning=false;}
+	static bool getEnableCleaning(void){return(Basicclean::bEnableCleaning);}
+	static void EnableCleaning(void){Basicclean::bEnableCleaning=true;}
+	static void DisableCleaning(void){Basicclean::bEnableCleaning=false;}
 
+	void operator()();
 	virtual void clean(void) = 0;
 };
 

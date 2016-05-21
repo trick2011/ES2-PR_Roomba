@@ -1,6 +1,7 @@
 
 //C++ includes
 #include <thread>
+#include <typeinfo>
 
 //#include "../Roomba_Simulator/file.h"
 //#include "../Roomba_FrontEnd/pipehandler.h"
@@ -23,12 +24,13 @@ private:
     interpreter& interpreterreference; //reference naar interpreter
 
 	bool bEnableCleaning = false;
+	thread* CleaningThread;
 public:
         Basicclean * CleaningProgram;
 		void SetCleaningProgram(Basicclean*);
 
-		void Enablesetter();
-		void Disablesetter();
+		void EnableCleaning();
+		void DisableCleaning();
 
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
 		~Roombacontroller(){;}
