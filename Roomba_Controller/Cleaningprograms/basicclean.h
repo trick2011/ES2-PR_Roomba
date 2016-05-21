@@ -2,36 +2,32 @@
 #define BASICCLEAN_H
 
 #include "../../Roomba_Interpreter/interpreter.h"
+//#include "../roombacontroller.h"
+//namespace cln{
+	//extern bool bEnableCleaning;// = false;
+//}
+
 
 class Basicclean
 {
 private:
 protected:
 	bool Run = false;
-	bool bEnableCleaning = false;
+	static bool bEnableCleaning;
+
 	int ID;
 	interpreter& interpreterreference;
 public:
-    Basicclean(interpreter& iref);
+
+	Basicclean(interpreter& iref);
     virtual ~Basicclean();
-	void SetEnableCleaning(void);
-	void SetDisableCleaning(void);
+
+	bool getEnableCleaning(void){return(bEnableCleaning);}
+	void EnableCleaning(void){bEnableCleaning=true;}
+	void DisableCleaning(void){bEnableCleaning=false;}
+
 	virtual void clean(void) = 0;
 };
-
-//class Cleaningprogram{
-//protected:
-//	//sensors& Sensors;
-//	bool Run;
-//public:
-//	Cleaningprogram(sensors& Sensors) : Sensors{Sensors}, Run(true){}
-
-//	virtual void clean(void) = 0;
-
-//	void EnableCleaning(void){Run = true;}
-//	void DisableCleaning(void){Run = false;}
-
-//};
 
 #endif // BASICCLEAN_H
 

@@ -1,7 +1,12 @@
-#include "../Roomba_Simulator/file.h"
+
+//C++ includes
+#include <thread>
+
+//#include "../Roomba_Simulator/file.h"
 //#include "../Roomba_FrontEnd/pipehandler.h"
 #include "../Roomba_Interpreter/interpreter.h"
 
+// cleaning programs
 #include "Cleaningprograms/autoclean.h"
 #include "Cleaningprograms/basicclean.h"
 #include "Cleaningprograms/cell.h"
@@ -11,15 +16,20 @@
 
 //class Cleaningprogram;
 //class Wallclean;
+class Roombacontroller;
 
 class Roombacontroller{
 private:
     interpreter& interpreterreference; //reference naar interpreter
+
+	bool bEnableCleaning = false;
 public:
         Basicclean * CleaningProgram;
-		void EnableCleaning(Basicclean*);
+		void SetCleaningProgram(Basicclean*);
+
 		void Enablesetter();
 		void Disablesetter();
+
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
 		~Roombacontroller(){;}
 

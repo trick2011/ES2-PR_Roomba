@@ -1,22 +1,11 @@
 #include "basicclean.h"
 #include <iostream>
 
-Basicclean::Basicclean(interpreter& iref):interpreterreference(iref)
-{
+bool Basicclean::bEnableCleaning;
 
+Basicclean::Basicclean(interpreter& iref):interpreterreference(iref){
+	bEnableCleaning = false;
 }
 
-void Basicclean::SetEnableCleaning(void)
-{
-    bEnableCleaning = true;
-}
-
-void Basicclean::SetDisableCleaning(void)
-{
-    bEnableCleaning = false;
-}
-
-Basicclean::~Basicclean()
-{
-}
+Basicclean::~Basicclean(){}
 
