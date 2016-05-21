@@ -12,8 +12,8 @@
 //#include <linux/stat.h>
 //#include "macros.h"
 
-#include "../Roomba_Controller/roombacontroller.h"
-#include "../Interpreter_NoThread/interpreter.h"
+#include "../roombacontroller.h"
+#include "../../Roomba_Interpreter/interpreter.h"
 
 #include "com_class.h"
 
@@ -21,10 +21,12 @@ using namespace std;
 
 class check_class : public com_class{
 private:
-	bool Auto_clean_Flag;
-	bool Man_clean_Flag;
-	bool Dock_roomba_Flag;
+//	bool Auto_clean_Flag;
+//	bool Man_clean_Flag;
+//	bool Dock_roomba_Flag;
 	
+
+
 	Basicclean* Cleaningprogram;
 	interpreter& inter;
 	Roombacontroller& roomref;
@@ -32,10 +34,14 @@ public:
 	//check_class();
 	check_class(Roombacontroller& roomref,interpreter& inter);
 
+	void operator()();
+
 	void pipe_checker();
-	int function_type_checker(char cCommand);
-	int function_activator_static(char cCommand);
-	int function_activator_volitail(char cCommand);
+
+
+	int function_type_checker(char cCommand); // old
+	int function_activator_static(char cCommand); // old
+	int function_activator_volitail(char cCommand); // old
 	
 	
 };

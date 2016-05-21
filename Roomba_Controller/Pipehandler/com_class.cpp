@@ -1,48 +1,40 @@
 #include "com_class.h"
 
+com_class::com_class(){
+	makeFIFO();
+}
+
 //write fifo
 void com_class::writeFIFO(char cTosend){
 	FILE *fifo;
 	unsigned char message[1];
 
-	if (cTosend = 'w'|'v'|'x'|'y'|'z')
+	//if (cTosend = 'w'|'v'|'x'|'y'|'z') // deze regels is hilarisch hij assigned de georde waarde van w v x y z in cTosend
+	if((cTosend == 'w')||(cTosend == 'v')||(cTosend == 'x')||(cTosend == 'y')||(cTosend == 'z'))
 	{
-		message[0] = cTosend;		
+		//message[0] = cTosend;
 		fifo = fopen(W_FIFO_FILE.c_str(), "w");		
-		fwrite(&message,1, 1, fifo);		
+		fwrite(&cTosend,1, 1, fifo);
 		fclose(fifo);
 	}				
 	//error
 	else 
 	{
-		printf("Something weird has happend");
+		cout << "Something weird has happend";
 	} 
 }
 //read fifo
 char com_class::readFIFO(){
 	unsigned char readbuf[1];
-	char cBuff;
 	FILE *fifo;
 
 	fifo = fopen(R_FIFO_FILE.c_str(), "r");		
 	fread(&readbuf, 1, 1, fifo);      
 	fclose(fifo);				
 
-	cBuff = readbuf[0]; 
-	cout<<"pipe: "<<cBuff<<" ";
+	cout<<"pipe: "<<readbuf[0]<<" ";
 
-	//error: pipe empty
-	if(readbuf[0] == NULL)
-	{
-		cBuff = 'o';  
-		return cBuff;
-	}
-	//if pipe != empty, passtrough data
-	else
-	{	
-		cBuff = readbuf[0]; 
-		return cBuff;
-	}                        
+	return(readbuf[0]);
 }
 
 
@@ -52,8 +44,13 @@ void com_class::makeFIFO(){
 	int w_status;
 
 //Create the reading side FIFO if it does not exist
+#ifdef __linux
 	r_status = mknod(R_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
-	if (r_status == -1 ) 
+#endif
+#ifndef __linux
+	r_status = -1;
+#endif
+	if (r_status == -1 )
 	{
 		cout<<"Cannot create rfifo"<<endl;
 	} 
@@ -62,8 +59,13 @@ void com_class::makeFIFO(){
 		cout<<"R_FIFO made"<< endl;
 	}
 	//Create the writing side FIFO if it does not exist
-		w_status = mknod(W_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
-	if (w_status == -1 ) 
+#ifdef __linux
+	w_status = mknod(W_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
+#endif
+#ifndef __linux
+	w_status = -1;
+#endif
+	if (w_status == -1 )
 	{
 		cout<<"Cannot create wfifo"<<endl;
 	} 

@@ -1,23 +1,90 @@
 #include "check_class.h"
 //constructor
-check_class::check_class(Roombacontroller& roomref,interpreter& inter):inter{inter},roomref{roomref}{
+check_class::check_class(Roombacontroller& roomref,interpreter& inter):com_class(),inter{inter},roomref{roomref}{
 
 }
 
-//pipe checker
+void check_class::operator ()(){
+	pipe_checker();
+}
+
 void check_class::pipe_checker(){
-	char cRcommand;
-	cRcommand = readFIFO();
-	function_type_checker(cRcommand);
+	char PipeCommand = 0x00;
+	while(1){
+		PipeCommand = 0;
+		PipeCommand = readFIFO();
+		if(PipeCommand == pipeempty)
+			continue;
 
-	if(cRcommand == 'o'){
-		cout<<"pipe empty"<<endl;
+		switch(PipeCommand){
+		case 'e':	//AutoClean
+	//		Autotmp* a;
+			Cleaningprogram = new AutoClean(inter);
+			roomref.LoadCleaningProgram(Cleaningprogram);
+			Cleaningprogram = NULL;
+			cout<<"AutoClean ON"<<endl;
+			break;
+		case 'f':	//CellClean
+			Cleaningprogram = new Cell(inter);
+			roomref.LoadCleaningProgram(Cleaningprogram);
+			Cleaningprogram = NULL;
+			cout<<"CellClean ON"<<endl;
+			break;
+		case 'g':	//Walltrace
+			Cleaningprogram = new Walltrace(inter);
+			roomref.LoadCleaningProgram(Cleaningprogram);
+			Cleaningprogram = NULL;
+			cout<<"Walltrace ON"<<endl;
+			break;
+		case 'h':	//Spotclean
+			Cleaningprogram = new Spotclean(inter);
+			roomref.LoadCleaningProgram(Cleaningprogram);
+			Cleaningprogram = NULL;
+			cout<<"Spotclean ON"<<endl;
+			break;
+		case 'i':	//manclean
+			//Manclean* manclean_object = new Manclean();
+			//roomref.stelcleaningin(manclean_object);
+			cout<<"ManClean ON"<<endl;
+			break;
+		case 'j':	//Stop Clean
+			//roomref.stop();
+			cout<<"Stopped all Clean programs"<<endl;
+			break;
+		case 'k':	//Dock
+			//roomref.dock();
+			cout<<"Dock Roomba"<<endl;
+			break;
+		default :
+			break;
+		}
 	}
-	else{
-		function_type_checker(cRcommand);
-	}
+//	char cRcommand;
+//	cRcommand = readFIFO();
+//	function_type_checker(cRcommand);
 
+//	if(cRcommand == 'o'){
+//		cout<<"pipe empty"<<endl;
+//	}
+//	else{
+//		function_type_checker(cRcommand);
+//	}
 }
+
+//pipe checker // old
+//void check_class::pipe_checker(){
+//	char cRcommand;
+//	cRcommand = readFIFO();
+//	function_type_checker(cRcommand);
+
+//	if(cRcommand == 'o'){
+//		cout<<"pipe empty"<<endl;
+//	}
+//	else{
+//		function_type_checker(cRcommand);
+//	}
+
+//}
 
 //function devider
 int check_class::function_type_checker(char cCommand){
