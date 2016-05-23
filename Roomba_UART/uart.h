@@ -21,7 +21,7 @@
 #endif
 
 #ifdef _WIN32 //|| _WIN64  // Windows Includes Here
-#include "../../Roomba_UART/termios.h"		        //Used for UART on windows and builds with a copied version of the native header
+#include "termios.h"		        //Used for UART on windows and builds with a copied version of the native header
 #endif
 
 using namespace std;
