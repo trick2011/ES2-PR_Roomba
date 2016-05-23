@@ -6,15 +6,7 @@ interpreter::interpreter()
     std::cout<<"\033[32m start function interpreter (constructor) \033[0m"<<std::endl;
 #endif
 
-    //uart = new UARTClass("/dev/ttyAMA0");
-    //std::cout<<"tty path:";
-    //std::string path;
-    //std::cin>>path;
-    //std::cout<<std::endl;
-
     uart = new UARTClass("/dev/ttyUSB0");
-    //std::thread fails(failSave);
-    //fails.detach();
 
 #ifdef fulldebug
     std::cout<<"\033[31m end function interpreter (constructor) \033[0m"<<std::endl;
@@ -191,10 +183,10 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
 
         while(currentAngle > angle) /*********************/
         {
-            /*int16_t temp = ~getAngle();
+            uint16_t temp = ~getAngle();
             temp += 0x0001;
-            currentAngle -= temp; // testen!!*/
-            currentAngle += getAngle();
+            currentAngle -= temp; // testen!!
+            //currentAngle += getAngle();
 
 #ifdef fulldebug
     std::cout<<"Angle is: "<<currentAngle<<std::endl;
@@ -218,12 +210,14 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
 
             while(currentAngle < angle) /*********************/
             {
-                uint16_t tempAngle = getAngle();
+                /*uint16_t tempAngle = getAngle();
                 /*int16_t currentAngle2;
-                currentAngle2 += tempAngle;*/
+                currentAngle2 += tempAngle;
                 uint16_t temp = ~tempAngle;
                 temp += 0x0001;
-                currentAngle += temp; // testen!!
+                currentAngle += temp; // testen!!*/
+
+                currentAngle = getAngle();
 
     #ifdef fulldebug
                 std::cout<<"Count is: "<<std::dec<<i++<<std::endl;
