@@ -14,8 +14,8 @@
 #include "../Roomba_UART/uart.h"
 //#include "fail_error.h"
 
-//#define debug
-//#define fulldebug
+#define debug
+#define fulldebug
 //std::chrono::milliseconds interval(500);
 
 //unsigned int microseconds = 100;
