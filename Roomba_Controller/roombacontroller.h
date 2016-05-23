@@ -33,7 +33,10 @@ public:
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
 		~Roombacontroller(){;}
 
-		void LoadCleaningProgram(Basicclean* inputprogram){Basicclean* tmpdostuff = inputprogram;tmpdostuff->clean();/*stuff*/}
+		void LoadCleaningProgram(Basicclean* inputprogram){
+			Basicclean* tmpdostuff = inputprogram;
+			tmpdostuff->clean();/*stuff*/
+		}
 
 
 //        timerclass timer(*this,0.5); // this is just some code for threading and the pipe

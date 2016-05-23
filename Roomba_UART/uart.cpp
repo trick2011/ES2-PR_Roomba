@@ -94,13 +94,13 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
     if (iUARTFileStream != -1){
         //int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
         
-        while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
+		int ReadSize =0;
+		do
+			ReadSize = read(iUARTFileStream, &rx_buffer, 255);
+		while( ReadSize <= 0 && bReceive);
         
-        unsigned char * pBuffer = rx_buffer;
-		while(*pBuffer != 0x00){
-            ReceiveQueue.push (*pBuffer);
-            pBuffer++;
-        }
+		for(int i=0;i<ReadSize;i++)
+			ReceiveQueue.push(rx_buffer[i]);
 
         if(bReceive)
             return(true);
