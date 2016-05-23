@@ -31,8 +31,8 @@ class UARTClass  /**< hier mag eigenlijk ook een betere naam voor gekozen worden
 {
 private: 
     int iUARTFileStream; /**< geen globale variabelen maken maar het netjes in een classe opnemen, dit is een belangrijk onderdeel van C++ **/
-    bool bReceive;
-    queue<int> ReceiveQueue;
+	static bool bReceive;
+	static queue<int> ReceiveQueue;
 public:
     UARTClass();
     UARTClass(string sTTY);
@@ -42,11 +42,17 @@ public:
     string receiveString(void);
     int getQueSize();
     void flushQueue();
+
+	void startUartContinuous();
+	bool receiveUartContinuous();
+	uint8_t getContElement();
     
 	bool sendUart(uint8_t code);
     bool sendstring(string sInput);
     
     void breakreceive(void) {bReceive = false;}
+
+	void operator()();
 };
 
 

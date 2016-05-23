@@ -1,4 +1,6 @@
 #include "uart.h"
+queue<int> UARTClass::ReceiveQueue;
+bool UARTClass::bReceive;
 
 #ifdef __linux
 UARTClass::UARTClass(){
@@ -21,7 +23,7 @@ At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 fu
                                             immediately with a failure status if the output can't be written immediately.
 
     O_NOCTTY - When set and path identifies a terminal device, open() shall not cause the terminal device to become the controlling terminal for the process.*/
-    iUARTFileStream = open("/dev/tty1", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
+	iUARTFileStream = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
 
     if (iUARTFileStream == -1)
         //ERROR - CAN'T OPEN SERIAL PORT
@@ -95,8 +97,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
         
         unsigned char * pBuffer = rx_buffer;
-        while(*pBuffer != 0x00)
-        {
+		while(*pBuffer != 0x00){
             ReceiveQueue.push (*pBuffer);
             pBuffer++;
         }
@@ -107,6 +108,60 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
             return(false);
     }
     return(false);
+}
+
+void UARTClass::operator()(){
+	receiveUartContinuous();
+}
+
+uint8_t UARTClass::getContElement(){
+	unsigned char ucElement = 0;
+	while(ReceiveQueue.empty()){}
+	ucElement = ReceiveQueue.front();
+	ReceiveQueue.pop();
+
+	return(ucElement);
+}
+void UARTClass::startUartContinuous(){
+	thread UARTThread(*this);
+}
+bool UARTClass::receiveUartContinuous(){ // geef een string terug want das makkelijker als rx_buffer vervanger
+	bReceive = true;
+	unsigned char rx_buffer[256] = "\0";
+	if (iUARTFileStream != -1){
+		//int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
+
+		unsigned char* pBuffer;
+		while(bReceive){
+			while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){}
+
+			pBuffer = rx_buffer;
+			while(*pBuffer != 0x00){
+				ReceiveQueue.push (*pBuffer);
+				*pBuffer = 0x00;
+				pBuffer++;
+			}
+		}
+//		int ActualLength = 0, tmpLength = 0;
+//		while(ActualLength != Length && bReceive){
+//			tmpLength = read(iUARTFileStream, &rx_buffer, 255);
+//			if(tmpLength > 0){
+//					ActualLength += tmpLength;
+//			}
+//			//while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
+//		}
+//		unsigned char * pBuffer = rx_buffer;
+//		while(*pBuffer != 0x00){
+//			ReceiveQueue.push (*pBuffer);
+//			pBuffer++;
+//		}
+
+//		if(bReceive)
+//			return(true);
+//		else
+//			return(false);
+	}
+	return(false);
 }
 
 uint8_t UARTClass::getElement(){

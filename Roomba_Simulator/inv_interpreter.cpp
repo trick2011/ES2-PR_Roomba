@@ -19,7 +19,7 @@ Inv_interpreter::~Inv_interpreter(){
 }
 
 void Inv_interpreter::drive(){
-    uart.receiveUart();
+	//uart.receiveUart();
 	HByte1 = uart.getElement();   //Velocity high byte
 	LByte1 = uart.getElement();   //Velocity low  byte
 	HByte2 = uart.getElement();   //Radius high byte
@@ -144,19 +144,28 @@ void Inv_interpreter::sendRequestedVelocity()
 }
 
 void Inv_interpreter::receivestart(void){
+	bool clear =false;
+	uint8_t ReceiveValue = 0;
 	while(true){
 		uart.receiveUart();
 		int tmp = uart.getQueSize();
-		for(int i=0;i<tmp;i++)
-			if(uart.getElement() == roomba::Start)
-				return;
+		for(int i=0;i<tmp;i++){
+			ReceiveValue = uart.getElement();
+			if(ReceiveValue == roomba::Start)
+				clear = true;
+			if(clear)
+				if(ReceiveValue == roomba::modes::safeMode)
+					return;
+		}
 	}
+#warning "not in full mode"
 }
 void Inv_interpreter::mainroutine(void){
 	receivestart();
 	while(true){
 		uart.receiveUart();
-		switch(uart.getElement()){
+		uint8_t element = uart.getElement();
+		switch(element){
 		case roomba::power:
 			//uitzetten?
 			break;

@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <thread>
 //#include <iomanip> // setw() setfill()
 
 #include "file.h"
+#include "inv_interpreter.h"
 
 //using namespace std;
 
@@ -15,7 +17,29 @@
 
 void testinit(Roomclass& room);
 
+void timerrun(Roomclass* room){
+	cout << room->roomba->iPosHor << " " << room->roomba->iPosVer << endl;
+	int counter=0;
+	while(1){
+		cout << *room->roomba;
+		cout << *room->sensors;
+		sleep(1);
+		cout << counter++ << endl;
+	}
+}
+#define INTERPERTER_TEST
+
 int main(){
+#ifdef INTERPERTER_TEST
+	Roomclass room;
+	Inv_interpreter interpeter(room);
+	testinit(room);
+
+	thread a(timerrun,&room);
+	interpeter.mainroutine();
+
+	while (1) {}
+#endif
 
 #ifndef INTERPERTER_TEST
 	Roomclass room;
