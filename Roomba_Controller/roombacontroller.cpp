@@ -23,8 +23,25 @@ void Roombacontroller::SetCleaningProgram(Basicclean* input)
 
 	//tmp = new thread(dynamic_cast<AutoClean*>(CleaningProgram));
 
+	// this is not a clean solution but we are unable to find a way to dyanmically define the derived type
 	if(typeid(*CleaningProgram).hash_code() == typeid(AutoClean).hash_code()){
 		AutoClean* clean = dynamic_cast<AutoClean*>(CleaningProgram);
+		CleaningThread = new thread(*clean);
+	}
+	if(typeid(*CleaningProgram).hash_code() == typeid(Cell).hash_code()){
+		Cell* clean = dynamic_cast<Cell*>(CleaningProgram);
+		CleaningThread = new thread(*clean);
+	}
+	if(typeid(*CleaningProgram).hash_code() == typeid(Dock).hash_code()){
+		Dock* clean = dynamic_cast<Dock*>(CleaningProgram);
+		CleaningThread = new thread(*clean);
+	}
+	if(typeid(*CleaningProgram).hash_code() == typeid(Spotclean).hash_code()){
+		Spotclean* clean = dynamic_cast<Spotclean*>(CleaningProgram);
+		CleaningThread = new thread(*clean);
+	}
+	if(typeid(*CleaningProgram).hash_code() == typeid(Walltrace).hash_code()){
+		Walltrace* clean = dynamic_cast<Walltrace*>(CleaningProgram);
 		CleaningThread = new thread(*clean);
 	}
 

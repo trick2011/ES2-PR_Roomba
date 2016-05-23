@@ -54,6 +54,8 @@ void com_class::makeFIFO(){
 	{
 		cout<<"Cannot create rfifo"<<endl;
 	} 
+	if(r_status == EEXIST)
+		cout << "R_FIFO made" << endl;
 	else
 	{
 		cout<<"R_FIFO made"<< endl;
@@ -69,6 +71,8 @@ void com_class::makeFIFO(){
 	{
 		cout<<"Cannot create wfifo"<<endl;
 	} 
+	if(w_status == EEXIST)
+		cout << "W_FIFO made" << endl;
 	else
 	{
 		cout<<"W_FIFO made"<<endl;

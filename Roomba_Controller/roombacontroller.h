@@ -3,8 +3,6 @@
 #include <thread>
 #include <typeinfo>
 
-//#include "../Roomba_Simulator/file.h"
-//#include "../Roomba_FrontEnd/pipehandler.h"
 #include "../Roomba_Interpreter/interpreter.h"
 
 // cleaning programs

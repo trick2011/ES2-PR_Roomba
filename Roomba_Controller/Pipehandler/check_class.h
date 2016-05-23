@@ -14,6 +14,7 @@
 
 #include "../roombacontroller.h"
 #include "../../Roomba_Interpreter/interpreter.h"
+#include "macros.h"
 
 #include "com_class.h"
 

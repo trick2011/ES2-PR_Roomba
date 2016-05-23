@@ -2,11 +2,8 @@
 #include <thread>
 
 #include "roombacontroller.h"
-//#include "Cleaningprograms/spotclean.h"
-//#include "Cleaningprograms/autoclean.h"
 
 using namespace std;
-
 
 int main(void){
 	interpreter inter;
