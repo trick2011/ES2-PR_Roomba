@@ -20,10 +20,10 @@ Inv_interpreter::~Inv_interpreter(){
 
 void Inv_interpreter::drive(){
 	//uart.receiveUart();
-	HByte1 = uart.getElement();   //Velocity high byte
-	LByte1 = uart.getElement();   //Velocity low  byte
-	HByte2 = uart.getElement();   //Radius high byte
-	LByte2 = uart.getElement();   //Radius low  byte
+    HByte1 = uart.getContElement();   //Velocity high byte
+    LByte1 = uart.getContElement();   //Velocity low  byte
+    HByte2 = uart.getContElement();   //Radius high byte
+    LByte2 = uart.getContElement();   //Radius low  byte
 
     //speed
 	if((HByte1 == 0x00)&&(LByte1 <= 0x7F))
@@ -163,8 +163,9 @@ void Inv_interpreter::receivestart(void){
 void Inv_interpreter::mainroutine(void){
 	receivestart();
 	while(true){
-		uart.receiveUart();
-		uint8_t element = uart.getElement();
+        uart.startUartContinuous();
+        uart.receiveUartContinuous();
+        uint8_t element = uart.getContElement();
 		switch(element){
 		case roomba::power:
 			//uitzetten?
