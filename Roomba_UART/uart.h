@@ -49,9 +49,6 @@ public:
     int getQueSize();
     void flushQueue();
 
-//	void startUartContinuous();
-//	bool receiveUartContinuous();
-//	uint8_t getContElement();
     
 	bool sendUart(uint8_t code);
     bool sendstring(string sInput);

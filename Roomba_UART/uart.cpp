@@ -135,7 +135,6 @@ bool UARTClass::receiveUartFast(){ // geef een string terug want das makkelijker
 			ss << rx_buffer[i] << "|";
 		}
 
-		//sleep(1);
 		chrono::time_point<chrono::system_clock> start,end;
 		start = chrono::system_clock::now();
 		chrono::duration<double> elapsed_seconds;
@@ -147,8 +146,6 @@ bool UARTClass::receiveUartFast(){ // geef een string terug want das makkelijker
 			}
 
 		}
-#warning "too much sleep"
-
 		//second read
 		memset(&rx_buffer,0x00,255);
 
@@ -174,55 +171,6 @@ void UARTClass::operator()(){
 //	receiveUartContinuous();
 }
 
-//uint8_t UARTClass::getContElement(){
-//	unsigned char ucElement = 0;
-//	while(ReceiveQueue.empty()){}
-//	ucElement = ReceiveQueue.front();
-//	ReceiveQueue.pop();
-
-//	return(ucElement);
-//}
-//void UARTClass::startUartContinuous(){
-//	thread UARTThread(*this);
-//}
-//bool UARTClass::receiveUartContinuous(){ // geef een string terug want das makkelijker als rx_buffer vervanger
-//	bReceive = true;
-//	unsigned char rx_buffer[256] = "\0";
-//	if (iUARTFileStream != -1){
-//		//int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
-
-//		unsigned char* pBuffer;
-//		while(bReceive){
-//			while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){}
-
-//			pBuffer = rx_buffer;
-//			while(*pBuffer != 0x00){
-//				ReceiveQueue.push (*pBuffer);
-//				*pBuffer = 0x00;
-//				pBuffer++;
-//			}
-//		}
-////		int ActualLength = 0, tmpLength = 0;
-////		while(ActualLength != Length && bReceive){
-////			tmpLength = read(iUARTFileStream, &rx_buffer, 255);
-////			if(tmpLength > 0){
-////					ActualLength += tmpLength;
-////			}
-////			//while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
-////		}
-////		unsigned char * pBuffer = rx_buffer;
-////		while(*pBuffer != 0x00){
-////			ReceiveQueue.push (*pBuffer);
-////			pBuffer++;
-////		}
-
-////		if(bReceive)
-////			return(true);
-////		else
-////			return(false);
-//	}
-//	return(false);
-//}
 
 uint8_t UARTClass::getElement(){
 	unsigned char ucElement = 0;
