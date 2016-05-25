@@ -208,6 +208,8 @@ private:
     float fSpeed;
 	Sensorclass& sensors;
 
+	float RadiusTurned;
+
 public:
 	Sensorclass& sensorref;
 	friend ostream& operator<<(ostream& output,Roombaclass &roomba){
@@ -224,6 +226,7 @@ public:
     void setspeed(float fInputSpeed);
     float getangle(void) {return(fAngle);}
     float getspeed(void) {return(fSpeed);}
+	float getRadiusTurned(void);
 
     void drive(void);
 };

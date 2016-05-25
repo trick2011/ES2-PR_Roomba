@@ -894,6 +894,7 @@ Roomobjectclass::Roomobjectclass(signed int iPosHor,signed int iPosVer,unsigned 
 Roombaclass::Roombaclass(Sensorclass& sensors):Roomobjectclass(0,0,Roomobjectclass::roomba),sensors(sensors),sensorref(sensors){
     fAngle = 0;
     fSpeed = 0;
+	RadiusTurned = 0;
     //roomobjecttype = /*roomobjectclass::*/roomba;
 #ifndef TIMER_DEBUG
     Timerclass timer(*this,0.5);
@@ -938,7 +939,15 @@ void Roombaclass::setspeed(float fInputSpeed){
  */
 void Roombaclass::setangle(float fInputAngle){
     fAngle += fInputAngle;
+	RadiusTurned += fInputAngle;
 }
+
+float Roombaclass::getRadiusTurned(void){
+	float tmp = RadiusTurned;
+	RadiusTurned = 0;
+	return(tmp);
+}
+
 /**
  * @brief roombaclass::move
  * @param fHorMov
