@@ -2,7 +2,6 @@
 #define SPOTCLEAN_H
 #include "basicclean.h"
 
-
 class Spotclean : public Basicclean
 {
 public:
@@ -10,6 +9,5 @@ public:
     ~Spotclean();
 	void clean(void);
 };
-
 
 #endif // SPOTCLEAN_H

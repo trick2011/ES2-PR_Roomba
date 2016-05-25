@@ -1,9 +1,7 @@
 #include "spotclean.h"
 #include "autoclean.h"
 
-Spotclean::~Spotclean(){
-
-}
+Spotclean::~Spotclean(){}
 
 void Spotclean::clean(void)
 {
