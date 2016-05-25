@@ -20,14 +20,19 @@ Inv_interpreter::~Inv_interpreter(){
 
 void Inv_interpreter::drive(){
 	//uart.receiveUart();
-    HByte1 = uart.getContElement();   //Velocity high byte
-    LByte1 = uart.getContElement();   //Velocity low  byte
-    HByte2 = uart.getContElement();   //Radius high byte
-    LByte2 = uart.getContElement();   //Radius low  byte
+	HByte1 = uart.getElement();   //Velocity high byte
+	LByte1 = uart.getElement();   //Velocity low  byte
+	HByte2 = uart.getElement();   //Radius high byte
+	LByte2 = uart.getElement();   //Radius low  byte
+
+//	  HByte1 = uart.getContElement();   //Velocity high byte
+//    LByte1 = uart.getContElement();   //Velocity low  byte
+//    HByte2 = uart.getContElement();   //Radius high byte
+//    LByte2 = uart.getContElement();   //Radius low  byte
 
     //speed
 	if((HByte1 == 0x00)&&(LByte1 <= 0x7F))
-        iCurrentSpeed = roomba::speed::SLOW;
+		iCurrentSpeed = roomba::speed::SLOW;
 	if((HByte1 == 0x08)&&(LByte1 <= 0x00))
         iCurrentSpeed = roomba::speed::CRUISE;
 	if((HByte1 == 0x7F)&&(LByte1 < 0xFF))
@@ -41,7 +46,15 @@ void Inv_interpreter::drive(){
     iCurrentAngle = (LByte2 | (HByte2 << 8));
     //negatief getal draait met klok mee en positief getal draait tegen de klok in
     //dus logisch maken en nu is negatief tegen de klok in en positief met de klok mee
-    iCurrentAngle = iCurrentAngle * (-1);
+	iCurrentAngle = -iCurrentAngle;
+	if(HByte2 == 0x80 & LByte2 == 0x00) //straight
+		iCurrentAngle = 0;
+	if(HByte2 == 0x7F & LByte2 == 0xFF) //straight
+		iCurrentAngle = 0;
+	if(HByte2 == 0xFF & LByte2 == 0xFF)  //clockwise
+		iCurrentAngle = 90;
+	if(HByte2 == 0x00 & LByte2 == 0x01) //counter clockwise
+		iCurrentAngle = -90;
 
 	room.roomba->setspeed(iCurrentSpeed);
     room.roomba->setangle(iCurrentAngle);
@@ -163,9 +176,12 @@ void Inv_interpreter::receivestart(void){
 void Inv_interpreter::mainroutine(void){
 	receivestart();
 	while(true){
-        uart.startUartContinuous();
-        uart.receiveUartContinuous();
-        uint8_t element = uart.getContElement();
+		uart.receiveUart();
+		uint8_t element = uart.getElement();
+
+//		uart.startUartContinuous();
+//        uart.receiveUartContinuous();
+//        uint8_t element = uart.getContElement();
 		switch(element){
 		case roomba::power:
 			//uitzetten?
