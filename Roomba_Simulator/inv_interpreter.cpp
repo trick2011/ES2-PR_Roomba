@@ -20,10 +20,24 @@ Inv_interpreter::~Inv_interpreter(){
 
 void Inv_interpreter::drive(){
 	//uart.receiveUart();
-	HByte1 = uart.getElement();   //Velocity high byte
-	LByte1 = uart.getElement();   //Velocity low  byte
-	HByte2 = uart.getElement();   //Radius high byte
-	LByte2 = uart.getElement();   //Radius low  byte
+	try{
+		HByte1 = uart.getElement();   //Velocity high byte
+	}catch(int){cout << "		TRY CATCH" << endl;cout << "		" << uart.getQueSize() << endl;}
+
+	try{
+		LByte1 = uart.getElement();   //Velocity low  byte
+	}catch(int){cout << "		TRY CATCH" << endl;cout << "		" << uart.getQueSize() << endl;}
+
+	try{
+		HByte2 = uart.getElement();   //Radius high byte
+	}catch(int){cout << "		TRY CATCH" << endl;cout << "		" << uart.getQueSize() << endl;}
+
+	try{
+		LByte2 = uart.getElement();   //Radius low  byte
+	}catch(int){
+		cout << "		TRY CATCH" << endl;
+		cout << "		" << uart.getQueSize() << endl;
+	}
 
 //	  HByte1 = uart.getContElement();   //Velocity high byte
 //    LByte1 = uart.getContElement();   //Velocity low  byte
@@ -32,15 +46,15 @@ void Inv_interpreter::drive(){
 
     //speed
 	if((HByte1 == 0x00)&&(LByte1 <= 0x7F))
-		iCurrentSpeed = roomba::speed::SLOW;
+		iCurrentSpeed = roomba::speed::SLOW+1;
 	if((HByte1 == 0x08)&&(LByte1 <= 0x00))
-        iCurrentSpeed = roomba::speed::CRUISE;
+		iCurrentSpeed = roomba::speed::CRUISE+1;
 	if((HByte1 == 0x7F)&&(LByte1 < 0xFF))
-        iCurrentSpeed = roomba::speed::FAST;
+		iCurrentSpeed = roomba::speed::FAST+1;
 	if((HByte1 == 0x00)&&(LByte1 <= 0x00))
-        iCurrentSpeed = roomba::speed::STOP;
+		iCurrentSpeed = roomba::speed::STOP-3;
 	if((HByte1 == 0xFF)&&(LByte1 <= 0x81))
-        iCurrentSpeed = roomba::speed::BACKWARDS;
+		iCurrentSpeed = roomba::speed::BACKWARDS-5;
 
     //radius
     iCurrentAngle = (LByte2 | (HByte2 << 8));
@@ -176,7 +190,9 @@ void Inv_interpreter::receivestart(void){
 void Inv_interpreter::mainroutine(void){
 	receivestart();
 	while(true){
-		uart.receiveUart();
+		uart.flushQueue();
+		uart.receiveUartFast();
+		cout << "mainqueue		" << uart.getQueSize() << endl;
 		uint8_t element = uart.getElement();
 
 //		uart.startUartContinuous();
@@ -200,7 +216,7 @@ void Inv_interpreter::mainroutine(void){
 			//verzend gevraagde sensor info
 			//welke sensor info is gevraagd?
 			//meer ontvangen
-			uart.receiveUart();
+			uart.receiveUartFast();
 			switch(uart.getElement()){
 			case roomba::sensors::bumpAndWheel:
 					sendBumpAndWheel();

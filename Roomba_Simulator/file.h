@@ -118,13 +118,13 @@ public:
 
 class Sensorclass : public Sensors{
 protected:
-    bool floatcomp(float fIn1,float fIn2);
-    vector<string> vsErrorVector;
+	bool floatcomp(float fIn1,float fIn2);
+	vector<string> vsErrorVector;
 
     const unsigned int iLightBumpRange = 10;
     const unsigned int iLightBumpValueMax = 4095;
 
-    const float fFloatRange = 0.10;
+	const float fFloatRange = 0.10;
 	Roomclass& room;
 
     bool checkbumpL(int iHorPos,int iVerPos);
