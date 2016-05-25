@@ -3,8 +3,6 @@
 #include <thread>
 #include <typeinfo>
 
-//#include "../Roomba_Simulator/file.h"
-//#include "../Roomba_FrontEnd/pipehandler.h"
 #include "../Roomba_Interpreter/interpreter.h"
 
 // cleaning programs
@@ -35,7 +33,10 @@ public:
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
 		~Roombacontroller(){;}
 
-		void LoadCleaningProgram(Basicclean* inputprogram){Basicclean* tmpdostuff = inputprogram;tmpdostuff->clean();/*stuff*/}
+		void LoadCleaningProgram(Basicclean* inputprogram){
+			Basicclean* tmpdostuff = inputprogram;
+			tmpdostuff->clean();/*stuff*/
+		}
 
 
 //        timerclass timer(*this,0.5); // this is just some code for threading and the pipe

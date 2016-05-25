@@ -6,15 +6,7 @@ interpreter::interpreter()
     std::cout<<"\033[32m start function interpreter (constructor) \033[0m"<<std::endl;
 #endif
 
-    //uart = new UARTClass("/dev/ttyAMA0");
-    //std::cout<<"tty path:";
-    //std::string path;
-    //std::cin>>path;
-    //std::cout<<std::endl;
-
     uart = new UARTClass("/dev/ttyUSB0");
-    //std::thread fails(failSave);
-    //fails.detach();
 
 #ifdef fulldebug
     std::cout<<"\033[31m end function interpreter (constructor) \033[0m"<<std::endl;
@@ -35,7 +27,7 @@ void interpreter::startRoomba()
 
     uart->sendUart(roomba::Start);
     uart->sendUart(roomba::modes::safeMode);
-    uart->sendUart(roomba::cleanModes::Clean);
+    //uart->sendUart(roomba::cleanModes::Clean);
 
 #ifdef fulldebug
     std::cout<<"\033[31m end function startRoomba\033[0m"<<std::endl;
@@ -181,56 +173,63 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     if((angle >= 0x8000)&&(angle <= 0xFFFE)) // counter clockwise
     {
 
-#ifdef fulldebug
-    std::cout<<"counter clockwise"<<std::endl;
-#endif
+		#ifdef fulldebug
+		    std::cout<<"counter clockwise"<<std::endl;
+		#endif
         uart->sendUart(0x00); // Velocity high byte
-        uart->sendUart(0x7F); // Velocity low  byte
+        //uart->sendUart(0x7F); // Velocity low  byte
+        uart->sendUart(0x10);
         uart->sendUart(0x00); // Radius high byte
         uart->sendUart(0x01); // Radius low  byte
 
-        while(currentAngle > angle) /*********************/
+        do /*********************/
         {
-            /*int16_t temp = ~getAngle();
+            uint16_t temp = ~getAngle();
+            if()
             temp += 0x0001;
-            currentAngle -= temp; // testen!!*/
-            currentAngle += getAngle();
+            currentAngle -= temp; // testen!!
+            //currentAngle += getAngle();
 
-#ifdef fulldebug
-    std::cout<<"Angle is: "<<currentAngle<<std::endl;
-#endif
+			#ifdef fulldebug
+		    std::cout<<"Angle is: "<<currentAngle<<std::endl;
+			#endif
         }
-        drives(3);
+        while(currentAngle > angle)
+
+        drives(roomba::speed::stop);
     }
     else
     {
         if(angle >= 0x0000 && angle < 0x8000) // clockwise
         {
 
-    #ifdef fulldebug
-        std::cout<<"clockwise"<<std::endl;
-    #endif
+		    #ifdef fulldebug
+		        std::cout<<"clockwise"<<std::endl;
+		    #endif
 
             uart->sendUart(0x00); // Velocity high byte
             uart->sendUart(0x7F); // Velocity low  byte
             uart->sendUart(0xFF); // Radius high byte
             uart->sendUart(0xFF); // Radius low  byte
 
-            while(currentAngle < angle) /*********************/
+            do /*********************/
             {
-                uint16_t tempAngle = getAngle();
+                /*uint16_t tempAngle = getAngle();
                 /*int16_t currentAngle2;
-                currentAngle2 += tempAngle;*/
+                currentAngle2 += tempAngle;
                 uint16_t temp = ~tempAngle;
                 temp += 0x0001;
-                currentAngle += temp; // testen!!
+                currentAngle += temp; // testen!!*/
 
-    #ifdef fulldebug
-                std::cout<<"Count is: "<<std::dec<<i++<<std::endl;
-        std::cout<<"Angle is: "<<currentAngle<<std::endl;
-    #endif
+                currentAngle = getAngle();
+
+			    #ifdef fulldebug
+			                std::cout<<"Count is: "<<std::dec<<i++<<std::endl;
+			        std::cout<<"Angle is: "<<currentAngle<<std::endl;
+			    #endif
             }
-            drives(3);
+            while(currentAngle < angle)
+            drives(roomba::speed::stop);
         }
         else error = true;
     }
@@ -2056,7 +2055,8 @@ uint8_t interpreter::getStatis()
 /***********************************************************/
 bool interpreter::getBumpRight()
 {
-    bool tmp;
+    bool tmp = false;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
     try
@@ -2082,10 +2082,29 @@ bool interpreter::getBumpRight()
 
 bool interpreter::getBumpLeft()
 {
-    bool tmp;
+    bool tmp = false;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
-    tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
+    try
+    {
+        for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
+            switch (i){
+            case 1:
+				tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
+				break;
+            default:
+                (void) uart->getElement();
+                break;
+            }
+        }
+    }
+    catch(int)
+    {
+        // NOG TE IMPLEMENTERER
+    }
+    
 
     return tmp;
 }
@@ -2093,6 +2112,7 @@ bool interpreter::getBumpLeft()
 bool interpreter::getWheelDropRight()
 {
     bool tmp;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
     try
@@ -2120,6 +2140,7 @@ bool interpreter::getWheelDropRight()
 bool interpreter::getWheelDropLeft()
 {
     bool tmp;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
     try
@@ -2146,6 +2167,7 @@ bool interpreter::getWheelDropLeft()
 bool interpreter::getSideBrushOvercurrent()
 {
     bool tmp;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
     try
@@ -2172,6 +2194,7 @@ bool interpreter::getSideBrushOvercurrent()
 bool interpreter::getMainBrushOvercurrent()
 {
     bool tmp;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
     tmp = (uart->getElement() & 0b00000100) == 0b00000100 ? 1 : 0;
@@ -2182,6 +2205,7 @@ bool interpreter::getMainBrushOvercurrent()
 bool interpreter::getRightWheelOvercurrent()
 {
     bool tmp;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
     try
@@ -2208,6 +2232,7 @@ bool interpreter::getRightWheelOvercurrent()
 bool interpreter::getLeftWheelOvercurrent()
 {
     bool tmp;
+    uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
     try

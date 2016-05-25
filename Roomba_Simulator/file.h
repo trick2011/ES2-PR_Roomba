@@ -210,8 +210,10 @@ private:
 
 public:
 	Sensorclass& sensorref;
-	friend ostream& operator<<(ostream& output,const Roombaclass &roomba){
-             return (output << roomba.iPosHor << "   " << roomba.iPosVer);
+	friend ostream& operator<<(ostream& output,Roombaclass &roomba){
+		output << "angle: " << roomba.getangle() << "  speed: " << roomba.getspeed() << endl;
+		output << "hor  : " << roomba.iPosHor << "  ver  : " << roomba.iPosVer << endl;
+		return (output);
     }
 
 	Roombaclass(Sensorclass& sensors); // <-- die werkte ineens niet
