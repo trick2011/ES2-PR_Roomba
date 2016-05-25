@@ -20,28 +20,55 @@ Inv_interpreter::~Inv_interpreter(){
 
 void Inv_interpreter::drive(){
 	//uart.receiveUart();
-    HByte1 = uart.getContElement();   //Velocity high byte
-    LByte1 = uart.getContElement();   //Velocity low  byte
-    HByte2 = uart.getContElement();   //Radius high byte
-    LByte2 = uart.getContElement();   //Radius low  byte
+	try{
+		HByte1 = uart.getElement();   //Velocity high byte
+	}catch(int){cout << "		TRY CATCH" << endl;cout << "		" << uart.getQueSize() << endl;}
+
+	try{
+		LByte1 = uart.getElement();   //Velocity low  byte
+	}catch(int){cout << "		TRY CATCH" << endl;cout << "		" << uart.getQueSize() << endl;}
+
+	try{
+		HByte2 = uart.getElement();   //Radius high byte
+	}catch(int){cout << "		TRY CATCH" << endl;cout << "		" << uart.getQueSize() << endl;}
+
+	try{
+		LByte2 = uart.getElement();   //Radius low  byte
+	}catch(int){
+		cout << "		TRY CATCH" << endl;
+		cout << "		" << uart.getQueSize() << endl;
+	}
+
+//	  HByte1 = uart.getContElement();   //Velocity high byte
+//    LByte1 = uart.getContElement();   //Velocity low  byte
+//    HByte2 = uart.getContElement();   //Radius high byte
+//    LByte2 = uart.getContElement();   //Radius low  byte
 
     //speed
 	if((HByte1 == 0x00)&&(LByte1 <= 0x7F))
-        iCurrentSpeed = roomba::speed::SLOW;
+		iCurrentSpeed = roomba::speed::SLOW+1;
 	if((HByte1 == 0x08)&&(LByte1 <= 0x00))
-        iCurrentSpeed = roomba::speed::CRUISE;
+		iCurrentSpeed = roomba::speed::CRUISE+1;
 	if((HByte1 == 0x7F)&&(LByte1 < 0xFF))
-        iCurrentSpeed = roomba::speed::FAST;
+		iCurrentSpeed = roomba::speed::FAST+1;
 	if((HByte1 == 0x00)&&(LByte1 <= 0x00))
-        iCurrentSpeed = roomba::speed::STOP;
+		iCurrentSpeed = roomba::speed::STOP-3;
 	if((HByte1 == 0xFF)&&(LByte1 <= 0x81))
-        iCurrentSpeed = roomba::speed::BACKWARDS;
+		iCurrentSpeed = roomba::speed::BACKWARDS-5;
 
     //radius
     iCurrentAngle = (LByte2 | (HByte2 << 8));
     //negatief getal draait met klok mee en positief getal draait tegen de klok in
     //dus logisch maken en nu is negatief tegen de klok in en positief met de klok mee
-    iCurrentAngle = iCurrentAngle * (-1);
+	iCurrentAngle = -iCurrentAngle;
+	if(HByte2 == 0x80 & LByte2 == 0x00) //straight
+		iCurrentAngle = 0;
+	if(HByte2 == 0x7F & LByte2 == 0xFF) //straight
+		iCurrentAngle = 0;
+	if(HByte2 == 0xFF & LByte2 == 0xFF)  //clockwise
+		iCurrentAngle = 90;
+	if(HByte2 == 0x00 & LByte2 == 0x01) //counter clockwise
+		iCurrentAngle = -90;
 
 	room.roomba->setspeed(iCurrentSpeed);
     room.roomba->setangle(iCurrentAngle);
@@ -163,9 +190,14 @@ void Inv_interpreter::receivestart(void){
 void Inv_interpreter::mainroutine(void){
 	receivestart();
 	while(true){
-        uart.startUartContinuous();
-        uart.receiveUartContinuous();
-        uint8_t element = uart.getContElement();
+		uart.flushQueue();
+		uart.receiveUartFast();
+		cout << "mainqueue		" << uart.getQueSize() << endl;
+		uint8_t element = uart.getElement();
+
+//		uart.startUartContinuous();
+//        uart.receiveUartContinuous();
+//        uint8_t element = uart.getContElement();
 		switch(element){
 		case roomba::power:
 			//uitzetten?
@@ -184,7 +216,7 @@ void Inv_interpreter::mainroutine(void){
 			//verzend gevraagde sensor info
 			//welke sensor info is gevraagd?
 			//meer ontvangen
-			uart.receiveUart();
+			uart.receiveUartFast();
 			switch(uart.getElement()){
 			case roomba::sensors::bumpAndWheel:
 					sendBumpAndWheel();

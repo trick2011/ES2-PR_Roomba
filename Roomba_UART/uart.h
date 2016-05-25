@@ -2,11 +2,14 @@
 #define UART_H
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <thread>
 #include <vector>
 #include <queue>
+#include <sstream>
 
+#include <cstring>
 #include <stdint.h>
 
 #include <unistd.h>			//Used for UART
@@ -21,7 +24,7 @@
 #endif
 
 #ifdef _WIN32 //|| _WIN64  // Windows Includes Here
-#include "termios.h"		        //Used for UART on windows and builds with a copied version of the native header
+#include "../../Roomba_UART/termios.h"		        //Used for UART on windows and builds with a copied version of the native header
 #endif
 
 using namespace std;
@@ -31,21 +34,21 @@ class UARTClass  /**< hier mag eigenlijk ook een betere naam voor gekozen worden
 {
 private: 
     int iUARTFileStream; /**< geen globale variabelen maken maar het netjes in een classe opnemen, dit is een belangrijk onderdeel van C++ **/
-	static bool bReceive;
-	static queue<int> ReceiveQueue;
+	bool bReceive;
+	queue<int> ReceiveQueue;
+	ofstream ofp;
 public:
     UARTClass();
     UARTClass(string sTTY);
+	~UARTClass();
     
 	bool receiveUart();
+	bool receiveUartFast();
     uint8_t getElement();
     string receiveString(void);
     int getQueSize();
     void flushQueue();
 
-	void startUartContinuous();
-	bool receiveUartContinuous();
-	uint8_t getContElement();
     
 	bool sendUart(uint8_t code);
     bool sendstring(string sInput);

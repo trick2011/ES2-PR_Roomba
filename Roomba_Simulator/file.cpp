@@ -914,13 +914,14 @@ void Roombaclass::drive(void){
     // cos(angle) * speed = ver movementy
     //float fHorMov = sin((fAngle*(pi/(float)180)) * fSpeed);
 
-    float fHorMov = sin(fAngle*pi/180) * fSpeed;
-    float fVerMov = cos(fAngle*pi/180) * fSpeed;
+	float fHorMov = sin(fAngle*pi/180) * fSpeed;
+	float fVerMov = cos(fAngle*pi/180) * fSpeed;
 
 
-    if(sensors.checkbump(fHorMov,fVerMov) == false){
-        move(fHorMov,fVerMov);
-    }
+	if(sensors.checkbump(fHorMov,fVerMov) == false){
+		move(fHorMov,fVerMov);
+	}
+
 }
 /**
  * @brief roombaclass::setspeed

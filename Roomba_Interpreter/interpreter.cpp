@@ -173,9 +173,9 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     if((angle >= 0x8000)&&(angle <= 0xFFFE)) // counter clockwise
     {
 
-		#ifdef fulldebug
-		    std::cout<<"counter clockwise"<<std::endl;
-		#endif
+        #ifdef fulldebug
+            std::cout<<"counter clockwise"<<std::endl;
+        #endif
         uart->sendUart(0x00); // Velocity high byte
         //uart->sendUart(0x7F); // Velocity low  byte
         uart->sendUart(0x10);
@@ -184,52 +184,51 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
 
         do /*********************/
         {
+            usleep(5);
             uint16_t temp = ~getAngle();
-            if()
-            temp += 0x0001;
+                temp += 0x0001;
             currentAngle -= temp; // testen!!
             //currentAngle += getAngle();
 
-			#ifdef fulldebug
-		    std::cout<<"Angle is: "<<currentAngle<<std::endl;
-			#endif
+            #ifdef fulldebug
+            std::cout<<std::hex;
+            std::cout<<"Angle is: "<<currentAngle<<std::endl;
+            #endif
         }
-        while(currentAngle > angle)
+        while(currentAngle < angle);
 
-        drives(roomba::speed::stop);
+        drives(roomba::speed::STOP);
     }
     else
     {
         if(angle >= 0x0000 && angle < 0x8000) // clockwise
         {
 
-		    #ifdef fulldebug
-		        std::cout<<"clockwise"<<std::endl;
-		    #endif
+            #ifdef fulldebug
+                std::cout<<"clockwise"<<std::endl;
+            #endif
 
             uart->sendUart(0x00); // Velocity high byte
-            uart->sendUart(0x7F); // Velocity low  byte
+            uart->sendUart(0x10); // Velocity low  byte
             uart->sendUart(0xFF); // Radius high byte
             uart->sendUart(0xFF); // Radius low  byte
 
             do /*********************/
             {
-                /*uint16_t tempAngle = getAngle();
-                /*int16_t currentAngle2;
-                currentAngle2 += tempAngle;
-                uint16_t temp = ~tempAngle;
+                usleep(5);
+                /*uint16_t temp = ~getAngle();
                 temp += 0x0001;
-                currentAngle += temp; // testen!!*/
-
-                currentAngle = getAngle();
-
-			    #ifdef fulldebug
-			                std::cout<<"Count is: "<<std::dec<<i++<<std::endl;
-			        std::cout<<"Angle is: "<<currentAngle<<std::endl;
-			    #endif
+                currentAngle -= temp;*/
+                currentAngle += getAngle();
+            
+            #ifdef fulldebug
+            std::cout<<std::hex;
+            std::cout<<"Angle is: "<<currentAngle<<std::endl;
+            #endif
+                //currentAngle = getAngle();
             }
-            while(currentAngle < angle)
-            drives(roomba::speed::stop);
+            while(currentAngle < angle);
+            drives(roomba::speed::STOP);
         }
         else error = true;
     }
@@ -316,6 +315,7 @@ bool interpreter::getBumpAndWheel()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = (uart->getElement() ? 1 : 0);
@@ -324,6 +324,7 @@ bool interpreter::getBumpAndWheel()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -350,6 +351,7 @@ uint8_t interpreter::getWall()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -358,6 +360,7 @@ uint8_t interpreter::getWall()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -383,6 +386,7 @@ uint8_t interpreter::getCliffLeft()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -391,6 +395,7 @@ uint8_t interpreter::getCliffLeft()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -417,6 +422,7 @@ uint8_t interpreter::getCliffFrontLeft()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -425,6 +431,7 @@ uint8_t interpreter::getCliffFrontLeft()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -450,6 +457,7 @@ uint8_t interpreter::getCliffFrontRight()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -458,6 +466,7 @@ uint8_t interpreter::getCliffFrontRight()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -483,6 +492,7 @@ uint8_t interpreter::getCliffRight()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -491,6 +501,7 @@ uint8_t interpreter::getCliffRight()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -517,6 +528,7 @@ uint8_t interpreter::getVirtualWall()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -525,6 +537,7 @@ uint8_t interpreter::getVirtualWall()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -551,6 +564,7 @@ bool interpreter::getWheelOvercurrents()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = (uart->getElement() ? 1 : 0);
@@ -559,6 +573,7 @@ bool interpreter::getWheelOvercurrents()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -584,6 +599,7 @@ uint8_t interpreter::getDirtDetect()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -592,6 +608,7 @@ uint8_t interpreter::getDirtDetect()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -618,6 +635,7 @@ uint8_t interpreter::getIrReceiver()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -626,6 +644,7 @@ uint8_t interpreter::getIrReceiver()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -654,6 +673,7 @@ int16_t interpreter::getDistance()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -665,6 +685,7 @@ int16_t interpreter::getDistance()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -682,9 +703,9 @@ int16_t interpreter::getDistance()
 
 uint16_t interpreter::getAngle() /*******************************************************************/
 {
-#ifdef fulldebug
-    std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
+    #endif
 
     uint16_t halfWord = 0x0000;
     uint8_t  highByte = 0x00;
@@ -697,23 +718,29 @@ uint16_t interpreter::getAngle() /**********************************************
 
     try
     {
+        usleep(10);
+        std::cout<<uart->getQueSize()<<std::endl;
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
+            std::cout<<"I is: "<<i<<std::endl;
             switch (i) {
             case 1:
-                highByte = uart->getElement();
-#ifdef fulldebug
-    std::cout<<"In function getAngle, highByte is: "<<std::hex<<highByte<<std::endl;
-#endif
+                lowByte = uart->getElement();
+                #ifdef fulldebug
+                    std::cout<<"In function getAngle, highByte is: "<<std::hex<<highByte<<std::endl;
+                #endif
                 break;
             case 2:
-                lowByte = uart->getElement();
-#ifdef fulldebug
-    std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
-#endif
+                highByte = uart->getElement();
+                #ifdef fulldebug
+                    std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
+                #endif
+                break;
             default:
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -722,13 +749,13 @@ uint16_t interpreter::getAngle() /**********************************************
     halfWord = highByte << 8;
     halfWord |= lowByte;
 
-#ifdef fulldebug
-    std::cout<<"In function getAngle, halfword is: "<<std::hex<<halfWord<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"In function getAngle, halfword is: "<<std::hex<<halfWord<<std::endl;
+    #endif
 
-#ifdef fulldebug
-    std::cout<<"\033[31m end function getAngle\033[0m"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"\033[31m end function getAngle\033[0m"<<std::endl;
+    #endif
     return halfWord;
 }/***************************************************************************************************/
 
@@ -746,6 +773,7 @@ uint8_t interpreter::getChargingState()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -754,6 +782,7 @@ uint8_t interpreter::getChargingState()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -782,6 +811,7 @@ uint16_t interpreter::getBatteryVoltage()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -793,6 +823,7 @@ uint16_t interpreter::getBatteryVoltage()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -823,6 +854,7 @@ int16_t interpreter::getBatteryCurrent()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -834,6 +866,7 @@ int16_t interpreter::getBatteryCurrent()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -863,6 +896,7 @@ int8_t interpreter::getBatteryTemperature()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -871,6 +905,7 @@ int8_t interpreter::getBatteryTemperature()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -899,6 +934,7 @@ uint16_t interpreter::getBatteryCharge()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -910,6 +946,7 @@ uint16_t interpreter::getBatteryCharge()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -941,6 +978,7 @@ uint16_t interpreter::getBatteryCapacity()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -952,6 +990,7 @@ uint16_t interpreter::getBatteryCapacity()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -983,6 +1022,7 @@ uint16_t interpreter::getWallSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -994,6 +1034,7 @@ uint16_t interpreter::getWallSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1025,6 +1066,7 @@ uint16_t interpreter::getCliffLeftSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1036,6 +1078,7 @@ uint16_t interpreter::getCliffLeftSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1067,6 +1110,7 @@ uint16_t interpreter::getCliffFrontLeftSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1078,6 +1122,7 @@ uint16_t interpreter::getCliffFrontLeftSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1109,6 +1154,7 @@ uint16_t interpreter::getCliffFrontRightSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1120,6 +1166,7 @@ uint16_t interpreter::getCliffFrontRightSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1150,6 +1197,7 @@ uint16_t interpreter::getCliffRightSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1161,6 +1209,7 @@ uint16_t interpreter::getCliffRightSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1190,6 +1239,7 @@ uint8_t interpreter::getChargingSource()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -1198,6 +1248,7 @@ uint8_t interpreter::getChargingSource()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1224,6 +1275,7 @@ uint8_t interpreter::getOiMode()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -1232,6 +1284,7 @@ uint8_t interpreter::getOiMode()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1258,6 +1311,7 @@ uint8_t interpreter::getSongNumber()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -1266,6 +1320,7 @@ uint8_t interpreter::getSongNumber()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1292,6 +1347,7 @@ uint8_t interpreter::getSongPlaying()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -1300,6 +1356,7 @@ uint8_t interpreter::getSongPlaying()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1328,6 +1385,7 @@ int16_t interpreter::getRequestedVelocity()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1339,6 +1397,7 @@ int16_t interpreter::getRequestedVelocity()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1370,6 +1429,7 @@ int16_t interpreter::getRequestedRadius()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1381,6 +1441,7 @@ int16_t interpreter::getRequestedRadius()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1412,6 +1473,7 @@ int16_t interpreter::getRequestedRightVelocity()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1423,6 +1485,7 @@ int16_t interpreter::getRequestedRightVelocity()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1454,6 +1517,7 @@ int16_t interpreter::getRequestedLeftVelocity()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1465,6 +1529,7 @@ int16_t interpreter::getRequestedLeftVelocity()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1496,6 +1561,7 @@ uint16_t interpreter::getLeftEncoderCount()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1507,6 +1573,7 @@ uint16_t interpreter::getLeftEncoderCount()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1538,6 +1605,7 @@ uint16_t interpreter::getRightEncoderCount()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1549,6 +1617,7 @@ uint16_t interpreter::getRightEncoderCount()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1578,6 +1647,7 @@ bool interpreter::getLightBumper()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = (uart->getElement() ? 1 : 0);
@@ -1586,6 +1656,7 @@ bool interpreter::getLightBumper()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1614,6 +1685,7 @@ uint16_t interpreter::getLightBumpLeftSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1625,6 +1697,7 @@ uint16_t interpreter::getLightBumpLeftSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1656,6 +1729,7 @@ uint16_t interpreter::getLightBumpFrontLeftSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1667,6 +1741,7 @@ uint16_t interpreter::getLightBumpFrontLeftSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1698,6 +1773,7 @@ uint16_t interpreter::getLightBumpCenterLeftSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1709,6 +1785,7 @@ uint16_t interpreter::getLightBumpCenterLeftSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1740,6 +1817,7 @@ uint16_t interpreter::getLightBumpCenterRightSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1751,6 +1829,7 @@ uint16_t interpreter::getLightBumpCenterRightSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1782,6 +1861,7 @@ uint16_t interpreter::getLightBumpFrontRightSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1793,6 +1873,7 @@ uint16_t interpreter::getLightBumpFrontRightSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1824,6 +1905,7 @@ uint16_t interpreter::getLightBumpRightSignal()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1835,6 +1917,7 @@ uint16_t interpreter::getLightBumpRightSignal()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1866,6 +1949,7 @@ int16_t interpreter::getLeftMotorCurrent()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1877,6 +1961,7 @@ int16_t interpreter::getLeftMotorCurrent()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1908,6 +1993,7 @@ int16_t interpreter::getRightMotorCurrent()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1919,6 +2005,7 @@ int16_t interpreter::getRightMotorCurrent()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1949,6 +2036,7 @@ int16_t interpreter::getMainBrushMotorCurrent()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -1960,6 +2048,7 @@ int16_t interpreter::getMainBrushMotorCurrent()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -1991,6 +2080,7 @@ int16_t interpreter::getSideBrushMotorCurrent()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
@@ -2002,6 +2092,7 @@ int16_t interpreter::getSideBrushMotorCurrent()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -2031,6 +2122,7 @@ uint8_t interpreter::getStatis()
     try
     {
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+        {
             switch (i) {
             case 1:
                 tmp = uart->getElement();
@@ -2039,6 +2131,7 @@ uint8_t interpreter::getStatis()
                 (void) uart->getElement();
                 break;
             }
+        }
     }
     catch(int)
     {
@@ -2092,8 +2185,8 @@ bool interpreter::getBumpLeft()
         {
             switch (i){
             case 1:
-				tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
-				break;
+                tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
+                break;
             default:
                 (void) uart->getElement();
                 break;
@@ -2422,6 +2515,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     irValue = uart->getElement();
@@ -2430,6 +2524,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
@@ -2481,6 +2576,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     received = uart->getElement();
@@ -2489,6 +2585,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
@@ -2509,6 +2606,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     received = uart->getElement();
@@ -2517,6 +2615,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
@@ -2530,6 +2629,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     received = uart->getElement();
@@ -2538,6 +2638,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
@@ -2551,6 +2652,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     received = uart->getElement();
@@ -2559,6 +2661,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
@@ -2572,6 +2675,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     received = uart->getElement();
@@ -2580,6 +2684,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
@@ -2593,6 +2698,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     received = uart->getElement();
@@ -2601,6 +2707,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
@@ -2614,6 +2721,7 @@ void interpreter::testSensors()
         try
         {
             for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
                 switch (i) {
                 case 1:
                     received = uart->getElement();
@@ -2622,6 +2730,7 @@ void interpreter::testSensors()
                     (void) uart->getElement();
                     break;
                 }
+            }
         }
         catch(int)
         {
