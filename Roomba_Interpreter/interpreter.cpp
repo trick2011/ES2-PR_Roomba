@@ -170,32 +170,33 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     uint16_t currentAngle = 0x0000;
     uart->sendUart(roomba::drive);
 
-    if((angle >= 0x8000)&&(angle <= 0xFFFE)) // counter clockwise
+    if((angle >= 0x8000)&&(angle <= 0xFFFF)) // counter clockwise
     {
 
-        #ifdef fulldebug
-            std::cout<<"counter clockwise"<<std::endl;
-        #endif
+		#ifdef fulldebug
+		    std::cout<<"counter clockwise"<<std::endl;
+		#endif
+
         uart->sendUart(0x00); // Velocity high byte
-        //uart->sendUart(0x7F); // Velocity low  byte
-        uart->sendUart(0x10);
+        uart->sendUart(0x7F); // Velocity low  byte
+        //uart->sendUart(0x10);
         uart->sendUart(0x00); // Radius high byte
         uart->sendUart(0x01); // Radius low  byte
 
         do /*********************/
         {
-            usleep(5);
-            uint16_t temp = ~getAngle();
-                temp += 0x0001;
-            currentAngle -= temp; // testen!!
-            //currentAngle += getAngle();
+        	usleep(100);
+            /*uint16_t temp = ~getAngle();
+            	temp += 0x0001;
+            currentAngle -= temp; // testen!!*/
+            currentAngle -= getAngle();
 
-            #ifdef fulldebug
-            std::cout<<std::hex;
-            std::cout<<"Angle is: "<<currentAngle<<std::endl;
-            #endif
+			#ifdef fulldebug
+			std::cout<<std::hex;
+		    std::cout<<"Angle is: "<<currentAngle<<std::endl;
+			#endif
         }
-        while(currentAngle < angle);
+        while((currentAngle > angle)||(currentAngle == 0));
 
         drives(roomba::speed::STOP);
     }
@@ -204,27 +205,26 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
         if(angle >= 0x0000 && angle < 0x8000) // clockwise
         {
 
-            #ifdef fulldebug
-                std::cout<<"clockwise"<<std::endl;
-            #endif
-
+		    #ifdef fulldebug
+		        std::cout<<"clockwise"<<std::endl;
+		    #endif
             uart->sendUart(0x00); // Velocity high byte
-            uart->sendUart(0x10); // Velocity low  byte
+            uart->sendUart(0x7F); // Velocity low  byte
             uart->sendUart(0xFF); // Radius high byte
             uart->sendUart(0xFF); // Radius low  byte
 
             do /*********************/
             {
-                usleep(5);
-                /*uint16_t temp = ~getAngle();
-                temp += 0x0001;
-                currentAngle -= temp;*/
-                currentAngle += getAngle();
-            
-            #ifdef fulldebug
-            std::cout<<std::hex;
-            std::cout<<"Angle is: "<<currentAngle<<std::endl;
-            #endif
+            	usleep(100);
+                uint16_t temp = ~getAngle();
+            	temp += 0x0001;
+            	currentAngle += temp;
+            	//currentAngle += getAngle();
+			
+			#ifdef fulldebug
+			std::cout<<std::hex;
+		    std::cout<<"Angle is: "<<currentAngle<<std::endl;
+			#endif
                 //currentAngle = getAngle();
             }
             while(currentAngle < angle);
@@ -328,7 +328,29 @@ bool interpreter::getBumpAndWheel()
     }
     catch(int)
     {
-        // NOG TE IMPLEMENTERER
+        uart->flushQueue();
+        uart->sendUart(roomba::requestType::individual);
+		uart->sendUart(roomba::sensors::bumpAndWheel);
+    	uart->receiveUart();
+    	try
+	    {
+	        for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+	        {
+	            switch (i) {
+	            case 1:
+	                tmp = (uart->getElement() ? 1 : 0);
+	                break;
+	            default:
+	                (void) uart->getElement();
+	                break;
+	            }
+	        }
+	    }
+	    catch(int i)
+	    {
+	    	std::cout<<"No uart"<<std::endl;
+	    	exit(-1);
+	    }
     }
 
 #ifdef fulldebug
@@ -703,9 +725,9 @@ int16_t interpreter::getDistance()
 
 uint16_t interpreter::getAngle() /*******************************************************************/
 {
-    #ifdef fulldebug
-        std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
-    #endif
+	#ifdef fulldebug
+	    std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
+	#endif
 
     uint16_t halfWord = 0x0000;
     uint8_t  highByte = 0x00;
@@ -718,24 +740,24 @@ uint16_t interpreter::getAngle() /**********************************************
 
     try
     {
-        usleep(10);
-        std::cout<<uart->getQueSize()<<std::endl;
+    	usleep(10);
+    	//std::cout<<uart->getQueSize()<<std::endl;
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
         {
-            std::cout<<"I is: "<<i<<std::endl;
+        	//std::cout<<"I is: "<<i<<std::endl;
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
-                #ifdef fulldebug
-                    std::cout<<"In function getAngle, highByte is: "<<std::hex<<highByte<<std::endl;
-                #endif
+				#ifdef fulldebug
+				    std::cout<<"In function getAngle, highByte is: "<<std::hex<<highByte<<std::endl;
+				#endif
                 break;
             case 2:
                 highByte = uart->getElement();
-                #ifdef fulldebug
-                    std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
-                #endif
-                break;
+				#ifdef fulldebug
+				    std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
+				#endif
+				break;
             default:
                 (void) uart->getElement();
                 break;
@@ -749,13 +771,13 @@ uint16_t interpreter::getAngle() /**********************************************
     halfWord = highByte << 8;
     halfWord |= lowByte;
 
-    #ifdef fulldebug
-        std::cout<<"In function getAngle, halfword is: "<<std::hex<<halfWord<<std::endl;
-    #endif
+	#ifdef fulldebug
+	    std::cout<<"In function getAngle, halfword is: "<<std::hex<<halfWord<<std::endl;
+	#endif
 
-    #ifdef fulldebug
-        std::cout<<"\033[31m end function getAngle\033[0m"<<std::endl;
-    #endif
+	#ifdef fulldebug
+	    std::cout<<"\033[31m end function getAngle\033[0m"<<std::endl;
+	#endif
     return halfWord;
 }/***************************************************************************************************/
 
@@ -2185,8 +2207,8 @@ bool interpreter::getBumpLeft()
         {
             switch (i){
             case 1:
-                tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
-                break;
+				tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
+				break;
             default:
                 (void) uart->getElement();
                 break;
