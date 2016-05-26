@@ -43,7 +43,6 @@ public:
 	~UARTClass();
     
 	bool receiveUart();
-	bool receiveUartFast();
     uint8_t getElement();
     string receiveString(void);
     int getQueSize();

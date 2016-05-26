@@ -92,33 +92,6 @@ bool UARTClass::sendstring(string sInput){
 }
 
 bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
-    bReceive = true;
-    unsigned char rx_buffer[256] = "\0";
-    if (iUARTFileStream != -1){
-        //int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de string
-        
-		int ReadSize =0;
-		do
-			ReadSize = read(iUARTFileStream, &rx_buffer, 255);
-		while( ReadSize <= 0 && bReceive);
-        
-		stringstream ss;
-		for(int i=0;i<ReadSize;i++){
-			ReceiveQueue.push(rx_buffer[i]);
-			ss << rx_buffer[i] << "|";
-		}
-		ofp << ss.str();
-		ofp << endl;
-
-        if(bReceive)
-            return(true);
-        else
-            return(false);
-    }
-    return(false);
-}
-
-bool UARTClass::receiveUartFast(){ // geef een string terug want das makkelijker als rx_buffer vervanger
 	bReceive = true;
 	unsigned char rx_buffer[256] = "\0";
 	if (iUARTFileStream != -1){
@@ -222,7 +195,6 @@ UARTClass::UARTClass(string sTTY){sTTY = sTTY;}
 bool UARTClass::sendUart(uint8_t code){return(false && code);}
 bool UARTClass::sendstring(string sInput){return(false && sInput.size());}
 bool UARTClass::receiveUart(){return(false);}
-bool UARTClass::receiveUartFast(){return(false);}
 uint8_t UARTClass::getElement(){return(0x00);}
 int UARTClass::getQueSize(){return(0);}
 void UARTClass::flushQueue(){}

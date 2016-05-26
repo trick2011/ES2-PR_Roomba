@@ -191,7 +191,7 @@ void Inv_interpreter::mainroutine(void){
 	receivestart();
 	while(true){
 		uart.flushQueue();
-		uart.receiveUartFast();
+		uart.receiveUart();
 		cout << "mainqueue		" << uart.getQueSize() << endl;
 		uint8_t element = uart.getElement();
 
@@ -216,7 +216,7 @@ void Inv_interpreter::mainroutine(void){
 			//verzend gevraagde sensor info
 			//welke sensor info is gevraagd?
 			//meer ontvangen
-			uart.receiveUartFast();
+//			uart.receiveUartFast();
 			switch(uart.getElement()){
 			case roomba::sensors::bumpAndWheel:
 					sendBumpAndWheel();
