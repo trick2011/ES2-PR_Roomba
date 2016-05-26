@@ -10,9 +10,8 @@
     IR!!!???
 */
 
-Inv_interpreter::Inv_interpreter(Roomclass& room):room(room){
-
-}
+Inv_interpreter::Inv_interpreter(Roomclass& room):room(room){}
+Inv_interpreter::Inv_interpreter(Roomclass* room):room(*room){}
 
 Inv_interpreter::~Inv_interpreter(){
 
@@ -188,6 +187,7 @@ void Inv_interpreter::receivestart(void){
 #warning "not in full mode"
 }
 void Inv_interpreter::mainroutine(void){
+	uart.sendstring("hoi\n");
 	receivestart();
 	while(true){
 		uart.flushQueue();

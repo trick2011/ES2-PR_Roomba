@@ -79,8 +79,10 @@ private:
 	void receivestart(void);
 public:
 	Inv_interpreter(Roomclass& room);
+	Inv_interpreter(Roomclass* room);
 	~Inv_interpreter();
 
+	void operator()(){mainroutine();}
 	void mainroutine(void);
 };
 

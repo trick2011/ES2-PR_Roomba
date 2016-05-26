@@ -1,13 +1,6 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <thread>
-//#include <iomanip> // setw() setfill()
-
 #include "file.h"
 #include "inv_interpreter.h"
-
-//using namespace std;
+#include "test.h"
 
 /*****************************************************//*
  * This is test code and as such won't be commented on
@@ -15,19 +8,6 @@
  *******************************************************/
 //#define INTERPERTER_TEST
 
-void testinit(Roomclass& room);
-void testinitBIG(Roomclass& room);
-
-void timerrun(Roomclass* room){
-	cout << room->roomba->iPosHor << " " << room->roomba->iPosVer << endl;
-	int counter=0;
-	while(1){
-		cout << *room->roomba;
-		cout << *room->sensors;
-		sleep(1);
-		cout << counter++ << endl;
-	}
-}
 #define INTERPERTER_TEST
 
 int main(){
@@ -70,25 +50,4 @@ int main(){
 #endif
 #endif
     return 0;
-}
-
-void testinitBIG(Roomclass& room){
-	Roomobjectclass object(-20,-20,0,40,Roomobjectclass::wall);
-	room.roomobjects.push_back(object);
-	Roomobjectclass objectb(20,-20,0,40,Roomobjectclass::wall);
-	room.roomobjects.push_back(objectb);
-	Roomobjectclass objectc(-20,-20,40,0,Roomobjectclass::wall);
-	room.roomobjects.push_back(objectc);
-	Roomobjectclass objectd(-20,20,40,0,Roomobjectclass::wall);
-	room.roomobjects.push_back(objectd);
-}
-void testinit(Roomclass& room){
-	Roomobjectclass object(-5,-5,0,10,Roomobjectclass::drop);
-    room.roomobjects.push_back(object);
-	Roomobjectclass objectb(5,-5,0,10,Roomobjectclass::drop);
-    room.roomobjects.push_back(objectb);
-	Roomobjectclass objectc(-5,-5,10,0,Roomobjectclass::drop);
-    room.roomobjects.push_back(objectc);
-	Roomobjectclass objectd(-5,5,10,0,Roomobjectclass::drop);
-    room.roomobjects.push_back(objectd);
 }
