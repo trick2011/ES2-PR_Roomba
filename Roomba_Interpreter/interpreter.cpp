@@ -2372,10 +2372,14 @@ bool interpreter::getLeftWheelOvercurrent()
 
 }
 
+void interpreter::operator()(){
+	autoMode();
+}
+
 void interpreter::startAutoMode()
 {
-    //AUTO = std::thread(&interpreter::autoMode);
-    //AUTO.detach();
+	AUTO = new std::thread(ref(*this));
+	AUTO->detach();
 }
 
 void interpreter::autoMode()

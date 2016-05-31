@@ -101,8 +101,10 @@ public:
 //private:
     // automode functions //
     void startAutoMode();
+
+	void operator()();
     void autoMode();
-    std::thread AUTO;
+    std::thread* AUTO;
 
     bool autoRunning;
 
