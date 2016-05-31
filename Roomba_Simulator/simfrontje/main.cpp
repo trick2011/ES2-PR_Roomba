@@ -7,6 +7,7 @@
 
 #include "mainwindow.h"
 #include <QApplication>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
 
 
 	MainWindow w(room);
+	w.setWindowIcon(QIcon(QString::fromUtf8(":/led/pile_of_poo")));
 	w.show();
 
 	return a.exec();

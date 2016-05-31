@@ -206,9 +206,9 @@ class Roombaclass : public Roomobjectclass{
 private:
     float fAngle;
     float fSpeed;
-	Sensorclass& sensors;
+    Sensorclass& sensors;
 
-	float RadiusTurned;
+    float RadiusTurned;
 
 public:
 	Sensorclass& sensorref;

@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/led">
+        <file>green_led.png</file>
+        <file>orange_led.png</file>
+        <file>red_led.png</file>
+        <file alias="green_led">green_led_30.png</file>
+        <file alias="orange_led">orange_led_30.png</file>
+        <file alias="red_led">red_led_30.png</file>
+        <file alias="pile_of_poo">4fbf3006c4860703abba9a4dcb3fcd5d.png</file>
+    </qresource>
+</RCC>
