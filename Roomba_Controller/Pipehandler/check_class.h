@@ -20,6 +20,8 @@
 
 using namespace std;
 
+#define DRY_DEBUG // define DRY_DEBUG when not debugging with the roomba
+
 class check_class : public com_class{
 private:
 //	bool Auto_clean_Flag;
@@ -34,6 +36,7 @@ private:
 public:
 	//check_class();
 	check_class(Roombacontroller& roomref,interpreter& inter);
+
 
 	void operator()();
 

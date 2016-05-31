@@ -8,6 +8,7 @@ void check_class::operator ()(){
 	pipe_checker();
 }
 
+#ifndef DRY_DEBUG // actual implementation
 void check_class::pipe_checker(){
 	char PipeCommand = 0x00;
 	while(1){
@@ -70,6 +71,60 @@ void check_class::pipe_checker(){
 //		function_type_checker(cRcommand);
 //	}
 }
+#endif
+#ifdef DRY_DEBUG // terminal testing
+void check_class::pipe_checker(){
+	char PipeCommand = 0x00;
+	while(1){
+		PipeCommand = 0x00;
+		PipeCommand = readFIFO();
+		if(PipeCommand == pipeempty)
+			continue;
+
+		switch(PipeCommand){
+		case 'e':	//AutoClean
+	//		Autotmp* a;
+			cout<<"AutoClean ON"<<endl;
+			break;
+		case 'f':	//CellClean
+			cout<<"CellClean ON"<<endl;
+			break;
+		case 'g':	//Walltrace
+			cout<<"Walltrace ON"<<endl;
+			break;
+		case 'h':	//Spotclean
+			cout<<"Spotclean ON"<<endl;
+			break;
+		case 'i':	//manclean
+			//Manclean* manclean_object = new Manclean();
+			//roomref.stelcleaningin(manclean_object);
+			cout<<"ManClean ON"<<endl;
+			break;
+		case 'j':	//Stop Clean
+			//roomref.stop();
+			cout<<"Stopped all Clean programs"<<endl;
+			break;
+		case 'k':	//Dock
+			//roomref.dock();
+			cout<<"Dock Roomba"<<endl;
+			break;
+		default :
+			break;
+		}
+	}
+//	char cRcommand;
+//	cRcommand = readFIFO();
+//	function_type_checker(cRcommand);
+
+//	if(cRcommand == 'o'){
+//		cout<<"pipe empty"<<endl;
+//	}
+//	else{
+//		function_type_checker(cRcommand);
+//	}
+}
+
+#endif
 
 //pipe checker // old
 //void check_class::pipe_checker(){
