@@ -30,7 +30,7 @@ body
 
 <?php //refresh
 	//refresh rate
-	$url=$_SERVER['REQUEST_URI']; header("Refresh: 2; URL=$url"); 
+	//$url=$_SERVER['REQUEST_URI']; header("Refresh: 2; URL=$url"); 
 	/*MSG to myself
 		metas are a fail, dont use. 
 		al tough its easy,php doesnt handel them wel
