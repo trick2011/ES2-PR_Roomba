@@ -7,7 +7,7 @@ class Walltrace : public Basicclean
 public:
 	Walltrace(interpreter& interpreterreference):Basicclean(interpreterreference){}
     ~Walltrace();
-	void clean(void){}
+    void clean(void);
 };
 
 #endif // WALLTRACE_H

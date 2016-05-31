@@ -2,6 +2,7 @@
 #define DOCK_H
 #include "basicclean.h"
 
+
 class Dock : public Basicclean
 {
 public:

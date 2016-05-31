@@ -26,24 +26,35 @@ void AutoClean::clean(void)
 			cout << interpreterreference.getBumpRight() << endl;
 			cout << Run << endl;
 
-			//interpreterreference.getclif
-//			Run |= interpreterreference.Bumps.bLeft;
-//			Run |= interpreterreference.Bumps.bRight;
-//			Run |= interpreterreference.Cliff.bFrontLeft;
-//			Run |= interpreterreference.Cliff.bFrontRight;
-//			Run |= interpreterreference.Cliff.bLeft;
-//			Run |= interpreterreference.Cliff.bRight;
-			//sleep(1);
 		}while((Run == false) && (getEnableCleaning() == true));
 
-		Run = false;
-		//interpreterreference.drives(roomba::speed::STOP);
-		interpreterreference.turnRoomba(-90);
-		sleep(1);
-		interpreterreference.drives(roomba::speed::SLOW);
-		//interpreterreference.drives(roomba::speed::STOP);
-		sleep(1);
-		interpreterreference.turnRoomba(-90);
+        switch(iState)
+        {
+        case 0: //bocht naar links
+            cout << "bocht naar links" << endl;
+            Run = false;
+            interpreterreference.turnRoomba(-90);
+            sleep(1);
+            interpreterreference.drives(roomba::speed::SLOW);
+            sleep(1);
+            interpreterreference.turnRoomba(-90);
+            iState = 1;
+            break;
+        case 1: //bocht naar rechts
+            cout << "bocht naar recht" << endl;
+            Run = false;
+            interpreterreference.turnRoomba(90);
+            sleep(1);
+            interpreterreference.drives(roomba::speed::SLOW);
+            sleep(1);
+            interpreterreference.turnRoomba(90);
+            iState = 0;
+            break;
+        default:
+            iState = 0;
+        }
+
+
 	 }
 }
 
