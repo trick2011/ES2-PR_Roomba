@@ -11,7 +11,7 @@
 
 #include <cstring>
 #include <stdint.h>
-#include "easylogging++.h"
+#include "../../Roomba_UART/easylogging++.h"
 
 #include <unistd.h>			//Used for UART
 #include <fcntl.h>			//Used for UART
@@ -29,6 +29,9 @@
 #endif
 
 using namespace std;
+
+
+
 
 class UARTClass  /**< hier mag eigenlijk ook een betere naam voor gekozen worden want Uart voelt gewoon raar en kan beter benoemt worden **/
             /**< uberhaupt moeten variabelen beter benoemt worden **/
@@ -56,6 +59,8 @@ public:
     void breakreceive(void) {bReceive = false;}
 
 	void operator()();
+
+	void loginit();
 };
 
 
