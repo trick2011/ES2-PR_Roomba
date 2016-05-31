@@ -31,6 +31,7 @@ At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 fu
     if (iUARTFileStream == -1)
         //ERROR - CAN'T OPEN SERIAL PORT
         printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
+        LOG(ERROR) << "Kan UART niet opstarten.\n";
 
     /*CONFIGURE THE UART
     The flags (defined in /usr/include/termios.h - see http://pubs.opengroup.org/onlinepubs/007908799/xsh/termios.h.html):
@@ -58,6 +59,7 @@ UARTClass::UARTClass(string sTTY){
 
     if (iUARTFileStream == -1)
         printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
+        LOG(ERROR) << "Kan UART niet opstarten." << endl;
 
     struct termios options;
     tcgetattr(iUARTFileStream, &options);
@@ -74,21 +76,37 @@ bool UARTClass::sendUart(uint8_t code){
     if (iUARTFileStream != -1){
         int count = write(iUARTFileStream,&code,1);		//Filestream, bytes to write, number of bytes to write
         if (count < 0)
-            return(false);
+        {
+            LOG(INFO) << "count is < 0 in functie sendUart." << endl;
+            return(false); 
+        }
         else
+        {
+            LOG(INFO) << "Bytes to write: " << &code << " Number of bytes to write: " << 1 << " in sendUart" << endl;           
             return(true);
+        }
     }
+    LOG(ERROR) << "Kan UART niet openen in functie sendUart." << endl;
     return(false);
 }
 bool UARTClass::sendstring(string sInput){
     int count = -1;
-    if(iUARTFileStream != -1)
+    if(iUARTFileStream != -1){
         count = write(iUARTFileStream,sInput.c_str(),sInput.size());		//Filestream, bytes to write, number of bytes to write
 
     if (count < 0)
+    {
+        LOG(INFO) << "count is < 0 in functie sendstring." << endl;
         return(false);
+    }
     else
+    {
+        //LOG(INFO) << "Bytes to write" << sInput.c_str() << "Number of bytes to write" << sInput.size() << " in sendstring" << endl;
         return(true);
+    }
+    }
+    LOG(ERROR) << "Kan UART niet openen in functie sendstring." << endl;
+    return(false);
 }
 
 bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
@@ -101,12 +119,15 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 		do
 			ReadSize = read(iUARTFileStream, &rx_buffer, 255);
 		while( ReadSize <= 0 && bReceive);
+      LOG(INFO) << "Bytes to write: " << &rx_buffer << " Number of bytes to write: " << 255 << " in receiveUart" << endl;
 
 		stringstream ss;
 		for(int i=0;i<ReadSize;i++){
 			ReceiveQueue.push(rx_buffer[i]);
 			ss << rx_buffer[i] << "|";
+      LOG(INFO) << "Queue inhoud: " << rx_buffer[i] << endl;
 		}
+
 
 		chrono::time_point<chrono::system_clock> start,end;
 		start = chrono::system_clock::now();
@@ -123,11 +144,14 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 		memset(&rx_buffer,0x00,255);
 
 		ReadSize = read(iUARTFileStream, &rx_buffer, 255);
+      LOG(INFO) << "Bytes to write: " << &rx_buffer << " Number of bytes to write: " << 255 << " in receiveUart" << endl;
 
 		for(int i=0;i<ReadSize;i++){
 			ReceiveQueue.push(rx_buffer[i]);
 			ss << rx_buffer[i] << "|";
+         LOG(INFO) << "Queue inhoud: " << rx_buffer[i] << endl;
 		}
+
 
 		ofp << ss.str();
 		ofp << endl;
@@ -137,6 +161,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 		else
 			return(false);
 	}
+   LOG(ERROR) << "Kan UART niet openen in functie receiveUart." << endl;
 	return(false);
 }
 
@@ -160,6 +185,7 @@ uint8_t UARTClass::getElement(){
 
 int UARTClass::getQueSize(){
     return(ReceiveQueue.size());
+    LOG(INFO) << "Queue size: " << ReceiveQueue.size() << endl;
 }
 
 void UARTClass::flushQueue()
@@ -176,7 +202,7 @@ string UARTClass::receiveString(void){
         char rx_buffer[256];
         //        int rx_length = read(iUARTFileStream, &rx_buffer, 255);
         while(read(iUARTFileStream, &rx_buffer, 255) <= 0 && bReceive){;}
-        
+        LOG(INFO) << "Bytes to write: " << &rx_buffer << " Number of bytes to write: " << 255 << " in receiveString" << endl;
         if(bReceive){
             string returnvalue(rx_buffer);
             return(returnvalue);
@@ -184,6 +210,7 @@ string UARTClass::receiveString(void){
         else
             return("\0");
     }
+    LOG(ERROR) << "Kan UART niet openen in functie receiveString." << endl;
     return("\0");
 }
 

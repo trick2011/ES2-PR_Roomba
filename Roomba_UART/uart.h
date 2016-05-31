@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include <stdint.h>
+#include "easylogging++.h"
 
 #include <unistd.h>			//Used for UART
 #include <fcntl.h>			//Used for UART
