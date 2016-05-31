@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
             cout<<"45 degrees left or right? (l/r): ";
             char a;
             cin>>a;
-            if(a == 'l')Peter->turnRoomba(0xCD37); // -90 graden
-            if(a == 'r')Peter->turnRoomba(0x32C8); // 90 graden
+            if(a == 'l')Peter->turnRoomba(0xFFE8); // -90 graden
+            if(a == 'r')Peter->turnRoomba(0x0019); //90 graden
             break;
         case 4:
             Peter->autoMode();
