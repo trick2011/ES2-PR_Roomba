@@ -33,11 +33,11 @@ void AutoClean::clean(void)
         case 0: //bocht naar links
             cout << "bocht naar links" << endl;
             Run = false;
-            interpreterreference.turnRoomba(-90);
+            interpreterreference.turnLeft;
             sleep(1);
             interpreterreference.drives(roomba::speed::SLOW);
             sleep(1);
-            interpreterreference.turnRoomba(-90);
+            interpreterreference.turnLeft;
             iState = 1;
             break;
         case 1: //bocht naar rechts
