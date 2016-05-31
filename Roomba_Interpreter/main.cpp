@@ -4,7 +4,7 @@
 #include <iostream>
 #include "interpreter.h"
 #include "opcodes.h"
-#include "../Roomba_Interpreter/UART/uart.h"
+#include "../Roomba_UART/uart.h"
 
 
 using namespace std;
@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
             cout<<"45 degrees left or right? (l/r): ";
             char a;
             cin>>a;
-            if(a == 'l')Peter->turnRoomba(0xCD37);
-            if(a == 'r')Peter->turnRoomba(0x32C8);
+            if(a == 'l')Peter->turnRoomba(0xCD37); // -90 graden
+            if(a == 'r')Peter->turnRoomba(0x32C8); // 90 graden
             break;
         case 4:
             Peter->autoMode();
