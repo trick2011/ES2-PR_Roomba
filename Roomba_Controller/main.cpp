@@ -18,9 +18,9 @@ int main(void){
 	RoombaController.EnableCleaning();
 
 //	inter.drives(roomba::speed::SLOW);
-	cleaningobject.clean(); // direct cleaning
+//	cleaningobject.clean(); // direct cleaning
 //	RoombaController.LoadCleaningProgram(); // normal cleaning
-//	RoombaController.LoadCleaningProgram(); // thread cleaning
+	RoombaController.SetCleaningProgram(&cleaningobject); // thread cleaning
 
 
 	cout << "running" << endl;
