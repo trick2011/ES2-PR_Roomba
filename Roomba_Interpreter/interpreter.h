@@ -196,6 +196,9 @@ public:
     void testSensors();
     void printTest();
 
+    void turnRight();
+    void turnLeft();
+
 };
 
 #endif // INTERPRETER_H

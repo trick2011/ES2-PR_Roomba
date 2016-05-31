@@ -2838,3 +2838,60 @@ void interpreter::printTest()
     std::cout<<"  - Current     = " << this->Battery.uiCurrent    << std::endl;
     std::cout<<"  - Voltage     = " << this->Battery.uiVoltage    << std::endl;
 }
+
+void interpreter::turnRight()
+{
+    uint16_t currentAngle = 0x0000;
+    try
+    {
+        (void) getAngle(); 
+        uart->sendUart(roomba::drive);
+
+        uart->sendUart(0x00); // Velocity high byte
+        uart->sendUart(0x7F); // Velocity low  byte
+        uart->sendUart(0xFF); // Radius high byte
+        uart->sendUart(0xFF); // Radius low  byte
+
+        do
+        {
+            usleep(100);
+            uint16_t temp = ~getAngle();
+            temp += 0x0001;
+            currentAngle += temp;
+                
+        }
+        while(currentAngle < 0x0019);
+        drives(roomba::speed::STOP);
+    }
+    catch(int)
+    {
+
+    }
+}
+
+void interpreter::turnLeft()
+{
+    uint16_t currentAngle = 0x0000;
+    try
+    {
+        (void) getAngle(); 
+        uart->sendUart(roomba::drive);
+
+        uart->sendUart(0x00); // Velocity high byte
+        uart->sendUart(0x7F); // Velocity low  byte
+        uart->sendUart(0x00); // Radius high byte
+        uart->sendUart(0x01); // Radius low  byte
+
+        do
+        {
+            usleep(100);
+            currentAngle -= getAngle();
+        }
+        while((currentAngle > 0xFFE8)||(currentAngle == 0));
+        drives(roomba::speed::STOP);
+    }
+    catch(int)
+    {
+
+    }
+}
