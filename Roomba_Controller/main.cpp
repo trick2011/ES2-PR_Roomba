@@ -3,6 +3,7 @@
 
 #define fulldebug
 #include "roombacontroller.h"
+INITIALIZE_EASYLOGGINGPP
 using namespace std;
 
 int main(void){
