@@ -7,11 +7,11 @@ UARTClass::~UARTClass(){
 }
 void UARTClass::loginit(){
 	// Load configuration from file
-	el::Configurations conf("./my-conf.conf");
+	//el::Configurations conf("./my-conf.conf");
 	// Reconfigure single logger
-	el::Loggers::reconfigureLogger("default", conf);
+	//el::Loggers::reconfigureLogger("default", conf);
 	// Actually reconfigure all loggers instead
-	el::Loggers::reconfigureAllLoggers(conf);
+	//el::Loggers::reconfigureAllLoggers(conf);
 	// Now all the loggers will use configuration from file
 }
 
@@ -40,8 +40,7 @@ UARTClass::UARTClass(){
 
 	if (iUARTFileStream == -1){
 	//ERROR - CAN'T OPEN SERIAL PORT
-		printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
-		LOG(ERROR) << "Kan UART niet opstarten";
+		//LOG(ERROR) << "Cannot start UART.";
 	}
 
 	/*CONFIGURE THE UART
@@ -70,8 +69,7 @@ UARTClass::UARTClass(string sTTY){
 	iUARTFileStream = open(sTTY.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
 	if (iUARTFileStream == -1){
-		printf("Error - Unable to open UART.  Ensure it is not in use by another application\n");
-		LOG(ERROR) << "Kan UART niet opstarten";
+		//LOG(ERROR) << "Cannot start UART";
 	}
 	struct termios options;
 	tcgetattr(iUARTFileStream, &options);
@@ -88,16 +86,16 @@ bool UARTClass::sendUart(uint8_t code){
 	if (iUARTFileStream != -1){
 		int count = write(iUARTFileStream,&code,1);		//Filestream, bytes to write, number of bytes to write
 		if (count < 0){
-			LOG(INFO) << "count is < 0 in functie sendUart.";
+			//LOG(INFO) << "count is < 0 in sendUart.";
 			return(false);
 		}
 		else{
-			LOG(INFO) << "Bytes to write: " << code << " Number of bytes to write: " << 1 << " in sendUart";
+			//LOG(INFO) << "Bytes to write: " << code << " Number of bytes to write: " << 1 << " in sendUart";
 			return(true);
 		}
 	}
 	else
-		LOG(ERROR) << "Kan UART niet openen in functie sendUart";
+		//LOG(ERROR) << "Cannot open UART in sendUart";
 	return(false);
 }
 bool UARTClass::sendstring(string sInput){
@@ -106,16 +104,16 @@ bool UARTClass::sendstring(string sInput){
 		count = write(iUARTFileStream,sInput.c_str(),sInput.size());		//Filestream, bytes to write, number of bytes to write
 
 		if (count < 0){
-			LOG(INFO) << "count is < 0 in functie sendstring." << endl;
+			//LOG(INFO) << "count is < 0 in sendstring." << endl;
 			return(false);
 		}
 		else{
-			LOG(INFO) << "Bytes to write " << sInput << " Number of bytes to write " << sInput.size() << " in sendstring";
+			//LOG(INFO) << "Bytes to write " << sInput << " Number of bytes to write " << sInput.size() << " in sendstring";
 			return(true);
 		}
 	}
 	else
-		LOG(ERROR) << "Kan UART niet openen in functie sendstring.";
+		//LOG(ERROR) << "Cannot open UART insendstring.";
 	return(false);
 }
 
@@ -130,13 +128,13 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 		ReadSize = read(iUARTFileStream, &rx_buffer, 255);
 	while( ReadSize <= 0 && bReceive);
 
-	LOG(INFO) << "Bytes to write: " << rx_buffer << " Number of bytes to read: " << ReadSize << " in receiveUart";
+	//LOG(INFO) << "Bytes to write: " << &rx_buffer << " Number of bytes to read: " << ReadSize << " in receiveUart";
 
 	stringstream ss;
 	for(int i=0;i<ReadSize;i++){
 		ReceiveQueue.push(rx_buffer[i]);
 		ss << rx_buffer[i] << "|";
-		LOG(INFO) << "Queue inhoud: " << rx_buffer[i];
+		//LOG(INFO) << "Queue container first read: " << ss << endl;
 	}
 
 
@@ -155,12 +153,12 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 	memset(&rx_buffer,0x00,255);
 
 	ReadSize = read(iUARTFileStream, &rx_buffer, 255);
-	LOG(INFO) << "Bytes to write: " << &rx_buffer << " Number of bytes to write: " << ReadSize << " in receiveUart";
+	//LOG(INFO) << "Bytes to write: " << &rx_buffer << " Number of bytes to write: " << ReadSize << " in receiveUart";
 
 	for(int i=0;i<ReadSize;i++){
 		ReceiveQueue.push(rx_buffer[i]);
 		ss << rx_buffer[i] << "|";
-		LOG(INFO) << "Queue inhoud: " << rx_buffer[i];
+		//LOG(INFO) << "Queue container second read: " << ss << endl;
 	}
 
 
@@ -173,7 +171,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 		return(false);
 	}
 	else
-		LOG(ERROR) << "Kan UART niet openen in functie receiveUart.";
+		//LOG(ERROR) << "Cannot open UART in receiveUart.";
 	return(false);
 }
 
@@ -184,9 +182,11 @@ void UARTClass::operator()(){
 
 uint8_t UARTClass::getElement(){
 	unsigned char ucElement = 0;
+   //LOG(INFO) << "Getting Queue Element..." << endl;
 	if(!ReceiveQueue.empty()){
 		ucElement = ReceiveQueue.front();
 		ReceiveQueue.pop();
+      //LOG(INFO) << "Queue Element: " << ucElement << endl;
 	}
 	else
 		throw 1;
@@ -195,18 +195,19 @@ uint8_t UARTClass::getElement(){
 }
 
 int UARTClass::getQueSize(){
-	LOG(INFO) << "Queue size: " << ReceiveQueue.size();
+	//LOG(INFO) << "QueueSize received... Queue size: " << ReceiveQueue.size() << endl;
 	return(ReceiveQueue.size());
 }
 
 void UARTClass::flushQueue(){
+	//LOG(INFO) << "Queue emptying..." << endl;
 	while(!ReceiveQueue.empty()){
 		ReceiveQueue.pop();
 	}
+   //LOG(INFO) << "Queue is empty." << endl;
 }
 
 string UARTClass::receiveString(void){
-	LOG(ERROR) << "Zeg verrekte koekwous dit werkt niet";
 //	bReceive = true;
 //	if(iUARTFileStream != -1){
 //		char rx_buffer[256];
