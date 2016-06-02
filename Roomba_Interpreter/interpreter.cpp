@@ -26,7 +26,7 @@ void interpreter::startRoomba()
 #endif
 
     uart->sendUart(roomba::Start);
-    uart->sendUart(roomba::modes::safeMode);
+    uart->sendUart(roomba::modes::fullMode);
     //uart->sendUart(roomba::cleanModes::Clean);
 
 #ifdef fulldebug
@@ -239,6 +239,40 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     std::cout<<"end function turnRoomba"<<std::endl;
 #endif
 }/*******************************************************************/
+
+bool interpreter::slowTillStop()
+{
+    bool stop = false;
+    for(uint8_t speed = 0x7F; speed > 0x30 ; speed=speed*0.75)
+    {
+        if(getBumpLeft() || getBumpRight())
+        {
+            drives(roomba::speed::STOP);
+            stop = true;
+        }
+        else
+        {
+            uart->sendUart(roomba::drive);
+            uart->sendUart(0x00); // Velocity high byte
+            uart->sendUart(speed); // Velocity low  byte
+            uart->sendUart(0x80); // Radius high byte
+            uart->sendUart(0x00); // Radius low  byte
+        }
+        
+    }
+    while(1) {
+        if(getBumpRight() || getBumpLeft() || stop)
+        {
+            drives(roomba::speed::STOP);
+            return 0;
+        }
+        if (!getLightBumper())
+            return 1;
+    }
+    
+    
+    
+}
 
 void interpreter::failSave()
 {
@@ -2389,94 +2423,199 @@ void interpreter::autoMode()
 
     while(autoRunning)
     {
-        uart->flushQueue();
-        // bump and wheel functions
-        uart->sendUart(roomba::requestType::individual);
-        uart->sendUart(roomba::sensors::bumpAndWheel);
-        uart->receiveUart();
-        received = uart->getElement();
-        uint8_t temp = received;
-        this->Bumps.bRight      = (received & 0b00000001) == 0b00000001 ? true : false;
-        this->Bumps.bLeft       = (received & 0b00000010) == 0b00000010 ? true : false;
-        this->WheelDrops.bRight = (received & 0b00000100) == 0b00000100 ? true : false;
-        this->WheelDrops.bLeft  = (received & 0b00001000) == 0b00001000 ? true : false;
+        try
+        {
+            uart->flushQueue();
+            // bump and wheel functions
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::bumpAndWheel);
+            uart->receiveUart();
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            /*this->Bumps.bRight      = (received & 0b00000001) == 0b00000001 ? true : false;
+            this->Bumps.bLeft       = (received & 0b00000010) == 0b00000010 ? true : false;*/
+            this->WheelDrops.bRight = (received & 0b00000100) == 0b00000100 ? true : false;
+            this->WheelDrops.bLeft  = (received & 0b00001000) == 0b00001000 ? true : false;
 
-        // overcurrent functions
-        uart->sendUart(roomba::requestType::individual);
-        uart->sendUart(roomba::sensors::wheelOvercurrents);
-        uart->receiveUart();
-        received = uart->getElement();
-        this->OverCurrent.bSideBrush  = (received & 0b00000001) == 0b00000001 ? true : false;
-        this->OverCurrent.bMainBrush  = (received & 0b00000100) == 0b00000100 ? true : false;
-        this->OverCurrent.bWheelRight = (received & 0b00001000) == 0b00001000 ? true : false;
-        this->OverCurrent.bWheelLeft  = (received & 0b00010000) == 0b00010000 ? true : false;
+            this->Bumps.bRight = getBumpRight();
+            this->Bumps.bLeft = getBumpLeft();
 
-        // cliff functions
-        uart->sendUart(roomba::requestType::individual);
-        uart->sendUart(roomba::sensors::cliffLeft);
-        uart->receiveUart();
-        this->Cliff.bLeft = uart->getElement() ? true : false;
-        uart->sendUart(roomba::sensors::cliffRight);
-        this->Cliff.bRight = uart->getElement() ? true : false;
-        uart->sendUart(roomba::sensors::cliffFrontLeft);
-        this->Cliff.bFrontLeft = uart->getElement() ? true : false;
-        uart->sendUart(roomba::sensors::cliffFrontRight);
-        this->Cliff.bFrontRight = uart->getElement() ? true : false;
+            // overcurrent functions
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::wheelOvercurrents);
+            uart->receiveUart();
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            this->OverCurrent.bSideBrush  = (received & 0b00000001) == 0b00000001 ? true : false;
+            this->OverCurrent.bMainBrush  = (received & 0b00000100) == 0b00000100 ? true : false;
+            this->OverCurrent.bWheelRight = (received & 0b00001000) == 0b00001000 ? true : false;
+            this->OverCurrent.bWheelLeft  = (received & 0b00010000) == 0b00010000 ? true : false;
 
-        // infrared functions
-        uart->sendUart(roomba::requestType::individual);
-        uart->sendUart(roomba::sensors::irReceiver);
-        uart->receiveUart();
-        switch (uart->getElement()) {
-        case roomba::charger::Red:
-            this->InfraRed.bLeft  = true;
-            this->InfraRed.bRight = false;
-            this->InfraRed.bClose = false;
-            break;
-        case roomba::charger::Green:
-            this->InfraRed.bLeft  = false;
-            this->InfraRed.bRight = true;
-            this->InfraRed.bClose = false;
-            break;
-        case roomba::charger::RedAndGreen:
-            this->InfraRed.bLeft  = true;
-            this->InfraRed.bRight = true;
-            this->InfraRed.bClose = false;
-            break;
-        case roomba::charger::RedAndForceField:
-            this->InfraRed.bLeft  = true;
-            this->InfraRed.bRight = false;
-            this->InfraRed.bClose = true;
-            break;
-        case roomba::charger::GreenAndForField:
-            this->InfraRed.bLeft  = false;
-            this->InfraRed.bRight = true;
-            this->InfraRed.bClose = true;
-            break;
-        case roomba::charger::RedGreenAndForceField:
-            this->InfraRed.bLeft  = true;
-            this->InfraRed.bRight = true;
-            this->InfraRed.bClose = true;
-            break;
-        default:
-            this->InfraRed.bLeft  = false;
-            this->InfraRed.bRight = false;
-            this->InfraRed.bClose = false;
-            break;
+            // cliff functions
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::cliffLeft);
+            uart->receiveUart();
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            this->Cliff.bLeft = received ? true : false;
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::cliffRight);
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            this->Cliff.bRight = received ? true : false;
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::cliffFrontLeft);
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            this->Cliff.bFrontLeft = received ? true : false;
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::cliffFrontRight);
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            this->Cliff.bFrontRight = received ? true : false;
+
+            // infrared functions
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::irReceiver);
+            uart->receiveUart();
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            switch (received) {
+            case roomba::charger::Red:
+                this->InfraRed.bLeft  = true;
+                this->InfraRed.bRight = false;
+                this->InfraRed.bClose = false;
+                break;
+            case roomba::charger::Green:
+                this->InfraRed.bLeft  = false;
+                this->InfraRed.bRight = true;
+                this->InfraRed.bClose = false;
+                break;
+            case roomba::charger::RedAndGreen:
+                this->InfraRed.bLeft  = true;
+                this->InfraRed.bRight = true;
+                this->InfraRed.bClose = false;
+                break;
+            case roomba::charger::RedAndForceField:
+                this->InfraRed.bLeft  = true;
+                this->InfraRed.bRight = false;
+                this->InfraRed.bClose = true;
+                break;
+            case roomba::charger::GreenAndForField:
+                this->InfraRed.bLeft  = false;
+                this->InfraRed.bRight = true;
+                this->InfraRed.bClose = true;
+                break;
+            case roomba::charger::RedGreenAndForceField:
+                this->InfraRed.bLeft  = true;
+                this->InfraRed.bRight = true;
+                this->InfraRed.bClose = true;
+                break;
+            default:
+                this->InfraRed.bLeft  = false;
+                this->InfraRed.bRight = false;
+                this->InfraRed.bClose = false;
+                break;
+            }
+            // wall signal functions
+            uart->sendUart(roomba::requestType::individual);
+            uart->sendUart(roomba::sensors::lightBumper);
+            uart->receiveUart();
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch(i)
+                {
+                    case 1:
+                        received = uart->getElement();
+                        break;
+                    default:
+                        (void) uart->getElement();
+                        break;
+                }
+            }
+            this->Wall.bLeft        = (received & 0b00000001) == 0b00000001 ? true : false;
+            this->Wall.bFrontLeft   = (received & 0b00000010) == 0b00000010 ? true : false;
+            this->Wall.bCenterLeft  = (received & 0b00000100) == 0b00000100 ? true : false;
+            this->Wall.bCenterRight = (received & 0b00001000) == 0b00001000 ? true : false;
+            this->Wall.bFrontRight  = (received & 0b00010000) == 0b00010000 ? true : false;
+            this->Wall.bRight       = (received & 0b00100000) == 0b00100000 ? true : false;
         }
-        // wall signal functions
-        uart->sendUart(roomba::requestType::individual);
-        uart->sendUart(roomba::sensors::lightBumper);
-        uart->receiveUart();
-        received = uart->getElement();
-        this->Wall.bLeft        = (received & 0b00000001) == 0b00000001 ? true : false;
-        this->Wall.bFrontLeft   = (received & 0b00000010) == 0b00000010 ? true : false;
-        this->Wall.bCenterLeft  = (received & 0b00000100) == 0b00000100 ? true : false;
-        this->Wall.bCenterRight = (received & 0b00001000) == 0b00001000 ? true : false;
-        this->Wall.bFrontRight  = (received & 0b00010000) == 0b00010000 ? true : false;
-        this->Wall.bRight       = (received & 0b00100000) == 0b00100000 ? true : false;
+        catch(int)
+        {
 
-        system("clear");
+        }
+
+        /*system("clear");
         temp = static_cast<int>(temp);
         std::cout<< std::endl << "Bump value: " <<std::dec<<temp<<std::endl;
         std::cout << "Left Wheel drop:          " << this->WheelDrops.bLeft << std::endl;
@@ -2492,7 +2631,7 @@ void interpreter::autoMode()
         std::cout << "Wall signal CenterLeft:   " << this->Wall.bCenterLeft << std::endl;
         std::cout << "Wall signal CenterRight:  " << this->Wall.bCenterRight << std::endl;
         std::cout << "Wall signal FrontRight:   " << this->Wall.bFrontRight << std::endl;
-        std::cout << "Wall signal Right:        " << this->Wall.bRight << std::endl;
+        std::cout << "Wall signal Right:        " << this->Wall.bRight << std::endl;*/
 
     }
 
@@ -2808,39 +2947,27 @@ void interpreter::testSensors()
 
 void interpreter::printTest()
 {
-    usleep(100);
-    system("clear");
-    std::cout<<std::endl;
-    std::cout<<"SPEED = " << getRequestedVelocity();
-    std::cout<<std::endl;
-    std::cout<<"Bumpers "<<std::endl;
-    std::cout<<"  - Left  = " <<this->Bumps.bLeft<<std::endl;
-    std::cout<<"  - Right = " <<this->Bumps.bRight<<std::endl;
-    std::cout<<std::endl;
-    std::cout<<"Wheeldrop"<<std::endl;
-    std::cout<<"  - Left  = " <<this->WheelDrops.bLeft<<std::endl;
-    std::cout<<"  - Right = " <<this->WheelDrops.bRight<<std::endl;
-    std::cout<<std::endl;
-    std::cout<<"Cliff"<<std::endl;
-    std::cout<<"  - Left        = "<<this->Cliff.bLeft       << " - " << this->CliffDepth.uiLeft<<std::endl;
-    std::cout<<"  - Front Left  = "<<this->Cliff.bFrontLeft  << " - " << this->CliffDepth.uiFrontLeft<<std::endl;
-    std::cout<<"  - Front Right = "<<this->Cliff.bFrontRight << " - " << this->CliffDepth.uiFrontRight<<std::endl;
-    std::cout<<"  - Right       = "<<this->Cliff.bRight      << " - " << this->CliffDepth.uiRight<<std::endl;
-    std::cout<<std::endl;
-    std::cout<<"LightBump"<<std::endl;
-    std::cout<<"  - Left         = " << this->Wall.bLeft        <<  " - " << this->WallDistance.bLeft <<std::endl;
-    std::cout<<"  - Front Left   = " << this->Wall.bFrontLeft   <<  " - " << this->WallDistance.bFrontLeft <<std::endl;
-    std::cout<<"  - Center Left  = " << this->Wall.bCenterLeft  <<  " - " << this->WallDistance.bCenterLeft <<std::endl;
-    std::cout<<"  - Center Right = " << this->Wall.bCenterRight <<  " - " << this->WallDistance.bCenterRight <<std::endl;
-    std::cout<<"  - Front Right  = " << this->Wall.bFrontRight  <<  " - " << this->WallDistance.bFrontRight <<std::endl;
-    std::cout<<"  - Right        = " << this->Wall.bRight       <<  " - " << this->WallDistance.bRight <<std::endl;
-    std::cout<<std::endl;
-    std::cout<<"Battery"<<std::endl;
-    std::cout<<"  - Temperature = " << this->Battery.iTemperature << std::endl;
-    std::cout<<"  - Capacity    = " << this->Battery.uiCapacity   << std::endl;
-    std::cout<<"  - Charge      = " << this->Battery.uiCharge     << std::endl;
-    std::cout<<"  - Current     = " << this->Battery.uiCurrent    << std::endl;
-    std::cout<<"  - Voltage     = " << this->Battery.uiVoltage    << std::endl;
+    while(1)
+    {
+        usleep(1000);
+        system("clear");
+        std::cout<<std::endl;
+        std::cout << "Left Wheel drop:          " << this->WheelDrops.bLeft << std::endl;
+        std::cout << "Right Wheel drop:         " << this->WheelDrops.bRight << std::endl;
+        std::cout << "Left Wheel overcurrent:   " << this->OverCurrent.bWheelLeft << std::endl;
+        std::cout << "Right Wheel overcurrent:  " << this->OverCurrent.bWheelRight << std::endl;
+        std::cout << "Main brush overcurrent:   " << this->OverCurrent.bMainBrush << std::endl;
+        std::cout << "Side brush overcurrent:   " << this->OverCurrent.bSideBrush << std::endl;
+        std::cout << "Left Bumper:              " << this->Bumps.bLeft << std::endl;
+        std::cout << "Right Bumper:             " << this->Bumps.bLeft << std::endl;
+        std::cout << "Wall signal Left:         " << this->Wall.bLeft << std::endl;
+        std::cout << "Wall signal FrontLeft:    " << this->Wall.bFrontLeft << std::endl;
+        std::cout << "Wall signal CenterLeft:   " << this->Wall.bCenterLeft << std::endl;
+        std::cout << "Wall signal CenterRight:  " << this->Wall.bCenterRight << std::endl;
+        std::cout << "Wall signal FrontRight:   " << this->Wall.bFrontRight << std::endl;
+        std::cout << "Wall signal Right:        " << this->Wall.bRight << std::endl;
+    }
+    
 }
 
 void interpreter::turnRight()

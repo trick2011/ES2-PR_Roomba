@@ -14,8 +14,8 @@
 #include "../Roomba_UART/uart.h"
 #include "fail_error.h"
 
-#define debug
-#define fulldebug
+//#define debug
+//#define fulldebug
 //std::chrono::milliseconds interval(500);
 
 //unsigned int microseconds = 100;
@@ -36,6 +36,7 @@ public:
     void drives(int s); // speedgrades: slow, medium & fast
     void turnAndDrive(int speed, int radius);
     void turnRoomba(uint16_t angle); // angle in degrees
+    bool slowTillStop(); // returns 1 if correct
 
     void failSave();
 
