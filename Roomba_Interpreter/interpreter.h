@@ -12,7 +12,7 @@
 
 #include "opcodes.h"
 #include "../Roomba_UART/uart.h"
-#include "fail_error.h"
+//#include "fail_error.h"
 
 //#define debug
 //#define fulldebug
@@ -38,7 +38,6 @@ public:
     void turnRoomba(uint16_t angle); // angle in degrees
     bool slowTillStop(); // returns 1 if correct
 
-    void failSave();
 
     bool        getBumpAndWheel();
     uint8_t     getWall();
@@ -102,8 +101,9 @@ public:
 //private:
     // automode functions //
     void startAutoMode();
+    void stopAutoMode();
 
-	void operator()();
+    void operator()();
     void autoMode();
     std::thread* AUTO;
 
@@ -168,6 +168,7 @@ public:
 
     struct sWallDistance
     {
+        bool     bInsight;
         uint16_t bRight;
         uint16_t bFrontRight;
         uint16_t bCenterRight;
@@ -192,7 +193,7 @@ public:
 
     UARTClass *uart;
     bool stopFailSave = false;
-    std::mutex sendTex;
+    std::mutex *sendTex;
 
     void stopFailSaveThread();
 

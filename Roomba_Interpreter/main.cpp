@@ -2,6 +2,7 @@
 //#define fulldebug
 
 #include <iostream>
+#include <thread>
 #include "interpreter.h"
 #include "opcodes.h"
 #include "../Roomba_UART/uart.h"
@@ -76,11 +77,10 @@ int main(int argc, char *argv[])
             int i = 0;
             while(1)
             {
-                std::cout<<"case 8"<<std::endl;
                 do
                 {
                     Peter->drives(0);
-                    while(  !Peter->getLightBumper()|| !Peter->Cliff.bLeft || !Peter->Cliff.bFrontLeft || 
+                    while(  !Peter->Wall.bInsight || !Peter->Cliff.bLeft || !Peter->Cliff.bFrontLeft || 
                             !Peter->Cliff.bFrontRight || !Peter->Cliff.bRight || !Peter->Bumps.bLeft ||
                             !Peter->Bumps.bRight )
                         {;
@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
         }
         default:
             break;
-		
+        
         }
     }
 

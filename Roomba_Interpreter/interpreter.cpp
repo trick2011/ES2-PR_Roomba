@@ -24,10 +24,11 @@ void interpreter::startRoomba()
 #ifdef fulldebug
     std::cout<<"\033[32m start function startRoomba \033[0m"<<std::endl;
 #endif
-
+    sendTex->lock();
     uart->sendUart(roomba::Start);
     uart->sendUart(roomba::modes::fullMode);
     //uart->sendUart(roomba::cleanModes::Clean);
+    sendTex->unlock();
 
 #ifdef fulldebug
     std::cout<<"\033[31m end function startRoomba\033[0m"<<std::endl;
@@ -37,14 +38,17 @@ void interpreter::startRoomba()
 
 void interpreter::stopRoomba()
 {
+    sendTex->lock();
     uart->sendUart(roomba::Stop);
+    sendTex->unlock();
 }
 
 void interpreter::brushes(int brush)
 {
-#ifdef fulldebug
-    std::cout<<"start function brushes"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function brushes"<<std::endl;
+    #endif
+        sendTex->lock();
     switch (brush) {
     case roomba::brush::NOBRUSH: // no brush
 
@@ -69,14 +73,16 @@ void interpreter::brushes(int brush)
     default:
         break;
     }
-#ifdef fulldebug
-    std::cout<<"end function brushes"<<std::endl;
-#endif
+    sendTex->unlock();
+    #ifdef fulldebug
+        std::cout<<"end function brushes"<<std::endl;
+    #endif
 } // werkt perfect
 
 
 void interpreter::drives(int s)
 {
+    sendTex->lock();
 #ifdef fulldebug
     std::cout<<"start function drives"<<std::endl;
 #endif
@@ -105,18 +111,22 @@ void interpreter::drives(int s)
         uart->sendUart(0x00);
         uart->sendUart(0x00);
         uart->sendUart(0x00);
+        break;
     case roomba::speed::BACKWARDS: // backwards
         uart->sendUart(0xFF);
         uart->sendUart(0x81);
         uart->sendUart(0x80);
         uart->sendUart(0x00);
+        break;
     }
+    sendTex->unlock();
 #ifdef fulldebug
     std::cout<<"end function drives"<<std::endl;
 #endif
 }
 void interpreter::turnAndDrive(int speed, int radius) // define in header file, make enums for switches
 {
+    sendTex->lock();
     uart->sendUart(roomba::drive);
     switch(speed){
         case roomba::speed::SLOW: //slow
@@ -155,6 +165,7 @@ void interpreter::turnAndDrive(int speed, int radius) // define in header file, 
         uart->sendUart(0xA0);
         break;
     }
+    sendTex->unlock();
 }
 
 
@@ -168,14 +179,15 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     (void) getAngle();          // reset angle
 
     uint16_t currentAngle = 0x0000;
+    sendTex->lock();
     uart->sendUart(roomba::drive);
 
     if((angle >= 0x8000)&&(angle <= 0xFFFF)) // counter clockwise
     {
 
-		#ifdef fulldebug
-		    std::cout<<"counter clockwise"<<std::endl;
-		#endif
+        #ifdef fulldebug
+            std::cout<<"counter clockwise"<<std::endl;
+        #endif
 
         uart->sendUart(0x00); // Velocity high byte
         uart->sendUart(0x7F); // Velocity low  byte
@@ -185,19 +197,19 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
 
         do /*********************/
         {
-        	usleep(100);
+            usleep(100);
             /*uint16_t temp = ~getAngle();
-            	temp += 0x0001;
+                temp += 0x0001;
             currentAngle -= temp; // testen!!*/
             currentAngle -= getAngle();
 
-			#ifdef fulldebug
-			std::cout<<std::hex;
-		    std::cout<<"Angle is: "<<currentAngle<<std::endl;
-			#endif
+            #ifdef fulldebug
+            std::cout<<std::hex;
+            std::cout<<"Angle is: "<<currentAngle<<std::endl;
+            #endif
         }
         while((currentAngle > angle)||(currentAngle == 0));
-
+        sendTex->unlock();
         drives(roomba::speed::STOP);
     }
     else
@@ -205,9 +217,9 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
         if(angle >= 0x0000 && angle < 0x8000) // clockwise
         {
 
-		    #ifdef fulldebug
-		        std::cout<<"clockwise"<<std::endl;
-		    #endif
+            #ifdef fulldebug
+                std::cout<<"clockwise"<<std::endl;
+            #endif
             uart->sendUart(0x00); // Velocity high byte
             uart->sendUart(0x7F); // Velocity low  byte
             uart->sendUart(0xFF); // Radius high byte
@@ -215,19 +227,20 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
 
             do /*********************/
             {
-            	usleep(100);
+                usleep(100);
                 uint16_t temp = ~getAngle();
-            	temp += 0x0001;
-            	currentAngle += temp;
-            	//currentAngle += getAngle();
-			
-			#ifdef fulldebug
-			std::cout<<std::hex;
-		    std::cout<<"Angle is: "<<currentAngle<<std::endl;
-			#endif
+                temp += 0x0001;
+                currentAngle += temp;
+                //currentAngle += getAngle();
+            
+            #ifdef fulldebug
+            std::cout<<std::hex;
+            std::cout<<"Angle is: "<<currentAngle<<std::endl;
+            #endif
                 //currentAngle = getAngle();
             }
             while(currentAngle < angle);
+            sendTex->unlock();
             drives(roomba::speed::STOP);
         }
         else error = true;
@@ -245,23 +258,27 @@ bool interpreter::slowTillStop()
     bool stop = false;
     for(uint8_t speed = 0x7F; speed > 0x30 ; speed=speed*0.75)
     {
-        if(getBumpLeft() || getBumpRight())
+        //if(getBumpLeft() || getBumpRight())
+        if(Bumps.bLeft || Bumps.bRight)
         {
             drives(roomba::speed::STOP);
             stop = true;
         }
         else
         {
+            sendTex->lock();
             uart->sendUart(roomba::drive);
             uart->sendUart(0x00); // Velocity high byte
             uart->sendUart(speed); // Velocity low  byte
             uart->sendUart(0x80); // Radius high byte
             uart->sendUart(0x00); // Radius low  byte
+            sendTex->unlock();
         }
         
     }
     while(1) {
-        if(getBumpRight() || getBumpLeft() || stop)
+        //if(getBumpRight() || getBumpLeft() || stop)
+        if(Bumps.bLeft || Bumps.bRight || stop)
         {
             drives(roomba::speed::STOP);
             return 0;
@@ -274,74 +291,13 @@ bool interpreter::slowTillStop()
     
 }
 
-void interpreter::failSave()
-{
-    while(1)
-    {
-        if(stopFailSave)break;
-
-
-        /* check critical individual and intervene if neccesary */
-
-        uart->sendUart(roomba::sensors::bumpAndWheel);
-        if(uart->getElement())
-        {
-            uart->sendUart(roomba::Stop);
-        }
-
-        uart->sendUart(roomba::sensors::cliffLeftSignal);
-        if(uart->getElement() > 2048)
-        {
-            uart->sendUart(roomba::Stop);
-        }
-
-        uart->sendUart(roomba::sensors::cliffFrontLeftSignal);
-        if(uart->getElement() > 2048)
-        {
-            uart->sendUart(roomba::Stop);
-        }
-
-        uart->sendUart(roomba::sensors::cliffFrontRightSignal);
-        if(uart->getElement() > 2048)
-        {
-            uart->sendUart(roomba::Stop);
-        }
-
-        uart->sendUart(roomba::sensors::cliffRightSignal);
-        if(uart->getElement() > 2048)
-        {
-            uart->sendUart(roomba::Stop);
-        }
-
-        uart->sendUart(roomba::sensors::wheelOvercurrents);
-        if(uart->getElement())
-        {
-            uart->sendUart(roomba::Stop);
-        }
-
-        uart->sendUart(roomba::sensors::batteryCapacity);
-        uint16_t cap = uart->getElement();
-        uart->sendUart(roomba::sensors::batteryCharge);
-        uint16_t charg = uart->getElement();
-        if((cap/charg*100) < 10)
-        {
-            uart->sendUart(roomba::Stop); // stop roomba when battery is under 10%
-        }
-
-
-
-        //std::this_thread::sleep_for(interval);
-    }
-
-}
-
 bool interpreter::getBumpAndWheel()
 {
-#ifdef fulldebug
-    std::cout<<"start function getBumpAndWheel"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getBumpAndWheel"<<std::endl;
+    #endif
     bool tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
@@ -364,42 +320,43 @@ bool interpreter::getBumpAndWheel()
     {
         uart->flushQueue();
         uart->sendUart(roomba::requestType::individual);
-		uart->sendUart(roomba::sensors::bumpAndWheel);
-    	uart->receiveUart();
-    	try
-	    {
-	        for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
-	        {
-	            switch (i) {
-	            case 1:
-	                tmp = (uart->getElement() ? 1 : 0);
-	                break;
-	            default:
-	                (void) uart->getElement();
-	                break;
-	            }
-	        }
-	    }
-	    catch(int i)
-	    {
-	    	std::cout<<"No uart"<<std::endl;
-	    	exit(-1);
-	    }
+        uart->sendUart(roomba::sensors::bumpAndWheel);
+        uart->receiveUart();
+        try
+        {
+            for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
+            {
+                switch (i) {
+                case 1:
+                    tmp = (uart->getElement() ? 1 : 0);
+                    break;
+                default:
+                    (void) uart->getElement();
+                    break;
+                }
+            }
+        }
+        catch(int i)
+        {
+            std::cout<<"No uart"<<std::endl;
+            exit(-1);
+        }
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getBumpAndWheel"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getBumpAndWheel"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getWall()
 {
-#ifdef fulldebug
-    std::cout<<"start function getWall"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getWall"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wall);
     uart->receiveUart();
@@ -423,19 +380,20 @@ uint8_t interpreter::getWall()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getWall"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getWall"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getCliffLeft()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffLeft"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffLeft"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffLeft);
     uart->receiveUart();
@@ -458,19 +416,20 @@ uint8_t interpreter::getCliffLeft()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getCliffLeft"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffLeft"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getCliffFrontLeft()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffFrontLeft"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffFrontLeft"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffFrontLeft);
     uart->receiveUart();
@@ -493,19 +452,20 @@ uint8_t interpreter::getCliffFrontLeft()
     {
         // NOG TE IMPLEMENTERER
     }
-#ifdef fulldebug
-    std::cout<<"end function getCliffFrontLeft"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffFrontLeft"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getCliffFrontRight()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffFrontRight"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffFrontRight"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffFrontRight);
     uart->receiveUart();
@@ -528,19 +488,20 @@ uint8_t interpreter::getCliffFrontRight()
     {
         // NOG TE IMPLEMENTERER
     }
-#ifdef fulldebug
-    std::cout<<"end function getCliffFrontRight"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffFrontRight"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getCliffRight()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffRight"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffRight"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffRight);
     uart->receiveUart();
@@ -564,19 +525,20 @@ uint8_t interpreter::getCliffRight()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getCliffRight"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffRight"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getVirtualWall()
 {
-#ifdef fulldebug
-    std::cout<<"start function getVirtualWall"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getVirtualWall"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::virtualWall);
     uart->receiveUart();
@@ -600,19 +562,20 @@ uint8_t interpreter::getVirtualWall()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getVirtualWall"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getVirtualWall"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getWheelOvercurrents()
 {
-#ifdef fulldebug
-    std::cout<<"start function getWheelOvercurrents"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getWheelOvercurrents"<<std::endl;
+    #endif
     bool tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
@@ -635,19 +598,20 @@ bool interpreter::getWheelOvercurrents()
     {
         // NOG TE IMPLEMENTERER
     }
-#ifdef fulldebug
-    std::cout<<"end function getWheelOvercurrents"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getWheelOvercurrents"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getDirtDetect()
 {
-#ifdef fulldebug
-    std::cout<<"start function getDirtDetect"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getDirtDetect"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::dirtDetect);
     uart->receiveUart();
@@ -671,19 +635,20 @@ uint8_t interpreter::getDirtDetect()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getDirtDetect"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getDirtDetect"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getIrReceiver()
 {
-#ifdef fulldebug
-    std::cout<<"start function getIrReceiver"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getIrReceiver"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::irReceiver);
     uart->receiveUart();
@@ -707,21 +672,22 @@ uint8_t interpreter::getIrReceiver()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getIrReceiver"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getIrReceiver"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 int16_t interpreter::getDistance()
 {
-#ifdef fulldebug
-    std::cout<<"Start function getDistance"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"Start function getDistance"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::distance);
     uart->receiveUart();
@@ -751,22 +717,23 @@ int16_t interpreter::getDistance()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getDistance"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getDistance"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getAngle() /*******************************************************************/
 {
-	#ifdef fulldebug
-	    std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
-	#endif
+    #ifdef fulldebug
+        std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
+    #endif
 
     uint16_t halfWord = 0x0000;
     uint8_t  highByte = 0x00;
     uint8_t  lowByte  = 0x00;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::angle);
     //usleep(microseconds);
@@ -774,24 +741,24 @@ uint16_t interpreter::getAngle() /**********************************************
 
     try
     {
-    	usleep(10);
-    	//std::cout<<uart->getQueSize()<<std::endl;
+        usleep(10);
+        //std::cout<<uart->getQueSize()<<std::endl;
         for(unsigned int i = uart->getQueSize(); i > 0 ; --i)
         {
-        	//std::cout<<"I is: "<<i<<std::endl;
+            //std::cout<<"I is: "<<i<<std::endl;
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
-				#ifdef fulldebug
-				    std::cout<<"In function getAngle, highByte is: "<<std::hex<<highByte<<std::endl;
-				#endif
+                #ifdef fulldebug
+                    std::cout<<"In function getAngle, highByte is: "<<std::hex<<highByte<<std::endl;
+                #endif
                 break;
             case 2:
                 highByte = uart->getElement();
-				#ifdef fulldebug
-				    std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
-				#endif
-				break;
+                #ifdef fulldebug
+                    std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
+                #endif
+                break;
             default:
                 (void) uart->getElement();
                 break;
@@ -805,23 +772,24 @@ uint16_t interpreter::getAngle() /**********************************************
     halfWord = highByte << 8;
     halfWord |= lowByte;
 
-	#ifdef fulldebug
-	    std::cout<<"In function getAngle, halfword is: "<<std::hex<<halfWord<<std::endl;
-	#endif
+    #ifdef fulldebug
+        std::cout<<"In function getAngle, halfword is: "<<std::hex<<halfWord<<std::endl;
+    #endif
 
-	#ifdef fulldebug
-	    std::cout<<"\033[31m end function getAngle\033[0m"<<std::endl;
-	#endif
+    #ifdef fulldebug
+        std::cout<<"\033[31m end function getAngle\033[0m"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }/***************************************************************************************************/
 
 uint8_t interpreter::getChargingState()
 {
-#ifdef fulldebug
-    std::cout<<"start function getChargingState"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getChargingState"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::chargingState);
     uart->receiveUart();
@@ -845,21 +813,22 @@ uint8_t interpreter::getChargingState()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"\033[31m end function getChargingState\033[0m"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"\033[31m end function getChargingState\033[0m"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint16_t interpreter::getBatteryVoltage()
 {
-#ifdef fulldebug
-    std::cout<<"start function getBatteryVoltage"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getBatteryVoltage"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::batteryVoltage);
     uart->receiveUart();
@@ -888,21 +857,22 @@ uint16_t interpreter::getBatteryVoltage()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-#ifdef fulldebug
-    std::cout<<"end function getBatteryVoltage"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getBatteryVoltage"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getBatteryCurrent()
 {
-#ifdef fulldebug
-    std::cout<<"start function getBatteryCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getBatteryCurrent"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::batteryCurrent);
     uart->receiveUart();
@@ -933,18 +903,19 @@ int16_t interpreter::getBatteryCurrent()
     halfWord |= highByte;
 
     #ifdef fulldebug
-    std::cout<<"end function getBatteryCurrent"<<std::endl;
+        std::cout<<"end function getBatteryCurrent"<<std::endl;
     #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int8_t interpreter::getBatteryTemperature()
 {
-#ifdef fulldebug
-    std::cout<<"start function getBatteryTemperature"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getBatteryTemperature"<<std::endl;
+    #endif
     int8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::batteryTemperature);
     uart->receiveUart();
@@ -968,21 +939,22 @@ int8_t interpreter::getBatteryTemperature()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getBatteryTemperature"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getBatteryTemperature"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint16_t interpreter::getBatteryCharge()
 {
-#ifdef fulldebug
-    std::cout<<"start function getBatteryCharge"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getBatteryCharge"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::batteryCharge);
     uart->receiveUart();
@@ -1012,21 +984,22 @@ uint16_t interpreter::getBatteryCharge()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getBatteryCharge"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getBatteryCharge"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getBatteryCapacity()
 {
-#ifdef fulldebug
-    std::cout<<"start function getBatteryCapacity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getBatteryCapacity"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::batteryCapacity);
     uart->receiveUart();
@@ -1056,21 +1029,22 @@ uint16_t interpreter::getBatteryCapacity()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getBatteryCapacity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getBatteryCapacity"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getWallSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getWallSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getWallSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wallSignal);
     uart->receiveUart();
@@ -1100,21 +1074,22 @@ uint16_t interpreter::getWallSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getWallSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getWallSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getCliffLeftSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffLeftSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffLeftSignal);
     uart->receiveUart();
@@ -1144,21 +1119,22 @@ uint16_t interpreter::getCliffLeftSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getCliffLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffLeftSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getCliffFrontLeftSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffFrontLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffFrontLeftSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffFrontLeftSignal);
     uart->receiveUart();
@@ -1188,21 +1164,22 @@ uint16_t interpreter::getCliffFrontLeftSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getCliffFrontLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffFrontLeftSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getCliffFrontRightSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffFrontRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffFrontRightSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffFrontRightSignal);
     uart->receiveUart();
@@ -1232,21 +1209,22 @@ uint16_t interpreter::getCliffFrontRightSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getCliffFrontRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffFrontRightSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getCliffRightSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getCliffRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getCliffRightSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::cliffRightSignal);
 
@@ -1275,19 +1253,20 @@ uint16_t interpreter::getCliffRightSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getCliffRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getCliffRightSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint8_t interpreter::getChargingSource()
 {
-#ifdef fulldebug
-    std::cout<<"start function getChargingSource"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getChargingSource"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::chargingSource);
     uart->receiveUart();
@@ -1311,19 +1290,20 @@ uint8_t interpreter::getChargingSource()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getChargingSource"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getChargingSource"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getOiMode()
 {
-#ifdef fulldebug
-    std::cout<<"start function getOiMode"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getOiMode"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::oiMode);
     uart->receiveUart();
@@ -1347,19 +1327,20 @@ uint8_t interpreter::getOiMode()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getOiMode"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getOiMode"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getSongNumber()
 {
-#ifdef fulldebug
-    std::cout<<"start function getSongNumber"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getSongNumber"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::songNumber);
     uart->receiveUart();
@@ -1383,19 +1364,20 @@ uint8_t interpreter::getSongNumber()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getSongNumber"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getSongNumber"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getSongPlaying()
 {
-#ifdef fulldebug
-    std::cout<<"start function getSongPlaying"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getSongPlaying"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::songPlaying);
     uart->receiveUart();
@@ -1419,21 +1401,22 @@ uint8_t interpreter::getSongPlaying()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getSongPlaying"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getSongPlaying"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 int16_t interpreter::getRequestedVelocity()
 {
-#ifdef fulldebug
-    std::cout<<"start function getRequestedVelocity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getRequestedVelocity"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::requestedVelocity);
     uart->receiveUart();
@@ -1463,21 +1446,22 @@ int16_t interpreter::getRequestedVelocity()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getRequestedVelocity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getRequestedVelocity"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getRequestedRadius()
 {
-#ifdef fulldebug
-    std::cout<<"start function getRequestedRadius"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getRequestedRadius"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::requestedRadius);
     uart->receiveUart();
@@ -1507,21 +1491,22 @@ int16_t interpreter::getRequestedRadius()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getRequestedRadius"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getRequestedRadius"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getRequestedRightVelocity()
 {
-#ifdef fulldebug
-    std::cout<<"start function getRequestedRightVelocity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getRequestedRightVelocity"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::requestedRightVelocity);
     uart->receiveUart();
@@ -1551,21 +1536,22 @@ int16_t interpreter::getRequestedRightVelocity()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getRequestedRightVelocity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getRequestedRightVelocity"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getRequestedLeftVelocity()
 {
-#ifdef fulldebug
-    std::cout<<"start function getRequestedLeftVelocity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getRequestedLeftVelocity"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::requestedLeftVelocity);
     uart->receiveUart();
@@ -1595,21 +1581,22 @@ int16_t interpreter::getRequestedLeftVelocity()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getRequestedLeftVelocity"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getRequestedLeftVelocity"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getLeftEncoderCount()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLeftEncoderCount"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLeftEncoderCount"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::leftEncoderCount);
     uart->receiveUart();
@@ -1639,21 +1626,22 @@ uint16_t interpreter::getLeftEncoderCount()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLeftEncoderCount"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLeftEncoderCount"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getRightEncoderCount()
 {
-#ifdef fulldebug
-    std::cout<<"start function getRightEncoderCount"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getRightEncoderCount"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::rightEncoderCount);
     uart->receiveUart();
@@ -1683,19 +1671,20 @@ uint16_t interpreter::getRightEncoderCount()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getRightEncoderCount"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getRightEncoderCount"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 bool interpreter::getLightBumper()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLightBumper"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLightBumper"<<std::endl;
+    #endif
     bool tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::lightBumper);
     uart->receiveUart();
@@ -1719,21 +1708,22 @@ bool interpreter::getLightBumper()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getLightBumper"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLightBumper"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
 uint16_t interpreter::getLightBumpLeftSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLightBumpLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLightBumpLeftSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::lightBumpLeftSignal);
     uart->receiveUart();
@@ -1763,21 +1753,22 @@ uint16_t interpreter::getLightBumpLeftSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLightBumpLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLightBumpLeftSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getLightBumpFrontLeftSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLightBumpFrontLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLightBumpFrontLeftSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::lightBumpFrontLeftSignal);
     uart->receiveUart();
@@ -1807,21 +1798,22 @@ uint16_t interpreter::getLightBumpFrontLeftSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLightBumpFrontLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLightBumpFrontLeftSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getLightBumpCenterLeftSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLightBumpCenterLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLightBumpCenterLeftSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::lightBumpCenterLeftSignal);
     uart->receiveUart();
@@ -1851,21 +1843,22 @@ uint16_t interpreter::getLightBumpCenterLeftSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLightBumpCenterLeftSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLightBumpCenterLeftSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getLightBumpCenterRightSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLightBumpCenterRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLightBumpCenterRightSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::lightBumpCenterRightSignal);
     uart->receiveUart();
@@ -1895,21 +1888,22 @@ uint16_t interpreter::getLightBumpCenterRightSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLightBumpCenterRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLightBumpCenterRightSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getLightBumpFrontRightSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLightBumpFrontRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLightBumpFrontRightSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::lightBumpFrontRightSignal);
     uart->receiveUart();
@@ -1939,21 +1933,22 @@ uint16_t interpreter::getLightBumpFrontRightSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLightBumpFrontRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLightBumpFrontRightSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getLightBumpRightSignal()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLightBumpRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLightBumpRightSignal"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::lightBumpRightSignal);
     uart->receiveUart();
@@ -1983,21 +1978,22 @@ uint16_t interpreter::getLightBumpRightSignal()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLightBumpRightSignal"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLightBumpRightSignal"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getLeftMotorCurrent()
 {
-#ifdef fulldebug
-    std::cout<<"start function getLeftMotorCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getLeftMotorCurrent"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::leftMotorCurrent);
     uart->receiveUart();
@@ -2027,9 +2023,10 @@ int16_t interpreter::getLeftMotorCurrent()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getLeftMotorCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getLeftMotorCurrent"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
@@ -2041,7 +2038,7 @@ int16_t interpreter::getRightMotorCurrent()
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::rightMotorCurrent);
     uart->receiveUart();
@@ -2070,21 +2067,22 @@ int16_t interpreter::getRightMotorCurrent()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-#ifdef fulldebug
-    std::cout<<"end function getRightMotorCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getRightMotorCurrent"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getMainBrushMotorCurrent()
 {
-#ifdef fulldebug
-    std::cout<<"start function getMainBrushMotorCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getMainBrushMotorCurrent"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::mainBrushMotorCurrent);
     uart->receiveUart();
@@ -2114,21 +2112,22 @@ int16_t interpreter::getMainBrushMotorCurrent()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getMainBrushMotorCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getMainBrushMotorCurrent"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getSideBrushMotorCurrent()
 {
-#ifdef fulldebug
-    std::cout<<"start function getSideBrushMotorCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getSideBrushMotorCurrent"<<std::endl;
+    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::sideBrushMotorCurrent);
     uart->receiveUart();
@@ -2158,19 +2157,20 @@ int16_t interpreter::getSideBrushMotorCurrent()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-#ifdef fulldebug
-    std::cout<<"end function getSideBrushMotorCurrent"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getSideBrushMotorCurrent"<<std::endl;
+    #endif
+    sendTex->unlock();
     return halfWord;
 }
 
 uint8_t interpreter::getStatis()
 {
-#ifdef fulldebug
-    std::cout<<"start function getStatis"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"start function getStatis"<<std::endl;
+    #endif
     uint8_t tmp;
-
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::statis);
     uart->receiveUart();
@@ -2194,9 +2194,10 @@ uint8_t interpreter::getStatis()
         // NOG TE IMPLEMENTERER
     }
 
-#ifdef fulldebug
-    std::cout<<"end function getStatis"<<std::endl;
-#endif
+    #ifdef fulldebug
+        std::cout<<"end function getStatis"<<std::endl;
+    #endif
+    sendTex->unlock();
     return tmp;
 }
 
@@ -2205,6 +2206,7 @@ uint8_t interpreter::getStatis()
 bool interpreter::getBumpRight()
 {
     bool tmp = false;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
@@ -2226,12 +2228,14 @@ bool interpreter::getBumpRight()
     {
         // NOG TE IMPLEMENTERER
     }
+    sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getBumpLeft()
 {
     bool tmp = false;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
@@ -2241,8 +2245,8 @@ bool interpreter::getBumpLeft()
         {
             switch (i){
             case 1:
-				tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
-				break;
+                tmp = (uart->getElement() & 0b00000010) == 0b00000010 ? 1 : 0;
+                break;
             default:
                 (void) uart->getElement();
                 break;
@@ -2253,7 +2257,7 @@ bool interpreter::getBumpLeft()
     {
         // NOG TE IMPLEMENTERER
     }
-    
+    sendTex->unlock();
 
     return tmp;
 }
@@ -2261,6 +2265,7 @@ bool interpreter::getBumpLeft()
 bool interpreter::getWheelDropRight()
 {
     bool tmp;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
@@ -2282,13 +2287,14 @@ bool interpreter::getWheelDropRight()
     {
         // NOG TE IMPLEMENTERER
     }
-
+    sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getWheelDropLeft()
 {
     bool tmp;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::bumpAndWheel);
     uart->receiveUart();
@@ -2310,12 +2316,14 @@ bool interpreter::getWheelDropLeft()
     {
         // NOG TE IMPLEMENTERER
     }
+    sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getSideBrushOvercurrent()
 {
     bool tmp;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
@@ -2337,23 +2345,26 @@ bool interpreter::getSideBrushOvercurrent()
     {
         // NOG TE IMPLEMENTERER
     }
+    sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getMainBrushOvercurrent()
 {
     bool tmp;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
     tmp = (uart->getElement() & 0b00000100) == 0b00000100 ? 1 : 0;
-
+    sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getRightWheelOvercurrent()
 {
     bool tmp;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
@@ -2375,12 +2386,14 @@ bool interpreter::getRightWheelOvercurrent()
     {
         // NOG TE IMPLEMENTERER
     }
+    sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getLeftWheelOvercurrent()
 {
     bool tmp;
+    sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::wheelOvercurrents);
     uart->receiveUart();
@@ -2402,19 +2415,25 @@ bool interpreter::getLeftWheelOvercurrent()
     {
         // NOG TE IMPLEMENTERER
     }
+    sendTex->unlock();
     return tmp;
 
 }
 
 void interpreter::operator()(){
-	autoMode();
+    autoMode();
 }
 
 void interpreter::startAutoMode()
 {
-	AUTO = new std::thread(ref(*this));
-	AUTO->detach();
+    AUTO = new std::thread(ref(*this));
+    AUTO->detach();
 }
+
+ void interpreter::stopAutoMode()
+ {
+    interpreter::autoRunning = false;
+ }
 
 void interpreter::autoMode()
 {
@@ -2426,6 +2445,7 @@ void interpreter::autoMode()
         try
         {
             uart->flushQueue();
+            sendTex->lock();
             // bump and wheel functions
             uart->sendUart(roomba::requestType::individual);
             uart->sendUart(roomba::sensors::bumpAndWheel);
@@ -2603,6 +2623,7 @@ void interpreter::autoMode()
                         break;
                 }
             }
+            this->Wall.bInsight     = received ? true : false;
             this->Wall.bLeft        = (received & 0b00000001) == 0b00000001 ? true : false;
             this->Wall.bFrontLeft   = (received & 0b00000010) == 0b00000010 ? true : false;
             this->Wall.bCenterLeft  = (received & 0b00000100) == 0b00000100 ? true : false;
@@ -2614,6 +2635,8 @@ void interpreter::autoMode()
         {
 
         }
+
+        sendTex->unlock();
 
         /*system("clear");
         temp = static_cast<int>(temp);
@@ -2976,12 +2999,14 @@ void interpreter::turnRight()
     try
     {
         (void) getAngle(); 
+        sendTex->lock();
         uart->sendUart(roomba::drive);
 
         uart->sendUart(0x00); // Velocity high byte
         uart->sendUart(0x7F); // Velocity low  byte
         uart->sendUart(0xFF); // Radius high byte
         uart->sendUart(0xFF); // Radius low  byte
+        sendTex->unlock();
 
         do
         {
@@ -3005,13 +3030,15 @@ void interpreter::turnLeft()
     uint16_t currentAngle = 0x0000;
     try
     {
-        (void) getAngle(); 
+        (void) getAngle();
+        sendTex->lock();
         uart->sendUart(roomba::drive);
 
         uart->sendUart(0x00); // Velocity high byte
         uart->sendUart(0x7F); // Velocity low  byte
         uart->sendUart(0x00); // Radius high byte
         uart->sendUart(0x01); // Radius low  byte
+        sendTex->unlock();
 
         do
         {
