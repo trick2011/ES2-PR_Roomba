@@ -1,4 +1,3 @@
-
 <html>
 
 <head>
@@ -30,11 +29,7 @@ body
 
 <?php //refresh
 	//refresh rate
-	//$url=$_SERVER['REQUEST_URI']; header("Refresh: 2; URL=$url"); 
-	/*MSG to myself
-		metas are a fail, dont use. 
-		al tough its easy,php doesnt handel them wel
-		alter img just by php dipshit*/
+	$url=$_SERVER['REQUEST_URI']; header("Refresh: 2; URL=$url"); 
 ?>
 
 <?php
@@ -47,36 +42,50 @@ body
 ?>
 
 <?php //pipe functions
-	//var
- 	$fifow = "/tmp/wFIFO"; //write
-	$fifor = "/tmp/rFIFO"; //read
-
 	//functions
 	function writep($command) 
 	{
 	echo "Command:".$command."<br />";
-    		$pipew = fopen($fifow, 'a');
-    			if ( $pipe == false) 
-        			echo "Cannot open wfifo";
-    			else 
-        			echo 'Can write fifo';
-		fwrite($pipew, $command);
-		fclose($pipew);
+		if (!file_exists("/tmp/rFIFO")) 
+		{
+  			echo 'File not found';
+		}
+		else{
+			$pipew = fopen("/tmp/rFIFO", 'w');
+			echo $pipew;
+// 			if(!$pipew) 
+// 			{
+// 				echo 'Can\'t open file';
+// 			}
+// 			else 
+// 			{
+// 				//echo 'Success open file';
+// 			}
+	// 		fwrite($pipew, $command);
+			fclose($pipew);
+		}
 	}
 
 	function readp()
-	{/*
-		$piper = fopen($fifor, 'r');
-    			if ( $piper == false) 
-        			echo "Cannot open rfifo";
-    			else 
-        			echo 'Can read fifo'; 
+	{
+		if (!file_exists("/tmp/wFIFO")) 
+		{
+  			echo 'File not found';
+		}
+		else if(!$piper = fopen("/tmp/wFIFO", 'r')) 
+		{
+  			echo 'Can\'t open file';
+		}
+		else 
+		{
+ 		 	//echo 'Success open file';
+		}
 		$recieved = fread($piper, "1"); 
 		fclose($piper);
-	*/
+	/* test stuff
 		$arr=array("z","y","w","x","v","a","b","c");
 		$i=rand(0,7);
-		$recieved=$arr[$i];
+		$recieved=$arr[$i]; */
 		return $recieved;
 	} 
 ?>
@@ -130,19 +139,19 @@ body
 	
 <form action="<?php echo $_SERVER['PHP_SELF']; //boven a?>" method="POST">
 	<input type="hidden" name="knop" value="a">
-	<input type="submit" value="boven">
-</form>
-<form action="<?php echo $_SERVER['PHP_SELF']; //rechts b?>" method="POST">
-	<input type="hidden" name="knop" value="b">
-	<input type="submit" value="rechts">
+	<input type="submit" value="voor">
 </form>
 <form action="<?php echo $_SERVER['PHP_SELF']; //links c?>" method="POST">
 	<input type="hidden" name="knop" value="c">
 	<input type="submit" value="   links  ">
 </form>
+<form action="<?php echo $_SERVER['PHP_SELF']; //rechts b?>" method="POST">
+	<input type="hidden" name="knop" value="b">
+	<input type="submit" value="rechts">
+</form>
 <form action="<?php echo $_SERVER['PHP_SELF']; //onder d?>" method="POST">
 	<input type="hidden" name="knop" value="d">
-	<input type="submit" value="onder">
+	<input type="submit" value="achter">
 </form><br>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; //stop k?>" method="POST">
@@ -153,10 +162,6 @@ body
 <form action="<?php echo $_SERVER['PHP_SELF']; //autoclean e?>" method="POST">
 	<input type="hidden" name="knop" value="e">
 	<input type="submit" value="autoclean">
-</form>
-<form action="<?php echo $_SERVER['PHP_SELF']; //cellclean f?>" method="POST">
-	<input type="hidden" name="knop" value="f">
-	<input type="submit" value="cellclean">
 </form>
 <form action="<?php echo $_SERVER['PHP_SELF']; //spotclean g?>" method="POST">
 	<input type="hidden" name="knop" value="g">
