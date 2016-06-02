@@ -11,8 +11,6 @@
 
 #include <cstring>
 #include <stdint.h>
-//#include "../../../GitHub/ES2-PR_Roomba/Roomba_UART/easylogging++.h"
-//#include "../../Roomba_UART/easylogging++.h"
 
 #include <unistd.h>			//Used for UART
 #include <fcntl.h>			//Used for UART
@@ -42,6 +40,8 @@ private:
 	bool bReceive;
 	queue<int> ReceiveQueue;
 	ofstream ofp;
+
+
 public:
     UARTClass();
     UARTClass(string sTTY);
@@ -52,6 +52,7 @@ public:
     string receiveString(void);
     int getQueSize();
     void flushQueue();
+    void Logging(string Slog);
 
     
 	bool sendUart(uint8_t code);
@@ -60,8 +61,6 @@ public:
     void breakreceive(void) {bReceive = false;}
 
 	void operator()();
-
-	void loginit();
 };
 
 
