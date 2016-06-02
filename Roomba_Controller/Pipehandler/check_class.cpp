@@ -59,6 +59,7 @@ void check_class::pipe_checker(){
 		default :
 			break;
 		}
+        sleep(1);
 	}
 //	char cRcommand;
 //	cRcommand = readFIFO();
@@ -74,44 +75,48 @@ void check_class::pipe_checker(){
 #endif
 #ifdef DRY_DEBUG // terminal testing
 void check_class::pipe_checker(){
-	char PipeCommand = 0x00;
-	while(1){
-		PipeCommand = 0x00;
-		PipeCommand = readFIFO();
-		if(PipeCommand == pipeempty)
-			continue;
+    char PipeCommand = 0x00;
+    while(1){
+        PipeCommand = 0;
+        PipeCommand = readFIFO();
+        if(PipeCommand == pipeempty)
+            continue;
 
-		switch(PipeCommand){
-		case 'e':	//AutoClean
-	//		Autotmp* a;
-			cout<<"AutoClean ON"<<endl;
-			break;
-		case 'f':	//CellClean
-			cout<<"CellClean ON"<<endl;
-			break;
-		case 'g':	//Walltrace
-			cout<<"Walltrace ON"<<endl;
-			break;
-		case 'h':	//Spotclean
-			cout<<"Spotclean ON"<<endl;
-			break;
-		case 'i':	//manclean
-			//Manclean* manclean_object = new Manclean();
-			//roomref.stelcleaningin(manclean_object);
-			cout<<"ManClean ON"<<endl;
-			break;
-		case 'j':	//Stop Clean
-			//roomref.stop();
-			cout<<"Stopped all Clean programs"<<endl;
-			break;
-		case 'k':	//Dock
-			//roomref.dock();
-			cout<<"Dock Roomba"<<endl;
-			break;
-		default :
-			break;
-		}
-	}
+        switch(PipeCommand){
+        case 'e':	//AutoClean
+    //		Autotmp* a;
+            cout<<"AutoClean ON"<<endl;
+            break;
+        case 'f':	//CellClean
+
+            cout<<"CellClean ON"<<endl;
+            break;
+        case 'h':	//Walltrace
+
+            cout<<"Walltrace ON"<<endl;
+            break;
+        case 'g':	//Spotclean
+
+            cout<<"Spotclean ON"<<endl;
+            break;
+        case 'i':	//manclean
+            //Manclean* manclean_object = new Manclean();
+            //roomref.stelcleaningin(manclean_object);
+            cout<<"ManClean ON"<<endl;
+            break;
+        case 'j':	//Stop Clean
+            //roomref.stop();
+            cout<<"Stopped all Clean programs"<<endl;
+            break;
+        case 'k':	//Dock
+            //roomref.dock();
+            cout<<"Dock Roomba"<<endl;
+            break;
+        default :
+            break;
+        }
+        //cout.flush();
+    }
 //	char cRcommand;
 //	cRcommand = readFIFO();
 //	function_type_checker(cRcommand);

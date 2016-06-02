@@ -1,3 +1,6 @@
+#ifndef ROOMBACONTROLLER_H
+#define ROOMBACONTROLLER_H
+
 
 //C++ includes
 #include <thread>
@@ -53,3 +56,4 @@ public:
 
 
 
+#endif

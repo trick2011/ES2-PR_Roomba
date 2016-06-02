@@ -21,10 +21,14 @@ using namespace std;
 class com_class{
 protected:
 	const int pipeempty = 0;
-	const std::string R_FIFO_FILE = "/tmp/rFIFO"; //pipe to recieve
-	const std::string W_FIFO_FILE = "/tmp/wFIFO"; //pipe to send
+    const std::string ptc_FIFO_FILE = "/tmp/ptcFIFO"; //pipe to recieve r
+    const std::string ctp_FIFO_FILE = "/tmp/ctpFIFO"; //pipe to send w
+
+    FILE *ptcFIFO;
+    FILE *ctpFIFO;
 public:
 	com_class();
+    ~com_class();
 
 	void writeFIFO(char cTosend);
 	char readFIFO();

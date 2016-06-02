@@ -46,33 +46,34 @@ body
 	function writep($command) 
 	{
 	echo "Command:".$command."<br />";
-		if (!file_exists("/tmp/rFIFO")) 
+		if (!file_exists("/tmp/ptcFIFO")) 
 		{
   			echo 'File not found';
 		}
 		else{
-			$pipew = fopen("/tmp/rFIFO", 'w');
-			echo $pipew;
-// 			if(!$pipew) 
-// 			{
-// 				echo 'Can\'t open file';
-// 			}
-// 			else 
-// 			{
-// 				//echo 'Success open file';
-// 			}
-	// 		fwrite($pipew, $command);
+			$pipew = fopen("/tmp/ptcFIFO", 'w');
+			
+ 			if(!$pipew) 
+ 			{
+ 				echo 'Can\'t open file';
+ 			}
+			else 
+ 			{
+ 				//echo 'Success open file';
+ 			}
+	 		fwrite($pipew, $command);
 			fclose($pipew);
 		}
 	}
 
 	function readp()
 	{
-		if (!file_exists("/tmp/wFIFO")) 
+
+		if (!file_exists("/tmp/ctpFIFO")) 
 		{
   			echo 'File not found';
 		}
-		else if(!$piper = fopen("/tmp/wFIFO", 'r')) 
+		else if(!$piper = fopen("/tmp/ctpFIFO", 'r')) 
 		{
   			echo 'Can\'t open file';
 		}
@@ -80,7 +81,9 @@ body
 		{
  		 	//echo 'Success open file';
 		}
+		stream_set_blocking($piper,false);
 		$recieved = fread($piper, "1"); 
+//		fflush($piper);
 		fclose($piper);
 	/* test stuff
 		$arr=array("z","y","w","x","v","a","b","c");

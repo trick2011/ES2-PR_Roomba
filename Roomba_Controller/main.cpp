@@ -3,29 +3,33 @@
 
 #define fulldebug
 #include "roombacontroller.h"
-INITIALIZE_EASYLOGGINGPP
+#include "Pipehandler/check_class.h"
+//INITIALIZE_EASYLOGGINGPP
 using namespace std;
 
 int main(void){
 	interpreter inter;
 	Roombacontroller RoombaController(inter);
-	RoombaController.DisableCleaning();
-	cin.get();
-	inter.startRoomba();
-	cout << "init done" << endl;
-	cin.get();
+    check_class check(RoombaController,inter);
+    check.pipe_checker();
 
-	AutoClean cleaningobject(inter);
-	RoombaController.EnableCleaning();
+//	RoombaController.DisableCleaning();
+//	cin.get();
+//	inter.startRoomba();
+//	cout << "init done" << endl;
+//	cin.get();
 
-//	inter.drives(roomba::speed::SLOW);
-//	cleaningobject.clean(); // direct cleaning
-//	RoombaController.LoadCleaningProgram(); // normal cleaning
-	RoombaController.SetCleaningProgram(&cleaningobject); // thread cleaning
+//	AutoClean cleaningobject(inter);
+//	RoombaController.EnableCleaning();
+
+////	inter.drives(roomba::speed::SLOW);
+////	cleaningobject.clean(); // direct cleaning
+////	RoombaController.LoadCleaningProgram(); // normal cleaning
+//	RoombaController.SetCleaningProgram(&cleaningobject); // thread cleaning
 
 
-	cout << "running" << endl;
-	cin.get();
+//	cout << "running" << endl;
+//	cin.get();
 
     // pipe ding (&interpreter,&roombacontroller)
 //    Basicclean* basic = new Autoclean();

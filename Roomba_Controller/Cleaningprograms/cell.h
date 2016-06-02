@@ -6,7 +6,7 @@ class Cell : public Basicclean
 {
 public:
 	Cell(interpreter& interpreterreference):Basicclean(interpreterreference){}
-    ~Cell();
+    ~Cell(){}
 	void clean(void){}
 };
 

@@ -2,20 +2,29 @@
 
 com_class::com_class(){
 	makeFIFO();
+    ctpFIFO = fopen(ctp_FIFO_FILE.c_str(), "w");
+    ptcFIFO = fopen(ptc_FIFO_FILE.c_str(), "r");
+}
+
+com_class::~com_class(){
+    fclose(ctpFIFO);
+    fclose(ptcFIFO);
 }
 
 //write fifo
 void com_class::writeFIFO(char cTosend){
-	FILE *fifo;
-	unsigned char message[1];
+    //FILE *fifo;
+    //ctp
+    //unsigned char message[1];
 
 	//if (cTosend = 'w'|'v'|'x'|'y'|'z') // deze regels is hilarisch hij assigned de georde waarde van w v x y z in cTosend
 	if((cTosend == 'w')||(cTosend == 'v')||(cTosend == 'x')||(cTosend == 'y')||(cTosend == 'z'))
 	{
 		//message[0] = cTosend;
-		fifo = fopen(W_FIFO_FILE.c_str(), "w");		
-		fwrite(&cTosend,1, 1, fifo);
-		fclose(fifo);
+        fwrite(&cTosend,1, 1, ctpFIFO);
+        fclose(ctpFIFO);
+        ctpFIFO = fopen(ctp_FIFO_FILE.c_str(), "w");
+
 	}				
 	//error
 	else 
@@ -25,16 +34,16 @@ void com_class::writeFIFO(char cTosend){
 }
 //read fifo
 char com_class::readFIFO(){
-	unsigned char readbuf[1];
-	FILE *fifo;
+    unsigned char readbuf;
+    //ptc
 
-	fifo = fopen(R_FIFO_FILE.c_str(), "r");		
-	fread(&readbuf, 1, 1, fifo);      
-	fclose(fifo);				
 
-	cout<<"pipe: "<<readbuf[0]<<" ";
+    while(0 == fread(&readbuf, 1, 1, ptcFIFO)){}
 
-	return(readbuf[0]);
+
+    cout<<"pipe: "<<readbuf<< endl;
+
+    return(readbuf);
 }
 
 
@@ -45,36 +54,36 @@ void com_class::makeFIFO(){
 
 //Create the reading side FIFO if it does not exist
 #ifdef __linux
-	r_status = mknod(R_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
+    r_status = mknod(ptc_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
 #endif
 #ifndef __linux
 	r_status = -1;
 #endif
-	if (r_status == -1 )
-	{
-		cout<<"Cannot create rfifo"<<endl;
-	} 
-	if(r_status == EEXIST)
-		cout << "R_FIFO made" << endl;
-	else
-	{
-		cout<<"R_FIFO made"<< endl;
-	}
+
+//    if(r_status == EEXIST)
+//        cout << "R_FIFO made" << endl;
+//    else{
+        if (r_status == -1 )
+            cout<<"Cannot create rfifo"<<endl;
+        else
+            cout<<"R_FIFO made"<< endl;
+//    }
+
+
 	//Create the writing side FIFO if it does not exist
 #ifdef __linux
-	w_status = mknod(W_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
+    w_status = mknod(ctp_FIFO_FILE.c_str(), S_IFIFO|0666, 0);
 #endif
 #ifndef __linux
-	w_status = -1;
+    w_status = -1;
 #endif
-	if (w_status == -1 )
-	{
-		cout<<"Cannot create wfifo"<<endl;
-	} 
-	if(w_status == EEXIST)
-		cout << "W_FIFO made" << endl;
-	else
-	{
-		cout<<"W_FIFO made"<<endl;
-	}
+
+//	if(w_status == EEXIST)
+//		cout << "W_FIFO made" << endl;
+//    else{
+        if (w_status == -1 )
+            cout<<"Cannot create wfifo"<<endl;
+        else
+            cout<<"W_FIFO made"<<endl;
+//	}
 }
