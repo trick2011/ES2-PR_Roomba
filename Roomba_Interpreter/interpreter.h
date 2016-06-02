@@ -168,6 +168,7 @@ public:
 
     struct sWallDistance
     {
+        bool     bInsight;
         uint16_t bRight;
         uint16_t bFrontRight;
         uint16_t bCenterRight;

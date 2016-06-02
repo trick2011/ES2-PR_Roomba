@@ -2623,6 +2623,7 @@ void interpreter::autoMode()
                         break;
                 }
             }
+            this->Wall.bInsight     = received ? true : false;
             this->Wall.bLeft        = (received & 0b00000001) == 0b00000001 ? true : false;
             this->Wall.bFrontLeft   = (received & 0b00000010) == 0b00000010 ? true : false;
             this->Wall.bCenterLeft  = (received & 0b00000100) == 0b00000100 ? true : false;
@@ -2998,12 +2999,14 @@ void interpreter::turnRight()
     try
     {
         (void) getAngle(); 
+        sendTex->lock();
         uart->sendUart(roomba::drive);
 
         uart->sendUart(0x00); // Velocity high byte
         uart->sendUart(0x7F); // Velocity low  byte
         uart->sendUart(0xFF); // Radius high byte
         uart->sendUart(0xFF); // Radius low  byte
+        sendTex->unlock();
 
         do
         {
@@ -3027,13 +3030,15 @@ void interpreter::turnLeft()
     uint16_t currentAngle = 0x0000;
     try
     {
-        (void) getAngle(); 
+        (void) getAngle();
+        sendTex->lock();
         uart->sendUart(roomba::drive);
 
         uart->sendUart(0x00); // Velocity high byte
         uart->sendUart(0x7F); // Velocity low  byte
         uart->sendUart(0x00); // Radius high byte
         uart->sendUart(0x01); // Radius low  byte
+        sendTex->unlock();
 
         do
         {

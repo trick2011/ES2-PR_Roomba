@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
                 do
                 {
                     Peter->drives(0);
-                    while(  !Peter->getLightBumper()|| !Peter->Cliff.bLeft || !Peter->Cliff.bFrontLeft || 
+                    while(  !Peter->Wall.bInsight || !Peter->Cliff.bLeft || !Peter->Cliff.bFrontLeft || 
                             !Peter->Cliff.bFrontRight || !Peter->Cliff.bRight || !Peter->Bumps.bLeft ||
                             !Peter->Bumps.bRight )
                         {;
