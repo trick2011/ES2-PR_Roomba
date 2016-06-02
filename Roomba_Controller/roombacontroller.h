@@ -8,10 +8,12 @@
 // cleaning programs
 #include "Cleaningprograms/autoclean.h"
 #include "Cleaningprograms/basicclean.h"
-#include "Cleaningprograms/cell.h"
+//#include "Cleaningprograms/cell.h"
 #include "Cleaningprograms/dock.h"
 #include "Cleaningprograms/spotclean.h"
 #include "Cleaningprograms/walltrace.h"
+
+
 
 //class Cleaningprogram;
 //class Wallclean;
@@ -23,6 +25,8 @@ private:
 
 	bool bEnableCleaning = false;
 	thread* CleaningThread;
+
+	pid_t OwnPID;
 public:
         Basicclean * CleaningProgram;
 		void SetCleaningProgram(Basicclean*);
@@ -30,7 +34,7 @@ public:
 		void EnableCleaning();
 		void DisableCleaning();
 
-		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference}{;}
+		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = syscall(SYS_gettid);}
 		~Roombacontroller(){;}
 
 		void LoadCleaningProgram(Basicclean* inputprogram){
