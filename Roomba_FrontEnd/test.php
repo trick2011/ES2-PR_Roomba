@@ -45,12 +45,13 @@ body
 	//functions
 	function writep($command) 
 	{
-	echo "Command:".$command."<br />";
+		echo "Command:".$command."<br />";
 		if (!file_exists("/tmp/ptcFIFO")) 
 		{
   			echo 'File not found';
 		}
 		else{
+ 			stream_set_blocking($piper,false);
 			$pipew = fopen("/tmp/ptcFIFO", 'w');
 			
  			if(!$pipew) 
@@ -96,47 +97,47 @@ body
 <script>
 	function msg() 
 	{
-	    	alert("ERROR");
+		alert("ERROR");
 	}
 </script>
 <script>
 	function goBack() 
 	{
-    		window.history.back();
-	}
+		window.history.back();
+	}	
 </script>
 
 <?php //kind a main?
 	//recieved
 	$val = readp();
 	//echo "<h1>". $val . "</h1>";
-  	switch ($val) {
-    		case 'v':
-      			echo "Bump right detected". "<br />"; 
-			echo '<img src="icons/bumpright.png" width = "400">'. "<br />";
-      			break;
-    		case 'w':
-      			echo "Bump left detected". "<br />";
-			echo '<img src="icons/bumpleft.png" width = "400">'. "<br />";
-     			break;
-    		case 'x':
-      			echo "Drop detected". "<br />";
-			echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
-     			break;
-    		case 'y':
-      			echo "Trashbin is full". "<br />";
-			echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
-      			break;
-    		case 'z':
-      			echo "Battery is running low". "<br />";
-			echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
-      			break;
-    		default:
-			echo "<br />";
-			echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
-      			//msg();
+	switch ($val) {
+			case 'v':
+				echo "Bump right detected". "<br />"; 
+				echo '<img src="icons/bumpright.png" width = "400">'. "<br />";
+				break;
+			case 'w':
+				echo "Bump left detected". "<br />";
+				echo '<img src="icons/bumpleft.png" width = "400">'. "<br />";
+				break;
+			case 'x':
+				echo "Drop detected". "<br />";
+				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+				break;
+			case 'y':
+				echo "Trashbin is full". "<br />";
+				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+				break;
+			case 'z':
+				echo "Battery is running low". "<br />";
+				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+				break;
+			default:
+				echo "<br />";
+				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+			//msg();
 			break;
- 	} 
+	}
 ?> 
 
 	
