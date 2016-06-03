@@ -43,7 +43,7 @@ private:
 	queue<int> ReceiveQueue;
 	ofstream ofp;
 
-	const double ReceiveDelay = 0.000000000000001;
+	//const double ReceiveDelay = 0.000000000000001;
 public:
     UARTClass();
     UARTClass(string sTTY);

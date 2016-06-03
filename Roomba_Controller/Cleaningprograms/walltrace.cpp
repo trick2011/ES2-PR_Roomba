@@ -7,7 +7,9 @@ Walltrace::~Walltrace(){
 
 void Walltrace::clean(void)
 {
+#ifdef __linux
 	Basicclean::ProcessPID = syscall(SYS_gettid);
+#endif
     while(getEnableCleaning()==true)
     {
         interpreterreference.drives(roomba::speed::SLOW);

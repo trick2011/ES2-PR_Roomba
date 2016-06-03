@@ -5,7 +5,9 @@ Spotclean::~Spotclean(){}
 
 void Spotclean::clean(void)
 {
+#ifdef __linux
 	Basicclean::ProcessPID = syscall(SYS_gettid);
+#endif
     while(getEnableCleaning()==true)
     {
         interpreterreference.turnRoomba(1);

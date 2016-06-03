@@ -8,7 +8,9 @@ Dock::~Dock()
 
 void Dock::clean(void)
 {
+#ifdef __linux
 	Basicclean::ProcessPID = syscall(SYS_gettid);
+#endif
     switch(iState)
     {
     case 0: //no signal

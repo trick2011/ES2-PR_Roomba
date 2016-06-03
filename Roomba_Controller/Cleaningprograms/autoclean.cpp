@@ -7,7 +7,9 @@ AutoClean::~AutoClean(){
 
 void AutoClean::clean(void)
 {
+#ifdef __linux
 	Basicclean::ProcessPID = syscall(SYS_gettid);
+#endif
 	while(Basicclean::getEnableCleaning() == true){
 		cout << "enabled" << endl;
 		interpreterreference.drives(roomba::speed::SLOW);

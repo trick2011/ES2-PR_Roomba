@@ -30,14 +30,17 @@ private:
 	thread* CleaningThread;
 
 	pid_t OwnPID;
+	Basicclean * CleaningProgram;
 public:
-        Basicclean * CleaningProgram;
 		void SetCleaningProgram(Basicclean*);
 
 		void EnableCleaning();
 		void DisableCleaning();
-
+#ifdef __linux
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = syscall(SYS_gettid);}
+#else
+		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = 0;}
+#endif
 		~Roombacontroller(){;}
 
 		void LoadCleaningProgram(Basicclean* inputprogram){
@@ -49,7 +52,6 @@ public:
 //        timerclass timer(*this,0.5); // this is just some code for threading and the pipe
 //        thread tTimerThread(timer);
 //        tTimerThread.detach();
-public:
 		//sensors& getSensorsReference(void){return(Sensors);}
 };
 
