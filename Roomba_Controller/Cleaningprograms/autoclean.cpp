@@ -7,7 +7,8 @@ AutoClean::~AutoClean(){
 
 void AutoClean::clean(void)
 {
-	while(getEnableCleaning() == true){
+	Basicclean::ProcessPID = syscall(SYS_gettid);
+	while(Basicclean::getEnableCleaning() == true){
 		cout << "enabled" << endl;
 		interpreterreference.drives(roomba::speed::SLOW);
 		do{
@@ -16,6 +17,7 @@ void AutoClean::clean(void)
 			//interpreterreference.drives(roomba::speed::CRUISE);
 
 			if(interpreterreference.getBumpLeft())
+				// break;
 				Run = true;
 			//Run |= interpreterreference.getBumpLeft();
 			if(interpreterreference.getBumpRight())
@@ -26,7 +28,7 @@ void AutoClean::clean(void)
 			cout << interpreterreference.getBumpRight() << endl;
 			cout << Run << endl;
 
-		}while((Run == false) && (getEnableCleaning() == true));
+		}while((Run == false)/*true*/ && (getEnableCleaning() == true));
 
         switch(iState)
         {
@@ -53,9 +55,9 @@ void AutoClean::clean(void)
         default:
             iState = 0;
         }
-
-
 	 }
+	interpreterreference.drives(roomba::speed::STOP);
+	Basicclean::ProcessPID = 0;
 }
 
 

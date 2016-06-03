@@ -20,41 +20,60 @@ void check_class::pipe_checker(){
 		switch(PipeCommand){
 		case 'e':	//AutoClean
 	//		Autotmp* a;
+			inter.drives(roomba::speed::SLOW);
 			Cleaningprogram = new AutoClean(inter);
-			roomref.LoadCleaningProgram(Cleaningprogram);
+//			//Cleaningprogram->clean();
+//			roomref.EnableCleaning();
+			roomref.SetCleaningProgram(Cleaningprogram);
+			//while(1){}
 			Cleaningprogram = NULL;
+#ifdef VERBOSE
 			cout<<"AutoClean ON"<<endl;
+#endif
 			break;
 		case 'f':	//CellClean
-			Cleaningprogram = new Cell(inter);
-			roomref.LoadCleaningProgram(Cleaningprogram);
-			Cleaningprogram = NULL;
+//			Cleaningprogram = new Cell(inter);
+//			roomref.LoadCleaningProgram(Cleaningprogram);
+//			Cleaningprogram = NULL;
+#ifdef VERBOSE
 			cout<<"CellClean ON"<<endl;
+#endif
 			break;
 		case 'g':	//Walltrace
 			Cleaningprogram = new Walltrace(inter);
 			roomref.LoadCleaningProgram(Cleaningprogram);
 			Cleaningprogram = NULL;
+#ifdef VERBOSE
 			cout<<"Walltrace ON"<<endl;
+#endif
 			break;
 		case 'h':	//Spotclean
 			Cleaningprogram = new Spotclean(inter);
 			roomref.LoadCleaningProgram(Cleaningprogram);
 			Cleaningprogram = NULL;
+#ifdef VERBOSE
 			cout<<"Spotclean ON"<<endl;
+#endif
 			break;
 		case 'i':	//manclean
 			//Manclean* manclean_object = new Manclean();
 			//roomref.stelcleaningin(manclean_object);
+#ifdef VERBOSE
 			cout<<"ManClean ON"<<endl;
+#endif
 			break;
 		case 'j':	//Stop Clean
 			//roomref.stop();
+			roomref.DisableCleaning();
+#ifdef VERBOSE
 			cout<<"Stopped all Clean programs"<<endl;
+#endif
 			break;
 		case 'k':	//Dock
 			//roomref.dock();
+#ifdef VERBOSE
 			cout<<"Dock Roomba"<<endl;
+#endif
 			break;
 		default :
 			break;
@@ -185,9 +204,9 @@ int check_class::function_activator_static(char cCommand){
 		cout<<"AutoClean ON"<<endl;
 		break;
 	case 'f':	//CellClean
-		Cleaningprogram = new Cell(inter);
-		roomref.LoadCleaningProgram(Cleaningprogram);
-		Cleaningprogram = NULL;
+//		Cleaningprogram = new Cell(inter);
+//		roomref.LoadCleaningProgram(Cleaningprogram);
+//		Cleaningprogram = NULL;
 		cout<<"CellClean ON"<<endl;
 		break;
 	case 'g':	//Walltrace

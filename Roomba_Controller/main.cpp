@@ -10,32 +10,35 @@ using namespace std;
 int main(void){
 	interpreter inter;
 	Roombacontroller RoombaController(inter);
-    check_class check(RoombaController,inter);
-    check.pipe_checker();
+//    check_class check(RoombaController,inter);
+//    check.pipe_checker();
 
-//	RoombaController.DisableCleaning();
-//	cin.get();
-//	inter.startRoomba();
-//	cout << "init done" << endl;
-//	cin.get();
+	RoombaController.DisableCleaning();
+	cin.get();
+	inter.startRoomba();
+	cout << "init done" << endl;
+	cin.get();
 
-//	AutoClean cleaningobject(inter);
-//	RoombaController.EnableCleaning();
+	AutoClean cleaningobject(inter);
+	RoombaController.EnableCleaning();
 
-////	inter.drives(roomba::speed::SLOW);
-////	cleaningobject.clean(); // direct cleaning
-////	RoombaController.LoadCleaningProgram(); // normal cleaning
-//	RoombaController.SetCleaningProgram(&cleaningobject); // thread cleaning
+//	inter.drives(roomba::speed::SLOW);
+//	cleaningobject.clean(); // direct cleaning
+//	RoombaController.LoadCleaningProgram(cleaningobject); // normal cleaning
+	RoombaController.SetCleaningProgram(&cleaningobject); // thread cleaning
 
 
-//	cout << "running" << endl;
-//	cin.get();
 
-    // pipe ding (&interpreter,&roombacontroller)
-//    Basicclean* basic = new Autoclean();
-//    Basicclean* basic;
-//    Spotclean* autoo;
-//    //autoo = new Autoclean;
-//    RoombaController.CleaningProgram = basic;
+	cout << "running" << endl;
+	while(cin.get() != 'a'){}
+
+	cin.get();
+
+//	pipe ding (&interpreter,&roombacontroller)
+//	Basicclean* basic = new Autoclean();
+//	Basicclean* basic;
+//	Spotclean* autoo;
+//	//autoo = new Autoclean;
+//	RoombaController.CleaningProgram = basic;
 //	RoombaController.CleaningProgram->clean();
 }

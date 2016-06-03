@@ -4,7 +4,8 @@
 void Roombacontroller::SetCleaningProgram(Basicclean* input)
 {
 
-	if(CleaningProgram != NULL){ // if Cleaningprogram is pointing to another program
+
+	if(CleaningProgram == 0x00){ // if Cleaningprogram is pointing to another program
 		Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 
 		// test if really stopped runnning
@@ -13,9 +14,12 @@ void Roombacontroller::SetCleaningProgram(Basicclean* input)
 		delete CleaningProgram; // delete the other program
 	}
 
+	Basicclean::EnableCleaning();
 	CleaningProgram = input; // install new program
 
 	CleaningThread = new thread(ref(*CleaningProgram) ); // reference wrapper // start thread
+	//CleaningProgram->clean();
+
 
 	//// this is not a clean solution but we are unable to find a way to dyanmically define the derived type //<< fixed with std::ref
 //	if(typeid(*CleaningProgram).hash_code() == typeid(AutoClean).hash_code()){

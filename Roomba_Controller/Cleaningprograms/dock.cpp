@@ -8,6 +8,7 @@ Dock::~Dock()
 
 void Dock::clean(void)
 {
+	Basicclean::ProcessPID = syscall(SYS_gettid);
     switch(iState)
     {
     case 0: //no signal
@@ -21,6 +22,6 @@ void Dock::clean(void)
     case 4: //close
         break;
     }
-
+	Basicclean::ProcessPID = 0;
 }
 

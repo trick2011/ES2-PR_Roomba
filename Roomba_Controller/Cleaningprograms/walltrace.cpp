@@ -7,6 +7,7 @@ Walltrace::~Walltrace(){
 
 void Walltrace::clean(void)
 {
+	Basicclean::ProcessPID = syscall(SYS_gettid);
     while(getEnableCleaning()==true)
     {
         interpreterreference.drives(roomba::speed::SLOW);
@@ -29,4 +30,5 @@ void Walltrace::clean(void)
 
         }
     }
+	Basicclean::ProcessPID = 0;
 }
