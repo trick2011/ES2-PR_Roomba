@@ -103,7 +103,7 @@ public:
     void startAutoMode();
     void stopAutoMode();
 
-    void operator()();
+	//void operator()();
     void autoMode();
     std::thread* AUTO;
 

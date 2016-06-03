@@ -138,17 +138,17 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 	}
 
 
-	chrono::time_point<chrono::system_clock> start,end;
-	start = chrono::system_clock::now();
-	chrono::duration<double> elapsed_seconds;
-	while(true){
-		end = chrono::system_clock::now();
-		elapsed_seconds = end - start;
-		if(elapsed_seconds.count() >= 0.10){
-			break;
-		}
+//	chrono::time_point<chrono::system_clock> start,end;
+//	start = chrono::system_clock::now();
+//	chrono::duration<double> elapsed_seconds;
+//	while(true){
+//		end = chrono::system_clock::now();
+//		elapsed_seconds = end - start;
+//		if(elapsed_seconds.count() >= ReceiveDelay){
+//			break;
+//		}
 
-	}
+//	}
 	//second read
 	memset(&rx_buffer,0x00,255);
 

@@ -9,10 +9,36 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+#define TEST
+
+int main(void)
 {
     interpreter *Peter;
     Peter = new interpreter;
+	cin.get();
+	Peter->startRoomba();
+	Peter->drives(roomba::speed::STOP);
+	cin.get();
+#ifdef TEST
+	Peter->drives(roomba::speed::CRUISE);
+	int i=0;
+	while(1){
+
+		if(Peter->getCliffLeft())
+			break;
+		if(Peter->getCliffFrontLeft())
+			break;
+		if(Peter->getCliffFrontRight())
+			break;
+		if(Peter->getCliffRight())
+			break;
+		cout << i++ << endl;
+	}
+	Peter->drives(roomba::speed::STOP);
+	sleep(1);
+	Peter->drives(roomba::speed::BACKWARDS);
+#endif
+#ifndef TEST
     while(1)
     {
     system("clear");
@@ -80,11 +106,11 @@ int main(int argc, char *argv[])
                 do
                 {
                     Peter->drives(0);
-                    while(  !Peter->Wall.bInsight || !Peter->Cliff.bLeft || !Peter->Cliff.bFrontLeft || 
-                            !Peter->Cliff.bFrontRight || !Peter->Cliff.bRight || !Peter->Bumps.bLeft ||
-                            !Peter->Bumps.bRight )
-                        {;
-                    }
+//                    while(  !Peter->Wall.bInsight || !Peter->Cliff.bLeft || !Peter->Cliff.bFrontLeft ||
+//                            !Peter->Cliff.bFrontRight || !Peter->Cliff.bRight || !Peter->Bumps.bLeft ||
+//                            !Peter->Bumps.bRight )
+//                        {;
+//                    }
                 }while( Peter->slowTillStop());
 
                 Peter->drives(4);
@@ -207,7 +233,7 @@ int main(int argc, char *argv[])
         
         }
     }
-
+#endif
     return 0;
 }
 
