@@ -17,6 +17,7 @@
 #include "macros.h"
 
 #include "com_class.h"
+#include "pipe_filler.h"
 
 using namespace std;
 
@@ -34,6 +35,8 @@ private:
 	Basicclean* Cleaningprogram;
 	interpreter& inter;
 	Roombacontroller& roomref;
+	pipe_filler* filler;
+	thread* pipefillerthread;
 public:
 	//check_class();
 	check_class(Roombacontroller& roomref,interpreter& inter);

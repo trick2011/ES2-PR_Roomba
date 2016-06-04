@@ -1,7 +1,8 @@
 #include "check_class.h"
 //constructor
 check_class::check_class(Roombacontroller& roomref,interpreter& inter):com_class(),inter{inter},roomref{roomref}{
-
+	filler = new pipe_filler(inter,*this);
+	pipefillerthread = new thread(ref(*filler));
 }
 
 void check_class::operator ()(){
