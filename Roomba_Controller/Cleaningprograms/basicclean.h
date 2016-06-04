@@ -2,8 +2,10 @@
 #define BASICCLEAN_H
 
 #include <unistd.h>
+#ifdef __linux
 #include <sys/syscall.h>
 #include <sys/types.h>
+#endif
 
 #include "../../Roomba_Interpreter/interpreter.h"
 //#include "../roombacontroller.h"
