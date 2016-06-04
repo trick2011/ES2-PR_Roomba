@@ -14,10 +14,32 @@ void check_class::pipe_checker(){
 	while(1){
 		PipeCommand = 0;
 		PipeCommand = readFIFO();
+//		char a = 'v';
+//		writeFIFO(a);
 		if(PipeCommand == pipeempty)
 			continue;
 
 		switch(PipeCommand){
+		case 'a': // boven
+			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
+			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
+			inter.drives(roomba::speed::CRUISE);
+			break;
+		case 'b': // rechts
+			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
+			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
+			inter.turnRight();
+			break;
+		case 'c': // links
+			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
+			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
+			inter.turnLeft();
+			break;
+		case 'd': // onder
+			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
+			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
+			inter.drives(roomba::speed::BACKWARDS);
+			break;
 		case 'e':	//AutoClean
 	//		Autotmp* a;
 			inter.drives(roomba::speed::SLOW);
@@ -68,6 +90,7 @@ void check_class::pipe_checker(){
 #ifdef VERBOSE
 			cout<<"Stopped all Clean programs"<<endl;
 #endif
+			inter.drives(roomba::speed::STOP);
 			break;
 		case 'k':	//Dock
 			//roomref.dock();

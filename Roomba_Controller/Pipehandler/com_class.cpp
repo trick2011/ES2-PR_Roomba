@@ -15,15 +15,20 @@ com_class::~com_class(){
 void com_class::writeFIFO(char cTosend){
     //FILE *fifo;
     //ctp
-    //unsigned char message[1];
+	unsigned char message[1];
 
 	//if (cTosend = 'w'|'v'|'x'|'y'|'z') // deze regels is hilarisch hij assigned de georde waarde van w v x y z in cTosend
 	if((cTosend == 'w')||(cTosend == 'v')||(cTosend == 'x')||(cTosend == 'y')||(cTosend == 'z'))
 	{
 		//message[0] = cTosend;
-        fwrite(&cTosend,1, 1, ctpFIFO);
-        fclose(ctpFIFO);
-        ctpFIFO = fopen(ctp_FIFO_FILE.c_str(), "w");
+		//fwrite(&cTosend,1, 1, ctpFIFO);
+		message[0] = cTosend;
+		fwrite(&message[0],1, 1, ctpFIFO);
+		//sleep(1);
+		//cout << message[0] << endl;
+//		fflush(ctpFIFO);
+//        fclose(ctpFIFO);
+//        ctpFIFO = fopen(ctp_FIFO_FILE.c_str(), "w");
 
 	}				
 	//error
