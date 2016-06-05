@@ -109,11 +109,12 @@ public:
 
     bool autoRunning;
 
-    struct sWheelDrops
+#warning "jelle deze structs werken niet"
+	struct sWheelDrops
     {
         bool bLeft;
         bool bRight;
-    };
+	};
     struct sOverCurrent
     {
         bool bWheelLeft;
@@ -127,18 +128,19 @@ public:
         bool bFrontLeft;
         bool bFrontRight;
         bool bRight;
-    };
+	}cliff;
     struct sInfraRed
     {
         bool bLeft;
         bool bRight;
         bool bClose;
     };
+#warning "zo werkt het wel"
     struct sBumps
     {
         bool bLeft;
         bool bRight;
-    };
+	}bump;
     struct sWall
     {
         bool bRight;
@@ -147,7 +149,7 @@ public:
         bool bCenterLeft;
         bool bFrontLeft;
         bool bLeft;
-    };
+	};
 
     struct sBattery
     {

@@ -102,7 +102,7 @@ void check_class::pipe_checker(){
 		default :
 			break;
 		}
-        sleep(1);
+		//sleep(1);
 	}
 //	char cRcommand;
 //	cRcommand = readFIFO();

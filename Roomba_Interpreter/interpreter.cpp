@@ -2,6 +2,9 @@
 
 interpreter::interpreter()
 {
+#warning "structs moeten geinitialiseerd worden anders wordt de code een puinhoop"
+	memset(&bump,0,sizeof(sBumps));
+	memset(&cliff,0,sizeof(sCliff));
 #ifdef fulldebug
     std::cout<<"\033[32m start function interpreter (constructor) \033[0m"<<std::endl;
 #endif
@@ -2230,6 +2233,7 @@ bool interpreter::getBumpRight()
         // NOG TE IMPLEMENTERER
     }
 	//sendTex->unlock();
+	bump.bRight = tmp;
     return tmp;
 }
 
@@ -2260,6 +2264,7 @@ bool interpreter::getBumpLeft()
     }
 	//sendTex->unlock();
 
+	bump.bLeft = tmp;
     return tmp;
 }
 

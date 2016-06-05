@@ -56,6 +56,7 @@ void AutoClean::clean(void)
             break;
         default:
             iState = 0;
+			break;
         }
 	 }
 	interpreterreference.drives(roomba::speed::STOP);

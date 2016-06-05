@@ -1,19 +1,25 @@
 #ifndef MACROS
 #define MACROS
-//PHP side
+
+namespace site_opcodes{
 	//volitail functions
-static const char	MoveForward 	= 'a';
-static const char	MoveBackword 	= 'b';	//corrected
-static const char	MoveRight 	= 'c';
-static const char	MoveLeft 	= 'd';
+	static const char	MoveForward 	= 'a';
+	static const char	MoveRight		= 'b';
+	static const char	MoveLeft		= 'c';
+	static const char	MoveBackword 	= 'd';	//corrected
+
+	//Roomba side
+	static const char	BumpRight		= 'v';
+	static const char	BumpLeft		= 'w';
+	static const char	Drop			= 'x';
+	static const char	TrashbinFull 	= 'y';
+	static const char	BatteryLow  	= 'z';
+	static const char	Nothing			= ' ';
+
 	//static fucntions
-static const char	AutCleanON_OFF 	= 'e';
-static const char	ManCleanON_OFF 	= 'f';
-static const char	DockRoomba 	= 'g';
-//Roomba side
-static const char	BumpRight  	= 'v';
-static const char	BumpLeft 	= 'w';
-static const char	Drop 		= 'x';
-static const char	TrashbinFull 	= 'y';
-static const char	BatteryLow  	= 'z';
+	static const char	AutClean	 	= 'e';
+	static const char	SpotClean		= 'g';
+	static const char	WallTrace		= 'h';
+	static const char	Dock			= 'k';
+}
 #endif 

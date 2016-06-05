@@ -51,7 +51,7 @@ body
   			echo 'File not found';
 		}
 		else{
- 			stream_set_blocking($piper,false);
+ 			//stream_set_blocking($piper,false);
 			$pipew = fopen("/tmp/ptcFIFO", 'w');
 			
  			if(!$pipew) 
@@ -61,9 +61,10 @@ body
 			else 
  			{
  				//echo 'Success open file';
+ 				fwrite($pipew, $command);
+				fclose($pipew);
  			}
-	 		fwrite($pipew, $command);
-			fclose($pipew);
+	 		
 		}
 	}
 
@@ -81,16 +82,19 @@ body
 		else 
 		{
  		 	//echo 'Success open file';
+ 		 	$recieved = fread($piper, "1"); 
+			echo $recieved;
+			//fflush($piper);
+			fclose($piper);
+			return $recieved;
 		}
-		stream_set_blocking($piper,false);
-		$recieved = fread($piper, "1"); 
-//		fflush($piper);
-		fclose($piper);
+		//stream_set_blocking($piper,false);
+		
 	/* test stuff
 		$arr=array("z","y","w","x","v","a","b","c");
 		$i=rand(0,7);
 		$recieved=$arr[$i]; */
-		return $recieved;
+		return(0);
 	} 
 ?>
 

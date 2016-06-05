@@ -27,6 +27,7 @@ protected:
     FILE *ptcFIFO;
     FILE *ctpFIFO;
 public:
+	const string& ctp_FIFOref;
 	com_class();
     ~com_class();
 
