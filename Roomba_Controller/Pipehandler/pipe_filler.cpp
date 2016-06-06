@@ -11,13 +11,13 @@ void pipe_filler::operator()(){
 		sleep(1);
 		ofp.open(comclass.ctp_FIFOref,fstream::trunc);
 		if(Basicclean::getEnableCleaning())
-			if(peter.cliff.bLeft == true||peter.cliff.bFrontLeft||peter.cliff.bFrontRight||peter.cliff.bRight)
+			if(peter.Cliff.bLeft == true||peter.Cliff.bFrontLeft||peter.Cliff.bFrontRight||peter.Cliff.bRight)
 				ofp << site_opcodes::Drop;
 			else
-				if(peter.bump.bLeft)
+				if(peter.Bumps.bLeft)
 					ofp << site_opcodes::BumpLeft;
 				else
-					if(peter.bump.bRight)
+					if(peter.Bumps.bRight)
 						ofp << site_opcodes::BumpRight;
 					else
 						ofp << site_opcodes::Nothing;
