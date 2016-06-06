@@ -74,7 +74,9 @@ bool UARTClass::sendUart(uint8_t code){
     //----- TX BYTES -----
     if (iUARTFileStream != -1){
         int count = write(iUARTFileStream,&code,1);		//Filestream, bytes to write, number of bytes to write
-        string String = static_cast<ostringstream*>( &(ostringstream() << count) )->str();
+        ostringstream convert;
+        convert << (int)code;
+        string String = convert.str();
         
         if (count < 0){
             Logging("Count is < 0 in sendUART.");
@@ -97,7 +99,6 @@ bool UARTClass::sendstring(string sInput){
     int count = -1;
     if(iUARTFileStream != -1){
         count = write(iUARTFileStream,sInput.c_str(),sInput.size());		//Filestream, bytes to write, number of bytes to write
-        string String = static_cast<ostringstream*>( &(ostringstream() << count) )->str();
         
         if (count < 0){
             Logging("Count is < 0 in sendstring.");
@@ -105,7 +106,7 @@ bool UARTClass::sendstring(string sInput){
         }
         
         else{
-            Logging(String);
+            Logging(sInput);
             return(true);
         }
     }
@@ -128,7 +129,10 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         do
             ReadSize = read(iUARTFileStream, &rx_buffer, 255);
         while( ReadSize <= 0 && bReceive);
-        string String = static_cast<ostringstream*>( &(ostringstream() << ReadSize) )->str();
+        
+        ostringstream convert;
+        convert << (int)ReadSize;
+        string String = convert.str();
         
         Logging("First read... ReadSize in receiveUart: ");
         Logging(String);
@@ -141,8 +145,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 			Logging("Queue container first read: ");
 			Logging(ss.str());
         }
-        
-        
+                
         chrono::time_point<chrono::system_clock> start,end;
         start = chrono::system_clock::now();
         chrono::duration<double> elapsed_seconds;
@@ -161,7 +164,12 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         memset(&rx_buffer,0x00,255);
         
         ReadSize = read(iUARTFileStream, &rx_buffer, 255);
-        String = static_cast<ostringstream*>( &(ostringstream() << ReadSize) )->str();
+        convert.str("");
+        convert.clear();
+        
+        convert << (int)ReadSize;
+        String.clear(;)
+        String = convert.str();
         
         Logging("Second read... ReadSize in receiveUart: ");
         Logging(String);
@@ -192,7 +200,6 @@ void UARTClass::operator()(){
 
 uint8_t UARTClass::getElement(){
     unsigned char ucElement = 0;
-    string sElement;
     
     Logging("Getting Queue Element...");
     
@@ -200,12 +207,10 @@ uint8_t UARTClass::getElement(){
         ucElement = ReceiveQueue.front();
         ReceiveQueue.pop();
         
-#warning "dit is wss niet goed"
-        string s(1, static_cast<char>(ucElement)); // dit is wss niet goed
+        string String = to_string((int)ucElement);
         
         Logging("Queue Element: ");
-        Logging(s);
-        
+        Logging(String);        
     }
     
     else
