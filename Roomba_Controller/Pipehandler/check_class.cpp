@@ -105,6 +105,12 @@ void check_class::pipe_checker(){
 			cout<<"Dock Roomba"<<endl;
 #endif
 			break;
+		case site_opcodes::Start:
+			inter.startRoomba();
+			break;
+		case site_opcodes::Stop:
+			inter.stopRoomba();
+			break;
 		default :
 			break;
 		}

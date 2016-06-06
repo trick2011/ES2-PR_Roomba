@@ -5,42 +5,42 @@ AutoClean::~AutoClean(){
 
 }
 
+namespace actionlist{
+static const int CliffLeft	= 0;
+static const int CliffRight	= 1;
+static const int Turn		= 2;
+}
+
 void AutoClean::clean(void)
 {
 #ifdef __linux
 	Basicclean::ProcessPID = syscall(SYS_gettid);
 #endif
+	bool TurnLeft = true;
 	while(Basicclean::getEnableCleaning()){
 		cout << "enabled" << endl;
 		interpreterreference.drives(roomba::speed::SLOW);
-		
-        do{
+
+		do{
 			Run = true;
 			cout << "go" << endl;
 
-            if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
-            {
-                Run = false;
-                iState = 0;
-                break;
-            }
-
-            if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
-            {
-                Run = false;
-                iState = 1;
-                break;
-            }
-
-            if(interpreterreference.getBumpLeft())
-            {
-                Run = false;
-                break;
-            }
-            if(interpreterreference.getBumpRight())
-            {
+			if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft()){
 				Run = false;
-                break;
+				iState = actionlist::CliffLeft;
+				break;
+			}
+
+			if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight()){
+				Run = false;
+				iState = actionlist::CliffRight;
+				break;
+			}
+
+			if(interpreterreference.getBumpLeft()||interpreterreference.getBumpRight()){ // bump kan wel samen
+				Run = false;
+				iState = actionlist::Turn;
+				break;
             }
 
 			//cout << interpreterreference.getBumpLeft() << endl;
@@ -49,82 +49,54 @@ void AutoClean::clean(void)
 
         }while((Run == true) && (getEnableCleaning() == true));
 
-        switch(iState)
-        {
-        case 0: //Cliff links
+		switch(iState){
+		case actionlist::CliffLeft: //Cliff links
             cout << "cliff links" << endl;
             //Run = true;
             interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
-            interpreterreference.turnRoomba(30);
-            iState = 2;
+			interpreterreference.turnRoomba(30); // rechts?
+			iState = actionlist::Turn;
+			TurnLeft = false;
+
             break;
-        case 1: // Cliff rechts
+		case actionlist::CliffRight: // Cliff rechts
             cout << "cliff rechts" << endl;
             Run = false;
             interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
-            interpreterreference.turnRoomba(-30);
-            iState = 3;
+			interpreterreference.turnRoomba(-30); // links?
+			iState = actionlist::Turn;
+			TurnLeft = true;
             break;
-        case 2: //bocht naar links
+		case actionlist::Turn: //bocht naar links
             cout << "bocht naar links" << endl;
-            //Run = true;
-            interpreterreference.drives(roomba::speed::BACKWARDS);
-            sleep(1);
-            interpreterreference.drives(roomba::speed::STOP);
-            interpreterreference.turnLeft();
-            //sleep(1);
-            //chrono en while zie uart
-            interpreterreference.drives(roomba::speed::SLOW);
-            sleep(1);
-            interpreterreference.turnLeft();
-            iState = 3;
-            break;
-        case 3: //bocht naar rechts
-            cout << "bocht naar recht" << endl;
-            //Run = true;
-            interpreterreference.drives(roomba::speed::BACKWARDS);
-            sleep(1);
-            interpreterreference.drives(roomba::speed::STOP);
-            interpreterreference.turnRight();
-            //sleep(1);
-            interpreterreference.drives(roomba::speed::SLOW);
-			for(unsigned int i = 0 ; i < 100 ; i += interpreterreference.getDistance())
-			{
-				if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
-
-				if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
-
-				if(interpreterreference.getBumpLeft())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
-				if(interpreterreference.getBumpRight())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
+			if(TurnLeft){ // turnleft
+				//interpreterreference.drives(roomba::speed::BACKWARDS);
+				//sleep(1);
+				interpreterreference.drives(roomba::speed::STOP);
+				interpreterreference.turnLeft();
+				//sleep(1);
+				//chrono en while zie uart
+				interpreterreference.drives(roomba::speed::SLOW);
+				sleep(1);
+				interpreterreference.turnLeft();
+				iState = actionlist::Turn;
+				TurnLeft = false;
 			}
-            interpreterreference.turnRight();
-            iState = 2;
+			else{ // turnright
+				cout << "bocht naar recht" << endl;
+				//interpreterreference.drives(roomba::speed::BACKWARDS);
+				//sleep(1);
+				interpreterreference.drives(roomba::speed::STOP);
+				interpreterreference.turnRight();
+				//sleep(1);
+				interpreterreference.drives(roomba::speed::SLOW);
+				sleep(1);
+				interpreterreference.turnRight();
+				iState = actionlist::Turn;
+				TurnLeft = true;
+			}
             break;
         default:
             iState = 2;
