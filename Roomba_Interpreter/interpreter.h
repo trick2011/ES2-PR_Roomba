@@ -109,11 +109,11 @@ public:
 
     bool autoRunning;
 
-    struct sWheelDrops
+	struct sWheelDrops
     {
         bool bLeft;
         bool bRight;
-    };
+	};
     struct sOverCurrent
     {
         bool bWheelLeft;
@@ -127,18 +127,19 @@ public:
         bool bFrontLeft;
         bool bFrontRight;
         bool bRight;
-    };
+	};
     struct sInfraRed
     {
         bool bLeft;
         bool bRight;
         bool bClose;
     };
+
     struct sBumps
     {
         bool bLeft;
         bool bRight;
-    };
+	};
     struct sWall
     {
         bool bRight;
@@ -147,7 +148,7 @@ public:
         bool bCenterLeft;
         bool bFrontLeft;
         bool bLeft;
-    };
+	};
 
     struct sBattery
     {
