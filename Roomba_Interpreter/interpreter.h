@@ -38,13 +38,12 @@ public:
     void turnRoomba(uint16_t angle); // angle in degrees
     bool slowTillStop(); // returns 1 if correct
 
-
     bool        getBumpAndWheel();
     uint8_t     getWall();
-    uint8_t     getCliffLeft();
-    uint8_t     getCliffFrontLeft();
-    uint8_t     getCliffFrontRight();
-    uint8_t     getCliffRight();
+    bool        getCliffLeft();
+    bool        getCliffFrontLeft();
+    bool        getCliffFrontRight();
+    bool        getCliffRight();
     uint8_t     getVirtualWall();
     bool        getWheelOvercurrents();
     uint8_t     getDirtDetect();
@@ -85,6 +84,7 @@ public:
     int16_t     getSideBrushMotorCurrent();
     uint8_t     getStatis();
 
+
     /* get individual sensor values */
     bool getBumpRight();
     bool getBumpLeft();
@@ -103,17 +103,18 @@ public:
     void startAutoMode();
     void stopAutoMode();
 
-	//void operator()();
+    //void operator()();
     void autoMode();
     std::thread* AUTO;
 
     bool autoRunning;
 
-	struct sWheelDrops
+    struct sWheelDrops
     {
         bool bLeft;
         bool bRight;
-	};
+    };
+
     struct sOverCurrent
     {
         bool bWheelLeft;
@@ -127,28 +128,28 @@ public:
         bool bFrontLeft;
         bool bFrontRight;
         bool bRight;
-	};
+    };
     struct sInfraRed
     {
         bool bLeft;
         bool bRight;
         bool bClose;
     };
-
     struct sBumps
     {
         bool bLeft;
         bool bRight;
-	};
+    };
     struct sWall
     {
+        bool bInsight;
         bool bRight;
         bool bFrontRight;
         bool bCenterRight;
         bool bCenterLeft;
         bool bFrontLeft;
         bool bLeft;
-	};
+    };
 
     struct sBattery
     {
@@ -169,7 +170,7 @@ public:
 
     struct sWallDistance
     {
-        bool     bInsight;
+        
         uint16_t bRight;
         uint16_t bFrontRight;
         uint16_t bCenterRight;
