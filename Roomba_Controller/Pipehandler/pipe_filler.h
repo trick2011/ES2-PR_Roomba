@@ -3,7 +3,9 @@
 
 #include <fstream>
 
+#ifdef __linux
 #include <sys/signal.h>
+#endif
 
 #include "../../Roomba_Interpreter/interpreter.h"
 #include "../Cleaningprograms/basicclean.h"

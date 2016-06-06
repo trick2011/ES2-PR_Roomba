@@ -14,7 +14,7 @@ void Dock::clean(void)
     switch(iState)
     {
     case 0: //no signal
-       interpreterreference.sInfraRed.bClose
+       //interpreterreference.sInfraRed.bClose
 
 
 
