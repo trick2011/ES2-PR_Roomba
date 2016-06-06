@@ -29,7 +29,7 @@ UARTClass::UARTClass(){
     iUARTFileStream = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
     
     if (iUARTFileStream == -1){      
-        cout << "Cannot start UART.";
+        Logging("Cannot start UART.");
     }
     
     /*CONFIGURE THE UART
@@ -138,10 +138,10 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         {
             ReceiveQueue.push(rx_buffer[i]);
             ss << rx_buffer[i] << "|";            
+			Logging("Queue container first read: ");
+			Logging(ss.str());
         }
         
-        Logging("Queue container first read: ");
-        Logging(ss.str());        
         
         chrono::time_point<chrono::system_clock> start,end;
         start = chrono::system_clock::now();
@@ -161,23 +161,19 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         memset(&rx_buffer,0x00,255);
         
         ReadSize = read(iUARTFileStream, &rx_buffer, 255);
-        //string String = static_cast<ostringstream*>( &(ostringstream() << ReadSize) )->str();
+        String = static_cast<ostringstream*>( &(ostringstream() << ReadSize) )->str();
         
         Logging("Second read... ReadSize in receiveUart: ");
         Logging(String);
+		Logging("Queue container second read: ");
         
         for(int i=0;i<ReadSize;i++){
             ReceiveQueue.push(rx_buffer[i]);
             ss << rx_buffer[i] << "|";
+			Logging(ss.str());
             
         }
-        
-        Logging("Queue container second read: ");
-        Logging(ss.str());
-        
-        ofp << ss.str();
-        ofp << endl;
-        
+
         if(bReceive)
             return(true);
         else
@@ -204,7 +200,8 @@ uint8_t UARTClass::getElement(){
         ucElement = ReceiveQueue.front();
         ReceiveQueue.pop();
         
-        string s(1, static_cast<char>(ucElement));
+#warning "dit is wss niet goed"
+        string s(1, static_cast<char>(ucElement)); // dit is wss niet goed
         
         Logging("Queue Element: ");
         Logging(s);
@@ -232,17 +229,6 @@ void UARTClass::flushQueue(){
     Logging("Queue is empty.");   
 }
 
-void UARTClass::Logging(string sLog){
-    ofstream myfile ("log.txt", ios::app);
-    
-    if (myfile.is_open())
-    {  
-        myfile << sLog << endl;
-        myfile.close();
-    }
-    
-    else cout << "Unable to open file." << endl;
-}
 
 string UARTClass::receiveString(void){
     //	bReceive = true;
@@ -263,6 +249,18 @@ string UARTClass::receiveString(void){
 }
 
 #endif
+
+void UARTClass::Logging(string sLog){
+    ofstream myfile ("log.txt", ios::app);
+    
+    if (myfile.is_open())
+    {  
+        myfile << sLog << endl;
+        myfile.close();
+    }
+    
+    else cout << "Unable to open file." << endl;
+}
 
 #ifdef _WIN32 //just filler implementation for windows
 UARTClass::UARTClass(){}
