@@ -17,27 +17,27 @@ void AutoClean::clean(void)
 			Run = false;
 			cout << "go" << endl;
 
-            if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft()== true)
+            if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
             {
                 Run = true;
                 iState = 0;
                 break;
             }
 
-            if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight() == true)
+            if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
             {
                 Run = true;
                 iState = 1;
                 break;
             }
 
-            if(interpreterreference.getBumpLeft()== true)
+            if(interpreterreference.getBumpLeft())
             {
                 Run = true;
                 iState = 2;
                 break;
             }
-            if(interpreterreference.getBumpRight()== true)
+            if(interpreterreference.getBumpRight())
             {
 				Run = true;
                 iState = 3;
@@ -79,7 +79,7 @@ void AutoClean::clean(void)
             iState = 1;
             break;
         case 3: //bocht naar rechts
-            cout << "bocht naar recht" << endl;
+            cout << "bocht naar rechts" << endl;
             Run = false;
             interpreterreference.turnRight();
             sleep(1);
