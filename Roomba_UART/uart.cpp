@@ -168,7 +168,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         convert.clear();
         
         convert << (int)ReadSize;
-        String.clear(;)
+        String.clear();
         String = convert.str();
         
         Logging("Second read... ReadSize in receiveUart: ");
