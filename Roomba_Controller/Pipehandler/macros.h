@@ -21,5 +21,6 @@ namespace site_opcodes{
 	static const char	SpotClean		= 'g';
 	static const char	WallTrace		= 'h';
 	static const char	Dock			= 'k';
+	static const char	StopRoomba		= 'j';
 }
 #endif 

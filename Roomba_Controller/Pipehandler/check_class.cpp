@@ -21,27 +21,27 @@ void check_class::pipe_checker(){
 			continue;
 
 		switch(PipeCommand){
-		case 'a': // boven
+		case site_opcodes::MoveForward: // boven
 			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
 			inter.drives(roomba::speed::CRUISE);
 			break;
-		case 'b': // rechts
+		case site_opcodes::MoveRight: // rechts
 			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
 			inter.turnRight();
 			break;
-		case 'c': // links
+		case site_opcodes::MoveLeft: // links
 			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
 			inter.turnLeft();
 			break;
-		case 'd': // onder
+		case site_opcodes::MoveBackword: // onder
 			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
 			inter.drives(roomba::speed::BACKWARDS);
 			break;
-		case 'e':	//AutoClean
+		case site_opcodes::AutClean:	//AutoClean
 	//		Autotmp* a;
 			inter.drives(roomba::speed::SLOW);
 			Cleaningprogram = new AutoClean(inter);
@@ -62,7 +62,7 @@ void check_class::pipe_checker(){
 			cout<<"CellClean ON"<<endl;
 #endif
 			break;
-		case 'g':	//Walltrace
+		case site_opcodes::WallTrace:	//Walltrace
 			Cleaningprogram = new Walltrace(inter);
 			roomref.LoadCleaningProgram(Cleaningprogram);
 			Cleaningprogram = NULL;
@@ -70,7 +70,7 @@ void check_class::pipe_checker(){
 			cout<<"Walltrace ON"<<endl;
 #endif
 			break;
-		case 'h':	//Spotclean
+		case site_opcodes::SpotClean:	//Spotclean
 			Cleaningprogram = new Spotclean(inter);
 			roomref.LoadCleaningProgram(Cleaningprogram);
 			Cleaningprogram = NULL;
@@ -85,7 +85,7 @@ void check_class::pipe_checker(){
 			cout<<"ManClean ON"<<endl;
 #endif
 			break;
-		case 'j':	//Stop Clean
+		case site_opcodes::StopRoomba:	//Stop Clean
 			//roomref.stop();
 			roomref.DisableCleaning();
 #ifdef VERBOSE
@@ -93,7 +93,7 @@ void check_class::pipe_checker(){
 #endif
 			inter.drives(roomba::speed::STOP);
 			break;
-		case 'k':	//Dock
+		case site_opcodes::Dock:	//Dock
 			//roomref.dock();
 #ifdef VERBOSE
 			cout<<"Dock Roomba"<<endl;
