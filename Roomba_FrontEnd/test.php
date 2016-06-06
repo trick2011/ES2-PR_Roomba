@@ -25,7 +25,15 @@ body
 
 
 <div class="main">
-<button onclick="goBack()">Go Back</button><br>
+<button onclick="goBack()">Go Back</button>
+<form action="<?php echo $_SERVER['PHP_SELF']; //boven a?>" method="POST">
+	<input type="hidden" name="knop" value="s">
+	<input type="submit" value="start roomba">
+</form>
+<form action="<?php echo $_SERVER['PHP_SELF']; //boven a?>" method="POST">
+	<input type="hidden" name="knop" value="o">
+	<input type="submit" value="stop roomba">
+</form><br>
 
 <?php //refresh
 	//refresh rate
@@ -37,8 +45,8 @@ body
 		//echo "<h1>".$_POST["knop"] . "</h1>";
 		writep($_POST["knop"]);
 		}
-	else
-		echo "automatische refresh"."<br />";	
+	#else
+		#echo "automatische refresh"."<br />";	
 ?>
 
 <?php //pipe functions
@@ -143,7 +151,7 @@ body
 			break;
 	}
 ?> 
-
+<div align="center">
 	
 <form action="<?php echo $_SERVER['PHP_SELF']; //boven a?>" method="POST">
 	<input type="hidden" name="knop" value="a">
