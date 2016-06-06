@@ -20,18 +20,18 @@ UARTClass::UARTClass(){
     O_RDONLY - Open for reading only.
     O_RDWR - Open for reading and writing.
     O_WRONLY - Open for writing only.
-    
+
     O_NDELAY / O_NONBLOCK (same function) - Enables nonblocking mode. When set read requests on the file can return immediately with a failure status
                         if there is no input immediately available (instead of blocking). Likewise, write requests can also return
                         immediately with a failure status if the output can't be written immediately.
-                        
+
     O_NOCTTY - When set and path identifies a terminal device, open() shall not cause the terminal device to become the controlling terminal for the process.*/
     iUARTFileStream = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
-    
-    if (iUARTFileStream == -1){      
+
+    if (iUARTFileStream == -1){
         Logging("Cannot start UART.");
     }
-    
+
     /*CONFIGURE THE UART
     The flags (defined in /usr/include/termios.h - see http://pubs.opengroup.org/onlinepubs/007908799/xsh/termios.h.html):
     Baud rate:- B1200, B2400, B4800, B9600, B19200, B38400, B57600, B115200, B230400, B460800, B500000, B576000, B921600, B1000000, B1152000, B1500000, B2000000, B2500000, B3000000, B3500000, B4000000
@@ -54,9 +54,9 @@ UARTClass::UARTClass(){
 
 UARTClass::UARTClass(string sTTY){
     iUARTFileStream = -1;
-    
+
     iUARTFileStream = open(sTTY.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
-    
+
     if (iUARTFileStream == -1){
         Logging("Cannot start UART.");
     }
@@ -77,18 +77,19 @@ bool UARTClass::sendUart(uint8_t code){
         ostringstream convert;
         convert << (int)code;
         string String = convert.str();
-        
+
         if (count < 0){
             Logging("Count is < 0 in sendUART.");
             return(false);
         }
-        
+
         else{
+            Logging("Sending code:")
             Logging(String);
             return(true);
         }
     }
-    
+
     else{
         Logging("Cannot open UART in sendUart.");
     }
@@ -99,18 +100,19 @@ bool UARTClass::sendstring(string sInput){
     int count = -1;
     if(iUARTFileStream != -1){
         count = write(iUARTFileStream,sInput.c_str(),sInput.size());		//Filestream, bytes to write, number of bytes to write
-        
+
         if (count < 0){
             Logging("Count is < 0 in sendstring.");
             return(false);
         }
-        
+
         else{
+            Logging("Sending string:")
             Logging(sInput);
             return(true);
         }
     }
-    
+
     else
     {
         Logging("Cannot open UART in sendstring.");
@@ -124,69 +126,68 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
     if (iUARTFileStream != -1)
     {
         //int rx_length = read(iUARTFileStream, &rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max) // maak een creatieve manier om (void*)rx_buffer om te zetten in de    string
-        
+
         int ReadSize =0;
         do
             ReadSize = read(iUARTFileStream, &rx_buffer, 255);
         while( ReadSize <= 0 && bReceive);
-        
+
         ostringstream convert;
         convert << (int)ReadSize;
         string String = convert.str();
-        
+
         Logging("First read... ReadSize in receiveUart: ");
         Logging(String);
-        
+
         stringstream ss;
         for(int i=0;i<ReadSize;i++)
         {
             ReceiveQueue.push(rx_buffer[i]);
-            ss << rx_buffer[i] << "|";            
-			Logging("Queue container first read: ");
-			Logging(ss.str());
+            ss << rx_buffer[i] << "|";
+            Logging("Queue container first read: ");
+            Logging(ss.str());
         }
-                
+
         chrono::time_point<chrono::system_clock> start,end;
         start = chrono::system_clock::now();
         chrono::duration<double> elapsed_seconds;
-        
+
         while(true){
             end = chrono::system_clock::now();
             elapsed_seconds = end - start;
-            
+
             if(elapsed_seconds.count() >= 0.10)
             {
                 break;
             }
-            
+
         }
         //second read
         memset(&rx_buffer,0x00,255);
-        
+
         ReadSize = read(iUARTFileStream, &rx_buffer, 255);
         convert.str("");
         convert.clear();
-        
+
         convert << (int)ReadSize;
         String.clear();
         String = convert.str();
-        
+
         Logging("Second read... ReadSize in receiveUart: ");
         Logging(String);
-		Logging("Queue container second read: ");
-        
+        Logging("Queue container second read: ");
+
         for(int i=0;i<ReadSize;i++){
             ReceiveQueue.push(rx_buffer[i]);
             ss << rx_buffer[i] << "|";
-			Logging(ss.str());
-            
+            Logging(ss.str());
         }
 
         if(bReceive)
             return(true);
         else
             return(false);
-        
+
     }
     else
         Logging("Cannot open UART in receiveUart.");
@@ -200,22 +201,22 @@ void UARTClass::operator()(){
 
 uint8_t UARTClass::getElement(){
     unsigned char ucElement = 0;
-    
+
     Logging("Getting Queue Element...");
-    
+
     if(!ReceiveQueue.empty()){
         ucElement = ReceiveQueue.front();
         ReceiveQueue.pop();
-        
+
         string String = to_string((int)ucElement);
-        
+
         Logging("Queue Element: ");
-        Logging(String);        
+        Logging(String);
     }
-    
+
     else
         throw 1;
-    
+
     return(ucElement);
 }
 
@@ -226,12 +227,12 @@ int UARTClass::getQueSize(){
 
 void UARTClass::flushQueue(){
     Logging("Emptying Queue...");
-    
+
     while(!ReceiveQueue.empty()){
         ReceiveQueue.pop();
     }
-    
-    Logging("Queue is empty.");   
+
+    Logging("Queue is empty.");
 }
 
 
@@ -257,13 +258,13 @@ string UARTClass::receiveString(void){
 
 void UARTClass::Logging(string sLog){
     ofstream myfile ("log.txt", ios::app);
-    
+
     if (myfile.is_open())
-    {  
+    {
         myfile << sLog << endl;
         myfile.close();
     }
-    
+
     else cout << "Unable to open file." << endl;
 }
 
