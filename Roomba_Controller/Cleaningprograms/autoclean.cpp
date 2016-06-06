@@ -71,21 +71,92 @@ void AutoClean::clean(void)
         case 2: //bocht naar links
             cout << "bocht naar links" << endl;
             //Run = true;
-            interpreterreference.turnLeft();
+            interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
+            interpreterreference.drives(roomba::speed::STOP);
+            interpreterreference.turnLeft();
+            //sleep(1);
             //chrono en while zie uart
             interpreterreference.drives(roomba::speed::SLOW);
-            sleep(1);
+            //sleep(1);
+            for(unsigned int i = 0 ; i < 100 ; i += Peter->getDistance())
+            {
+                if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+
+                if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+
+                if(interpreterreference.getBumpLeft())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+                if(interpreterreference.getBumpRight())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+            }
             interpreterreference.turnLeft();
             iState = 1;
             break;
         case 3: //bocht naar rechts
             cout << "bocht naar recht" << endl;
             //Run = true;
+            interpreterreference.drives(roomba::speed::BACKWARDS);
+            sleep(1);
+            interpreterreference.drives(roomba::speed::STOP);
             interpreterreference.turnRight();
-            sleep(1);
+            //sleep(1);
             interpreterreference.drives(roomba::speed::SLOW);
-            sleep(1);
+            for(unsigned int i = 0 ; i < 100 ; i += Peter->getDistance())
+            {
+                if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+
+                if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+
+                if(interpreterreference.getBumpLeft())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+                if(interpreterreference.getBumpRight())
+                {
+                    interpreterreference.drives(roomba::speed::BACKWARDS);
+                    sleep(1);
+                    interpreterreference.drives(roomba::speed::STOP);
+                    break;
+                }
+            }
             interpreterreference.turnRight();
             iState = 0;
             break;
