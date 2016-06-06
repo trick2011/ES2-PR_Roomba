@@ -77,40 +77,7 @@ void AutoClean::clean(void)
             //sleep(1);
             //chrono en while zie uart
             interpreterreference.drives(roomba::speed::SLOW);
-            //sleep(1);
-			for(unsigned int i = 0 ; i < 100 ; i += interpreterreference.getDistance())
-			{
-				if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
-
-				if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
-
-				if(interpreterreference.getBumpLeft())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
-				if(interpreterreference.getBumpRight())
-				{
-					interpreterreference.drives(roomba::speed::BACKWARDS);
-					sleep(1);
-					interpreterreference.drives(roomba::speed::STOP);
-					break;
-				}
-			}
+            sleep(1);
             interpreterreference.turnLeft();
             iState = 3;
             break;

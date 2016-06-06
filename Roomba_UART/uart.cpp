@@ -231,7 +231,7 @@ UARTClass::UARTClass(){}
 UARTClass::UARTClass(string sTTY){sTTY = sTTY;}
 bool UARTClass::sendUart(uint8_t code){return(false && code);}
 bool UARTClass::sendstring(string sInput){return(false && sInput.size());}
-bool UARTClass::receiveUart(){return(false);}
+bool UARTClass::receiveUart(double ReceiveDelay){return(false);}
 uint8_t UARTClass::getElement(){return(0x00);}
 int UARTClass::getQueSize(){return(0);}
 void UARTClass::flushQueue(){}
