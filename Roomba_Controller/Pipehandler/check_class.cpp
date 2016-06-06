@@ -1,6 +1,9 @@
 #include "check_class.h"
 //constructor
 check_class::check_class(Roombacontroller& roomref,interpreter& inter):com_class(),inter{inter},roomref{roomref}{
+#ifdef DRY_DEBUG
+	cout << "DRY DEBUG, just so you know" <<endl;
+#endif
 	filler = new pipe_filler(inter,*this);
 	pipefillerthread = new thread(ref(*filler));
 }
@@ -12,11 +15,10 @@ void check_class::operator ()(){
 #ifndef DRY_DEBUG // actual implementation
 void check_class::pipe_checker(){
 	char PipeCommand = 0x00;
-	while(1){
+	while(true){
 		PipeCommand = 0;
 		PipeCommand = readFIFO();
-//		char a = 'v';
-//		writeFIFO(a);
+
 		if(PipeCommand == pipeempty)
 			continue;
 
@@ -29,12 +31,16 @@ void check_class::pipe_checker(){
 		case site_opcodes::MoveRight: // rechts
 			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
+			inter.drives(roomba::speed::STOP);
 			inter.turnRight();
+
 			break;
 		case site_opcodes::MoveLeft: // links
 			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 			while(Basicclean::getProcessPID() != 0){}// test if really stopped runnning
+			inter.drives(roomba::speed::STOP);
 			inter.turnLeft();
+
 			break;
 		case site_opcodes::MoveBackword: // onder
 			Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed

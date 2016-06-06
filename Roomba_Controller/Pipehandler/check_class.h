@@ -21,7 +21,7 @@
 
 using namespace std;
 
-#define DRY_DEBUG // define DRY_DEBUG when not debugging with the roomba
+//#define DRY_DEBUG // define DRY_DEBUG when not debugging with the roomba
 #define VERBOSE
 
 class check_class : public com_class{

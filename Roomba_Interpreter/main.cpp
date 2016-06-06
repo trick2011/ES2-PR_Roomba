@@ -9,16 +9,16 @@
 
 using namespace std;
 
-#define TEST
+//#define TEST
 
 int main(void)
 {
-    interpreter *Peter;
-    Peter = new interpreter;
-	cin.get();
-	Peter->startRoomba();
-	Peter->drives(roomba::speed::STOP);
-	cin.get();
+     interpreter *Peter;
+     Peter = new interpreter;
+// 	cin.get();
+// 	Peter->startRoomba();
+// 	Peter->drives(roomba::speed::STOP);
+// 	cin.get();
 #ifdef TEST
 	Peter->drives(roomba::speed::CRUISE);
 	int i=0;
@@ -41,7 +41,7 @@ int main(void)
 #ifndef TEST
     while(1)
     {
-    system("clear");
+    //system("clear");
     cout << "Welcome to Roomba Interpreter" << endl << endl;
 
     cout << "Options:"                                  << endl <<

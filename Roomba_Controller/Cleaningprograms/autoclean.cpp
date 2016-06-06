@@ -43,8 +43,8 @@ void AutoClean::clean(void)
                 break;
             }
 
-			cout << interpreterreference.getBumpLeft() << endl;
-			cout << interpreterreference.getBumpRight() << endl;
+			//cout << interpreterreference.getBumpLeft() << endl;
+			//cout << interpreterreference.getBumpRight() << endl;
 			cout << Run << endl;
 
         }while((Run == true) && (getEnableCleaning() == true));
@@ -78,39 +78,39 @@ void AutoClean::clean(void)
             //chrono en while zie uart
             interpreterreference.drives(roomba::speed::SLOW);
             //sleep(1);
-            for(unsigned int i = 0 ; i < 100 ; i += Peter->getDistance())
-            {
-                if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
+			for(unsigned int i = 0 ; i < 100 ; i += interpreterreference.getDistance())
+			{
+				if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
 
-                if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
+				if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
 
-                if(interpreterreference.getBumpLeft())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
-                if(interpreterreference.getBumpRight())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
-            }
+				if(interpreterreference.getBumpLeft())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
+				if(interpreterreference.getBumpRight())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
+			}
             interpreterreference.turnLeft();
             iState = 3;
             break;
@@ -123,39 +123,39 @@ void AutoClean::clean(void)
             interpreterreference.turnRight();
             //sleep(1);
             interpreterreference.drives(roomba::speed::SLOW);
-            for(unsigned int i = 0 ; i < 100 ; i += Peter->getDistance())
-            {
-                if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
+			for(unsigned int i = 0 ; i < 100 ; i += interpreterreference.getDistance())
+			{
+				if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
 
-                if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
+				if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
 
-                if(interpreterreference.getBumpLeft())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
-                if(interpreterreference.getBumpRight())
-                {
-                    interpreterreference.drives(roomba::speed::BACKWARDS);
-                    sleep(1);
-                    interpreterreference.drives(roomba::speed::STOP);
-                    break;
-                }
-            }
+				if(interpreterreference.getBumpLeft())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
+				if(interpreterreference.getBumpRight())
+				{
+					interpreterreference.drives(roomba::speed::BACKWARDS);
+					sleep(1);
+					interpreterreference.drives(roomba::speed::STOP);
+					break;
+				}
+			}
             interpreterreference.turnRight();
             iState = 2;
             break;

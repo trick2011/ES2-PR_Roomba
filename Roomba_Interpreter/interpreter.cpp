@@ -740,7 +740,7 @@ uint16_t interpreter::getAngle() /**********************************************
     uart->sendUart(roomba::requestType::individual);
     uart->sendUart(roomba::sensors::angle);
     //usleep(microseconds);
-    uart->receiveUart();
+	uart->receiveUart(0.1);
 
     try
     {

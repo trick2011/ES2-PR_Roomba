@@ -1,0 +1,3 @@
+Cannot start UART.
+Cannot open UART in sendstring.
+Cannot open UART in sendUart.

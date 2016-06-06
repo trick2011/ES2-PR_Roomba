@@ -117,7 +117,7 @@ bool UARTClass::sendstring(string sInput){
 	return(false);
 }
 
-bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
+bool UARTClass::receiveUart(double ReceiveDelay){ // geef een string terug want das makkelijker als rx_buffer vervanger
 	bReceive = true;
 	unsigned char rx_buffer[256] = "\0";
 	if (iUARTFileStream != -1){
@@ -138,17 +138,16 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 	}
 
 
-//	chrono::time_point<chrono::system_clock> start,end;
-//	start = chrono::system_clock::now();
-//	chrono::duration<double> elapsed_seconds;
-//	while(true){
-//		end = chrono::system_clock::now();
-//		elapsed_seconds = end - start;
-//		if(elapsed_seconds.count() >= ReceiveDelay){
-//			break;
-//		}
-
-//	}
+	chrono::time_point<chrono::system_clock> start,end;
+	start = chrono::system_clock::now();
+	chrono::duration<double> elapsed_seconds;
+	while(true){
+		end = chrono::system_clock::now();
+		elapsed_seconds = end - start;
+		if(elapsed_seconds.count() >= ReceiveDelay){
+			break;
+		}
+	}
 	//second read
 	memset(&rx_buffer,0x00,255);
 

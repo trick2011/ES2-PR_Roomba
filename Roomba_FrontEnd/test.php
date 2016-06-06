@@ -83,7 +83,7 @@ body
 		{
  		 	//echo 'Success open file';
  		 	$recieved = fread($piper, "1"); 
-			echo $recieved;
+			//echo $recieved;
 			//fflush($piper);
 			fclose($piper);
 			return $recieved;

@@ -43,15 +43,14 @@ private:
 	queue<int> ReceiveQueue;
 	ofstream ofp;
 
-	//const double ReceiveDelay = 0.000000000000001;
 public:
     UARTClass();
     UARTClass(string sTTY);
 	~UARTClass();
     
-	bool receiveUart();
+	bool receiveUart(double ReceiveDelay = 0);
     uint8_t getElement();
-    string receiveString(void);
+	string receiveString();
     int getQueSize();
     void flushQueue();
 
