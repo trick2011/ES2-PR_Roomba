@@ -60,13 +60,13 @@ void Inv_interpreter::drive(){
     //negatief getal draait met klok mee en positief getal draait tegen de klok in
     //dus logisch maken en nu is negatief tegen de klok in en positief met de klok mee
 	iCurrentAngle = -iCurrentAngle;
-	if(HByte2 == 0x80 & LByte2 == 0x00) //straight
+	if(HByte2 == 0x80 && LByte2 == 0x00) //straight
 		iCurrentAngle = 0;
-	if(HByte2 == 0x7F & LByte2 == 0xFF) //straight
+	if(HByte2 == 0x7F && LByte2 == 0xFF) //straight
 		iCurrentAngle = 0;
-	if(HByte2 == 0xFF & LByte2 == 0xFF)  //clockwise
+	if(HByte2 == 0xFF && LByte2 == 0xFF)  //clockwise
 		iCurrentAngle = 90;
-	if(HByte2 == 0x00 & LByte2 == 0x01) //counter clockwise
+	if(HByte2 == 0x00 && LByte2 == 0x01) //counter clockwise
 		iCurrentAngle = -90;
 
 	room.roomba->setspeed(iCurrentSpeed);
