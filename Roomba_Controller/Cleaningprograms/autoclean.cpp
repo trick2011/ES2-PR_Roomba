@@ -10,36 +10,37 @@ void AutoClean::clean(void)
 #ifdef __linux
 	Basicclean::ProcessPID = syscall(SYS_gettid);
 #endif
-	while(Basicclean::getEnableCleaning() == true){
+	while(Basicclean::getEnableCleaning()){
 		cout << "enabled" << endl;
 		interpreterreference.drives(roomba::speed::SLOW);
-		do{
-			Run = false;
+		
+        do{
+			Run = true;
 			cout << "go" << endl;
 
             if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft())
             {
-                Run = true;
+                Run = false;
                 iState = 0;
                 break;
             }
 
             if(interpreterreference.getCliffFrontRight() || interpreterreference.getCliffRight())
             {
-                Run = true;
+                Run = false;
                 iState = 1;
                 break;
             }
 
             if(interpreterreference.getBumpLeft())
             {
-                Run = true;
+                Run = false;
                 iState = 2;
                 break;
             }
             if(interpreterreference.getBumpRight())
             {
-				Run = true;
+				Run = false;
                 iState = 3;
                 break;
             }
@@ -54,7 +55,7 @@ void AutoClean::clean(void)
         {
         case 0: //Cliff links
             cout << "cliff links" << endl;
-            Run = false;
+            //Run = true;
             interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
             interpreterreference.turnRoomba(30);
@@ -69,7 +70,7 @@ void AutoClean::clean(void)
             break;
         case 2: //bocht naar links
             cout << "bocht naar links" << endl;
-            Run = false;
+            //Run = true;
             interpreterreference.turnLeft();
             sleep(1);
             //chrono en while zie uart
@@ -79,8 +80,8 @@ void AutoClean::clean(void)
             iState = 1;
             break;
         case 3: //bocht naar rechts
-            cout << "bocht naar rechts" << endl;
-            Run = false;
+            cout << "bocht naar recht" << endl;
+            //Run = true;
             interpreterreference.turnRight();
             sleep(1);
             interpreterreference.drives(roomba::speed::SLOW);
