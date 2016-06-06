@@ -26,7 +26,7 @@ void Walltrace::clean(void)
 
         while(Run == false && getEnableCleaning()== true);
         {
-           interpreterreference.turnRoomba(23);
+           interpreterreference.turnRoomba(5);
            interpreterreference.drives(roomba::speed::SLOW);
            interpreterreference.brushes(roomba::brush::BOTH);
 

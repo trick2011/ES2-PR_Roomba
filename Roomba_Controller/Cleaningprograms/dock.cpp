@@ -14,6 +14,10 @@ void Dock::clean(void)
     switch(iState)
     {
     case 0: //no signal
+       interpreterreference.sInfraRed.bClose
+
+
+
         break;
     case 1: //red signal
         break;
@@ -27,3 +31,6 @@ void Dock::clean(void)
 	Basicclean::ProcessPID = 0;
 }
 
+bool bLeft;
+bool bRight;
+bool bClose;

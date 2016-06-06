@@ -45,3 +45,4 @@ build
 
 *.nofollow
 *.zip
+Roomba_Controller/Cleaningprograms/autoclean.cpp
