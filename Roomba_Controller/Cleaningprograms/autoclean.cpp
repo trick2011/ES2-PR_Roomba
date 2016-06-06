@@ -35,13 +35,11 @@ void AutoClean::clean(void)
             if(interpreterreference.getBumpLeft())
             {
                 Run = false;
-                iState = 2;
                 break;
             }
             if(interpreterreference.getBumpRight())
             {
 				Run = false;
-                iState = 3;
                 break;
             }
 
@@ -59,6 +57,7 @@ void AutoClean::clean(void)
             interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
             interpreterreference.turnRoomba(30);
+            iState = 2;
             break;
         case 1: // Cliff rechts
             cout << "cliff rechts" << endl;
@@ -66,7 +65,7 @@ void AutoClean::clean(void)
             interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
             interpreterreference.turnRoomba(-30);
-            break;
+            iState = 3;
             break;
         case 2: //bocht naar links
             cout << "bocht naar links" << endl;
@@ -113,7 +112,7 @@ void AutoClean::clean(void)
                 }
             }
             interpreterreference.turnLeft();
-            iState = 1;
+            iState = 3;
             break;
         case 3: //bocht naar rechts
             cout << "bocht naar recht" << endl;
@@ -158,10 +157,10 @@ void AutoClean::clean(void)
                 }
             }
             interpreterreference.turnRight();
-            iState = 0;
+            iState = 2;
             break;
         default:
-            iState = 0;
+            iState = 2;
 			break;
         }
 	 }
