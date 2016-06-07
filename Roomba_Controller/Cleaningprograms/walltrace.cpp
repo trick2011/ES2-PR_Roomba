@@ -20,16 +20,19 @@ void Walltrace::clean(void)
         cout << "Walltrace enabled" << endl;
         interpreterreference.drives(roomba::speed::SLOW);
 
-            while(!interpreterreference.getBumpRight()){
+			while(interpreterreference.getBumpRight() == false){
                 interpreterreference.drives(roomba::speed::SLOW);
             }
+			interpreterreference.drives(roomba::speed::STOP);
             while(interpreterreference.getBumpRight()){
                 interpreterreference.turnRoomba(-1);
             }
             interpreterreference.drives(roomba::speed::SLOW);
             usleep(250);
+			interpreterreference.drives(roomba::speed::STOP);
             interpreterreference.turnRoomba(5);
     }
+	cerr << "out" << endl;
     interpreterreference.drives(roomba::speed::STOP);
 	Basicclean::ProcessPID = 0;
 }
