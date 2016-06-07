@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespaceroomba_1_1clean_modes" kind="namespace" language="C++">
+    <compoundname>roomba::cleanModes</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="opcodes_8h_1ab1f8ba17c498062304d277d448e7cc18" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::cleanModes::Clean</definition>
+        <argsstring></argsstring>
+        <name>Clean</name>
+        <initializer>=                        135</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="24" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a83b20453873f6442530e5bf9be2bf144" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::cleanModes::Max</definition>
+        <argsstring></argsstring>
+        <name>Max</name>
+        <initializer>=                          136</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="25" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a84e9d4a050b462ee103ac98e065d517b" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::cleanModes::Spot</definition>
+        <argsstring></argsstring>
+        <name>Spot</name>
+        <initializer>=                         134</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="26" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a96aa6a852a49420161e019266886cdce" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::cleanModes::SeekDock</definition>
+        <argsstring></argsstring>
+        <name>SeekDock</name>
+        <initializer>=                     143</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="27" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

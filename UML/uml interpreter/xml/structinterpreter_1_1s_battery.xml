@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structinterpreter_1_1s_battery" kind="struct" language="C++" prot="public">
+    <compoundname>interpreter::sBattery</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structinterpreter_1_1s_battery_1a7293e927bf25682cbe2cad5bf091ab3a" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sBattery::uiVoltage</definition>
+        <argsstring></argsstring>
+        <name>uiVoltage</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="156" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_battery_1a33943e705a824e0e35c3b043625a841b" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sBattery::uiCurrent</definition>
+        <argsstring></argsstring>
+        <name>uiCurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="157" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_battery_1aa8603cd98949cef0a63bfb409cc22c59" prot="public" static="no" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t interpreter::sBattery::iTemperature</definition>
+        <argsstring></argsstring>
+        <name>iTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="158" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_battery_1a0eb47fc3dbd3bc329ed3bcfd7e6e9201" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sBattery::uiCharge</definition>
+        <argsstring></argsstring>
+        <name>uiCharge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="159" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_battery_1a0a5891635033b99e252be2680563d07d" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sBattery::uiCapacity</definition>
+        <argsstring></argsstring>
+        <name>uiCapacity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="160" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="155" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="154" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structinterpreter_1_1s_battery_1aa8603cd98949cef0a63bfb409cc22c59" prot="public" virt="non-virtual"><scope>interpreter::sBattery</scope><name>iTemperature</name></member>
+      <member refid="structinterpreter_1_1s_battery_1a0a5891635033b99e252be2680563d07d" prot="public" virt="non-virtual"><scope>interpreter::sBattery</scope><name>uiCapacity</name></member>
+      <member refid="structinterpreter_1_1s_battery_1a0eb47fc3dbd3bc329ed3bcfd7e6e9201" prot="public" virt="non-virtual"><scope>interpreter::sBattery</scope><name>uiCharge</name></member>
+      <member refid="structinterpreter_1_1s_battery_1a33943e705a824e0e35c3b043625a841b" prot="public" virt="non-virtual"><scope>interpreter::sBattery</scope><name>uiCurrent</name></member>
+      <member refid="structinterpreter_1_1s_battery_1a7293e927bf25682cbe2cad5bf091ab3a" prot="public" virt="non-virtual"><scope>interpreter::sBattery</scope><name>uiVoltage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

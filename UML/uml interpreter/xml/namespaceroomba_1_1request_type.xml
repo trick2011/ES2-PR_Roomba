@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespaceroomba_1_1request_type" kind="namespace" language="C++">
+    <compoundname>roomba::requestType</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="opcodes_8h_1abcdf1f12eebe2633670b517452bcbeca" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::requestType::individual</definition>
+        <argsstring></argsstring>
+        <name>individual</name>
+        <initializer>=                   142</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="40" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a6eddd101c6207b1a8c30fbc761446860" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::requestType::queryList</definition>
+        <argsstring></argsstring>
+        <name>queryList</name>
+        <initializer>=                    149</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="41" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1add70a01e60a9506dd65f8cd558bb40b0" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::requestType::Stream</definition>
+        <argsstring></argsstring>
+        <name>Stream</name>
+        <initializer>=                       148</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="42" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="39" column="1"/>
+  </compounddef>
+</doxygen>

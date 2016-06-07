@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.11">
+  <compound refid="classfailsave" kind="class"><name>failsave</name>
+    <member refid="classfailsave_1a3b390e65ffb454d60fa7b27a6cd3f3ad" kind="variable"><name>tex</name></member>
+    <member refid="classfailsave_1a7799b02e3ba706e9a833adc723bf9e55" kind="function"><name>failsave</name></member>
+    <member refid="classfailsave_1a9d09cf4cdf1f905f4ee524785eb547c2" kind="function"><name>checkCodes</name></member>
+  </compound>
+  <compound refid="classinterpreter" kind="class"><name>interpreter</name>
+    <member refid="classinterpreter_1ac31ae85f1e5f33e3e392d9a03d0157ec" kind="variable"><name>AUTO</name></member>
+    <member refid="classinterpreter_1afdced4944cbfee34b22a9d10062e4e95" kind="variable"><name>autoRunning</name></member>
+    <member refid="classinterpreter_1a5717261ffcfeb0650064dc44b31847f5" kind="variable"><name>WheelDrops</name></member>
+    <member refid="classinterpreter_1a8d7352393b128dd85f0550098823d894" kind="variable"><name>OverCurrent</name></member>
+    <member refid="classinterpreter_1a6fb2f835f2929b5dcb6ab30019f48d85" kind="variable"><name>Cliff</name></member>
+    <member refid="classinterpreter_1a3316a76bf934ab36c4116690b097c925" kind="variable"><name>InfraRed</name></member>
+    <member refid="classinterpreter_1a2259b3eeddadf78a68d4f1da09df19c7" kind="variable"><name>Bumps</name></member>
+    <member refid="classinterpreter_1ab3ffcf2115038281135aa62e557a8e1a" kind="variable"><name>Wall</name></member>
+    <member refid="classinterpreter_1a781303e88a9c1af7a42d5047ba4ec83f" kind="variable"><name>Battery</name></member>
+    <member refid="classinterpreter_1a4b670b49da4e2f2113a92df78a85de9a" kind="variable"><name>CliffDepth</name></member>
+    <member refid="classinterpreter_1ac266c9bc6a403d9fd2cf737e83e7f7c1" kind="variable"><name>WallDistance</name></member>
+    <member refid="classinterpreter_1a90b7c6b0bfb74174d620406f9118a5cd" kind="variable"><name>uart</name></member>
+    <member refid="classinterpreter_1ae7aa5ad33817e8f16c817dc87c5d22e3" kind="variable"><name>stopFailSave</name></member>
+    <member refid="classinterpreter_1aad4d2afc7d83bae97f913ada9f4023b6" kind="variable"><name>sendTex</name></member>
+    <member refid="classinterpreter_1ad503709081c0f0ce21c7ac98b6a0965c" kind="function"><name>interpreter</name></member>
+    <member refid="classinterpreter_1ac1c3993d73c19a3c6f5f022a3f39a46b" kind="function"><name>~interpreter</name></member>
+    <member refid="classinterpreter_1aba1c73391093f3d11bde0f2900d265e7" kind="function"><name>startRoomba</name></member>
+    <member refid="classinterpreter_1a308d784276799d53fc6fbf70d7b370a4" kind="function"><name>stopRoomba</name></member>
+    <member refid="classinterpreter_1afbc47f18ff70f58954ebd39ccf615ae9" kind="function"><name>brushes</name></member>
+    <member refid="classinterpreter_1a162c9fb2adb8c695db88a6bd768a8d9b" kind="function"><name>drives</name></member>
+    <member refid="classinterpreter_1a18147b9cd81e080649a3065345cafed3" kind="function"><name>turnAndDrive</name></member>
+    <member refid="classinterpreter_1a1a222a09ae2b101f66ec6f444efd6633" kind="function"><name>turnRoomba</name></member>
+    <member refid="classinterpreter_1a5c73af0df5fa66c8f0f94024d9d8a592" kind="function"><name>slowTillStop</name></member>
+    <member refid="classinterpreter_1a155dad9f506ec4c9cf434229b8f2e79d" kind="function"><name>getBumpAndWheel</name></member>
+    <member refid="classinterpreter_1aefd87d9b0b6329205cdd45c8412fa895" kind="function"><name>getWall</name></member>
+    <member refid="classinterpreter_1afb12bfbd05aa50dcd6e7444dd661eb3f" kind="function"><name>getCliffLeft</name></member>
+    <member refid="classinterpreter_1ac3cc9ee56868f24e0015b5339a9c5079" kind="function"><name>getCliffFrontLeft</name></member>
+    <member refid="classinterpreter_1ac3142bcef5bb520df5e68929dbb25679" kind="function"><name>getCliffFrontRight</name></member>
+    <member refid="classinterpreter_1a56323899f46ff06ed7ebb53fb9373af8" kind="function"><name>getCliffRight</name></member>
+    <member refid="classinterpreter_1a2c05509c751f5f6084be30f3d068542c" kind="function"><name>getVirtualWall</name></member>
+    <member refid="classinterpreter_1a57cde9a8efb20ff9f3538756577e3b44" kind="function"><name>getWheelOvercurrents</name></member>
+    <member refid="classinterpreter_1a7e4668551d534e8b3ae69239ec8445f7" kind="function"><name>getDirtDetect</name></member>
+    <member refid="classinterpreter_1a75eee52ef4ba9b6a056a5004ce0acdb7" kind="function"><name>getIrReceiver</name></member>
+    <member refid="classinterpreter_1a1cf932894eb468c9f7c92becb7f470d3" kind="function"><name>getDistance</name></member>
+    <member refid="classinterpreter_1a0bbed23fde636c919c342d53b8056fe9" kind="function"><name>getAngle</name></member>
+    <member refid="classinterpreter_1adefc21dec7d3d7a022b1fdd7256adc47" kind="function"><name>getChargingState</name></member>
+    <member refid="classinterpreter_1a1383dd05a368a4cbd3efea9866dd792d" kind="function"><name>getBatteryVoltage</name></member>
+    <member refid="classinterpreter_1a43e789322953d39409823b58b6c14992" kind="function"><name>getBatteryCurrent</name></member>
+    <member refid="classinterpreter_1ad68276e936903b75238625fe14c3560b" kind="function"><name>getBatteryTemperature</name></member>
+    <member refid="classinterpreter_1acd9f35681587b6cf0053ffce6f9258cb" kind="function"><name>getBatteryCharge</name></member>
+    <member refid="classinterpreter_1ab9e0f9f45b9ae81ab8cb9354dc6ece43" kind="function"><name>getBatteryCapacity</name></member>
+    <member refid="classinterpreter_1ab9923219e24ae25937d43962f7477a61" kind="function"><name>getWallSignal</name></member>
+    <member refid="classinterpreter_1ae83ee387b4c2959e2c5936aedaa961c9" kind="function"><name>getCliffLeftSignal</name></member>
+    <member refid="classinterpreter_1a65a5cf55d29130ee041162b658283e99" kind="function"><name>getCliffFrontLeftSignal</name></member>
+    <member refid="classinterpreter_1ab6bb75aaf8f3cb48186581af6aa40345" kind="function"><name>getCliffFrontRightSignal</name></member>
+    <member refid="classinterpreter_1a122c852e88247be527f2593a8306d49b" kind="function"><name>getCliffRightSignal</name></member>
+    <member refid="classinterpreter_1a8bd8052419052dfae620b17c343b4407" kind="function"><name>getChargingSource</name></member>
+    <member refid="classinterpreter_1a21fb2bfcd6d91abc374e53ba0f8cb802" kind="function"><name>getOiMode</name></member>
+    <member refid="classinterpreter_1aefa90abc4b079d029e97e302b434dbce" kind="function"><name>getSongNumber</name></member>
+    <member refid="classinterpreter_1a9b38d2a24ef38f03f497536aaf412c68" kind="function"><name>getSongPlaying</name></member>
+    <member refid="classinterpreter_1af6d130495887d1f12ce36b8d1abb6ff0" kind="function"><name>getRequestedVelocity</name></member>
+    <member refid="classinterpreter_1ac52193349e13bc0d1605c8d30f5bca33" kind="function"><name>getRequestedRadius</name></member>
+    <member refid="classinterpreter_1a18cf7d1180614666e7919b80dc84a525" kind="function"><name>getRequestedRightVelocity</name></member>
+    <member refid="classinterpreter_1a7a329f03389fd06682b49109608ed07d" kind="function"><name>getRequestedLeftVelocity</name></member>
+    <member refid="classinterpreter_1a6f171bebe0c16799975ac62af25a790c" kind="function"><name>getLeftEncoderCount</name></member>
+    <member refid="classinterpreter_1a49800bad6707869b803145cf64d2854e" kind="function"><name>getRightEncoderCount</name></member>
+    <member refid="classinterpreter_1a01cb343d21c3a7235d662c343192c460" kind="function"><name>getLightBumper</name></member>
+    <member refid="classinterpreter_1a20ff876f2af9143bbb292f85427cc27b" kind="function"><name>getLightBumpLeftSignal</name></member>
+    <member refid="classinterpreter_1aa39f7b5b1013366900b6d368c26244af" kind="function"><name>getLightBumpFrontLeftSignal</name></member>
+    <member refid="classinterpreter_1ad2b2a90daf0b7898c26c73203d96f5df" kind="function"><name>getLightBumpCenterLeftSignal</name></member>
+    <member refid="classinterpreter_1a26a40cded93adde7fd9cc63a80145c4c" kind="function"><name>getLightBumpCenterRightSignal</name></member>
+    <member refid="classinterpreter_1a2b1b56ff64f0062414a7e80991774344" kind="function"><name>getLightBumpFrontRightSignal</name></member>
+    <member refid="classinterpreter_1a913052f155f6566f541c464e1db68dde" kind="function"><name>getLightBumpRightSignal</name></member>
+    <member refid="classinterpreter_1a73c5c4b826f64d35d0275cc60460c255" kind="function"><name>getLeftMotorCurrent</name></member>
+    <member refid="classinterpreter_1aca94c7205992eec5e800290629c1a3ee" kind="function"><name>getRightMotorCurrent</name></member>
+    <member refid="classinterpreter_1acb4dbf6e8e6101cb9b8fd4d35955fd5c" kind="function"><name>getMainBrushMotorCurrent</name></member>
+    <member refid="classinterpreter_1ac7cb61452caa2b6c665fdd0dec3f1d58" kind="function"><name>getSideBrushMotorCurrent</name></member>
+    <member refid="classinterpreter_1ad90ee42d733c13e24ad909ac0887c8b5" kind="function"><name>getStatis</name></member>
+    <member refid="classinterpreter_1af8fa4e96094398a56e6fb9d7f92faf83" kind="function"><name>getBumpRight</name></member>
+    <member refid="classinterpreter_1ac00a14267b5d66112433991d9b47c675" kind="function"><name>getBumpLeft</name></member>
+    <member refid="classinterpreter_1aa43bbcbb62804d04ffaa4a02cf1f1e45" kind="function"><name>getWheelDropRight</name></member>
+    <member refid="classinterpreter_1aa8b06c8fd656eb3cda815d70be1beead" kind="function"><name>getWheelDropLeft</name></member>
+    <member refid="classinterpreter_1a6643a627744fba7dcd673acfc7ce3b21" kind="function"><name>getSideBrushOvercurrent</name></member>
+    <member refid="classinterpreter_1a983e1733c7da28fd27675701dcdf2e83" kind="function"><name>getMainBrushOvercurrent</name></member>
+    <member refid="classinterpreter_1a6a8faee9872d664311b812d04948952b" kind="function"><name>getRightWheelOvercurrent</name></member>
+    <member refid="classinterpreter_1a80d5c17dc56f8af52459e17916244d09" kind="function"><name>getLeftWheelOvercurrent</name></member>
+    <member refid="classinterpreter_1af3a62405168da6836040212ed8b7cb10" kind="function"><name>startAutoMode</name></member>
+    <member refid="classinterpreter_1a369ef0a0f4afe6d978ae13fe11b721bd" kind="function"><name>stopAutoMode</name></member>
+    <member refid="classinterpreter_1a5421f24295cd1f857889f886239b6397" kind="function"><name>autoMode</name></member>
+    <member refid="classinterpreter_1a7062bf5ecc9dc235d91b8b28b3bdc56d" kind="function"><name>stopFailSaveThread</name></member>
+    <member refid="classinterpreter_1af52422b8a93611aa8012a2732f4bdb7b" kind="function"><name>testSensors</name></member>
+    <member refid="classinterpreter_1ab0eac90c4cbec0a2f3a9eb5074a6bcb0" kind="function"><name>printTest</name></member>
+    <member refid="classinterpreter_1a80a6ff80a0ca864690f96f73fcb10d32" kind="function"><name>turnRight</name></member>
+    <member refid="classinterpreter_1a2120a61275e972118116fb461ded4eb6" kind="function"><name>turnLeft</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_battery" kind="struct"><name>interpreter::sBattery</name>
+    <member refid="structinterpreter_1_1s_battery_1a7293e927bf25682cbe2cad5bf091ab3a" kind="variable"><name>uiVoltage</name></member>
+    <member refid="structinterpreter_1_1s_battery_1a33943e705a824e0e35c3b043625a841b" kind="variable"><name>uiCurrent</name></member>
+    <member refid="structinterpreter_1_1s_battery_1aa8603cd98949cef0a63bfb409cc22c59" kind="variable"><name>iTemperature</name></member>
+    <member refid="structinterpreter_1_1s_battery_1a0eb47fc3dbd3bc329ed3bcfd7e6e9201" kind="variable"><name>uiCharge</name></member>
+    <member refid="structinterpreter_1_1s_battery_1a0a5891635033b99e252be2680563d07d" kind="variable"><name>uiCapacity</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_bumps" kind="struct"><name>interpreter::sBumps</name>
+    <member refid="structinterpreter_1_1s_bumps_1aae5891f8f576dda3cbf23eebf02599ba" kind="variable"><name>bLeft</name></member>
+    <member refid="structinterpreter_1_1s_bumps_1ac88f63a5c4ddd9d1e473eb7a9e7f9078" kind="variable"><name>bRight</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_cliff" kind="struct"><name>interpreter::sCliff</name>
+    <member refid="structinterpreter_1_1s_cliff_1ae9bf2127afd039091ce0ea1e1bfb601b" kind="variable"><name>bLeft</name></member>
+    <member refid="structinterpreter_1_1s_cliff_1af74f10655531fc46e957eb29b4f3ca62" kind="variable"><name>bFrontLeft</name></member>
+    <member refid="structinterpreter_1_1s_cliff_1ae4e65fdd7f524ed72d379b144c65cc27" kind="variable"><name>bFrontRight</name></member>
+    <member refid="structinterpreter_1_1s_cliff_1a6102037a6e3df1c74db5128b7967f151" kind="variable"><name>bRight</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_cliff_depth" kind="struct"><name>interpreter::sCliffDepth</name>
+    <member refid="structinterpreter_1_1s_cliff_depth_1ab8dd23dd0aa464112b8acd6f5dc6ec85" kind="variable"><name>uiLeft</name></member>
+    <member refid="structinterpreter_1_1s_cliff_depth_1a5691ab97e3de97017d1646d79410a2ab" kind="variable"><name>uiFrontLeft</name></member>
+    <member refid="structinterpreter_1_1s_cliff_depth_1ae4602d3d26a157afb964176c0bf2a5fa" kind="variable"><name>uiFrontRight</name></member>
+    <member refid="structinterpreter_1_1s_cliff_depth_1a80e6a42965e73a54f425d67e6afefc9f" kind="variable"><name>uiRight</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_infra_red" kind="struct"><name>interpreter::sInfraRed</name>
+    <member refid="structinterpreter_1_1s_infra_red_1a6d8033dbe11c81f5676cfd981c7935fe" kind="variable"><name>bLeft</name></member>
+    <member refid="structinterpreter_1_1s_infra_red_1ae500ded79b01c01af97db91e0d835683" kind="variable"><name>bRight</name></member>
+    <member refid="structinterpreter_1_1s_infra_red_1a4a7dce8c7030b031b216b80b6981add3" kind="variable"><name>bClose</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_over_current" kind="struct"><name>interpreter::sOverCurrent</name>
+    <member refid="structinterpreter_1_1s_over_current_1a986c80363c34f2d4a55a55aa808c7420" kind="variable"><name>bWheelLeft</name></member>
+    <member refid="structinterpreter_1_1s_over_current_1a59f7533501b64edd6f2c7413fc6f98f1" kind="variable"><name>bWheelRight</name></member>
+    <member refid="structinterpreter_1_1s_over_current_1a1247e9679de003daf2892fe4d6d05dc1" kind="variable"><name>bMainBrush</name></member>
+    <member refid="structinterpreter_1_1s_over_current_1a35e0b9aefd45aa9fa0d2469646c9fd45" kind="variable"><name>bSideBrush</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_wall" kind="struct"><name>interpreter::sWall</name>
+    <member refid="structinterpreter_1_1s_wall_1a3d99454e6c14d0781b2e03000c5a29b5" kind="variable"><name>bInsight</name></member>
+    <member refid="structinterpreter_1_1s_wall_1a87410281645c62bfe8796ef661da98c1" kind="variable"><name>bRight</name></member>
+    <member refid="structinterpreter_1_1s_wall_1a38d97e990184fa6e833d35efbb4c3df8" kind="variable"><name>bFrontRight</name></member>
+    <member refid="structinterpreter_1_1s_wall_1a950a923d081501d063b7dcd4fb2f1f70" kind="variable"><name>bCenterRight</name></member>
+    <member refid="structinterpreter_1_1s_wall_1ad5b4df2db65dbb3174c71fbfd3316012" kind="variable"><name>bCenterLeft</name></member>
+    <member refid="structinterpreter_1_1s_wall_1a1c56632bc1471b0e585b976fc812fe40" kind="variable"><name>bFrontLeft</name></member>
+    <member refid="structinterpreter_1_1s_wall_1a5fdbead6354f21e82212e85b289d185a" kind="variable"><name>bLeft</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_wall_distance" kind="struct"><name>interpreter::sWallDistance</name>
+    <member refid="structinterpreter_1_1s_wall_distance_1aa794b6c6b54f02cfafc34f6a0bee3599" kind="variable"><name>bRight</name></member>
+    <member refid="structinterpreter_1_1s_wall_distance_1a8ed218cdbc93596dec7946f60cc0ea12" kind="variable"><name>bFrontRight</name></member>
+    <member refid="structinterpreter_1_1s_wall_distance_1a06059dda575ea5c5925a25aad91280e0" kind="variable"><name>bCenterRight</name></member>
+    <member refid="structinterpreter_1_1s_wall_distance_1a6c3b697dadebdcbdecd0eb83c5e461c5" kind="variable"><name>bCenterLeft</name></member>
+    <member refid="structinterpreter_1_1s_wall_distance_1a13d2ff6a4bbc1c8df5b4f69314ac162c" kind="variable"><name>bFrontLeft</name></member>
+    <member refid="structinterpreter_1_1s_wall_distance_1ad10d9c6970877664356a18fd388fc2b5" kind="variable"><name>bLeft</name></member>
+  </compound>
+  <compound refid="structinterpreter_1_1s_wheel_drops" kind="struct"><name>interpreter::sWheelDrops</name>
+    <member refid="structinterpreter_1_1s_wheel_drops_1ac0bb2ddb0baf43df77ce2817b3c400b3" kind="variable"><name>bLeft</name></member>
+    <member refid="structinterpreter_1_1s_wheel_drops_1a7c87455f0736466b8e7e2f58432c1e4b" kind="variable"><name>bRight</name></member>
+  </compound>
+  <compound refid="class_uart_receive_buffer_empty" kind="class"><name>UartReceiveBufferEmpty</name>
+    <member refid="class_uart_receive_buffer_empty_1a15a091ae951eff57169f9f32dc4b8dc3" kind="function"><name>what</name></member>
+  </compound>
+  <compound refid="namespaceroomba" kind="namespace"><name>roomba</name>
+    <member refid="opcodes_8h_1ad2c69173f8061567a230c5e336802311" kind="variable"><name>Start</name></member>
+    <member refid="opcodes_8h_1a27af147e3201e8777303597ca7cebcfe" kind="variable"><name>Reset</name></member>
+    <member refid="opcodes_8h_1a5c79dc8f6c3d7750c33e6c06884bc287" kind="variable"><name>Stop</name></member>
+    <member refid="opcodes_8h_1a5f91f822f36379914bf77977447cf610" kind="variable"><name>Baud</name></member>
+    <member refid="opcodes_8h_1a323b82192b31a7759be13ebc4213e9fe" kind="variable"><name>power</name></member>
+    <member refid="opcodes_8h_1a041c47a089c8ef8ef150e84dd5d1e941" kind="variable"><name>drive</name></member>
+    <member refid="opcodes_8h_1adc9e0bbdd2ffeac8678398030a9bb1f2" kind="variable"><name>brushes</name></member>
+    <member refid="opcodes_8h_1aa8101e5c9730b505321d2b953979eeba" kind="variable"><name>leds</name></member>
+    <member refid="opcodes_8h_1afbcca0b3cc35c3a5dec8949cb38b2ff0" kind="variable"><name>song</name></member>
+    <member refid="opcodes_8h_1af50a12efeca12ba44d777bb2f4b01a27" kind="variable"><name>playSong</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1brush" kind="namespace"><name>roomba::brush</name>
+    <member refid="opcodes_8h_1af31d04948bfc47500c3400d7dbefb2c2" kind="variable"><name>NOBRUSH</name></member>
+    <member refid="opcodes_8h_1a53ad5d3c6117fe7c9a0e9d5739113447" kind="variable"><name>SIDEBRUSH</name></member>
+    <member refid="opcodes_8h_1adc344907b70740c11fd1d7e7ccb133e1" kind="variable"><name>MAINBRUSH</name></member>
+    <member refid="opcodes_8h_1a1c94cd87c5868b47ac68207fb2020b4f" kind="variable"><name>BOTH</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1charger" kind="namespace"><name>roomba::charger</name>
+    <member refid="opcodes_8h_1a1312dacc5ee14f07cee94aa82a43f652" kind="variable"><name>Red</name></member>
+    <member refid="opcodes_8h_1a172d002adbb2738f739ba6a4799d3ad8" kind="variable"><name>Green</name></member>
+    <member refid="opcodes_8h_1af32c270f53c868d2ef605eab4f717bce" kind="variable"><name>RedAndGreen</name></member>
+    <member refid="opcodes_8h_1aa6516150a1a636684a37c9e3a0fc5500" kind="variable"><name>RedAndForceField</name></member>
+    <member refid="opcodes_8h_1ac2c5e0d7e1be18265c119d648d00d5bf" kind="variable"><name>GreenAndForField</name></member>
+    <member refid="opcodes_8h_1adc6bb21a425879f3136cd8f31eb50545" kind="variable"><name>RedGreenAndForceField</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1clean_modes" kind="namespace"><name>roomba::cleanModes</name>
+    <member refid="opcodes_8h_1ab1f8ba17c498062304d277d448e7cc18" kind="variable"><name>Clean</name></member>
+    <member refid="opcodes_8h_1a83b20453873f6442530e5bf9be2bf144" kind="variable"><name>Max</name></member>
+    <member refid="opcodes_8h_1a84e9d4a050b462ee103ac98e065d517b" kind="variable"><name>Spot</name></member>
+    <member refid="opcodes_8h_1a96aa6a852a49420161e019266886cdce" kind="variable"><name>SeekDock</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1modes" kind="namespace"><name>roomba::modes</name>
+    <member refid="opcodes_8h_1a044f26c5933d8583218d2f80066ec38a" kind="variable"><name>safeMode</name></member>
+    <member refid="opcodes_8h_1a7a92459312050986518a583dff65b166" kind="variable"><name>fullMode</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1radius" kind="namespace"><name>roomba::radius</name>
+    <member refid="opcodes_8h_1a0b0b0b5ef4dc3812eaa3295eb830f083" kind="variable"><name>SMALL_LEFT</name></member>
+    <member refid="opcodes_8h_1a92eb61286feeab7a80ad90a2733bd46a" kind="variable"><name>BIG_LEFT</name></member>
+    <member refid="opcodes_8h_1a893294f252b171f7917c7aa2e814e401" kind="variable"><name>SMALL_RIGHT</name></member>
+    <member refid="opcodes_8h_1a72cbe92ae5cd35486649daa7cbdba22f" kind="variable"><name>BIG_RIGHT</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1request_type" kind="namespace"><name>roomba::requestType</name>
+    <member refid="opcodes_8h_1abcdf1f12eebe2633670b517452bcbeca" kind="variable"><name>individual</name></member>
+    <member refid="opcodes_8h_1a6eddd101c6207b1a8c30fbc761446860" kind="variable"><name>queryList</name></member>
+    <member refid="opcodes_8h_1add70a01e60a9506dd65f8cd558bb40b0" kind="variable"><name>Stream</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1sensors" kind="namespace"><name>roomba::sensors</name>
+    <member refid="opcodes_8h_1a7893fdfe340b3fb0397d1a52980c2612" kind="variable"><name>bumpAndWheel</name></member>
+    <member refid="opcodes_8h_1afd206acc7fb6c915951fdc2522b179e9" kind="variable"><name>wall</name></member>
+    <member refid="opcodes_8h_1abbf064bec756fc3efa7843726acad276" kind="variable"><name>cliffLeft</name></member>
+    <member refid="opcodes_8h_1a36d3480483e8c92ea3aeeaa3598646a6" kind="variable"><name>cliffFrontLeft</name></member>
+    <member refid="opcodes_8h_1af5a2e7d0a1b3969e4f0c495a3b5e2497" kind="variable"><name>cliffFrontRight</name></member>
+    <member refid="opcodes_8h_1a5b049dec07ca2973e47b18df889ad25f" kind="variable"><name>cliffRight</name></member>
+    <member refid="opcodes_8h_1aee71ab7b0866371c4e3989f6c0e0016e" kind="variable"><name>virtualWall</name></member>
+    <member refid="opcodes_8h_1a28917c98610e334f2ab488b6ea033e3a" kind="variable"><name>wheelOvercurrents</name></member>
+    <member refid="opcodes_8h_1a41581456ab0d5ea368334b543388cbf2" kind="variable"><name>dirtDetect</name></member>
+    <member refid="opcodes_8h_1a2f0d2baa5dbe12457dd5d21dce2dc893" kind="variable"><name>irReceiver</name></member>
+    <member refid="opcodes_8h_1aeb943380d3e08ed8ff3a1166f77449a3" kind="variable"><name>distance</name></member>
+    <member refid="opcodes_8h_1a9fd3abbf3b168ef16d057e0f7594dd5b" kind="variable"><name>angle</name></member>
+    <member refid="opcodes_8h_1add1925bcb2ef004361f025b9b879c037" kind="variable"><name>chargingState</name></member>
+    <member refid="opcodes_8h_1aa160cfd3a14c09c8834f7460551873e8" kind="variable"><name>batteryVoltage</name></member>
+    <member refid="opcodes_8h_1ac2d8114a3623686a3e4f145cf13be0ec" kind="variable"><name>batteryCurrent</name></member>
+    <member refid="opcodes_8h_1ac14a3642efd15bea69b89283ee03d083" kind="variable"><name>batteryTemperature</name></member>
+    <member refid="opcodes_8h_1a88cb84f76993f3e98ce823cbfc607cdb" kind="variable"><name>batteryCharge</name></member>
+    <member refid="opcodes_8h_1a7daf0add885a3ac3a2721e263aa7c5d2" kind="variable"><name>batteryCapacity</name></member>
+    <member refid="opcodes_8h_1a48312ebcca91e402df33a6d10fa1bb11" kind="variable"><name>wallSignal</name></member>
+    <member refid="opcodes_8h_1a508bb2d068e324baacd46a173038143a" kind="variable"><name>cliffLeftSignal</name></member>
+    <member refid="opcodes_8h_1add7fd6ae90abcda586eab969e6fdd930" kind="variable"><name>cliffFrontLeftSignal</name></member>
+    <member refid="opcodes_8h_1ac795242bad1ecaef2100b47366a494aa" kind="variable"><name>cliffFrontRightSignal</name></member>
+    <member refid="opcodes_8h_1a0225e89ef89cc913a64679c3e3eecc6b" kind="variable"><name>cliffRightSignal</name></member>
+    <member refid="opcodes_8h_1a098ca351ca362068ad904c16126963e2" kind="variable"><name>chargingSource</name></member>
+    <member refid="opcodes_8h_1a6564cfdaaaa1ca034d0e0ff3a2d25da8" kind="variable"><name>oiMode</name></member>
+    <member refid="opcodes_8h_1a1adf00aaa1bbcb294bdea2241d68a3be" kind="variable"><name>songNumber</name></member>
+    <member refid="opcodes_8h_1ae2c9aa08053cd5e0715ee94a59ee1e89" kind="variable"><name>songPlaying</name></member>
+    <member refid="opcodes_8h_1a63621a684d0d75bc02a3ee692ae0bbc4" kind="variable"><name>requestedVelocity</name></member>
+    <member refid="opcodes_8h_1a4daf8af2be8299dad0b24681b7ad5593" kind="variable"><name>requestedRadius</name></member>
+    <member refid="opcodes_8h_1aa9e2828b5314572964bc454cdd353c3e" kind="variable"><name>requestedRightVelocity</name></member>
+    <member refid="opcodes_8h_1a70f24b4f866865af9797d42d2fbff012" kind="variable"><name>requestedLeftVelocity</name></member>
+    <member refid="opcodes_8h_1a819b3a951157e1754ed53fd9e4e34c15" kind="variable"><name>leftEncoderCount</name></member>
+    <member refid="opcodes_8h_1acb22f79db02db0d9996057ed2c7714cc" kind="variable"><name>rightEncoderCount</name></member>
+    <member refid="opcodes_8h_1ac05ae60ba72c4c00be999cb47393a44b" kind="variable"><name>lightBumper</name></member>
+    <member refid="opcodes_8h_1a97eef2e78d0983ac648522948e7a8493" kind="variable"><name>lightBumpLeftSignal</name></member>
+    <member refid="opcodes_8h_1aa5948e02097b3d859d5eb0b8d1abb288" kind="variable"><name>lightBumpFrontLeftSignal</name></member>
+    <member refid="opcodes_8h_1abc87084cf602217cfffc9000b47b4328" kind="variable"><name>lightBumpCenterLeftSignal</name></member>
+    <member refid="opcodes_8h_1a427c9fd5350db4a7c54929b777f3269c" kind="variable"><name>lightBumpCenterRightSignal</name></member>
+    <member refid="opcodes_8h_1ae341ce83db30672bd9bfbf2ffe1ae3bf" kind="variable"><name>lightBumpFrontRightSignal</name></member>
+    <member refid="opcodes_8h_1a8db25101d0e30eca3b535c70ee9fcd56" kind="variable"><name>lightBumpRightSignal</name></member>
+    <member refid="opcodes_8h_1a4eacf181dd1ad68c8849f1bd75e59904" kind="variable"><name>leftMotorCurrent</name></member>
+    <member refid="opcodes_8h_1a2a04fbeb6cd8937cbb12a2e59f77810a" kind="variable"><name>rightMotorCurrent</name></member>
+    <member refid="opcodes_8h_1a59eec6f14f0b1d22fb5c7b93d8416a51" kind="variable"><name>mainBrushMotorCurrent</name></member>
+    <member refid="opcodes_8h_1a36572eff4c290a0cfe473b87956d7e57" kind="variable"><name>sideBrushMotorCurrent</name></member>
+    <member refid="opcodes_8h_1a05035f7e1d57721c095b938df61064e4" kind="variable"><name>statis</name></member>
+  </compound>
+  <compound refid="namespaceroomba_1_1speed" kind="namespace"><name>roomba::speed</name>
+    <member refid="opcodes_8h_1ae98d5d515053d9ec6d71c950eab779a3" kind="variable"><name>SLOW</name></member>
+    <member refid="opcodes_8h_1aa138dc8eb3f050c936f7d376a1e66bb0" kind="variable"><name>CRUISE</name></member>
+    <member refid="opcodes_8h_1ab0764088410e80a3725dc70c4d5ac32f" kind="variable"><name>FAST</name></member>
+    <member refid="opcodes_8h_1a9b601c19b2f5bd9dd32d14e18b848626" kind="variable"><name>STOP</name></member>
+    <member refid="opcodes_8h_1a21c519c701735243bd01db9f5f087fa2" kind="variable"><name>BACKWARDS</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="fail__error_8h" kind="file"><name>fail_error.h</name>
+  </compound>
+  <compound refid="failsave_8cpp" kind="file"><name>failsave.cpp</name>
+  </compound>
+  <compound refid="failsave_8h" kind="file"><name>failsave.h</name>
+  </compound>
+  <compound refid="interpreter_8cpp" kind="file"><name>interpreter.cpp</name>
+  </compound>
+  <compound refid="interpreter_8h" kind="file"><name>interpreter.h</name>
+  </compound>
+  <compound refid="main_8cpp" kind="file"><name>main.cpp</name>
+    <member refid="main_8cpp_1a840291bc02cba5474a4cb46a9b9566fe" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="opcodes_8h" kind="file"><name>opcodes.h</name>
+  </compound>
+  <compound refid="dir_bdfe63cd8654982b5f8a7b06d86856ad" kind="dir"><name>C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter</name>
+  </compound>
+</doxygenindex>

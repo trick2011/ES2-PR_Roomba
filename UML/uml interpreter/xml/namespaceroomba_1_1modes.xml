@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespaceroomba_1_1modes" kind="namespace" language="C++">
+    <compoundname>roomba::modes</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="opcodes_8h_1a044f26c5933d8583218d2f80066ec38a" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::modes::safeMode</definition>
+        <argsstring></argsstring>
+        <name>safeMode</name>
+        <initializer>=                     131</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="18" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a7a92459312050986518a583dff65b166" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t roomba::modes::fullMode</definition>
+        <argsstring></argsstring>
+        <name>fullMode</name>
+        <initializer>=                     132</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="19" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>
