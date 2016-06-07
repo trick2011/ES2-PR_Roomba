@@ -24,16 +24,11 @@ void Spotclean::clean(void)
             | interpreterreference.getCliffFrontRight() | interpreterreference.getCliffRight();
 
 
-        interpreterreference.brushes(roomba::brush::BOTH);
-
-
         while(Run == false && getEnableCleaning()== true);
         {
            interpreterreference.drives(roomba::speed::BACKWARDS);
            sleep(1);
            interpreterreference.turnRoomba(23);
-           interpreterreference.brushes(roomba::brush::BOTH);
-
         }
     }
 	Basicclean::ProcessPID = 0;

@@ -18,9 +18,8 @@ void AutoClean::clean(void)
 #endif
 	bool TurnLeft = true;
 	while(Basicclean::getEnableCleaning()){
-		cout << "enabled" << endl;
+        cout << "autoclean enabled" << endl;
 		interpreterreference.drives(roomba::speed::SLOW);
-
 		do{
 			Run = true;
 			cout << "go" << endl;
@@ -55,20 +54,21 @@ void AutoClean::clean(void)
             //Run = true;
             interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
-			interpreterreference.turnRoomba(30); // rechts?
+            interpreterreference.turnRoomba(30); // rechts
 			iState = actionlist::Turn;
 			TurnLeft = false;
-
             break;
+
 		case actionlist::CliffRight: // Cliff rechts
             cout << "cliff rechts" << endl;
             Run = false;
             interpreterreference.drives(roomba::speed::BACKWARDS);
             sleep(1);
-			interpreterreference.turnRoomba(-30); // links?
+            interpreterreference.turnRoomba(-30); // links
 			iState = actionlist::Turn;
 			TurnLeft = true;
             break;
+
 		case actionlist::Turn: //bocht naar links
             cout << "bocht naar links" << endl;
 			if(TurnLeft){ // turnleft
@@ -78,7 +78,7 @@ void AutoClean::clean(void)
 				interpreterreference.turnLeft();
 				//sleep(1);
 				//chrono en while zie uart
-				interpreterreference.drives(roomba::speed::SLOW);
+                interpreterreference.drives(roomba::speed::SLOW);
 				sleep(1);
 				interpreterreference.turnLeft();
 				iState = actionlist::Turn;
@@ -91,7 +91,7 @@ void AutoClean::clean(void)
 				interpreterreference.drives(roomba::speed::STOP);
 				interpreterreference.turnRight();
 				//sleep(1);
-				interpreterreference.drives(roomba::speed::SLOW);
+                interpreterreference.drives(roomba::speed::SLOW);
 				sleep(1);
 				interpreterreference.turnRight();
 				iState = actionlist::Turn;
@@ -99,7 +99,7 @@ void AutoClean::clean(void)
 			}
             break;
         default:
-            iState = 2;
+            iState = actionlist::Turn;
 			break;
         }
 	 }
