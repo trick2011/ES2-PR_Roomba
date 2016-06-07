@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structinterpreter_1_1s_wall" kind="struct" language="C++" prot="public">
+    <compoundname>interpreter::sWall</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_1a3d99454e6c14d0781b2e03000c5a29b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWall::bInsight</definition>
+        <argsstring></argsstring>
+        <name>bInsight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="145" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_1a87410281645c62bfe8796ef661da98c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWall::bRight</definition>
+        <argsstring></argsstring>
+        <name>bRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="146" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_1a38d97e990184fa6e833d35efbb4c3df8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWall::bFrontRight</definition>
+        <argsstring></argsstring>
+        <name>bFrontRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="147" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_1a950a923d081501d063b7dcd4fb2f1f70" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWall::bCenterRight</definition>
+        <argsstring></argsstring>
+        <name>bCenterRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="148" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_1ad5b4df2db65dbb3174c71fbfd3316012" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWall::bCenterLeft</definition>
+        <argsstring></argsstring>
+        <name>bCenterLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="149" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_1a1c56632bc1471b0e585b976fc812fe40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWall::bFrontLeft</definition>
+        <argsstring></argsstring>
+        <name>bFrontLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="150" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_1a5fdbead6354f21e82212e85b289d185a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWall::bLeft</definition>
+        <argsstring></argsstring>
+        <name>bLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="151" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="144" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="143" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structinterpreter_1_1s_wall_1ad5b4df2db65dbb3174c71fbfd3316012" prot="public" virt="non-virtual"><scope>interpreter::sWall</scope><name>bCenterLeft</name></member>
+      <member refid="structinterpreter_1_1s_wall_1a950a923d081501d063b7dcd4fb2f1f70" prot="public" virt="non-virtual"><scope>interpreter::sWall</scope><name>bCenterRight</name></member>
+      <member refid="structinterpreter_1_1s_wall_1a1c56632bc1471b0e585b976fc812fe40" prot="public" virt="non-virtual"><scope>interpreter::sWall</scope><name>bFrontLeft</name></member>
+      <member refid="structinterpreter_1_1s_wall_1a38d97e990184fa6e833d35efbb4c3df8" prot="public" virt="non-virtual"><scope>interpreter::sWall</scope><name>bFrontRight</name></member>
+      <member refid="structinterpreter_1_1s_wall_1a3d99454e6c14d0781b2e03000c5a29b5" prot="public" virt="non-virtual"><scope>interpreter::sWall</scope><name>bInsight</name></member>
+      <member refid="structinterpreter_1_1s_wall_1a5fdbead6354f21e82212e85b289d185a" prot="public" virt="non-virtual"><scope>interpreter::sWall</scope><name>bLeft</name></member>
+      <member refid="structinterpreter_1_1s_wall_1a87410281645c62bfe8796ef661da98c1" prot="public" virt="non-virtual"><scope>interpreter::sWall</scope><name>bRight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

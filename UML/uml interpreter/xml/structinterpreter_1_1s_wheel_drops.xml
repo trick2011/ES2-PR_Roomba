@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structinterpreter_1_1s_wheel_drops" kind="struct" language="C++" prot="public">
+    <compoundname>interpreter::sWheelDrops</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structinterpreter_1_1s_wheel_drops_1ac0bb2ddb0baf43df77ce2817b3c400b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWheelDrops::bLeft</definition>
+        <argsstring></argsstring>
+        <name>bLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="114" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wheel_drops_1a7c87455f0736466b8e7e2f58432c1e4b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sWheelDrops::bRight</definition>
+        <argsstring></argsstring>
+        <name>bRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="115" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="113" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="112" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structinterpreter_1_1s_wheel_drops_1ac0bb2ddb0baf43df77ce2817b3c400b3" prot="public" virt="non-virtual"><scope>interpreter::sWheelDrops</scope><name>bLeft</name></member>
+      <member refid="structinterpreter_1_1s_wheel_drops_1a7c87455f0736466b8e7e2f58432c1e4b" prot="public" virt="non-virtual"><scope>interpreter::sWheelDrops</scope><name>bRight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

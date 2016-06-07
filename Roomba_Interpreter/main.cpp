@@ -228,6 +228,14 @@ int main(void)
             }
             break;
         }
+		case 10:
+		{
+			while(1){
+				cout << Peter->getBumpLeft() << Peter->getBumpRight();
+				cout.flush();
+				sleep(1);
+			}
+		}
         default:
             break;
         

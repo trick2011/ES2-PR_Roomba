@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classfailsave" kind="class" language="C++" prot="public">
+    <compoundname>failsave</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classfailsave_1a3b390e65ffb454d60fa7b27a6cd3f3ad" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex failsave::tex</definition>
+        <argsstring></argsstring>
+        <name>tex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.h" line="12" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfailsave_1a7799b02e3ba706e9a833adc723bf9e55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>failsave::failsave</definition>
+        <argsstring>(std::mutex *newTex)</argsstring>
+        <name>failsave</name>
+        <param>
+          <type>std::mutex *</type>
+          <declname>newTex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.h" line="9" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.cpp" bodystart="3" bodyend="6"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classfailsave_1a9d09cf4cdf1f905f4ee524785eb547c2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void failsave::checkCodes</definition>
+        <argsstring>()</argsstring>
+        <name>checkCodes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.h" line="13" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.cpp" bodystart="8" bodyend="11"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.h" line="7" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/failsave.h" bodystart="6" bodyend="14"/>
+    <listofallmembers>
+      <member refid="classfailsave_1a9d09cf4cdf1f905f4ee524785eb547c2" prot="private" virt="non-virtual"><scope>failsave</scope><name>checkCodes</name></member>
+      <member refid="classfailsave_1a7799b02e3ba706e9a833adc723bf9e55" prot="public" virt="non-virtual"><scope>failsave</scope><name>failsave</name></member>
+      <member refid="classfailsave_1a3b390e65ffb454d60fa7b27a6cd3f3ad" prot="private" virt="non-virtual"><scope>failsave</scope><name>tex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

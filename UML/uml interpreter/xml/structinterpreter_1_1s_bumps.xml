@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structinterpreter_1_1s_bumps" kind="struct" language="C++" prot="public">
+    <compoundname>interpreter::sBumps</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structinterpreter_1_1s_bumps_1aae5891f8f576dda3cbf23eebf02599ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sBumps::bLeft</definition>
+        <argsstring></argsstring>
+        <name>bLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="140" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_bumps_1ac88f63a5c4ddd9d1e473eb7a9e7f9078" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sBumps::bRight</definition>
+        <argsstring></argsstring>
+        <name>bRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="141" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="139" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="138" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structinterpreter_1_1s_bumps_1aae5891f8f576dda3cbf23eebf02599ba" prot="public" virt="non-virtual"><scope>interpreter::sBumps</scope><name>bLeft</name></member>
+      <member refid="structinterpreter_1_1s_bumps_1ac88f63a5c4ddd9d1e473eb7a9e7f9078" prot="public" virt="non-virtual"><scope>interpreter::sBumps</scope><name>bRight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

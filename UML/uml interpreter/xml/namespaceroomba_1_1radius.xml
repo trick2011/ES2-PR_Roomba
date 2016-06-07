@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespaceroomba_1_1radius" kind="namespace" language="C++">
+    <compoundname>roomba::radius</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="opcodes_8h_1a0b0b0b5ef4dc3812eaa3295eb830f083" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::radius::SMALL_LEFT</definition>
+        <argsstring></argsstring>
+        <name>SMALL_LEFT</name>
+        <initializer>=                   0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="120" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a92eb61286feeab7a80ad90a2733bd46a" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::radius::BIG_LEFT</definition>
+        <argsstring></argsstring>
+        <name>BIG_LEFT</name>
+        <initializer>=                     1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="121" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a893294f252b171f7917c7aa2e814e401" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::radius::SMALL_RIGHT</definition>
+        <argsstring></argsstring>
+        <name>SMALL_RIGHT</name>
+        <initializer>=                  2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="122" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a72cbe92ae5cd35486649daa7cbdba22f" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::radius::BIG_RIGHT</definition>
+        <argsstring></argsstring>
+        <name>BIG_RIGHT</name>
+        <initializer>=                    3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="123" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="119" column="1"/>
+  </compounddef>
+</doxygen>
