@@ -45,11 +45,6 @@ public:
 	void operator()();
 
 	void pipe_checker();
-
-
-	int function_type_checker(char cCommand); // old
-	int function_activator_static(char cCommand); // old
-	int function_activator_volitail(char cCommand); // old
 	
 	
 };

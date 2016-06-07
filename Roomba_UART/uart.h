@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <queue>
+#include <chrono>
 #include "../Roomba_Logger/log.h"
 
 #include <cstring>
@@ -36,7 +37,7 @@ public:
     UARTClass(string sTTY);
     ~UARTClass();
 
-    bool receiveUart();
+	bool receiveUart(double ReceiveDelay = 0);
     uint8_t getElement();
     int getQueSize();
     void flushQueue();

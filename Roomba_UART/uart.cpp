@@ -11,7 +11,7 @@ UARTClass::UARTClass(){
     iUARTFileStream = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (iUARTFileStream == -1){
-        LOG(ERROR) << "Cannot start UART.";
+		//LOG(ERROR) << "Cannot start UART.";
     }
 
     struct termios options;
@@ -30,7 +30,7 @@ UARTClass::UARTClass(string sTTY){
     iUARTFileStream = open(sTTY.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (iUARTFileStream == -1){
-        LOG(ERROR) << "Cannot start UART.";
+	   // LOG(ERROR) << "Cannot start UART.";
     }
     struct termios options;
     tcgetattr(iUARTFileStream, &options);
@@ -47,18 +47,18 @@ bool UARTClass::sendUart(uint8_t code){
         int count = write(iUARTFileStream,&code,1);
 
         if (count < 0){
-            LOG(WARN) << "Count is < 0 in sendUART.";
+//            LOG(WARN) << "Count is < 0 in sendUART.";
             return(false);
         }
 
         else{
-            LOG(DEBUG) << "Sending code: " << code;
+//            LOG(DEBUG) << "Sending code: " << code;
             return(true);
         }
     }
 
     else{
-        LOG(ERROR) << "Cannot open UART in sendUart.";
+//        LOG(ERROR) << "Cannot open UART in sendUart.";
     }
     return(false);
 }
@@ -69,24 +69,24 @@ bool UARTClass::sendstring(string sInput){
         count = write(iUARTFileStream,sInput.c_str(),sInput.size());	
 
         if (count < 0){
-            LOG(WARN) << "Count is < 0 in sendstring.";
+//            LOG(WARN) << "Count is < 0 in sendstring.";
             return(false);
         }
 
         else{
-            LOG(DEBUG) << "Sending string: " << sInput);
+//			LOG(DEBUG) << "Sending string: " << sInput;
             return(true);
         }
     }
 
     else
     {
-        LOG(ERROR) << "Cannot open UART in sendstring.";
+//        LOG(ERROR) << "Cannot open UART in sendstring.";
     }
     return(false);
 }
 
-bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als rx_buffer vervanger
+bool UARTClass::receiveUart(double ReceiveDelay){ // geef een string terug want das makkelijker als rx_buffer vervanger
     bReceive = true;
     unsigned char rx_buffer[256] = "\0";
     if (iUARTFileStream != -1)
@@ -96,12 +96,12 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
             ReadSize = read(iUARTFileStream, &rx_buffer, 255);
         while( ReadSize <= 0 && bReceive);
 
-        LOG(DEBUG) << "First read... ReadSize in receiveUart: " << ReadSize;
+//        LOG(DEBUG) << "First read... ReadSize in receiveUart: " << ReadSize;
 
         for(int i=0;i<ReadSize;i++)
         {
             ReceiveQueue.push(rx_buffer[i]);
-            LOG(DEBUG) << "In receiveUart buffer at " << i << " is " << rx_buffer[i];
+//            LOG(DEBUG) << "In receiveUart buffer at " << i << " is " << rx_buffer[i];
         }
         
         chrono::time_point<chrono::system_clock> start,end;
@@ -112,7 +112,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
             end = chrono::system_clock::now();
             elapsed_seconds = end - start;
 
-            if(elapsed_seconds.count() >= 0.10)
+			if(elapsed_seconds.count() >= ReceiveDelay)
             {
                 break;
             }
@@ -123,11 +123,11 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 
         ReadSize = read(iUARTFileStream, &rx_buffer, 255);
 
-        LOG(DEBUG) << "Second read... ReadSize in receiveUart: " << ReadSize;
+//        LOG(DEBUG) << "Second read... ReadSize in receiveUart: " << ReadSize;
 
         for(int i=0;i<ReadSize;i++){
             ReceiveQueue.push(rx_buffer[i]);
-            LOG(DEBUG) << "In receiveUart buffer at " << i << " is " << rx_buffer[i];
+//            LOG(DEBUG) << "In receiveUart buffer at " << i << " is " << rx_buffer[i];
         }
 
         if(bReceive)
@@ -137,20 +137,20 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 
     }
     else
-        LOG(ERROR) << "Cannot open UART in receiveUart.";
+//        LOG(ERROR) << "Cannot open UART in receiveUart.";
     return(false);
 }
 
 uint8_t UARTClass::getElement(){
     unsigned char ucElement = 0;
 
-    LOG(INFO) << "Getting Queue Element...";
+	//LOG(INFO) << "Getting Queue Element...";
 
     if(!ReceiveQueue.empty()){
         ucElement = ReceiveQueue.front();
         ReceiveQueue.pop();
 
-        LOG(DEBUG) << "Queue Element: " << ucElement);
+		//LOG(DEBUG) << "Queue Element: " << ucElement;
     }
 
     else
@@ -160,18 +160,18 @@ uint8_t UARTClass::getElement(){
 }
 
 int UARTClass::getQueSize(){
-    LOG(INFO) << "Receiving QueueSize...";
+//    LOG(INFO) << "Receiving QueueSize...";
     return(ReceiveQueue.size());
 }
 
 void UARTClass::flushQueue(){
-    LOG(INFO) << "Emptying Queue...";
+//    LOG(INFO) << "Emptying Queue...";
 
     while(!ReceiveQueue.empty()){
         ReceiveQueue.pop();
     }
 
-    LOG(INFO) << "Queue is empty.";
+//    LOG(INFO) << "Queue is empty.";
 }
 #endif
 
