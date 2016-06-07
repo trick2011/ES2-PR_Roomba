@@ -1,0 +1,1292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classinterpreter" kind="class" language="C++" prot="public">
+    <compoundname>interpreter</compoundname>
+    <innerclass refid="structinterpreter_1_1s_battery" prot="public">interpreter::sBattery</innerclass>
+    <innerclass refid="structinterpreter_1_1s_bumps" prot="public">interpreter::sBumps</innerclass>
+    <innerclass refid="structinterpreter_1_1s_cliff" prot="public">interpreter::sCliff</innerclass>
+    <innerclass refid="structinterpreter_1_1s_cliff_depth" prot="public">interpreter::sCliffDepth</innerclass>
+    <innerclass refid="structinterpreter_1_1s_infra_red" prot="public">interpreter::sInfraRed</innerclass>
+    <innerclass refid="structinterpreter_1_1s_over_current" prot="public">interpreter::sOverCurrent</innerclass>
+    <innerclass refid="structinterpreter_1_1s_wall" prot="public">interpreter::sWall</innerclass>
+    <innerclass refid="structinterpreter_1_1s_wall_distance" prot="public">interpreter::sWallDistance</innerclass>
+    <innerclass refid="structinterpreter_1_1s_wheel_drops" prot="public">interpreter::sWheelDrops</innerclass>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classinterpreter_1ac31ae85f1e5f33e3e392d9a03d0157ec" prot="public" static="no" mutable="no">
+        <type>std::thread *</type>
+        <definition>std::thread* interpreter::AUTO</definition>
+        <argsstring></argsstring>
+        <name>AUTO</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="108" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1afdced4944cbfee34b22a9d10062e4e95" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::autoRunning</definition>
+        <argsstring></argsstring>
+        <name>autoRunning</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="110" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a5717261ffcfeb0650064dc44b31847f5" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_wheel_drops" kindref="compound">sWheelDrops</ref></type>
+        <definition>sWheelDrops interpreter::WheelDrops</definition>
+        <argsstring></argsstring>
+        <name>WheelDrops</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="183" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a8d7352393b128dd85f0550098823d894" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_over_current" kindref="compound">sOverCurrent</ref></type>
+        <definition>sOverCurrent interpreter::OverCurrent</definition>
+        <argsstring></argsstring>
+        <name>OverCurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="184" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a6fb2f835f2929b5dcb6ab30019f48d85" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_cliff" kindref="compound">sCliff</ref></type>
+        <definition>sCliff interpreter::Cliff</definition>
+        <argsstring></argsstring>
+        <name>Cliff</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="185" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a3316a76bf934ab36c4116690b097c925" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_infra_red" kindref="compound">sInfraRed</ref></type>
+        <definition>sInfraRed interpreter::InfraRed</definition>
+        <argsstring></argsstring>
+        <name>InfraRed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="186" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a2259b3eeddadf78a68d4f1da09df19c7" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_bumps" kindref="compound">sBumps</ref></type>
+        <definition>sBumps interpreter::Bumps</definition>
+        <argsstring></argsstring>
+        <name>Bumps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="187" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1ab3ffcf2115038281135aa62e557a8e1a" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_wall" kindref="compound">sWall</ref></type>
+        <definition>sWall interpreter::Wall</definition>
+        <argsstring></argsstring>
+        <name>Wall</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="188" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a781303e88a9c1af7a42d5047ba4ec83f" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_battery" kindref="compound">sBattery</ref></type>
+        <definition>sBattery interpreter::Battery</definition>
+        <argsstring></argsstring>
+        <name>Battery</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="189" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a4b670b49da4e2f2113a92df78a85de9a" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_cliff_depth" kindref="compound">sCliffDepth</ref></type>
+        <definition>sCliffDepth interpreter::CliffDepth</definition>
+        <argsstring></argsstring>
+        <name>CliffDepth</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="190" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1ac266c9bc6a403d9fd2cf737e83e7f7c1" prot="public" static="no" mutable="no">
+        <type><ref refid="structinterpreter_1_1s_wall_distance" kindref="compound">sWallDistance</ref></type>
+        <definition>sWallDistance interpreter::WallDistance</definition>
+        <argsstring></argsstring>
+        <name>WallDistance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="191" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1a90b7c6b0bfb74174d620406f9118a5cd" prot="public" static="no" mutable="no">
+        <type>UARTClass *</type>
+        <definition>UARTClass* interpreter::uart</definition>
+        <argsstring></argsstring>
+        <name>uart</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="196" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1ae7aa5ad33817e8f16c817dc87c5d22e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::stopFailSave</definition>
+        <argsstring></argsstring>
+        <name>stopFailSave</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="197" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinterpreter_1aad4d2afc7d83bae97f913ada9f4023b6" prot="public" static="no" mutable="no">
+        <type>std::mutex *</type>
+        <definition>std::mutex* interpreter::sendTex</definition>
+        <argsstring></argsstring>
+        <name>sendTex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="198" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classinterpreter_1ad503709081c0f0ce21c7ac98b6a0965c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>interpreter::interpreter</definition>
+        <argsstring>()</argsstring>
+        <name>interpreter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="28" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="3" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ac1c3993d73c19a3c6f5f022a3f39a46b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>interpreter::~interpreter</definition>
+        <argsstring>()</argsstring>
+        <name>~interpreter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="29" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="16" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1aba1c73391093f3d11bde0f2900d265e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::startRoomba</definition>
+        <argsstring>()</argsstring>
+        <name>startRoomba</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="31" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="22" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a308d784276799d53fc6fbf70d7b370a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::stopRoomba</definition>
+        <argsstring>()</argsstring>
+        <name>stopRoomba</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="32" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1afbc47f18ff70f58954ebd39ccf615ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::brushes</definition>
+        <argsstring>(int)</argsstring>
+        <name>brushes</name>
+        <param>
+          <type>int</type>
+          <defname>brush</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="34" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="47" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a162c9fb2adb8c695db88a6bd768a8d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::drives</definition>
+        <argsstring>(int s)</argsstring>
+        <name>drives</name>
+        <param>
+          <type>int</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="36" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="84" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a18147b9cd81e080649a3065345cafed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::turnAndDrive</definition>
+        <argsstring>(int speed, int radius)</argsstring>
+        <name>turnAndDrive</name>
+        <param>
+          <type>int</type>
+          <declname>speed</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>radius</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="37" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="128" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a1a222a09ae2b101f66ec6f444efd6633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::turnRoomba</definition>
+        <argsstring>(uint16_t angle)</argsstring>
+        <name>turnRoomba</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>angle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="38" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="173" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a5c73af0df5fa66c8f0f94024d9d8a592" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::slowTillStop</definition>
+        <argsstring>()</argsstring>
+        <name>slowTillStop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="39" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="257" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a155dad9f506ec4c9cf434229b8f2e79d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getBumpAndWheel</definition>
+        <argsstring>()</argsstring>
+        <name>getBumpAndWheel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="41" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="295" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1aefd87d9b0b6329205cdd45c8412fa895" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getWall</definition>
+        <argsstring>()</argsstring>
+        <name>getWall</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="42" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="354" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1afb12bfbd05aa50dcd6e7444dd661eb3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getCliffLeft</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="43" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="391" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ac3cc9ee56868f24e0015b5339a9c5079" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getCliffFrontLeft</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffFrontLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="44" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="427" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ac3142bcef5bb520df5e68929dbb25679" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getCliffFrontRight</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffFrontRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="45" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="463" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a56323899f46ff06ed7ebb53fb9373af8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getCliffRight</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="46" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="499" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a2c05509c751f5f6084be30f3d068542c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getVirtualWall</definition>
+        <argsstring>()</argsstring>
+        <name>getVirtualWall</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="47" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="538" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a57cde9a8efb20ff9f3538756577e3b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getWheelOvercurrents</definition>
+        <argsstring>()</argsstring>
+        <name>getWheelOvercurrents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="48" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="575" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a7e4668551d534e8b3ae69239ec8445f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getDirtDetect</definition>
+        <argsstring>()</argsstring>
+        <name>getDirtDetect</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="49" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="611" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a75eee52ef4ba9b6a056a5004ce0acdb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getIrReceiver</definition>
+        <argsstring>()</argsstring>
+        <name>getIrReceiver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="50" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="648" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a1cf932894eb468c9f7c92becb7f470d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getDistance</definition>
+        <argsstring>()</argsstring>
+        <name>getDistance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="51" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="685" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a0bbed23fde636c919c342d53b8056fe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getAngle</definition>
+        <argsstring>()</argsstring>
+        <name>getAngle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="52" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="730" bodyend="787"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1adefc21dec7d3d7a022b1fdd7256adc47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getChargingState</definition>
+        <argsstring>()</argsstring>
+        <name>getChargingState</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="53" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="789" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a1383dd05a368a4cbd3efea9866dd792d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getBatteryVoltage</definition>
+        <argsstring>()</argsstring>
+        <name>getBatteryVoltage</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="54" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="826" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a43e789322953d39409823b58b6c14992" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getBatteryCurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getBatteryCurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="55" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="871" bodyend="915"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ad68276e936903b75238625fe14c3560b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int8_t</type>
+        <definition>int8_t interpreter::getBatteryTemperature</definition>
+        <argsstring>()</argsstring>
+        <name>getBatteryTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="56" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="917" bodyend="953"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1acd9f35681587b6cf0053ffce6f9258cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getBatteryCharge</definition>
+        <argsstring>()</argsstring>
+        <name>getBatteryCharge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="57" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="955" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ab9e0f9f45b9ae81ab8cb9354dc6ece43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getBatteryCapacity</definition>
+        <argsstring>()</argsstring>
+        <name>getBatteryCapacity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="58" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1001" bodyend="1045"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ab9923219e24ae25937d43962f7477a61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getWallSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getWallSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="59" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1047" bodyend="1090"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ae83ee387b4c2959e2c5936aedaa961c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getCliffLeftSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffLeftSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="60" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1092" bodyend="1136"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a65a5cf55d29130ee041162b658283e99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getCliffFrontLeftSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffFrontLeftSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="61" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1138" bodyend="1182"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ab6bb75aaf8f3cb48186581af6aa40345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getCliffFrontRightSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffFrontRightSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="62" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1184" bodyend="1228"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a122c852e88247be527f2593a8306d49b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getCliffRightSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getCliffRightSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="63" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1230" bodyend="1273"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a8bd8052419052dfae620b17c343b4407" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getChargingSource</definition>
+        <argsstring>()</argsstring>
+        <name>getChargingSource</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="64" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1275" bodyend="1310"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a21fb2bfcd6d91abc374e53ba0f8cb802" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getOiMode</definition>
+        <argsstring>()</argsstring>
+        <name>getOiMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="65" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1312" bodyend="1347"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1aefa90abc4b079d029e97e302b434dbce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getSongNumber</definition>
+        <argsstring>()</argsstring>
+        <name>getSongNumber</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="66" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1349" bodyend="1384"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a9b38d2a24ef38f03f497536aaf412c68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getSongPlaying</definition>
+        <argsstring>()</argsstring>
+        <name>getSongPlaying</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="67" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1386" bodyend="1421"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1af6d130495887d1f12ce36b8d1abb6ff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getRequestedVelocity</definition>
+        <argsstring>()</argsstring>
+        <name>getRequestedVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="68" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1423" bodyend="1466"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ac52193349e13bc0d1605c8d30f5bca33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getRequestedRadius</definition>
+        <argsstring>()</argsstring>
+        <name>getRequestedRadius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="69" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1468" bodyend="1511"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a18cf7d1180614666e7919b80dc84a525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getRequestedRightVelocity</definition>
+        <argsstring>()</argsstring>
+        <name>getRequestedRightVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="70" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1513" bodyend="1556"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a7a329f03389fd06682b49109608ed07d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getRequestedLeftVelocity</definition>
+        <argsstring>()</argsstring>
+        <name>getRequestedLeftVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="71" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1558" bodyend="1601"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a6f171bebe0c16799975ac62af25a790c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getLeftEncoderCount</definition>
+        <argsstring>()</argsstring>
+        <name>getLeftEncoderCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="72" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1603" bodyend="1646"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a49800bad6707869b803145cf64d2854e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getRightEncoderCount</definition>
+        <argsstring>()</argsstring>
+        <name>getRightEncoderCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="73" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1648" bodyend="1691"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a01cb343d21c3a7235d662c343192c460" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getLightBumper</definition>
+        <argsstring>()</argsstring>
+        <name>getLightBumper</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="74" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1693" bodyend="1729"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a20ff876f2af9143bbb292f85427cc27b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getLightBumpLeftSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getLightBumpLeftSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="75" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1731" bodyend="1775"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1aa39f7b5b1013366900b6d368c26244af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getLightBumpFrontLeftSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getLightBumpFrontLeftSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="76" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1777" bodyend="1821"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ad2b2a90daf0b7898c26c73203d96f5df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getLightBumpCenterLeftSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getLightBumpCenterLeftSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="77" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1823" bodyend="1867"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a26a40cded93adde7fd9cc63a80145c4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getLightBumpCenterRightSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getLightBumpCenterRightSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="78" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1869" bodyend="1913"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a2b1b56ff64f0062414a7e80991774344" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getLightBumpFrontRightSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getLightBumpFrontRightSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="79" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1915" bodyend="1959"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a913052f155f6566f541c464e1db68dde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::getLightBumpRightSignal</definition>
+        <argsstring>()</argsstring>
+        <name>getLightBumpRightSignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="80" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="1961" bodyend="2005"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a73c5c4b826f64d35d0275cc60460c255" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getLeftMotorCurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getLeftMotorCurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="81" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2007" bodyend="2050"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1aca94c7205992eec5e800290629c1a3ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getRightMotorCurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getRightMotorCurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="82" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2052" bodyend="2094"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1acb4dbf6e8e6101cb9b8fd4d35955fd5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getMainBrushMotorCurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getMainBrushMotorCurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="83" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2096" bodyend="2139"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ac7cb61452caa2b6c665fdd0dec3f1d58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int16_t</type>
+        <definition>int16_t interpreter::getSideBrushMotorCurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getSideBrushMotorCurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="84" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2141" bodyend="2184"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ad90ee42d733c13e24ad909ac0887c8b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t interpreter::getStatis</definition>
+        <argsstring>()</argsstring>
+        <name>getStatis</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="85" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2186" bodyend="2221"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1af8fa4e96094398a56e6fb9d7f92faf83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getBumpRight</definition>
+        <argsstring>()</argsstring>
+        <name>getBumpRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="89" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2225" bodyend="2253"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ac00a14267b5d66112433991d9b47c675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getBumpLeft</definition>
+        <argsstring>()</argsstring>
+        <name>getBumpLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="90" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2255" bodyend="2283"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1aa43bbcbb62804d04ffaa4a02cf1f1e45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getWheelDropRight</definition>
+        <argsstring>()</argsstring>
+        <name>getWheelDropRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="91" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2285" bodyend="2313"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1aa8b06c8fd656eb3cda815d70be1beead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getWheelDropLeft</definition>
+        <argsstring>()</argsstring>
+        <name>getWheelDropLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="92" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2315" bodyend="2343"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a6643a627744fba7dcd673acfc7ce3b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getSideBrushOvercurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getSideBrushOvercurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="94" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2345" bodyend="2373"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a983e1733c7da28fd27675701dcdf2e83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getMainBrushOvercurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getMainBrushOvercurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="95" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2375" bodyend="2386"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a6a8faee9872d664311b812d04948952b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getRightWheelOvercurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getRightWheelOvercurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="96" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2388" bodyend="2416"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a80d5c17dc56f8af52459e17916244d09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool interpreter::getLeftWheelOvercurrent</definition>
+        <argsstring>()</argsstring>
+        <name>getLeftWheelOvercurrent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="97" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2418" bodyend="2447"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1af3a62405168da6836040212ed8b7cb10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::startAutoMode</definition>
+        <argsstring>()</argsstring>
+        <name>startAutoMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="103" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2453" bodyend="2457"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a369ef0a0f4afe6d978ae13fe11b721bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::stopAutoMode</definition>
+        <argsstring>()</argsstring>
+        <name>stopAutoMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="104" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2459" bodyend="2462"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a5421f24295cd1f857889f886239b6397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::autoMode</definition>
+        <argsstring>()</argsstring>
+        <name>autoMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="107" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2464" bodyend="2687"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a7062bf5ecc9dc235d91b8b28b3bdc56d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::stopFailSaveThread</definition>
+        <argsstring>()</argsstring>
+        <name>stopFailSaveThread</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="200" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2689" bodyend="2692"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1af52422b8a93611aa8012a2732f4bdb7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::testSensors</definition>
+        <argsstring>()</argsstring>
+        <name>testSensors</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="202" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2694" bodyend="2995"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1ab0eac90c4cbec0a2f3a9eb5074a6bcb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::printTest</definition>
+        <argsstring>()</argsstring>
+        <name>printTest</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="203" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="2997" bodyend="3020"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a80a6ff80a0ca864690f96f73fcb10d32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::turnRight</definition>
+        <argsstring>()</argsstring>
+        <name>turnRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="205" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="3022" bodyend="3052"/>
+      </memberdef>
+      <memberdef kind="function" id="classinterpreter_1a2120a61275e972118116fb461ded4eb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void interpreter::turnLeft</definition>
+        <argsstring>()</argsstring>
+        <name>turnLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="206" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.cpp" bodystart="3054" bodyend="3081"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="9">
+        <label>interpreter::sInfraRed</label>
+        <link refid="structinterpreter_1_1s_infra_red"/>
+      </node>
+      <node id="11">
+        <label>interpreter::sOverCurrent</label>
+        <link refid="structinterpreter_1_1s_over_current"/>
+      </node>
+      <node id="3">
+        <label>interpreter</label>
+        <link refid="classinterpreter"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>CliffDepth</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>WallDistance</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>Battery</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>Cliff</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>Bumps</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>InfraRed</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>WheelDrops</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>OverCurrent</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>Wall</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>interpreter::sWallDistance</label>
+        <link refid="structinterpreter_1_1s_wall_distance"/>
+      </node>
+      <node id="10">
+        <label>interpreter::sWheelDrops</label>
+        <link refid="structinterpreter_1_1s_wheel_drops"/>
+      </node>
+      <node id="4">
+        <label>interpreter::sCliffDepth</label>
+        <link refid="structinterpreter_1_1s_cliff_depth"/>
+      </node>
+      <node id="6">
+        <label>interpreter::sBattery</label>
+        <link refid="structinterpreter_1_1s_battery"/>
+      </node>
+      <node id="7">
+        <label>interpreter::sCliff</label>
+        <link refid="structinterpreter_1_1s_cliff"/>
+      </node>
+      <node id="8">
+        <label>interpreter::sBumps</label>
+        <link refid="structinterpreter_1_1s_bumps"/>
+      </node>
+      <node id="12">
+        <label>interpreter::sWall</label>
+        <link refid="structinterpreter_1_1s_wall"/>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="26" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="25" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classinterpreter_1ac31ae85f1e5f33e3e392d9a03d0157ec" prot="public" virt="non-virtual"><scope>interpreter</scope><name>AUTO</name></member>
+      <member refid="classinterpreter_1a5421f24295cd1f857889f886239b6397" prot="public" virt="non-virtual"><scope>interpreter</scope><name>autoMode</name></member>
+      <member refid="classinterpreter_1afdced4944cbfee34b22a9d10062e4e95" prot="public" virt="non-virtual"><scope>interpreter</scope><name>autoRunning</name></member>
+      <member refid="classinterpreter_1a781303e88a9c1af7a42d5047ba4ec83f" prot="public" virt="non-virtual"><scope>interpreter</scope><name>Battery</name></member>
+      <member refid="classinterpreter_1afbc47f18ff70f58954ebd39ccf615ae9" prot="public" virt="non-virtual"><scope>interpreter</scope><name>brushes</name></member>
+      <member refid="classinterpreter_1a2259b3eeddadf78a68d4f1da09df19c7" prot="public" virt="non-virtual"><scope>interpreter</scope><name>Bumps</name></member>
+      <member refid="classinterpreter_1a6fb2f835f2929b5dcb6ab30019f48d85" prot="public" virt="non-virtual"><scope>interpreter</scope><name>Cliff</name></member>
+      <member refid="classinterpreter_1a4b670b49da4e2f2113a92df78a85de9a" prot="public" virt="non-virtual"><scope>interpreter</scope><name>CliffDepth</name></member>
+      <member refid="classinterpreter_1a162c9fb2adb8c695db88a6bd768a8d9b" prot="public" virt="non-virtual"><scope>interpreter</scope><name>drives</name></member>
+      <member refid="classinterpreter_1a0bbed23fde636c919c342d53b8056fe9" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getAngle</name></member>
+      <member refid="classinterpreter_1ab9e0f9f45b9ae81ab8cb9354dc6ece43" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBatteryCapacity</name></member>
+      <member refid="classinterpreter_1acd9f35681587b6cf0053ffce6f9258cb" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBatteryCharge</name></member>
+      <member refid="classinterpreter_1a43e789322953d39409823b58b6c14992" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBatteryCurrent</name></member>
+      <member refid="classinterpreter_1ad68276e936903b75238625fe14c3560b" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBatteryTemperature</name></member>
+      <member refid="classinterpreter_1a1383dd05a368a4cbd3efea9866dd792d" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBatteryVoltage</name></member>
+      <member refid="classinterpreter_1a155dad9f506ec4c9cf434229b8f2e79d" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBumpAndWheel</name></member>
+      <member refid="classinterpreter_1ac00a14267b5d66112433991d9b47c675" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBumpLeft</name></member>
+      <member refid="classinterpreter_1af8fa4e96094398a56e6fb9d7f92faf83" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getBumpRight</name></member>
+      <member refid="classinterpreter_1a8bd8052419052dfae620b17c343b4407" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getChargingSource</name></member>
+      <member refid="classinterpreter_1adefc21dec7d3d7a022b1fdd7256adc47" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getChargingState</name></member>
+      <member refid="classinterpreter_1ac3cc9ee56868f24e0015b5339a9c5079" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffFrontLeft</name></member>
+      <member refid="classinterpreter_1a65a5cf55d29130ee041162b658283e99" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffFrontLeftSignal</name></member>
+      <member refid="classinterpreter_1ac3142bcef5bb520df5e68929dbb25679" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffFrontRight</name></member>
+      <member refid="classinterpreter_1ab6bb75aaf8f3cb48186581af6aa40345" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffFrontRightSignal</name></member>
+      <member refid="classinterpreter_1afb12bfbd05aa50dcd6e7444dd661eb3f" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffLeft</name></member>
+      <member refid="classinterpreter_1ae83ee387b4c2959e2c5936aedaa961c9" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffLeftSignal</name></member>
+      <member refid="classinterpreter_1a56323899f46ff06ed7ebb53fb9373af8" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffRight</name></member>
+      <member refid="classinterpreter_1a122c852e88247be527f2593a8306d49b" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getCliffRightSignal</name></member>
+      <member refid="classinterpreter_1a7e4668551d534e8b3ae69239ec8445f7" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getDirtDetect</name></member>
+      <member refid="classinterpreter_1a1cf932894eb468c9f7c92becb7f470d3" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getDistance</name></member>
+      <member refid="classinterpreter_1a75eee52ef4ba9b6a056a5004ce0acdb7" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getIrReceiver</name></member>
+      <member refid="classinterpreter_1a6f171bebe0c16799975ac62af25a790c" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLeftEncoderCount</name></member>
+      <member refid="classinterpreter_1a73c5c4b826f64d35d0275cc60460c255" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLeftMotorCurrent</name></member>
+      <member refid="classinterpreter_1a80d5c17dc56f8af52459e17916244d09" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLeftWheelOvercurrent</name></member>
+      <member refid="classinterpreter_1ad2b2a90daf0b7898c26c73203d96f5df" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLightBumpCenterLeftSignal</name></member>
+      <member refid="classinterpreter_1a26a40cded93adde7fd9cc63a80145c4c" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLightBumpCenterRightSignal</name></member>
+      <member refid="classinterpreter_1a01cb343d21c3a7235d662c343192c460" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLightBumper</name></member>
+      <member refid="classinterpreter_1aa39f7b5b1013366900b6d368c26244af" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLightBumpFrontLeftSignal</name></member>
+      <member refid="classinterpreter_1a2b1b56ff64f0062414a7e80991774344" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLightBumpFrontRightSignal</name></member>
+      <member refid="classinterpreter_1a20ff876f2af9143bbb292f85427cc27b" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLightBumpLeftSignal</name></member>
+      <member refid="classinterpreter_1a913052f155f6566f541c464e1db68dde" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getLightBumpRightSignal</name></member>
+      <member refid="classinterpreter_1acb4dbf6e8e6101cb9b8fd4d35955fd5c" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getMainBrushMotorCurrent</name></member>
+      <member refid="classinterpreter_1a983e1733c7da28fd27675701dcdf2e83" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getMainBrushOvercurrent</name></member>
+      <member refid="classinterpreter_1a21fb2bfcd6d91abc374e53ba0f8cb802" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getOiMode</name></member>
+      <member refid="classinterpreter_1a7a329f03389fd06682b49109608ed07d" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getRequestedLeftVelocity</name></member>
+      <member refid="classinterpreter_1ac52193349e13bc0d1605c8d30f5bca33" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getRequestedRadius</name></member>
+      <member refid="classinterpreter_1a18cf7d1180614666e7919b80dc84a525" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getRequestedRightVelocity</name></member>
+      <member refid="classinterpreter_1af6d130495887d1f12ce36b8d1abb6ff0" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getRequestedVelocity</name></member>
+      <member refid="classinterpreter_1a49800bad6707869b803145cf64d2854e" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getRightEncoderCount</name></member>
+      <member refid="classinterpreter_1aca94c7205992eec5e800290629c1a3ee" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getRightMotorCurrent</name></member>
+      <member refid="classinterpreter_1a6a8faee9872d664311b812d04948952b" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getRightWheelOvercurrent</name></member>
+      <member refid="classinterpreter_1ac7cb61452caa2b6c665fdd0dec3f1d58" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getSideBrushMotorCurrent</name></member>
+      <member refid="classinterpreter_1a6643a627744fba7dcd673acfc7ce3b21" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getSideBrushOvercurrent</name></member>
+      <member refid="classinterpreter_1aefa90abc4b079d029e97e302b434dbce" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getSongNumber</name></member>
+      <member refid="classinterpreter_1a9b38d2a24ef38f03f497536aaf412c68" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getSongPlaying</name></member>
+      <member refid="classinterpreter_1ad90ee42d733c13e24ad909ac0887c8b5" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getStatis</name></member>
+      <member refid="classinterpreter_1a2c05509c751f5f6084be30f3d068542c" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getVirtualWall</name></member>
+      <member refid="classinterpreter_1aefd87d9b0b6329205cdd45c8412fa895" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getWall</name></member>
+      <member refid="classinterpreter_1ab9923219e24ae25937d43962f7477a61" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getWallSignal</name></member>
+      <member refid="classinterpreter_1aa8b06c8fd656eb3cda815d70be1beead" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getWheelDropLeft</name></member>
+      <member refid="classinterpreter_1aa43bbcbb62804d04ffaa4a02cf1f1e45" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getWheelDropRight</name></member>
+      <member refid="classinterpreter_1a57cde9a8efb20ff9f3538756577e3b44" prot="public" virt="non-virtual"><scope>interpreter</scope><name>getWheelOvercurrents</name></member>
+      <member refid="classinterpreter_1a3316a76bf934ab36c4116690b097c925" prot="public" virt="non-virtual"><scope>interpreter</scope><name>InfraRed</name></member>
+      <member refid="classinterpreter_1ad503709081c0f0ce21c7ac98b6a0965c" prot="public" virt="non-virtual"><scope>interpreter</scope><name>interpreter</name></member>
+      <member refid="classinterpreter_1a8d7352393b128dd85f0550098823d894" prot="public" virt="non-virtual"><scope>interpreter</scope><name>OverCurrent</name></member>
+      <member refid="classinterpreter_1ab0eac90c4cbec0a2f3a9eb5074a6bcb0" prot="public" virt="non-virtual"><scope>interpreter</scope><name>printTest</name></member>
+      <member refid="classinterpreter_1aad4d2afc7d83bae97f913ada9f4023b6" prot="public" virt="non-virtual"><scope>interpreter</scope><name>sendTex</name></member>
+      <member refid="classinterpreter_1a5c73af0df5fa66c8f0f94024d9d8a592" prot="public" virt="non-virtual"><scope>interpreter</scope><name>slowTillStop</name></member>
+      <member refid="classinterpreter_1af3a62405168da6836040212ed8b7cb10" prot="public" virt="non-virtual"><scope>interpreter</scope><name>startAutoMode</name></member>
+      <member refid="classinterpreter_1aba1c73391093f3d11bde0f2900d265e7" prot="public" virt="non-virtual"><scope>interpreter</scope><name>startRoomba</name></member>
+      <member refid="classinterpreter_1a369ef0a0f4afe6d978ae13fe11b721bd" prot="public" virt="non-virtual"><scope>interpreter</scope><name>stopAutoMode</name></member>
+      <member refid="classinterpreter_1ae7aa5ad33817e8f16c817dc87c5d22e3" prot="public" virt="non-virtual"><scope>interpreter</scope><name>stopFailSave</name></member>
+      <member refid="classinterpreter_1a7062bf5ecc9dc235d91b8b28b3bdc56d" prot="public" virt="non-virtual"><scope>interpreter</scope><name>stopFailSaveThread</name></member>
+      <member refid="classinterpreter_1a308d784276799d53fc6fbf70d7b370a4" prot="public" virt="non-virtual"><scope>interpreter</scope><name>stopRoomba</name></member>
+      <member refid="classinterpreter_1af52422b8a93611aa8012a2732f4bdb7b" prot="public" virt="non-virtual"><scope>interpreter</scope><name>testSensors</name></member>
+      <member refid="classinterpreter_1a18147b9cd81e080649a3065345cafed3" prot="public" virt="non-virtual"><scope>interpreter</scope><name>turnAndDrive</name></member>
+      <member refid="classinterpreter_1a2120a61275e972118116fb461ded4eb6" prot="public" virt="non-virtual"><scope>interpreter</scope><name>turnLeft</name></member>
+      <member refid="classinterpreter_1a80a6ff80a0ca864690f96f73fcb10d32" prot="public" virt="non-virtual"><scope>interpreter</scope><name>turnRight</name></member>
+      <member refid="classinterpreter_1a1a222a09ae2b101f66ec6f444efd6633" prot="public" virt="non-virtual"><scope>interpreter</scope><name>turnRoomba</name></member>
+      <member refid="classinterpreter_1a90b7c6b0bfb74174d620406f9118a5cd" prot="public" virt="non-virtual"><scope>interpreter</scope><name>uart</name></member>
+      <member refid="classinterpreter_1ab3ffcf2115038281135aa62e557a8e1a" prot="public" virt="non-virtual"><scope>interpreter</scope><name>Wall</name></member>
+      <member refid="classinterpreter_1ac266c9bc6a403d9fd2cf737e83e7f7c1" prot="public" virt="non-virtual"><scope>interpreter</scope><name>WallDistance</name></member>
+      <member refid="classinterpreter_1a5717261ffcfeb0650064dc44b31847f5" prot="public" virt="non-virtual"><scope>interpreter</scope><name>WheelDrops</name></member>
+      <member refid="classinterpreter_1ac1c3993d73c19a3c6f5f022a3f39a46b" prot="public" virt="non-virtual"><scope>interpreter</scope><name>~interpreter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

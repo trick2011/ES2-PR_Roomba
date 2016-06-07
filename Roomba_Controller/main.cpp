@@ -13,6 +13,9 @@ int main(void){
 //    check_class check(RoombaController,inter);
 //    check.pipe_checker();
 
+	inter.stopRoomba();
+	cin.get();
+
 	RoombaController.DisableCleaning();
 	cin.get();
 	inter.startRoomba();
@@ -20,6 +23,7 @@ int main(void){
 	cin.get();
 
 	AutoClean cleaningobject(inter);
+	//Walltrace cleaningobject(inter);
 	RoombaController.EnableCleaning();
 
 //	inter.drives(roomba::speed::SLOW);
@@ -30,9 +34,10 @@ int main(void){
 
 
 	cout << "running" << endl;
-	while(cin.get() != 'a'){}
 
 	cin.get();
+
+	inter.stopRoomba();
 
 //	pipe ding (&interpreter,&roombacontroller)
 //	Basicclean* basic = new Autoclean();

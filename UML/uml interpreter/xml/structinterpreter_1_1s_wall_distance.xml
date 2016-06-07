@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structinterpreter_1_1s_wall_distance" kind="struct" language="C++" prot="public">
+    <compoundname>interpreter::sWallDistance</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_distance_1aa794b6c6b54f02cfafc34f6a0bee3599" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sWallDistance::bRight</definition>
+        <argsstring></argsstring>
+        <name>bRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="174" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_distance_1a8ed218cdbc93596dec7946f60cc0ea12" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sWallDistance::bFrontRight</definition>
+        <argsstring></argsstring>
+        <name>bFrontRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="175" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_distance_1a06059dda575ea5c5925a25aad91280e0" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sWallDistance::bCenterRight</definition>
+        <argsstring></argsstring>
+        <name>bCenterRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="176" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_distance_1a6c3b697dadebdcbdecd0eb83c5e461c5" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sWallDistance::bCenterLeft</definition>
+        <argsstring></argsstring>
+        <name>bCenterLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="177" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_distance_1a13d2ff6a4bbc1c8df5b4f69314ac162c" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sWallDistance::bFrontLeft</definition>
+        <argsstring></argsstring>
+        <name>bFrontLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="178" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_wall_distance_1ad10d9c6970877664356a18fd388fc2b5" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interpreter::sWallDistance::bLeft</definition>
+        <argsstring></argsstring>
+        <name>bLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="179" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="172" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="171" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structinterpreter_1_1s_wall_distance_1a6c3b697dadebdcbdecd0eb83c5e461c5" prot="public" virt="non-virtual"><scope>interpreter::sWallDistance</scope><name>bCenterLeft</name></member>
+      <member refid="structinterpreter_1_1s_wall_distance_1a06059dda575ea5c5925a25aad91280e0" prot="public" virt="non-virtual"><scope>interpreter::sWallDistance</scope><name>bCenterRight</name></member>
+      <member refid="structinterpreter_1_1s_wall_distance_1a13d2ff6a4bbc1c8df5b4f69314ac162c" prot="public" virt="non-virtual"><scope>interpreter::sWallDistance</scope><name>bFrontLeft</name></member>
+      <member refid="structinterpreter_1_1s_wall_distance_1a8ed218cdbc93596dec7946f60cc0ea12" prot="public" virt="non-virtual"><scope>interpreter::sWallDistance</scope><name>bFrontRight</name></member>
+      <member refid="structinterpreter_1_1s_wall_distance_1ad10d9c6970877664356a18fd388fc2b5" prot="public" virt="non-virtual"><scope>interpreter::sWallDistance</scope><name>bLeft</name></member>
+      <member refid="structinterpreter_1_1s_wall_distance_1aa794b6c6b54f02cfafc34f6a0bee3599" prot="public" virt="non-virtual"><scope>interpreter::sWallDistance</scope><name>bRight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

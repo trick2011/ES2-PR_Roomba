@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structinterpreter_1_1s_over_current" kind="struct" language="C++" prot="public">
+    <compoundname>interpreter::sOverCurrent</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structinterpreter_1_1s_over_current_1a986c80363c34f2d4a55a55aa808c7420" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sOverCurrent::bWheelLeft</definition>
+        <argsstring></argsstring>
+        <name>bWheelLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="120" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_over_current_1a59f7533501b64edd6f2c7413fc6f98f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sOverCurrent::bWheelRight</definition>
+        <argsstring></argsstring>
+        <name>bWheelRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="121" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_over_current_1a1247e9679de003daf2892fe4d6d05dc1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sOverCurrent::bMainBrush</definition>
+        <argsstring></argsstring>
+        <name>bMainBrush</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="122" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_over_current_1a35e0b9aefd45aa9fa0d2469646c9fd45" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sOverCurrent::bSideBrush</definition>
+        <argsstring></argsstring>
+        <name>bSideBrush</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="123" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="119" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="118" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structinterpreter_1_1s_over_current_1a1247e9679de003daf2892fe4d6d05dc1" prot="public" virt="non-virtual"><scope>interpreter::sOverCurrent</scope><name>bMainBrush</name></member>
+      <member refid="structinterpreter_1_1s_over_current_1a35e0b9aefd45aa9fa0d2469646c9fd45" prot="public" virt="non-virtual"><scope>interpreter::sOverCurrent</scope><name>bSideBrush</name></member>
+      <member refid="structinterpreter_1_1s_over_current_1a986c80363c34f2d4a55a55aa808c7420" prot="public" virt="non-virtual"><scope>interpreter::sOverCurrent</scope><name>bWheelLeft</name></member>
+      <member refid="structinterpreter_1_1s_over_current_1a59f7533501b64edd6f2c7413fc6f98f1" prot="public" virt="non-virtual"><scope>interpreter::sOverCurrent</scope><name>bWheelRight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

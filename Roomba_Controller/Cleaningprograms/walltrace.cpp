@@ -18,18 +18,35 @@ void Walltrace::clean(void)
     while(Basicclean::getEnableCleaning()){
 
         cout << "Walltrace enabled" << endl;
-        interpreterreference.drives(roomba::speed::SLOW);
+		interpreterreference.drives(roomba::speed::SLOW);
+        //cout <<
 
-            while(!interpreterreference.getBumpRight()){
-                interpreterreference.drives(roomba::speed::SLOW);
+			while(interpreterreference.getBumpRight() == false){
+				interpreterreference.drives(roomba::speed::SLOW);
+			}
+			interpreterreference.drives(roomba::speed::STOP);
+			while(interpreterreference.getBumpRight()){
+				interpreterreference.turnRoomba(-1);
+			}
+			interpreterreference.drives(roomba::speed::SLOW);
+			usleep(250);
+			interpreterreference.drives(roomba::speed::STOP);
+			interpreterreference.turnRoomba(5);
+
+            //failsafe
+            if(interpreterreference.getCliffFrontLeft() ||
+               interpreterreference.getCliffLeft() ||
+               interpreterreference.getCliffFrontRight() ||
+               interpreterreference.getCliffRight())
+            {
+
+                interpreterreference.drives(roomba::speed::BACKWARDS);
+                usleep(250);
+                interpreterreference.drives(roomba::speed::STOP);
+                interpreterreference.turnRoomba(5);
             }
-            while(interpreterreference.getBumpRight()){
-                interpreterreference.turnRoomba(-1);
-            }
-            interpreterreference.drives(roomba::speed::SLOW);
-            usleep(250);
-            interpreterreference.turnRoomba(5);
     }
+	cerr << "out" << endl;
     interpreterreference.drives(roomba::speed::STOP);
 	Basicclean::ProcessPID = 0;
 }

@@ -9,6 +9,7 @@ namespace actionlist{
 static const int CliffLeft	= 0;
 static const int CliffRight	= 1;
 static const int Turn		= 2;
+static const int WheelDrop	= 3;
 }
 
 void AutoClean::clean(void)
@@ -48,26 +49,32 @@ void AutoClean::clean(void)
 
         }while((Run == true) && (getEnableCleaning() == true));
 
+		if(!getEnableCleaning()){
+			cout << "out"<<endl;
+			break;
+		}
+
 		switch(iState){
+
 		case actionlist::CliffLeft: //Cliff links
-            cout << "cliff links" << endl;
-            //Run = true;
-            interpreterreference.drives(roomba::speed::BACKWARDS);
-            sleep(1);
-            interpreterreference.turnRoomba(30); // rechts
+			cout << "cliff links" << endl;
+			//Run = true;
+			interpreterreference.drives(roomba::speed::BACKWARDS);
+			usleep(500);
+			interpreterreference.turnRoomba(5); // rechts
 			iState = actionlist::Turn;
 			TurnLeft = false;
-            break;
+			break;
 
 		case actionlist::CliffRight: // Cliff rechts
-            cout << "cliff rechts" << endl;
-            Run = false;
-            interpreterreference.drives(roomba::speed::BACKWARDS);
-            sleep(1);
-            interpreterreference.turnRoomba(-30); // links
+			cout << "cliff rechts" << endl;
+			Run = false;
+			interpreterreference.drives(roomba::speed::BACKWARDS);
+			usleep(500);
+			interpreterreference.turnRoomba(-5); // links
 			iState = actionlist::Turn;
 			TurnLeft = true;
-            break;
+			break;
 
 		case actionlist::Turn: //bocht naar links
             cout << "bocht naar links" << endl;
@@ -97,7 +104,11 @@ void AutoClean::clean(void)
 				iState = actionlist::Turn;
 				TurnLeft = true;
 			}
-            break;
+			break;
+		case actionlist::WheelDrop:
+			interpreterreference.drives(roomba::speed::STOP);
+			interpreterreference.stopRoomba();
+			break;
         default:
             iState = actionlist::Turn;
 			break;

@@ -6,30 +6,32 @@ Spotclean::~Spotclean(){}
 void Spotclean::clean(void)
 {
 #ifdef __linux
-	Basicclean::ProcessPID = syscall(SYS_gettid);
+    Basicclean::ProcessPID = syscall(SYS_gettid);
 #endif
-    while(getEnableCleaning()==true)
-    {
-        interpreterreference.turnRoomba(1);
+    while(Basicclean::getEnableCleaning()){
 
-        /*Run |= interpreterreference.Bumps.bLeft;
-        Run |= interpreterreference.Bumps.bRight;
-        Run |= interpreterreference.Cliff.bFrontLeft;
-        Run |= interpreterreference.Cliff.bFrontRight;
-        Run |= interpreterreference.Cliff.bLeft;
-        Run |= interpreterreference.Cliff.bRight;*/ //deze alleen gebruiken als interpreter een thread is.
+        cout << "Spotclean enabled" << endl;
+        interpreterreference.drives(roomba::speed::SLOW);
+        //cout <<
+        interpreterreference.drives(roomba::speed::BACKWARDS);
+        usleep(100);
+        interpreterreference.turnRoomba(23);
 
-        Run = interpreterreference.getBumpRight()       | interpreterreference.getBumpLeft()
-            | interpreterreference.getCliffLeft()       | interpreterreference.getCliffFrontLeft()
-            | interpreterreference.getCliffFrontRight() | interpreterreference.getCliffRight();
-
-
-        while(Run == false && getEnableCleaning()== true);
+        //failsafe
+        if(interpreterreference.getCliffFrontLeft() ||
+           interpreterreference.getCliffLeft() ||
+           interpreterreference.getCliffFrontRight() ||
+           interpreterreference.getCliffRight())
         {
-           interpreterreference.drives(roomba::speed::BACKWARDS);
-           sleep(1);
-           interpreterreference.turnRoomba(23);
+            interpreterreference.drives(roomba::speed::BACKWARDS);
+            usleep(250);
+            interpreterreference.drives(roomba::speed::STOP);
+            interpreterreference.turnRoomba(5);
         }
+
+
     }
-	Basicclean::ProcessPID = 0;
+    cerr << "out" << endl;
+    interpreterreference.drives(roomba::speed::STOP);
+    Basicclean::ProcessPID = 0;
 }

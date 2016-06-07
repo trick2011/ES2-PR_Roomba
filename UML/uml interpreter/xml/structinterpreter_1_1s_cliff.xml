@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structinterpreter_1_1s_cliff" kind="struct" language="C++" prot="public">
+    <compoundname>interpreter::sCliff</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structinterpreter_1_1s_cliff_1ae9bf2127afd039091ce0ea1e1bfb601b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sCliff::bLeft</definition>
+        <argsstring></argsstring>
+        <name>bLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="127" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_cliff_1af74f10655531fc46e957eb29b4f3ca62" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sCliff::bFrontLeft</definition>
+        <argsstring></argsstring>
+        <name>bFrontLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="128" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_cliff_1ae4e65fdd7f524ed72d379b144c65cc27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sCliff::bFrontRight</definition>
+        <argsstring></argsstring>
+        <name>bFrontRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="129" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structinterpreter_1_1s_cliff_1a6102037a6e3df1c74db5128b7967f151" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool interpreter::sCliff::bRight</definition>
+        <argsstring></argsstring>
+        <name>bRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="130" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" line="126" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/interpreter.h" bodystart="125" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structinterpreter_1_1s_cliff_1af74f10655531fc46e957eb29b4f3ca62" prot="public" virt="non-virtual"><scope>interpreter::sCliff</scope><name>bFrontLeft</name></member>
+      <member refid="structinterpreter_1_1s_cliff_1ae4e65fdd7f524ed72d379b144c65cc27" prot="public" virt="non-virtual"><scope>interpreter::sCliff</scope><name>bFrontRight</name></member>
+      <member refid="structinterpreter_1_1s_cliff_1ae9bf2127afd039091ce0ea1e1bfb601b" prot="public" virt="non-virtual"><scope>interpreter::sCliff</scope><name>bLeft</name></member>
+      <member refid="structinterpreter_1_1s_cliff_1a6102037a6e3df1c74db5128b7967f151" prot="public" virt="non-virtual"><scope>interpreter::sCliff</scope><name>bRight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

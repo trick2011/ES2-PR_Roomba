@@ -46,3 +46,4 @@ build
 *.nofollow
 *.zip
 Roomba_Controller/Cleaningprograms/autoclean.cpp
+Roomba_Controller/Cleaningprograms/walltrace.cpp

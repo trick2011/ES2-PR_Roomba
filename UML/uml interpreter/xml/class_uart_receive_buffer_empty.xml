@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="class_uart_receive_buffer_empty" kind="class" language="C++" prot="public">
+    <compoundname>UartReceiveBufferEmpty</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">exception</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_uart_receive_buffer_empty_1a15a091ae951eff57169f9f32dc4b8dc3" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>virtual const char* UartReceiveBufferEmpty::what</definition>
+        <argsstring>() const </argsstring>
+        <name>what</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/fail_error.h" line="8" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/fail_error.h" bodystart="8" bodyend="11"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="32">
+        <label>std::exception</label>
+      </node>
+      <node id="31">
+        <label>UartReceiveBufferEmpty</label>
+        <link refid="class_uart_receive_buffer_empty"/>
+        <childnode refid="32" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="34">
+        <label>std::exception</label>
+      </node>
+      <node id="33">
+        <label>UartReceiveBufferEmpty</label>
+        <link refid="class_uart_receive_buffer_empty"/>
+        <childnode refid="34" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/fail_error.h" line="7" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/fail_error.h" bodystart="6" bodyend="12"/>
+    <listofallmembers>
+      <member refid="class_uart_receive_buffer_empty_1a15a091ae951eff57169f9f32dc4b8dc3" prot="private" virt="virtual"><scope>UartReceiveBufferEmpty</scope><name>what</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
