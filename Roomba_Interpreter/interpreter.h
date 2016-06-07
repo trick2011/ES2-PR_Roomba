@@ -4,21 +4,14 @@
 #include <iostream>
 #include <vector>
 #include <thread>
-#include <mutex>
-#include <chrono>
+//#include <mutex>
 #include <unistd.h>
 #include <iomanip>
 #include <exception>
 
 #include "opcodes.h"
 #include "../Roomba_UART/uart.h"
-//#include "fail_error.h"
-
-//#define debug
-//#define fulldebug
-//std::chrono::milliseconds interval(500);
-
-//unsigned int microseconds = 100;
+#include "../Roomba_Logger/log.h"
 
 class UARTClass;
 
@@ -195,7 +188,7 @@ public:
 
     UARTClass *uart;
     bool stopFailSave = false;
-    std::mutex *sendTex;
+    //std::mutex *sendTex;
 
     void stopFailSaveThread();
 
