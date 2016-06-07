@@ -112,8 +112,33 @@ void Inv_interpreter::sendCliffR(){
 void Inv_interpreter::sendAngle(){
     //send angle
     //reset angle
-    uart.sendUart(iCurrentAngle << 8);
-    uart.sendUart(iCurrentAngle);
+	
+	// with sleep???
+    switch(iCurrentAngle){
+        case -90:
+            uart.sendUart(0x00);
+            uart.sendUart(0x01);
+			
+			uart.sendUart(0x00);
+            uart.sendUart(0x01);
+            break;
+        case 90:
+            uart.sendUart(0xFF);
+            uart.sendUart(0xFF);
+            
+			uart.sendUart(0xFF);
+            uart.sendUart(0xFF);
+            break;
+        case 0:
+            uart.sendUart(0x7F);
+            uart.sendUart(0xFF);
+         	
+			uart.sendUart(0x7F);
+            uart.sendUart(0xFF);
+         	break;
+        default:
+            break;
+    }
     iCurrentAngle = 0;
 }
 void Inv_interpreter::sendLightBumper(){
