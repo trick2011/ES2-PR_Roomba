@@ -8,6 +8,7 @@
 #include <vector>
 #include <queue>
 #include <sstream>
+#include "../Roomba_Logger/log.h"
 
 #include <cstring>
 #include <stdint.h>
