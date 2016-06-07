@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespaceroomba_1_1speed" kind="namespace" language="C++">
+    <compoundname>roomba::speed</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="opcodes_8h_1ae98d5d515053d9ec6d71c950eab779a3" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::speed::SLOW</definition>
+        <argsstring></argsstring>
+        <name>SLOW</name>
+        <initializer>=                         0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="105" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1aa138dc8eb3f050c936f7d376a1e66bb0" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::speed::CRUISE</definition>
+        <argsstring></argsstring>
+        <name>CRUISE</name>
+        <initializer>=                       1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="106" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1ab0764088410e80a3725dc70c4d5ac32f" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::speed::FAST</definition>
+        <argsstring></argsstring>
+        <name>FAST</name>
+        <initializer>=                         2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="107" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a9b601c19b2f5bd9dd32d14e18b848626" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::speed::STOP</definition>
+        <argsstring></argsstring>
+        <name>STOP</name>
+        <initializer>=                         3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="108" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="opcodes_8h_1a21c519c701735243bd01db9f5f087fa2" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int roomba::speed::BACKWARDS</definition>
+        <argsstring></argsstring>
+        <name>BACKWARDS</name>
+        <initializer>=                   4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="109" column="1" bodyfile="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/Jelle/Documents/GitHub/ES2-PR_Roomba/Roomba_Interpreter/opcodes.h" line="104" column="1"/>
+  </compounddef>
+</doxygen>
