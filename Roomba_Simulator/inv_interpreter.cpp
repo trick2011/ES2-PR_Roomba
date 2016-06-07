@@ -114,6 +114,10 @@ void Inv_interpreter::sendCliffR(){
 void Inv_interpreter::sendAngle(){
     //send angle
     //reset angle
+	//iCurrentAngle = -iCurrentAngle;
+	uart.sendUart(iCurrentAngle << 8);
+	uart.sendUart(iCurrentAngle);
+	usleep(10);
 	uart.sendUart(iCurrentAngle << 8);
 	uart.sendUart(iCurrentAngle);
     iCurrentAngle = 0;
@@ -192,7 +196,7 @@ void Inv_interpreter::mainroutine(void){
 	receivestart();
 	while(true){
 		uart.flushQueue();
-		uart.receiveUart(0.1);
+		uart.receiveUart(0.25);
 		cout << "mainqueue		" << uart.getQueSize() << endl;
 		uint8_t element = uart.getElement();
 
