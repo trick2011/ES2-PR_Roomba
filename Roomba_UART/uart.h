@@ -52,7 +52,8 @@ public:
     string receiveString(void);
     int getQueSize();
     void flushQueue();
-    void Logging(string Slog);
+    void Logging(string sLog);
+    void Logging_2(string sLog, string sLog_2);
 
     
 	bool sendUart(uint8_t code);

@@ -29,7 +29,7 @@ UARTClass::UARTClass(){
     iUARTFileStream = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);		//Open in non blocking read/write mode
 
     if (iUARTFileStream == -1){
-        Logging("Cannot start UART.");
+        Logging("[ERROR] Cannot start UART.");
     }
 
     /*CONFIGURE THE UART
@@ -58,7 +58,7 @@ UARTClass::UARTClass(string sTTY){
     iUARTFileStream = open(sTTY.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (iUARTFileStream == -1){
-        Logging("Cannot start UART.");
+        Logging("[ERROR] Cannot start UART.");
     }
     struct termios options;
     tcgetattr(iUARTFileStream, &options);
@@ -79,19 +79,18 @@ bool UARTClass::sendUart(uint8_t code){
         string String = convert.str();
 
         if (count < 0){
-            Logging("Count is < 0 in sendUART.");
+            Logging("[ERROR] Count is < 0 in sendUART.");
             return(false);
         }
 
         else{
-            Logging("Sending code:")
-            Logging(String);
+            Logging_2("[READ] Sending code: ", String);
             return(true);
         }
     }
 
     else{
-        Logging("Cannot open UART in sendUart.");
+        Logging("[ERROR] Cannot open UART in sendUart.");
     }
     return(false);
 }
@@ -102,20 +101,19 @@ bool UARTClass::sendstring(string sInput){
         count = write(iUARTFileStream,sInput.c_str(),sInput.size());		//Filestream, bytes to write, number of bytes to write
 
         if (count < 0){
-            Logging("Count is < 0 in sendstring.");
+            Logging("[ERROR] Count is < 0 in sendstring.");
             return(false);
         }
 
         else{
-            Logging("Sending string:")
-            Logging(sInput);
+            Logging_2("[READ] Sending string: ", sInput);
             return(true);
         }
     }
 
     else
     {
-        Logging("Cannot open UART in sendstring.");
+        Logging("[ERROR] Cannot open UART in sendstring.");
     }
     return(false);
 }
@@ -136,16 +134,14 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         convert << (int)ReadSize;
         string String = convert.str();
 
-        Logging("First read... ReadSize in receiveUart: ");
-        Logging(String);
+        Logging_2("[READ] First read... ReadSize in receiveUart: ", String);
 
         stringstream ss;
         for(int i=0;i<ReadSize;i++)
         {
             ReceiveQueue.push(rx_buffer[i]);
             ss << rx_buffer[i] << "|";
-            Logging("Queue container first read: ");
-            Logging(ss.str());
+            Logging_2("[READ] Queue container first read: ", ss.str());
         }
 
         chrono::time_point<chrono::system_clock> start,end;
@@ -173,15 +169,14 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
         String.clear();
         String = convert.str();
 
-        Logging("Second read... ReadSize in receiveUart: ");
-        Logging(String);
-        Logging("Queue container second read: ");
+        Logging_2("[READ] Second read... ReadSize in receiveUart: ", String);
 
         for(int i=0;i<ReadSize;i++){
             ReceiveQueue.push(rx_buffer[i]);
             ss << rx_buffer[i] << "|";
-            Logging(ss.str());
+            Logging_2("[READ] Queue container second read: ", ss.str());
         }
+
 
         if(bReceive)
             return(true);
@@ -190,7 +185,7 @@ bool UARTClass::receiveUart(){ // geef een string terug want das makkelijker als
 
     }
     else
-        Logging("Cannot open UART in receiveUart.");
+        Logging("[ERROR] Cannot open UART in receiveUart.");
     return(false);
 }
 
@@ -202,7 +197,7 @@ void UARTClass::operator()(){
 uint8_t UARTClass::getElement(){
     unsigned char ucElement = 0;
 
-    Logging("Getting Queue Element...");
+    Logging("[INFO] Getting Queue Element...");
 
     if(!ReceiveQueue.empty()){
         ucElement = ReceiveQueue.front();
@@ -210,8 +205,7 @@ uint8_t UARTClass::getElement(){
 
         string String = to_string((int)ucElement);
 
-        Logging("Queue Element: ");
-        Logging(String);
+        Logging("[READ] Queue Element: ", String);
     }
 
     else
@@ -221,18 +215,18 @@ uint8_t UARTClass::getElement(){
 }
 
 int UARTClass::getQueSize(){
-    Logging("Receiving QueueSize...");
+    Logging("[INFO] Receiving QueueSize...");
     return(ReceiveQueue.size());
 }
 
 void UARTClass::flushQueue(){
-    Logging("Emptying Queue...");
+    Logging("[INFO] Emptying Queue...");
 
     while(!ReceiveQueue.empty()){
         ReceiveQueue.pop();
     }
 
-    Logging("Queue is empty.");
+    Logging("[INFO] Queue is empty.");
 }
 
 
@@ -262,6 +256,18 @@ void UARTClass::Logging(string sLog){
     if (myfile.is_open())
     {
         myfile << sLog << endl;
+        myfile.close();
+    }
+
+    else cout << "Unable to open file." << endl;
+}
+
+void UARTClass::Logging_2(string sLog, sLog_2){
+    ofstream myfile ("log.txt", ios::app);
+
+    if (myfile.is_open())
+    {
+        myfile << sLog << sLog_2 << endl;
         myfile.close();
     }
 
