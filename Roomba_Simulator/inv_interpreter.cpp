@@ -18,6 +18,8 @@ Inv_interpreter::~Inv_interpreter(){
 }
 
 void Inv_interpreter::drive(){
+	//iCurrentSpeed = 0;
+	//iCurrentAngle = 0;
 	//uart.receiveUart();
 	try{
 		HByte1 = uart.getElement();   //Velocity high byte
@@ -46,7 +48,7 @@ void Inv_interpreter::drive(){
     //speed
 	if((HByte1 == 0x00)&&(LByte1 <= 0x7F))
 		iCurrentSpeed = roomba::speed::SLOW+1;
-	if((HByte1 == 0x08)&&(LByte1 <= 0x00))
+	if((HByte1 == 0x05)&&(LByte1 <= 0x00))
 		iCurrentSpeed = roomba::speed::CRUISE+1;
 	if((HByte1 == 0x7F)&&(LByte1 < 0xFF))
 		iCurrentSpeed = roomba::speed::FAST+1;
@@ -60,13 +62,13 @@ void Inv_interpreter::drive(){
     //negatief getal draait met klok mee en positief getal draait tegen de klok in
     //dus logisch maken en nu is negatief tegen de klok in en positief met de klok mee
 	iCurrentAngle = -iCurrentAngle;
-	if(HByte2 == 0x80 && LByte2 == 0x00) //straight
+	if((HByte2 == 0x80) && (LByte2 == 0x00)) //straight
 		iCurrentAngle = 0;
-	if(HByte2 == 0x7F && LByte2 == 0xFF) //straight
+	if((HByte2 == 0x7F) && (LByte2 == 0xFF)) //straight
 		iCurrentAngle = 0;
-	if(HByte2 == 0xFF && LByte2 == 0xFF)  //clockwise
+	if((HByte2 == 0xFF) && (LByte2 == 0xFF))  //clockwise
 		iCurrentAngle = 90;
-	if(HByte2 == 0x00 && LByte2 == 0x01) //counter clockwise
+	if((HByte2 == 0x00) && (LByte2 == 0x01)) //counter clockwise
 		iCurrentAngle = -90;
 
 	room.roomba->setspeed(iCurrentSpeed);
@@ -112,8 +114,8 @@ void Inv_interpreter::sendCliffR(){
 void Inv_interpreter::sendAngle(){
     //send angle
     //reset angle
-    uart.sendUart(iCurrentAngle << 8);
-    uart.sendUart(iCurrentAngle);
+	uart.sendUart(iCurrentAngle << 8);
+	uart.sendUart(iCurrentAngle);
     iCurrentAngle = 0;
 }
 void Inv_interpreter::sendLightBumper(){
@@ -173,25 +175,24 @@ void Inv_interpreter::receivestart(void){
 	bool clear =false;
 	uint8_t ReceiveValue = 0;
 	while(true){
-		uart.receiveUart();
+		uart.receiveUart(0.1);
 		int tmp = uart.getQueSize();
 		for(int i=0;i<tmp;i++){
 			ReceiveValue = uart.getElement();
 			if(ReceiveValue == roomba::Start)
 				clear = true;
 			if(clear)
-				if(ReceiveValue == roomba::modes::safeMode)
+				if((ReceiveValue == roomba::modes::safeMode)||(ReceiveValue == roomba::modes::fullMode))
 					return;
 		}
 	}
-#warning "not in full mode"
 }
 void Inv_interpreter::mainroutine(void){
 	uart.sendstring("hoi\n");
 	receivestart();
 	while(true){
 		uart.flushQueue();
-		uart.receiveUart();
+		uart.receiveUart(0.1);
 		cout << "mainqueue		" << uart.getQueSize() << endl;
 		uint8_t element = uart.getElement();
 

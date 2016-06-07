@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	thread tempthread(ref(*interpeter));
 
 
-	MainWindow w(room);
+	MainWindow w(room,*interpeter);
 	w.setWindowIcon(QIcon(QString::fromUtf8(":/led/pile_of_poo")));
 	w.show();
 

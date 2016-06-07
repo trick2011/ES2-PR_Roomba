@@ -2,14 +2,17 @@
 #include "ui_mainwindow.h"
 
 
-MainWindow::MainWindow(Roomclass& room,QWidget *parent) :QMainWindow(parent),room{room},ui(new Ui::MainWindow){
+MainWindow::MainWindow(Roomclass& room,Inv_interpreter& peter,QWidget *parent) :QMainWindow(parent),room{room},peter{peter},ui(new Ui::MainWindow){
 	ui->setupUi(this);
 	//room.roomba->sensorref.get
 	connect(&recievetimeout,SIGNAL(timeout()),this,SLOT(TimerInterrupt())); // nope not readdata but its fine
 	recievetimeout.start(UpdateSpeed);
 
+	//readthread = new std::thread(std::ref(peter));
+
 	//ui->statusBar->sets
 	counter = 0;
+
 
 #ifndef TIMERDEBUG
 	ui->textBrowser->hide();
