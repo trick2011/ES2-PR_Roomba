@@ -20,7 +20,7 @@ void Walltrace::clean(void)
         cout << "Walltrace enabled" << endl;
         interpreterreference.drives(roomba::speed::SLOW);
 
-            while(!interpreterreference.getBumpRight()){
+            while(interpreterreference.getBumpRight() == false)
                 interpreterreference.drives(roomba::speed::SLOW);
             }
             while(interpreterreference.getBumpRight()){
