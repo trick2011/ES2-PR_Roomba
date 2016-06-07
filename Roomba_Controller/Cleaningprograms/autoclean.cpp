@@ -9,6 +9,7 @@ namespace actionlist{
 static const int CliffLeft	= 0;
 static const int CliffRight	= 1;
 static const int Turn		= 2;
+static const int WheelDrop	= 3;
 }
 
 void AutoClean::clean(void)
@@ -47,6 +48,11 @@ void AutoClean::clean(void)
 			cout << Run << endl;
 
         }while((Run == true) && (getEnableCleaning() == true));
+
+		if(!getEnableCleaning()){
+			cout << "out"<<endl;
+			break;
+		}
 
 		switch(iState){
 		case actionlist::CliffLeft: //Cliff links
@@ -97,7 +103,11 @@ void AutoClean::clean(void)
 				iState = actionlist::Turn;
 				TurnLeft = true;
 			}
-            break;
+			break;
+		case actionlist::WheelDrop:
+			interpreterreference.drives(roomba::speed::STOP);
+			interpreterreference.stopRoomba();
+			break;
         default:
             iState = actionlist::Turn;
 			break;
