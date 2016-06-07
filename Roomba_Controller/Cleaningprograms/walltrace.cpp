@@ -32,6 +32,19 @@ void Walltrace::clean(void)
 			usleep(250);
 			interpreterreference.drives(roomba::speed::STOP);
 			interpreterreference.turnRoomba(5);
+
+            //failsafe
+            if(interpreterreference.getCliffFrontLeft() ||
+               interpreterreference.getCliffLeft() ||
+               interpreterreference.getCliffFrontRight() ||
+               interpreterreference.getCliffRight())
+            {
+
+                interpreterreference.drives(roomba::speed::BACKWARDS);
+                usleep(250);
+                interpreterreference.drives(roomba::speed::STOP);
+                interpreterreference.turnRoomba(5);
+            }
     }
 	cerr << "out" << endl;
     interpreterreference.drives(roomba::speed::STOP);

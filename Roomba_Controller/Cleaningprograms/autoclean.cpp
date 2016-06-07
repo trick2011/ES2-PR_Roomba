@@ -55,6 +55,7 @@ void AutoClean::clean(void)
 		}
 
 		switch(iState){
+
 		case actionlist::CliffLeft: //Cliff links
 			cout << "cliff links" << endl;
 			//Run = true;
