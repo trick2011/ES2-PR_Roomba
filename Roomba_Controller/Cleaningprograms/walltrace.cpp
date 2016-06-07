@@ -16,38 +16,19 @@ void Walltrace::clean(void)
 	Basicclean::ProcessPID = syscall(SYS_gettid);
 #endif
     while(Basicclean::getEnableCleaning()){
+
         cout << "Walltrace enabled" << endl;
         interpreterreference.drives(roomba::speed::SLOW);
-        do{
-            if(interpreterreference.getBumpLeft()){
-                Run = false;
-                iState = actionlist::BumpLeft;
-                break;
-            }
-            if(interpreterreference.getBumpRight()){
-                Run = false;
-                iState = actionlist::BumpRight;
-                break;
-            }
-            cout << Run << endl;
-           }
 
-        while((Run == true) && (getEnableCleaning()== true));
-        {
-            switch(iState){
-            case actionlist::BumpLeft:
-                interpreterreference.turnRoomba(300);
+            while(!interpreterreference.getBumpRight()){
                 interpreterreference.drives(roomba::speed::SLOW);
-                break;
-            case actionlist::BumpRight:
-                interpreterreference.turnRoomba(5);
-                interpreterreference.drives(roomba::speed::SLOW);
-                break;
-            default:
-                iState = actionlist::BumpLeft;
-                break;
             }
-        }
+            while(interpreterreference.getBumpRight()){
+                interpreterreference.turnRoomba(-1);
+            }
+            interpreterreference.drives(roomba::speed::SLOW);
+            usleep(250);
+            interpreterreference.turnRoomba(5);
     }
     interpreterreference.drives(roomba::speed::STOP);
 	Basicclean::ProcessPID = 0;
