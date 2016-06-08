@@ -42,24 +42,6 @@ void Walltrace::clean(void)
                 iState = actionlist::Drop;
                 break;
             }
-            else
-            {
-                Run = false;
-                iState = actionlist::Trace;
-                break;
-            }
-
-            cout << Run << endl;
-        }while((Run == true) && (getEnableCleaning() == true));
-
-        if(!getEnableCleaning()){
-            cout << "out"<<endl;
-            break;
-        }
-
-        switch(iState){
-
-        case actionlist::Trace:
 
             while(interpreterreference.getBumpRight() == false){
                 interpreterreference.drives(roomba::speed::SLOW);
@@ -72,28 +54,22 @@ void Walltrace::clean(void)
             usleep(250);
             interpreterreference.drives(roomba::speed::STOP);
             interpreterreference.turnRoomba(5);
-            if(interpreterreference.getCliffFrontLeft() ||
-               interpreterreference.getCliffLeft() ||
-               interpreterreference.getCliffFrontRight() ||
-               interpreterreference.getCliffRight())
-            {
-                Run = false;
-                iState = actionlist::Cliff;
-                break;
-            }
-            if(interpreterreference.getWheelDropLeft()||
-               interpreterreference.getWheelDropRight()||
-               interpreterreference.getWheelOvercurrents())
-            {
-                Run = false;
-                iState = actionlist::Drop;
-                break;
-            }
+
+            cout << Run << endl;
+        }while((Run == true) && (getEnableCleaning() == true));
+
+        if(!getEnableCleaning()){
+            cout << "out"<<endl;
             break;
+        }
+
+        switch(iState){
+
         case actionlist::Drop:
             interpreterreference.drives(roomba::speed::STOP);
             sleep(3);
             break;
+
         case actionlist::Cliff:
             interpreterreference.drives(roomba::speed::BACKWARDS);
             usleep(250);
