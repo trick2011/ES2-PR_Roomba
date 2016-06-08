@@ -6,14 +6,8 @@ std::string LOGsettings::file = "log.txt";
 
 LOG::LOG(typelog type):type(type)
 {
-    timeb time;
-    ftime(&time);
     ofs.open(LOGsettings::file,std::ofstream::app);
-    operator << ((time.time/3600)%24+2)<<":" //hours
-             << (time.time/60)%60 << ":"     //minutes
-             << time.time%60 << "."          //seconds
-             << time.millitm                 //milliseconds
-             << " ";
+    addTime();
     operator << ("["+getLabel(type)+"] ");
 }
 
