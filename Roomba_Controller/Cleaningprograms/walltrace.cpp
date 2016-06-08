@@ -50,6 +50,7 @@ void Walltrace::clean(void)
                interpreterreference.getWheelOvercurrents())
             {
                 interpreterreference.drives(roomba::speed::STOP);
+                sleep(3);
             }
 			interpreterreference.uart->flushQueue();
     }
