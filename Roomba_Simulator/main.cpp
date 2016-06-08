@@ -18,8 +18,30 @@ int main(){
 
 	thread a(timerrun,&room);
 	interpeter.mainroutine();
-
-	while (1) {}
+	while(1){}
+//	char tmp=0;
+//	while (1) {
+//		tmp = cin.get();
+//		if(tmp == 'l'){
+//			room.roomba->setangle(-90);
+//			cout << "-90" << endl;
+//		}
+//		if(tmp == 'r'){
+//			room.roomba->setangle(90);
+//			cout << "90" << endl;
+//		}
+//		if(tmp == 'u'){
+//			room.roomba->setspeed(2);
+//			cout << "u" << endl;
+//		}
+//		if(tmp == 's'){
+//			room.roomba->setspeed(0);
+//			cout << "s" << endl;
+//		}
+//		tmp = 0x00;
+//		//room.roomba->drive();
+//		//sleep(1);
+//	}
 #endif
 
 #ifndef INTERPERTER_TEST

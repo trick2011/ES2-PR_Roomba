@@ -1,7 +1,7 @@
 #makefile for the Roomba Interpreter
 
 prog.out: main.o interpreter.o uart.o
-	g++ -Wall -o prog.out main.o interpreter.o uart.o
+	g++ -Wall -o prog.out main.o interpreter.o uart.o ../Roomba_Logger/log.cpp -std=c++14
 
 main.o: main.cpp opcodes.h 
 	g++ -Wall -c main.cpp -std=c++11
