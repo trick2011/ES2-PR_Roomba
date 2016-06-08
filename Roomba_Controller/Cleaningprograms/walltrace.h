@@ -8,6 +8,8 @@ public:
 	Walltrace(interpreter& interpreterreference):Basicclean(interpreterreference){}
     ~Walltrace();
     void clean(void);
+private:
+    int iState = 0;
 
 };
 

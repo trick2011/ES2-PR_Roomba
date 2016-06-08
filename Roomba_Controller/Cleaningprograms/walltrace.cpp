@@ -6,8 +6,9 @@ Walltrace::~Walltrace(){
 }
 
 namespace actionlist {
-static const int BumpLeft  = 0;
-static const int BumpRight = 1;
+static const int Trace = 0;
+static const int Cliff = 1;
+static const int Drop  = 2;
 }
 
 void Walltrace::clean(void)
@@ -19,40 +20,90 @@ void Walltrace::clean(void)
 
         cout << "Walltrace enabled" << endl;
 		interpreterreference.drives(roomba::speed::SLOW);
-        //cout <<
 
-			while(interpreterreference.getBumpRight() == false){
-				interpreterreference.drives(roomba::speed::SLOW);
-			}
-			interpreterreference.drives(roomba::speed::STOP);
-			while(interpreterreference.getBumpRight()){
-				interpreterreference.turnRoomba(-1);
-			}
-			interpreterreference.drives(roomba::speed::SLOW);
-			usleep(250);
-			interpreterreference.drives(roomba::speed::STOP);
-			interpreterreference.turnRoomba(5);
+        do{
+            Run = true;
+            cout << "go" << endl;
 
-            //failsafe
             if(interpreterreference.getCliffFrontLeft() ||
                interpreterreference.getCliffLeft() ||
                interpreterreference.getCliffFrontRight() ||
                interpreterreference.getCliffRight())
             {
-
-                interpreterreference.drives(roomba::speed::BACKWARDS);
-                usleep(250);
-                interpreterreference.drives(roomba::speed::STOP);
-                interpreterreference.turnRoomba(5);
+                Run = false;
+                iState = actionlist::Cliff;
+                break;
             }
             if(interpreterreference.getWheelDropLeft()||
                interpreterreference.getWheelDropRight()||
                interpreterreference.getWheelOvercurrents())
             {
-                interpreterreference.drives(roomba::speed::STOP);
-                sleep(3);
+                Run = false;
+                iState = actionlist::Drop;
+                break;
             }
-			interpreterreference.uart->flushQueue();
+            else
+            {
+                Run = false;
+                iState = actionlist::Trace;
+                break;
+            }
+
+            cout << Run << endl;
+        }while((Run == true) && (getEnableCleaning() == true));
+
+        if(!getEnableCleaning()){
+            cout << "out"<<endl;
+            break;
+        }
+
+        switch(iState){
+
+        case actionlist::Trace:
+
+            while(interpreterreference.getBumpRight() == false){
+                interpreterreference.drives(roomba::speed::SLOW);
+            }
+            interpreterreference.drives(roomba::speed::STOP);
+            while(interpreterreference.getBumpRight()){
+                interpreterreference.turnRoomba(-1);
+            }
+            interpreterreference.drives(roomba::speed::SLOW);
+            usleep(250);
+            interpreterreference.drives(roomba::speed::STOP);
+            interpreterreference.turnRoomba(5);
+            if(interpreterreference.getCliffFrontLeft() ||
+               interpreterreference.getCliffLeft() ||
+               interpreterreference.getCliffFrontRight() ||
+               interpreterreference.getCliffRight())
+            {
+                Run = false;
+                iState = actionlist::Cliff;
+                break;
+            }
+            if(interpreterreference.getWheelDropLeft()||
+               interpreterreference.getWheelDropRight()||
+               interpreterreference.getWheelOvercurrents())
+            {
+                Run = false;
+                iState = actionlist::Drop;
+                break;
+            }
+            break;
+        case actionlist::Drop:
+            interpreterreference.drives(roomba::speed::STOP);
+            sleep(3);
+            break;
+        case actionlist::Cliff:
+            interpreterreference.drives(roomba::speed::BACKWARDS);
+            usleep(250);
+            interpreterreference.drives(roomba::speed::STOP);
+            interpreterreference.turnRoomba(5);
+            break;
+        }
+
+
+        interpreterreference.uart->flushQueue();
     }
 
 	cout << "wall out" << endl;
