@@ -37,7 +37,7 @@ void Spotclean::clean(void)
         }
 
     }
-    cerr << "out" << endl;
+	cout << "spots out" << endl;
     interpreterreference.drives(roomba::speed::STOP);
     Basicclean::ProcessPID = 0;
 }

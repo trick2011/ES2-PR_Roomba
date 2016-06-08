@@ -51,9 +51,10 @@ void Walltrace::clean(void)
             {
                 interpreterreference.drives(roomba::speed::STOP);
             }
+			interpreterreference.uart->flushQueue();
     }
 
-	cerr << "out" << endl;
+	cout << "wall out" << endl;
     interpreterreference.drives(roomba::speed::STOP);
 	Basicclean::ProcessPID = 0;
 }

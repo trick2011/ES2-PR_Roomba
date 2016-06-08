@@ -22,6 +22,7 @@ void interpreter::startRoomba()
     uart->sendUart(roomba::Start);
     uart->sendUart(roomba::modes::fullMode);
     LOG(INFO)<<"Roomba started in fullMode";
+	usleep(10);
     brushes(roomba::brush::BOTH);
     //sendTex->unlock();
     
@@ -58,6 +59,7 @@ void interpreter::brushes(int brush)
     case roomba::brush::BOTH: // side and main brush
         LOG(INFO) << "Both brushes activated";
         uart->sendUart(roomba::brushes);
+		usleep(10);
         uart->sendUart(roomba::brush::BOTH);
         break;
     default:

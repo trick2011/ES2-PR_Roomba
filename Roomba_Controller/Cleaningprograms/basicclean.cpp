@@ -8,7 +8,8 @@ Basicclean::Basicclean(interpreter& iref):interpreterreference(iref){
 	bEnableCleaning = false;
 }
 void Basicclean::operator()(){
-	this->clean();
+	if(Basicclean::getEnableCleaning())
+		this->clean();
 }
 
 Basicclean::~Basicclean(){}

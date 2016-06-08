@@ -8,7 +8,7 @@ void pipe_filler::operator()(){
 	//comclass.ctp_FIFOref.c_str()
 	ofstream ofp;
 	while(1){
-		sleep(1);
+		sleep(2);
 		ofp.open(comclass.ctp_FIFOref,fstream::trunc);
 		if(Basicclean::getEnableCleaning())
 			if(peter.Cliff.bLeft == true||peter.Cliff.bFrontLeft||peter.Cliff.bFrontRight||peter.Cliff.bRight)
@@ -22,13 +22,13 @@ void pipe_filler::operator()(){
 					else
 						ofp << site_opcodes::Nothing;
 		else
-			if(peter.getCliffLeft()||peter.getCliffFrontLeft()||peter.getCliffFrontRight()||peter.getCliffRight())
+			if(Basicclean::getEnableCleaning()||peter.getCliffLeft()||peter.getCliffFrontLeft()||peter.getCliffFrontRight()||peter.getCliffRight())
 				ofp << site_opcodes::Drop;
 			else
-				if(peter.getBumpLeft())
+				if(Basicclean::getEnableCleaning()||peter.getBumpLeft())
 					ofp << site_opcodes::BumpLeft;
 				else
-					if(peter.getBumpRight())
+					if(Basicclean::getEnableCleaning()||peter.getBumpRight())
 						ofp << site_opcodes::BumpRight;
 					else
 						ofp << site_opcodes::Nothing;

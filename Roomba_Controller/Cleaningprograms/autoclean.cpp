@@ -113,7 +113,9 @@ void AutoClean::clean(void)
             iState = actionlist::Turn;
 			break;
         }
+		interpreterreference.uart->flushQueue();
 	 }
+	cout << "auto out" << endl;
 	interpreterreference.drives(roomba::speed::STOP);
 	Basicclean::ProcessPID = 0;
 }

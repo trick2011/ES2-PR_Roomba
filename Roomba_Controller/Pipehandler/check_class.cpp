@@ -48,24 +48,12 @@ void check_class::pipe_checker(){
 			inter.drives(roomba::speed::BACKWARDS);
 			break;
 		case site_opcodes::AutClean:	//AutoClean
-	//		Autotmp* a;
-			inter.drives(roomba::speed::SLOW);
+			roomref.DisableCleaning();
 			Cleaningprogram = new AutoClean(inter);
-//			//Cleaningprogram->clean();
-//			roomref.EnableCleaning();
 			roomref.SetCleaningProgram(Cleaningprogram);
-			//while(1){}
 			Cleaningprogram = NULL;
 #ifdef VERBOSE
 			cout<<"AutoClean ON"<<endl;
-#endif
-			break;
-		case 'f':	//CellClean
-//			Cleaningprogram = new Cell(inter);
-//			roomref.LoadCleaningProgram(Cleaningprogram);
-//			Cleaningprogram = NULL;
-#ifdef VERBOSE
-			cout<<"CellClean ON"<<endl;
 #endif
 			break;
 		case site_opcodes::WallTrace:	//Walltrace
@@ -84,13 +72,6 @@ void check_class::pipe_checker(){
 			cout<<"Spotclean ON"<<endl;
 #endif
 			break;
-		case 'i':	//manclean
-			//Manclean* manclean_object = new Manclean();
-			//roomref.stelcleaningin(manclean_object);
-#ifdef VERBOSE
-			cout<<"ManClean ON"<<endl;
-#endif
-			break;
 		case site_opcodes::StopRoomba:	//Stop Clean
 			//roomref.stop();
 			roomref.DisableCleaning();
@@ -100,7 +81,6 @@ void check_class::pipe_checker(){
 			inter.drives(roomba::speed::STOP);
 			break;
 		case site_opcodes::Dock:	//Dock
-			//roomref.dock();
 #ifdef VERBOSE
 			cout<<"Dock Roomba"<<endl;
 #endif
@@ -109,6 +89,7 @@ void check_class::pipe_checker(){
 			inter.startRoomba();
 			break;
 		case site_opcodes::Stop:
+			Basicclean::DisableCleaning();
 			inter.stopRoomba();
 			break;
 		default :
@@ -116,16 +97,6 @@ void check_class::pipe_checker(){
 		}
 		//sleep(1);
 	}
-//	char cRcommand;
-//	cRcommand = readFIFO();
-//	function_type_checker(cRcommand);
-
-//	if(cRcommand == 'o'){
-//		cout<<"pipe empty"<<endl;
-//	}
-//	else{
-//		function_type_checker(cRcommand);
-//	}
 }
 #endif
 #ifdef DRY_DEBUG // terminal testing
@@ -172,16 +143,6 @@ void check_class::pipe_checker(){
         }
         //cout.flush();
     }
-//	char cRcommand;
-//	cRcommand = readFIFO();
-//	function_type_checker(cRcommand);
-
-//	if(cRcommand == 'o'){
-//		cout<<"pipe empty"<<endl;
-//	}
-//	else{
-//		function_type_checker(cRcommand);
-//	}
 }
 
 #endif
