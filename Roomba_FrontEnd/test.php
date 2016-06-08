@@ -45,8 +45,9 @@ body
 		//echo "<h1>".$_POST["knop"] . "</h1>";
 		writep($_POST["knop"]);
 		}
-	#else
+	else
 		#echo "automatische refresh"."<br />";	
+		echo " "."<br / >";
 ?>
 
 <?php //pipe functions

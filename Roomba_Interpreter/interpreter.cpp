@@ -22,7 +22,7 @@ void interpreter::startRoomba()
     uart->sendUart(roomba::Start);
     uart->sendUart(roomba::modes::fullMode);
     LOG(INFO)<<"Roomba started in fullMode";
-	usleep(10);
+	usleep(200);
     brushes(roomba::brush::BOTH);
     //sendTex->unlock();
     
@@ -2840,6 +2840,7 @@ void interpreter::turnLeft()
     {
         (void) getAngle();
         //sendTex->lock();
+		usleep(500);
         uart->sendUart(roomba::drive);
 
         uart->sendUart(0x00); // Velocity high byte
