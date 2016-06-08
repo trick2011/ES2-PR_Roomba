@@ -5,9 +5,9 @@ void testinitBIG(Roomclass& room){
 	room.roomobjects.push_back(object);
 	Roomobjectclass objectb(20,-20,0,40,Roomobjectclass::wall);
 	room.roomobjects.push_back(objectb);
-	Roomobjectclass objectc(-20,-20,40,0,Roomobjectclass::wall);
+	Roomobjectclass objectc(-20,-20,40,0,Roomobjectclass::drop);
 	room.roomobjects.push_back(objectc);
-	Roomobjectclass objectd(-20,20,40,0,Roomobjectclass::wall);
+	Roomobjectclass objectd(-20,20,40,0,Roomobjectclass::drop);
 	room.roomobjects.push_back(objectd);
 }
 void testinit(Roomclass& room){
