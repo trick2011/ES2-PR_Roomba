@@ -25,35 +25,42 @@ void Walltrace::clean(void)
             Run = true;
             cout << "go" << endl;
 
-            if(interpreterreference.getCliffFrontLeft() ||
-               interpreterreference.getCliffLeft() ||
-               interpreterreference.getCliffFrontRight() ||
-               interpreterreference.getCliffRight())
-            {
-                Run = false;
-                iState = actionlist::Cliff;
-                break;
-            }
-            if(interpreterreference.getWheelDropLeft()||
-               interpreterreference.getWheelDropRight()||
-               interpreterreference.getWheelOvercurrents())
-            {
-                Run = false;
-                iState = actionlist::Drop;
-                break;
-            }
+//            if(interpreterreference.getCliffFrontLeft() ||
+//               interpreterreference.getCliffLeft() ||
+//               interpreterreference.getCliffFrontRight() ||
+//               interpreterreference.getCliffRight())
+//            {
+//                Run = false;
+//                iState = actionlist::Cliff;
+//                break;
+//            }
+//            if(interpreterreference.getWheelDropLeft()||
+//               interpreterreference.getWheelDropRight()||
+//               interpreterreference.getWheelOvercurrents())
+//            {
+//                Run = false;
+//                iState = actionlist::Drop;
+//                break;
+//            }
 
             while(interpreterreference.getBumpRight() == false){
                 interpreterreference.drives(roomba::speed::SLOW);
             }
             interpreterreference.drives(roomba::speed::STOP);
-            while(interpreterreference.getBumpRight()){
-                interpreterreference.turnRoomba(-1);
+
+//			while(interpreterreference.getBumpLeft())
+//			{
+//				interpreterreference.drives(roomba::speed::STOP);
+//				interpreterreference.turnRoomba(-5);
+//			}
+
+			while(interpreterreference.getBumpRight()){
+				interpreterreference.turnRoomba(-2);
             }
             interpreterreference.drives(roomba::speed::SLOW);
             usleep(250);
             interpreterreference.drives(roomba::speed::STOP);
-            interpreterreference.turnRoomba(5);
+			interpreterreference.turnRoomba(6);
 
             cout << Run << endl;
         }while((Run == true) && (getEnableCleaning() == true));
@@ -63,20 +70,20 @@ void Walltrace::clean(void)
             break;
         }
 
-        switch(iState){
+//        switch(iState){
 
-        case actionlist::Drop:
-            interpreterreference.drives(roomba::speed::STOP);
-            sleep(3);
-            break;
+//        case actionlist::Drop:
+//            interpreterreference.drives(roomba::speed::STOP);
+//            sleep(3);
+//            break;
 
-        case actionlist::Cliff:
-            interpreterreference.drives(roomba::speed::BACKWARDS);
-            usleep(250);
-            interpreterreference.drives(roomba::speed::STOP);
-            interpreterreference.turnRoomba(5);
-            break;
-        }
+//        case actionlist::Cliff:
+//            interpreterreference.drives(roomba::speed::BACKWARDS);
+//            usleep(250);
+//            interpreterreference.drives(roomba::speed::STOP);
+//            interpreterreference.turnRoomba(5);
+//            break;
+//        }
 
 
         interpreterreference.uart->flushQueue();
