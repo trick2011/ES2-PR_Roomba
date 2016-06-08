@@ -3,10 +3,11 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sys/timeb.h>
 
 using namespace std;
+
+
 
 enum typelog {
     DEBUG,
@@ -48,6 +49,24 @@ private:
     std::ofstream ofs;
     typelog type = DEBUG;
     inline string getLabel(typelog type);
+
+    inline void addTime(){
+        timeb time;
+        ftime(&time);
+        int hours = ((time.time/3600)%24+2);
+        if(hours < 10) operator << (0);
+        operator << (hours) <<":";
+        int minutes = (time.time/60)%60;
+        if(minutes < 10) operator << (0);
+        operator << (minutes)<<":";
+        int seconds = time.time%60;
+        if(seconds < 10) operator << (0);
+        operator << (seconds)<<".";
+        int milliseconds = time.millitm;
+        if(milliseconds < 100) operator << (0);
+        if(milliseconds < 10) operator << (0);
+        operator << (milliseconds) <<" ";
+    }
 };
 
 #endif
