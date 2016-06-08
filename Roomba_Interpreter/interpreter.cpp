@@ -2,38 +2,29 @@
 
 interpreter::interpreter()
 {
-#ifdef fulldebug
-    std::cout<<"\033[32m start function interpreter (constructor) \033[0m"<<std::endl;
-#endif
+    LOGsettings::file = "interpreter.log";
 
+    LOG(DEBUG)<<"Start interpreter";
     uart = new UARTClass("/dev/ttyUSB0");
-
-#ifdef fulldebug
-    std::cout<<"\033[31m end function interpreter (constructor) \033[0m"<<std::endl;
-#endif
 }
 
 interpreter::~interpreter()
 {
     stopFailSaveThread();
     delete uart;
+    LOG(DEBUG)<<"End interpreter (destructor)";
 }
 
 void interpreter::startRoomba()
 {
-#ifdef fulldebug
-    std::cout<<"\033[32m start function startRoomba \033[0m"<<std::endl;
-#endif
+
     //sendTex->lock();
     uart->sendUart(roomba::Start);
     uart->sendUart(roomba::modes::fullMode);
-    //uart->sendUart(roomba::modes::safeMode);
-    //uart->sendUart(roomba::cleanModes::Clean);
+    LOG(INFO)<<"Roomba started in fullMode";
+    brushes(roomba::brush::BOTH);
     //sendTex->unlock();
-
-#ifdef fulldebug
-    std::cout<<"\033[31m end function startRoomba\033[0m"<<std::endl;
-#endif
+    
 
 }
 
@@ -42,32 +33,30 @@ void interpreter::stopRoomba()
     //sendTex->lock();
     uart->sendUart(roomba::Stop);
     //sendTex->unlock();
+    LOG(INFO)<<"Rooma stopped";
 }
 
 void interpreter::brushes(int brush)
 {
-    #ifdef fulldebug
-        std::cout<<"start function brushes"<<std::endl;
-    #endif
-        //sendTex->lock();
+    //sendTex->lock();
     switch (brush) {
     case roomba::brush::NOBRUSH: // no brush
-
+        LOG(INFO) << "Brushes are turned off";
         uart->sendUart(roomba::brushes);
         uart->sendUart(roomba::brush::NOBRUSH);
         break;
     case roomba::brush::SIDEBRUSH: // side brush
-
+        LOG(INFO) << "Sidebrush is activated";
         uart->sendUart(roomba::brushes);
         uart->sendUart(roomba::brush::SIDEBRUSH);
         break;
     case roomba::brush::MAINBRUSH: // main brush
-
+        LOG(INFO) << "Mainbrush is activated";
         uart->sendUart(roomba::brushes);
         uart->sendUart(roomba::brush::MAINBRUSH);
         break;
     case roomba::brush::BOTH: // side and main brush
-
+        LOG(INFO) << "Both brushes activated";
         uart->sendUart(roomba::brushes);
         uart->sendUart(roomba::brush::BOTH);
         break;
@@ -75,18 +64,12 @@ void interpreter::brushes(int brush)
         break;
     }
     //sendTex->unlock();
-    #ifdef fulldebug
-        std::cout<<"end function brushes"<<std::endl;
-    #endif
 } // werkt perfect
 
 
 void interpreter::drives(int s)
 {
     //sendTex->lock();
-#ifdef fulldebug
-    std::cout<<"start function drives"<<std::endl;
-#endif
     uart->sendUart(roomba::drive);
     switch (s) {
     case roomba::speed::SLOW: //slow
@@ -94,36 +77,38 @@ void interpreter::drives(int s)
         uart->sendUart(0x7F); // Velocity low  byte
         uart->sendUart(0x80); // Radius high byte
         uart->sendUart(0x00); // Radius low  byte
+        LOG(INFO) << "Sent drive slow";
         break;
     case roomba::speed::CRUISE: //middle
         uart->sendUart(0x05); // Velocity high byte
         uart->sendUart(0x00); // Velocity low  byte
         uart->sendUart(0x80); // Radius high byte
         uart->sendUart(0x00); // Radius low  byte
+        LOG(INFO) << "Sent drive cruise";
         break;
     case roomba::speed::FAST: // /////////schaal lager zetten
         uart->sendUart(0x7F); // Velocity high byte
         uart->sendUart(0xFF); // Velocity low  byte
         uart->sendUart(0x80); // Radius high byte
         uart->sendUart(0x00); // Radius low  byte
+        LOG(WARN) << "Sent drive fast";
         break;
     case roomba::speed::STOP: // stop
         uart->sendUart(0x00);
         uart->sendUart(0x00);
         uart->sendUart(0x00);
         uart->sendUart(0x00);
+        LOG(INFO) << "Sent drive stop";
         break;
     case roomba::speed::BACKWARDS: // backwards
         uart->sendUart(0xFF);
         uart->sendUart(0x81);
         uart->sendUart(0x80);
         uart->sendUart(0x00);
+        LOG(INFO) << "Sent drive rearward";
         break;
     }
     //sendTex->unlock();
-#ifdef fulldebug
-    std::cout<<"end function drives"<<std::endl;
-#endif
 }
 void interpreter::turnAndDrive(int speed, int radius) // define in header file, make enums for switches
 {
@@ -133,18 +118,22 @@ void interpreter::turnAndDrive(int speed, int radius) // define in header file, 
         case roomba::speed::SLOW: //slow
         uart->sendUart(0x00);
         uart->sendUart(0x7F);
+        LOG(INFO) << "Sent drive slow";
         break;
         case roomba::speed::CRUISE: //middle
         uart->sendUart(0x08);
         uart->sendUart(0x00);
+        LOG(INFO) << "Sent drive cruise";
         break;
         case roomba::speed::FAST: //fast
         uart->sendUart(0x7F);
         uart->sendUart(0xFF);
+        LOG(WARN) << "Sent drive fast";
         break;
         case roomba::speed::BACKWARDS: // backwards
         uart->sendUart(0xFF);
         uart->sendUart(0x81);
+        LOG(INFO) << "Sent drive rearward";
         break;
     }
 
@@ -152,18 +141,22 @@ void interpreter::turnAndDrive(int speed, int radius) // define in header file, 
         case roomba::radius::SMALL_LEFT:
         uart->sendUart(0x00);
         uart->sendUart(0x81);
+        LOG(INFO)<<" ^^ With radius small left";
         break;
         case roomba::radius::BIG_LEFT:
         uart->sendUart(0x08);
         uart->sendUart(0x60);
+        LOG(INFO)<<" ^^ With radius big left";
         break;
         case roomba::radius::SMALL_RIGHT:
         uart->sendUart(0x80);
         uart->sendUart(0x7F);
+        LOG(INFO)<<" ^^ With radius small right";
         break;
         case roomba::radius::BIG_RIGHT:
         uart->sendUart(0xF7);
         uart->sendUart(0xA0);
+        LOG(INFO)<<" ^^ With radius big right";
         break;
     }
     //sendTex->unlock();
@@ -172,9 +165,6 @@ void interpreter::turnAndDrive(int speed, int radius) // define in header file, 
 
 void interpreter::turnRoomba(uint16_t angle)/*******************************************************************/
 {
-#ifdef fulldebug
-    std::cout<<"start function turnRoomba"<<std::endl;
-#endif
 
     bool error = false;
     (void) getAngle();          // reset angle
@@ -186,10 +176,7 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     if((angle >= 0x8000)&&(angle <= 0xFFFF)) // counter clockwise
     {
 
-        #ifdef fulldebug
-            std::cout<<"counter clockwise"<<std::endl;
-        #endif
-
+        LOG(INFO) << "Turn roomba counter clockwise with angle" << angle;
         uart->sendUart(0x00); // Velocity high byte
         uart->sendUart(0x7F); // Velocity low  byte
         //uart->sendUart(0x10);
@@ -204,10 +191,7 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
             currentAngle -= temp; // testen!!*/
             currentAngle -= getAngle();
 
-            #ifdef fulldebug
-            std::cout<<std::hex;
-            std::cout<<"Angle is: "<<currentAngle<<std::endl;
-            #endif
+            LOG(DEBUG) << "Current angle is: " << currentAngle;
         }
         while((currentAngle > angle)||(currentAngle == 0));
         //sendTex->unlock();
@@ -217,10 +201,7 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
     {
         if(angle >= 0x0000 && angle < 0x8000) // clockwise
         {
-
-            #ifdef fulldebug
-                std::cout<<"clockwise"<<std::endl;
-            #endif
+            LOG(INFO) << "Turn roomba clockwise with angle" << angle;
             uart->sendUart(0x00); // Velocity high byte
             uart->sendUart(0x7F); // Velocity low  byte
             uart->sendUart(0xFF); // Radius high byte
@@ -232,13 +213,7 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
                 uint16_t temp = ~getAngle();
                 temp += 0x0001;
                 currentAngle += temp;
-                //currentAngle += getAngle();
-            
-            #ifdef fulldebug
-            std::cout<<std::hex;
-            std::cout<<"Angle is: "<<currentAngle<<std::endl;
-            #endif
-                //currentAngle = getAngle();
+                LOG(DEBUG) << "Current angle is: " << currentAngle;
             }
             while(currentAngle < angle);
             //sendTex->unlock();
@@ -247,11 +222,8 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
         else error = true;
     }
 
-    if(error == true) std::cerr<<"\033[31m ERROR: wrong angle!\033[0m"<<std::endl;
+    if(error == true) LOG(ERROR) << "Wrong angle in turnRoomba method";
 
-#ifdef fulldebug
-    std::cout<<"end function turnRoomba"<<std::endl;
-#endif
 }/*******************************************************************/
 
 bool interpreter::slowTillStop()
@@ -294,9 +266,6 @@ bool interpreter::slowTillStop()
 
 bool interpreter::getBumpAndWheel()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getBumpAndWheel"<<std::endl;
-    #endif
     bool tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -310,9 +279,11 @@ bool interpreter::getBumpAndWheel()
             switch (i) {
             case 1:
                 tmp = (uart->getElement() ? 1 : 0);
+                LOG(INFO) << "Bump or wheel detected: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -330,32 +301,27 @@ bool interpreter::getBumpAndWheel()
                 switch (i) {
                 case 1:
                     tmp = (uart->getElement() ? 1 : 0);
+                    LOG(INFO) << "Bump or wheel detected: " << tmp;
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
         }
         catch(int i)
         {
-            std::cout<<"No uart"<<std::endl;
+            LOG(ERROR) << "UART isn't working";
             exit(-1);
         }
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getBumpAndWheel"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getWall()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getWall"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -369,9 +335,11 @@ uint8_t interpreter::getWall()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Wall detected: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -380,19 +348,12 @@ uint8_t interpreter::getWall()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getWall"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getCliffLeft()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffLeft"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -405,9 +366,11 @@ bool interpreter::getCliffLeft()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Cliff Left detected: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -416,19 +379,12 @@ bool interpreter::getCliffLeft()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getCliffLeft"<<std::endl;
-    #endif
     //sendTex->unlock();
     return (bool)tmp;
 }
 
 bool interpreter::getCliffFrontLeft()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffFrontLeft"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -442,9 +398,11 @@ bool interpreter::getCliffFrontLeft()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Cliff Front Left detected: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -453,18 +411,12 @@ bool interpreter::getCliffFrontLeft()
     {
         // NOG TE IMPLEMENTERER
     }
-    #ifdef fulldebug
-        std::cout<<"end function getCliffFrontLeft"<<std::endl;
-    #endif
     //sendTex->unlock();
     return (bool)tmp;
 }
 
 bool interpreter::getCliffFrontRight()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffFrontRight"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -478,9 +430,11 @@ bool interpreter::getCliffFrontRight()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Cliff Front Right detected: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -489,18 +443,12 @@ bool interpreter::getCliffFrontRight()
     {
         // NOG TE IMPLEMENTERER
     }
-    #ifdef fulldebug
-        std::cout<<"end function getCliffFrontRight"<<std::endl;
-    #endif
     //sendTex->unlock();
     return (bool)tmp;
 }
 
 bool interpreter::getCliffRight()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffRight"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -514,9 +462,11 @@ bool interpreter::getCliffRight()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Cliff Right detected: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -525,10 +475,6 @@ bool interpreter::getCliffRight()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getCliffRight"<<std::endl;
-    #endif
     //sendTex->unlock();
     return (bool)tmp;
 }
@@ -537,9 +483,6 @@ bool interpreter::getCliffRight()
 
 uint8_t interpreter::getVirtualWall()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getVirtualWall"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -553,9 +496,11 @@ uint8_t interpreter::getVirtualWall()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Virtual wall signal: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -564,19 +509,12 @@ uint8_t interpreter::getVirtualWall()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getVirtualWall"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 bool interpreter::getWheelOvercurrents()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getWheelOvercurrents"<<std::endl;
-    #endif
     bool tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -590,9 +528,11 @@ bool interpreter::getWheelOvercurrents()
             switch (i) {
             case 1:
                 tmp = (uart->getElement() ? 1 : 0);
+                LOG(INFO) << "Wheel OverCurrent: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -601,18 +541,12 @@ bool interpreter::getWheelOvercurrents()
     {
         // NOG TE IMPLEMENTERER
     }
-    #ifdef fulldebug
-        std::cout<<"end function getWheelOvercurrents"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getDirtDetect()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getDirtDetect"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -626,9 +560,11 @@ uint8_t interpreter::getDirtDetect()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Dirt detect signal: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -637,19 +573,12 @@ uint8_t interpreter::getDirtDetect()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getDirtDetect"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getIrReceiver()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getIrReceiver"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -663,9 +592,11 @@ uint8_t interpreter::getIrReceiver()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "IR receiver signal: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -674,10 +605,6 @@ uint8_t interpreter::getIrReceiver()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getIrReceiver"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
@@ -708,6 +635,7 @@ int16_t interpreter::getDistance()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -720,19 +648,13 @@ int16_t interpreter::getDistance()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-    #ifdef fulldebug
-        std::cout<<"end function getDistance"<<std::endl;
-    #endif
+    LOG(INFO) << "Driven distance since last pull: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getAngle() /*******************************************************************/
 {
-    #ifdef fulldebug
-        std::cout<<"\033[32m start function getAngle\033[0m"<<std::endl;
-    #endif
-
     uint16_t halfWord = 0x0000;
     uint8_t  highByte = 0x00;
     uint8_t  lowByte  = 0x00;
@@ -752,18 +674,13 @@ uint16_t interpreter::getAngle() /**********************************************
             switch (i) {
             case 1:
                 lowByte = uart->getElement();
-                #ifdef fulldebug
-                    std::cout<<"In function getAngle, highByte is: "<<std::hex<<highByte<<std::endl;
-                #endif
                 break;
             case 2:
                 highByte = uart->getElement();
-                #ifdef fulldebug
-                    std::cout<<"In function getAngle, lowByte is: "<<std::hex<<lowByte<<std::endl;
-                #endif
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -774,23 +691,14 @@ uint16_t interpreter::getAngle() /**********************************************
     }
     halfWord = highByte << 8;
     halfWord |= lowByte;
-
-    #ifdef fulldebug
-        std::cout<<"In function getAngle, halfword is: "<<std::hex<<halfWord<<std::endl;
-    #endif
-
-    #ifdef fulldebug
-        std::cout<<"\033[31m end function getAngle\033[0m"<<std::endl;
-    #endif
+    LOG(INFO) << "Turned angle since last pull is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }/***************************************************************************************************/
 
 uint8_t interpreter::getChargingState()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getChargingState"<<std::endl;
-    #endif
+
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -804,9 +712,11 @@ uint8_t interpreter::getChargingState()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Charging state is: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -815,19 +725,12 @@ uint8_t interpreter::getChargingState()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"\033[31m end function getChargingState\033[0m"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 uint16_t interpreter::getBatteryVoltage()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getBatteryVoltage"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -849,6 +752,7 @@ uint16_t interpreter::getBatteryVoltage()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -860,9 +764,7 @@ uint16_t interpreter::getBatteryVoltage()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-    #ifdef fulldebug
-        std::cout<<"end function getBatteryVoltage"<<std::endl;
-    #endif
+    LOG(INFO) << "Battery voltage is: " << halfWord;
     //sendTex->unlock();
     this->Battery.uiVoltage = halfWord;
     return halfWord;
@@ -870,9 +772,6 @@ uint16_t interpreter::getBatteryVoltage()
 
 int16_t interpreter::getBatteryCurrent()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getBatteryCurrent"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -894,6 +793,7 @@ int16_t interpreter::getBatteryCurrent()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -905,10 +805,7 @@ int16_t interpreter::getBatteryCurrent()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getBatteryCurrent"<<std::endl;
-    #endif
+    LOG(INFO) << "Battery current is: " << halfWord;
     //sendTex->unlock();
     this->Battery.uiCurrent = halfWord;
     return halfWord;
@@ -916,9 +813,6 @@ int16_t interpreter::getBatteryCurrent()
 
 int8_t interpreter::getBatteryTemperature()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getBatteryTemperature"<<std::endl;
-    #endif
     int8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -932,9 +826,11 @@ int8_t interpreter::getBatteryTemperature()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Battery Temperature is: "<<tmp;
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -943,10 +839,6 @@ int8_t interpreter::getBatteryTemperature()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getBatteryTemperature"<<std::endl;
-    #endif
     //sendTex->unlock();
     this->Battery.iTemperature = tmp;
     return tmp;
@@ -954,9 +846,6 @@ int8_t interpreter::getBatteryTemperature()
 
 uint16_t interpreter::getBatteryCharge()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getBatteryCharge"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -978,6 +867,7 @@ uint16_t interpreter::getBatteryCharge()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -989,10 +879,7 @@ uint16_t interpreter::getBatteryCharge()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getBatteryCharge"<<std::endl;
-    #endif
+    LOG(INFO) <<"Battery Charge is: " << halfWord;
     //sendTex->unlock();
     this->Battery.uiCharge = halfWord;
     return halfWord;
@@ -1000,9 +887,6 @@ uint16_t interpreter::getBatteryCharge()
 
 uint16_t interpreter::getBatteryCapacity()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getBatteryCapacity"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1024,6 +908,7 @@ uint16_t interpreter::getBatteryCapacity()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1035,10 +920,7 @@ uint16_t interpreter::getBatteryCapacity()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getBatteryCapacity"<<std::endl;
-    #endif
+    LOG(INFO) << "Battery Capacity is: " << halfWord;
     //sendTex->unlock();
     this->Battery.uiCapacity = halfWord;
     return halfWord;
@@ -1046,9 +928,6 @@ uint16_t interpreter::getBatteryCapacity()
 
 uint16_t interpreter::getWallSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getWallSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1070,6 +949,7 @@ uint16_t interpreter::getWallSignal()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1081,19 +961,13 @@ uint16_t interpreter::getWallSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getWallSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Virtual wall signal is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getCliffLeftSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffLeftSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1115,6 +989,7 @@ uint16_t interpreter::getCliffLeftSignal()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1126,10 +1001,7 @@ uint16_t interpreter::getCliffLeftSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getCliffLeftSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Cliff left signal is: " << halfWord;
     //sendTex->unlock();
     this->CliffDepth.uiLeft = halfWord;
     return halfWord;
@@ -1137,9 +1009,6 @@ uint16_t interpreter::getCliffLeftSignal()
 
 uint16_t interpreter::getCliffFrontLeftSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffFrontLeftSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1161,6 +1030,7 @@ uint16_t interpreter::getCliffFrontLeftSignal()
                 break;
             default:
                 (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1172,10 +1042,7 @@ uint16_t interpreter::getCliffFrontLeftSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getCliffFrontLeftSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Cliff front left signal is: " << halfWord;
     //sendTex->unlock();
     this->CliffDepth.uiFrontLeft = halfWord;
     return halfWord;
@@ -1183,9 +1050,6 @@ uint16_t interpreter::getCliffFrontLeftSignal()
 
 uint16_t interpreter::getCliffFrontRightSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffFrontRightSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1207,6 +1071,7 @@ uint16_t interpreter::getCliffFrontRightSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1218,10 +1083,7 @@ uint16_t interpreter::getCliffFrontRightSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getCliffFrontRightSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Cliff front right signal is: " << halfWord;
     //sendTex->unlock();
     this->CliffDepth.uiFrontRight = halfWord;
     return halfWord;
@@ -1229,9 +1091,6 @@ uint16_t interpreter::getCliffFrontRightSignal()
 
 uint16_t interpreter::getCliffRightSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getCliffRightSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1252,6 +1111,7 @@ uint16_t interpreter::getCliffRightSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1263,10 +1123,7 @@ uint16_t interpreter::getCliffRightSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getCliffRightSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Cliff right signal is: " << halfWord;
     //sendTex->unlock();
     this->CliffDepth.uiRight = halfWord;
     return halfWord;
@@ -1274,9 +1131,6 @@ uint16_t interpreter::getCliffRightSignal()
 
 uint8_t interpreter::getChargingSource()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getChargingSource"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -1290,9 +1144,11 @@ uint8_t interpreter::getChargingSource()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Charging source is: "<<tmp;
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1301,19 +1157,12 @@ uint8_t interpreter::getChargingSource()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getChargingSource"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getOiMode()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getOiMode"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -1327,9 +1176,11 @@ uint8_t interpreter::getOiMode()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "OI mode is: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1338,19 +1189,12 @@ uint8_t interpreter::getOiMode()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getOiMode"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getSongNumber()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getSongNumber"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -1364,9 +1208,11 @@ uint8_t interpreter::getSongNumber()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Song number is: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1375,19 +1221,12 @@ uint8_t interpreter::getSongNumber()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getSongNumber"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 uint8_t interpreter::getSongPlaying()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getSongPlaying"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -1401,9 +1240,11 @@ uint8_t interpreter::getSongPlaying()
             switch (i) {
             case 1:
                 tmp = uart->getElement();
+                LOG(INFO) << "Song playing is: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1412,19 +1253,12 @@ uint8_t interpreter::getSongPlaying()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getSongPlaying"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
 
 int16_t interpreter::getRequestedVelocity()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getRequestedVelocity"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1446,6 +1280,7 @@ int16_t interpreter::getRequestedVelocity()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1457,19 +1292,13 @@ int16_t interpreter::getRequestedVelocity()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getRequestedVelocity"<<std::endl;
-    #endif
+    LOG(INFO) << "Requested Velocity is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getRequestedRadius()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getRequestedRadius"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
@@ -1491,6 +1320,7 @@ int16_t interpreter::getRequestedRadius()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1502,19 +1332,13 @@ int16_t interpreter::getRequestedRadius()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getRequestedRadius"<<std::endl;
-    #endif
+    LOG(INFO) << "Requested Radius is: "<<halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getRequestedRightVelocity()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getRequestedRightVelocity"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
@@ -1536,6 +1360,7 @@ int16_t interpreter::getRequestedRightVelocity()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1548,18 +1373,13 @@ int16_t interpreter::getRequestedRightVelocity()
     halfWord = lowByte << 8;
     halfWord |= highByte;
 
-    #ifdef fulldebug
-        std::cout<<"end function getRequestedRightVelocity"<<std::endl;
-    #endif
+    LOG(INFO) << "Requested Right wheel Velocity is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getRequestedLeftVelocity()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getRequestedLeftVelocity"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
@@ -1581,6 +1401,7 @@ int16_t interpreter::getRequestedLeftVelocity()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1592,19 +1413,13 @@ int16_t interpreter::getRequestedLeftVelocity()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getRequestedLeftVelocity"<<std::endl;
-    #endif
+    LOG(INFO) << "Requested Left wheel Velocity is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getLeftEncoderCount()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLeftEncoderCount"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1626,6 +1441,7 @@ uint16_t interpreter::getLeftEncoderCount()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1637,19 +1453,13 @@ uint16_t interpreter::getLeftEncoderCount()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLeftEncoderCount"<<std::endl;
-    #endif
+    LOG(INFO) << "Left encoder count is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 uint16_t interpreter::getRightEncoderCount()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getRightEncoderCount"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1671,6 +1481,7 @@ uint16_t interpreter::getRightEncoderCount()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1682,19 +1493,13 @@ uint16_t interpreter::getRightEncoderCount()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getRightEncoderCount"<<std::endl;
-    #endif
+    LOG(INFO) << "Right encoder count is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 bool interpreter::getLightBumper()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLightBumper"<<std::endl;
-    #endif
     bool tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -1708,9 +1513,11 @@ bool interpreter::getLightBumper()
             switch (i) {
             case 1:
                 tmp = (uart->getElement() ? 1 : 0);
+                LOG(INFO) << "Lightbumper detected: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1719,10 +1526,6 @@ bool interpreter::getLightBumper()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getLightBumper"<<std::endl;
-    #endif
     //sendTex->unlock();
     this->Wall.bInsight = tmp;
     return tmp;
@@ -1730,9 +1533,6 @@ bool interpreter::getLightBumper()
 
 uint16_t interpreter::getLightBumpLeftSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLightBumpLeftSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1754,6 +1554,7 @@ uint16_t interpreter::getLightBumpLeftSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1765,10 +1566,7 @@ uint16_t interpreter::getLightBumpLeftSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLightBumpLeftSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Left Lightbump signal: " << halfWord;
     //sendTex->unlock();
     this->WallDistance.bLeft = halfWord;
     return halfWord;
@@ -1776,9 +1574,6 @@ uint16_t interpreter::getLightBumpLeftSignal()
 
 uint16_t interpreter::getLightBumpFrontLeftSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLightBumpFrontLeftSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1800,6 +1595,7 @@ uint16_t interpreter::getLightBumpFrontLeftSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1811,10 +1607,7 @@ uint16_t interpreter::getLightBumpFrontLeftSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLightBumpFrontLeftSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Front Left Lightbump signal: " << halfWord;
     //sendTex->unlock();
     this->WallDistance.bFrontLeft = halfWord;
     return halfWord;
@@ -1822,9 +1615,6 @@ uint16_t interpreter::getLightBumpFrontLeftSignal()
 
 uint16_t interpreter::getLightBumpCenterLeftSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLightBumpCenterLeftSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1846,6 +1636,7 @@ uint16_t interpreter::getLightBumpCenterLeftSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1857,10 +1648,7 @@ uint16_t interpreter::getLightBumpCenterLeftSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLightBumpCenterLeftSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Center Left Lightbump signal: " << halfWord;
     //sendTex->unlock();
     this->WallDistance.bCenterLeft = halfWord;
     return halfWord;
@@ -1868,9 +1656,6 @@ uint16_t interpreter::getLightBumpCenterLeftSignal()
 
 uint16_t interpreter::getLightBumpCenterRightSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLightBumpCenterRightSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1892,6 +1677,7 @@ uint16_t interpreter::getLightBumpCenterRightSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1903,10 +1689,7 @@ uint16_t interpreter::getLightBumpCenterRightSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLightBumpCenterRightSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Center Right Lightbump signal: " << halfWord;
     //sendTex->unlock();
     this->WallDistance.bCenterRight = halfWord;
     return halfWord;
@@ -1914,9 +1697,6 @@ uint16_t interpreter::getLightBumpCenterRightSignal()
 
 uint16_t interpreter::getLightBumpFrontRightSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLightBumpFrontRightSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1938,6 +1718,7 @@ uint16_t interpreter::getLightBumpFrontRightSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1949,10 +1730,7 @@ uint16_t interpreter::getLightBumpFrontRightSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLightBumpFrontRightSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Center Right Lightbump signal: " << halfWord;
     //sendTex->unlock();
     this->WallDistance.bFrontRight = halfWord;    
     return halfWord;
@@ -1960,9 +1738,6 @@ uint16_t interpreter::getLightBumpFrontRightSignal()
 
 uint16_t interpreter::getLightBumpRightSignal()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLightBumpRightSignal"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     uint16_t halfWord;
@@ -1984,6 +1759,7 @@ uint16_t interpreter::getLightBumpRightSignal()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -1995,10 +1771,7 @@ uint16_t interpreter::getLightBumpRightSignal()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLightBumpRightSignal"<<std::endl;
-    #endif
+    LOG(INFO) << "Right Lightbump signal: " << halfWord;
     //sendTex->unlock();
     this->WallDistance.bRight = halfWord;
     return halfWord;
@@ -2006,9 +1779,6 @@ uint16_t interpreter::getLightBumpRightSignal()
 
 int16_t interpreter::getLeftMotorCurrent()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getLeftMotorCurrent"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
@@ -2030,6 +1800,7 @@ int16_t interpreter::getLeftMotorCurrent()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2041,19 +1812,13 @@ int16_t interpreter::getLeftMotorCurrent()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getLeftMotorCurrent"<<std::endl;
-    #endif
+    LOG(INFO) << "Left motor current" << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getRightMotorCurrent()
 {
-#ifdef fulldebug
-    std::cout<<"start function getRightMotorCurrent"<<std::endl;
-#endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
@@ -2075,6 +1840,7 @@ int16_t interpreter::getRightMotorCurrent()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2086,18 +1852,13 @@ int16_t interpreter::getRightMotorCurrent()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-    #ifdef fulldebug
-        std::cout<<"end function getRightMotorCurrent"<<std::endl;
-    #endif
+    LOG(INFO) << "Right motor current is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getMainBrushMotorCurrent()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getMainBrushMotorCurrent"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
@@ -2119,6 +1880,7 @@ int16_t interpreter::getMainBrushMotorCurrent()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2130,19 +1892,13 @@ int16_t interpreter::getMainBrushMotorCurrent()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getMainBrushMotorCurrent"<<std::endl;
-    #endif
+    LOG(INFO) << "Main brush current is: " << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 int16_t interpreter::getSideBrushMotorCurrent()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getSideBrushMotorCurrent"<<std::endl;
-    #endif
     uint8_t lowByte;
     uint8_t highByte;
     int16_t halfWord;
@@ -2164,6 +1920,7 @@ int16_t interpreter::getSideBrushMotorCurrent()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2175,19 +1932,13 @@ int16_t interpreter::getSideBrushMotorCurrent()
 
     halfWord = lowByte << 8;
     halfWord |= highByte;
-
-    #ifdef fulldebug
-        std::cout<<"end function getSideBrushMotorCurrent"<<std::endl;
-    #endif
+    LOG(INFO) << "Side brush Current" << halfWord;
     //sendTex->unlock();
     return halfWord;
 }
 
 uint8_t interpreter::getStatis()
 {
-    #ifdef fulldebug
-        std::cout<<"start function getStatis"<<std::endl;
-    #endif
     uint8_t tmp;
     //sendTex->lock();
     uart->sendUart(roomba::requestType::individual);
@@ -2204,6 +1955,7 @@ uint8_t interpreter::getStatis()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2212,10 +1964,6 @@ uint8_t interpreter::getStatis()
     {
         // NOG TE IMPLEMENTERER
     }
-
-    #ifdef fulldebug
-        std::cout<<"end function getStatis"<<std::endl;
-    #endif
     //sendTex->unlock();
     return tmp;
 }
@@ -2239,6 +1987,7 @@ bool interpreter::getBumpRight()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2248,6 +1997,7 @@ bool interpreter::getBumpRight()
         // NOG TE IMPLEMENTERER
     }
     //sendTex->unlock();
+    LOG(INFO) << "Right bump is: " <<tmp;
     this->Bumps.bRight = tmp;
     return tmp;
 }
@@ -2269,6 +2019,7 @@ bool interpreter::getBumpLeft()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2278,6 +2029,7 @@ bool interpreter::getBumpLeft()
         // NOG TE IMPLEMENTERER
     }
     //sendTex->unlock();
+    LOG(INFO) << "Left bump is: " <<tmp;
     this->Bumps.bLeft = tmp;
     return tmp;
 }
@@ -2299,6 +2051,7 @@ bool interpreter::getWheelDropRight()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2309,6 +2062,7 @@ bool interpreter::getWheelDropRight()
     }
     //sendTex->unlock();
     this->WheelDrops.bRight = tmp;
+    LOG(INFO) << "Right wheeldrop is: " <<tmp;
     return tmp;
 }
 
@@ -2329,6 +2083,7 @@ bool interpreter::getWheelDropLeft()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2339,6 +2094,7 @@ bool interpreter::getWheelDropLeft()
     }
     //sendTex->unlock();
     this->WheelDrops.bLeft = tmp;
+    LOG(INFO) << "Left wheeldrop is: " <<tmp;
     return tmp;
 }
 
@@ -2356,9 +2112,11 @@ bool interpreter::getSideBrushOvercurrent()
             switch (i){
             case 1:
                 tmp = (uart->getElement() & 0b00000001) == 0b00000001 ? 1 : 0;
+                LOG(INFO) << "Side brush overcurrent: " << tmp;
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2402,6 +2160,7 @@ bool interpreter::getRightWheelOvercurrent()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2432,6 +2191,7 @@ bool interpreter::getLeftWheelOvercurrent()
                 break;
             default:
                 (void) uart->getElement();
+                LOG(WARN) << "Popped one byte to much from uart";
                 break;
             }
         }
@@ -2485,6 +2245,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2509,6 +2270,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2530,6 +2292,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2545,6 +2308,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2560,6 +2324,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2575,6 +2340,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2593,6 +2359,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2646,6 +2413,7 @@ void interpreter::autoMode()
                        break;
                    default:
                        (void) uart->getElement();
+                        LOG(WARN) << "Popped one byte to much from uart";
                        break;
                }
            }
@@ -2736,6 +2504,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -2797,6 +2566,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -2827,6 +2597,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -2850,6 +2621,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -2873,6 +2645,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -2896,6 +2669,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -2919,6 +2693,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -2942,6 +2717,7 @@ void interpreter::testSensors()
                     break;
                 default:
                     (void) uart->getElement();
+LOG(WARN) << "Popped one byte to much from uart";
                     break;
                 }
             }
@@ -3022,6 +2798,7 @@ void interpreter::printTest()
 void interpreter::turnRight()
 {
     uint16_t currentAngle = 0x0000;
+    LOG(INFO) << "Turn roomba 90 degrees clockwise";
     try
     {
         (void) getAngle(); 
@@ -3040,6 +2817,8 @@ void interpreter::turnRight()
             uint16_t temp = ~getAngle();
             temp += 0x0001;
             currentAngle += temp;
+            LOG(DEBUG) << " ^^ Current angle is" << currentAngle;
+
                 
         }
         while(currentAngle < 0x0019);
@@ -3054,6 +2833,7 @@ void interpreter::turnRight()
 void interpreter::turnLeft()
 {
     uint16_t currentAngle = 0x0000;
+    LOG(INFO) << "Turn roomba 90 degrees counter clockwise";
     try
     {
         (void) getAngle();
@@ -3070,6 +2850,7 @@ void interpreter::turnLeft()
         {
             usleep(100);
             currentAngle -= getAngle();
+            LOG(DEBUG) << " ^^ Current angle is" << currentAngle;
         }
         while((currentAngle > 0xFFE8)||(currentAngle == 0));
         drives(roomba::speed::STOP);
