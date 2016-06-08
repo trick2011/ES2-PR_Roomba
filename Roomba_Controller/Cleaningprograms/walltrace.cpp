@@ -45,7 +45,14 @@ void Walltrace::clean(void)
                 interpreterreference.drives(roomba::speed::STOP);
                 interpreterreference.turnRoomba(5);
             }
+            if(interpreterreference.getWheelDropLeft()||
+               interpreterreference.getWheelDropRight()||
+               interpreterreference.getWheelOvercurrents())
+            {
+                interpreterreference.drives(roomba::speed::STOP);
+            }
     }
+
 	cerr << "out" << endl;
     interpreterreference.drives(roomba::speed::STOP);
 	Basicclean::ProcessPID = 0;

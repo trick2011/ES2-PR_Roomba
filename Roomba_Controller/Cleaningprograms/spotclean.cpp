@@ -12,10 +12,11 @@ void Spotclean::clean(void)
 
         cout << "Spotclean enabled" << endl;
         interpreterreference.drives(roomba::speed::SLOW);
-        //cout <<
-        interpreterreference.drives(roomba::speed::BACKWARDS);
         usleep(100);
         interpreterreference.turnRoomba(23);
+        interpreterreference.drives(roomba::speed::SLOW);
+        usleep(100);
+
 
         //failsafe
         if(interpreterreference.getCliffFrontLeft() ||
@@ -28,7 +29,12 @@ void Spotclean::clean(void)
             interpreterreference.drives(roomba::speed::STOP);
             interpreterreference.turnRoomba(5);
         }
-
+        if(interpreterreference.getWheelDropLeft()||
+           interpreterreference.getWheelDropRight()||
+           interpreterreference.getWheelOvercurrents())
+        {
+            interpreterreference.drives(roomba::speed::STOP);
+        }
 
     }
     cerr << "out" << endl;
