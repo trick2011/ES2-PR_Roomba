@@ -2823,7 +2823,7 @@ void interpreter::turnRight()
 
                 
         }
-        while(currentAngle < 0x0019);
+        while((currentAngle < 0x0019) && roomba::runThread);
         drives(roomba::speed::STOP);
     }
     catch(int)
@@ -2855,7 +2855,7 @@ void interpreter::turnLeft()
             currentAngle -= getAngle();
             LOG(DEBUG) << " ^^ Current angle is" << currentAngle;
         }
-        while((currentAngle > 0xFFE8)||(currentAngle == 0));
+        while(((currentAngle > 0xFFE8)||(currentAngle == 0) && roomba::runThread));
         drives(roomba::speed::STOP);
     }
     catch(int)

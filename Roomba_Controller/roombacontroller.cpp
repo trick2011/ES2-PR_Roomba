@@ -1,7 +1,7 @@
 #include "roombacontroller.h"
 
 Roombacontroller::~Roombacontroller(){
-	DisableCleaning();
+	Basicclean::DisableCleaning();
 }
 
 void Roombacontroller::SetCleaningProgram(Basicclean* input)
@@ -38,4 +38,14 @@ void Roombacontroller::EnableCleaning(){
 
 void Roombacontroller::DisableCleaning(){
 	Basicclean::DisableCleaning();// this is a static function so there is in this instance no object needed
+
+	if(CleaningProgram != NULL){
+		CleaningThread->join();
+		delete CleaningThread;
+		delete CleaningProgram;
+		CleaningThread = NULL;
+		CleaningProgram = NULL;
+	}
+
+
 }

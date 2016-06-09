@@ -37,9 +37,9 @@ public:
 		void EnableCleaning();
 		void DisableCleaning();
 #ifdef __linux
-		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = syscall(SYS_gettid);}
+		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = syscall(SYS_gettid);CleaningThread=NULL;}
 #else
-		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = 0;}
+		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = 0;CleaningThread=NULL;}
 #endif
 		~Roombacontroller();
 

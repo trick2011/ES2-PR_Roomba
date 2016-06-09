@@ -75,25 +75,25 @@ void check_class::pipe_checker(){
 			break;
 		case site_opcodes::AutClean:	//AutoClean
 			roomref.DisableCleaning();
-			Cleaningprogram = new AutoClean(inter);
-			roomref.SetCleaningProgram(Cleaningprogram);
-			Cleaningprogram = NULL;
+			Cleaningprogramc = new AutoClean(inter);
+			roomref.SetCleaningProgram(Cleaningprogramc);
+			Cleaningprogramc = NULL;
 #ifdef VERBOSE
 			cout<<"AutoClean ON"<<endl;
 #endif
 			break;
 		case site_opcodes::WallTrace:	//Walltrace
-			Cleaningprogram = new Walltrace(inter);
-			roomref.SetCleaningProgram(Cleaningprogram);
-			Cleaningprogram = NULL;
+			Cleaningprogramc = new Walltrace(inter);
+			roomref.SetCleaningProgram(Cleaningprogramc);
+			Cleaningprogramc = NULL;
 #ifdef VERBOSE
 			cout<<"Walltrace ON"<<endl;
 #endif
 			break;
 		case site_opcodes::SpotClean:	//Spotclean
-			Cleaningprogram = new Spotclean(inter);
-			roomref.SetCleaningProgram(Cleaningprogram);
-			Cleaningprogram = NULL;
+			Cleaningprogramc = new Spotclean(inter);
+			roomref.SetCleaningProgram(Cleaningprogramc);
+			Cleaningprogramc = NULL;
 #ifdef VERBOSE
 			cout<<"Spotclean ON"<<endl;
 #endif

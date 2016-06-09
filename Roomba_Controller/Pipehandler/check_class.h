@@ -32,7 +32,7 @@ private:
 	
 
 
-	Basicclean* Cleaningprogram;
+	Basicclean* Cleaningprogramc;
 	interpreter& inter;
 	Roombacontroller& roomref;
 	pipe_filler* filler;

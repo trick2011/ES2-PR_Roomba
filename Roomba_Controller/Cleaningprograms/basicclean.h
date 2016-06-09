@@ -30,8 +30,8 @@ public:
 
 	static pid_t getProcessPID(void){return(ProcessPID);}
 	static bool getEnableCleaning(void){return(Basicclean::bEnableCleaning);}
-	static void EnableCleaning(void){Basicclean::bEnableCleaning=true;}
-	static void DisableCleaning(void){Basicclean::bEnableCleaning=false;}
+	static void EnableCleaning(void){roomba::runThread=Basicclean::bEnableCleaning=true;}
+	static void DisableCleaning(void){roomba::runThread=Basicclean::bEnableCleaning=false;}
 
 	void operator()();
 	virtual void clean(void) = 0;
