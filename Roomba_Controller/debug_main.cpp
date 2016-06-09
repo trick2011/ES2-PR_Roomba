@@ -16,6 +16,4 @@ int main(void){
 	check_class checker(room,inter);
 	checker.pipe_checker();
 
-
-	cin.get();
 }

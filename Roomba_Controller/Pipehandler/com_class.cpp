@@ -15,21 +15,13 @@ com_class::~com_class(){
 void com_class::writeFIFO(char cTosend){
     //FILE *fifo;
     //ctp
-	unsigned char message[1];
+	unsigned char message[2];
 
 	//if (cTosend = 'w'|'v'|'x'|'y'|'z') // deze regels is hilarisch hij assigned de georde waarde van w v x y z in cTosend
 	if((cTosend == 'w')||(cTosend == 'v')||(cTosend == 'x')||(cTosend == 'y')||(cTosend == 'z')||(cTosend == ' '))
 	{
-		//message[0] = cTosend;
-		//fwrite(&cTosend,1, 1, ctpFIFO);
 		message[0] = cTosend;
 		fwrite(&message[0],1, 1, ctpFIFO);
-		//sleep(1);
-		//cout << message[0] << endl;
-//		fflush(ctpFIFO);
-//        fclose(ctpFIFO);
-//        ctpFIFO = fopen(ctp_FIFO_FILE.c_str(), "w");
-
 	}				
 	//error
 	else 
@@ -39,17 +31,17 @@ void com_class::writeFIFO(char cTosend){
 }
 //read fifo
 char com_class::readFIFO(){
-    unsigned char readbuf;
+    unsigned char readbuf[3];
     //ptc
 
 
-    while(0 == fread(&readbuf, 1, 1, ptcFIFO)){}
+    while(0 == fread(&readbuf[0], 1, 1, ptcFIFO)){}
 
 #ifdef VERBOSE
     cout<<"pipe: "<<readbuf<< endl;
 #endif
 
-    return(readbuf);
+    return(readbuf[0]);
 }
 
 
