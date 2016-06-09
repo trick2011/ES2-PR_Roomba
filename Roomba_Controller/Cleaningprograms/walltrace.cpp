@@ -25,37 +25,17 @@ void Walltrace::clean(void)
             Run = true;
             cout << "go" << endl;
 
-//            if(interpreterreference.getCliffFrontLeft() ||
-//               interpreterreference.getCliffLeft() ||
-//               interpreterreference.getCliffFrontRight() ||
-//               interpreterreference.getCliffRight())
-//            {
-//                Run = false;
-//                iState = actionlist::Cliff;
-//                break;
-//            }
-//            if(interpreterreference.getWheelDropLeft()||
-//               interpreterreference.getWheelDropRight()||
-//               interpreterreference.getWheelOvercurrents())
-//            {
-//                Run = false;
-//                iState = actionlist::Drop;
-//                break;
-//            }
-
-            while(interpreterreference.getBumpRight() == false){
+            while((interpreterreference.getBumpRight() == false) && (getEnableCleaning() == true) ){
                 interpreterreference.drives(roomba::speed::SLOW);
             }
             interpreterreference.drives(roomba::speed::STOP);
 
-//			while(interpreterreference.getBumpLeft())
-//			{
-//				interpreterreference.drives(roomba::speed::STOP);
-//				interpreterreference.turnRoomba(-5);
-//			}
-
-			while(interpreterreference.getBumpRight()){
+            while((interpreterreference.getBumpRight()) && (getEnableCleaning() == true)){
 				interpreterreference.turnRoomba(-2);
+            }
+            if(!getEnableCleaning())
+            {
+                break;
             }
             interpreterreference.drives(roomba::speed::SLOW);
             usleep(250);
@@ -69,22 +49,6 @@ void Walltrace::clean(void)
             cout << "out"<<endl;
             break;
         }
-
-//        switch(iState){
-
-//        case actionlist::Drop:
-//            interpreterreference.drives(roomba::speed::STOP);
-//            sleep(3);
-//            break;
-
-//        case actionlist::Cliff:
-//            interpreterreference.drives(roomba::speed::BACKWARDS);
-//            usleep(250);
-//            interpreterreference.drives(roomba::speed::STOP);
-//            interpreterreference.turnRoomba(5);
-//            break;
-//        }
-
 
         interpreterreference.uart->flushQueue();
     }
