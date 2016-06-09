@@ -30,6 +30,7 @@ void Roombacontroller::SetCleaningProgram(Basicclean* input)
 	CleaningProgram = input; // install new program
 
 	CleaningThread = new thread(ref(*CleaningProgram) ); // reference wrapper // start thread
+	//CleaningProgram->TheThread = CleaningThread;
 }
 
 void Roombacontroller::EnableCleaning(){
@@ -37,25 +38,15 @@ void Roombacontroller::EnableCleaning(){
 }
 
 void Roombacontroller::DisableCleaning(){
-	cerr << "1.1" << endl;
 	Basicclean::DisableCleaning();// this is a static function so there is in this instance no object needed
-	cerr << "1.2" << endl;
 	if(CleaningProgram != NULL){
 		if(CleaningThread != NULL){
-			cerr << "1.3" << endl;
-			CleaningThread->join();
-			cerr << "1.4" << endl;
-			delete CleaningThread;
-			cerr << "1.5" << endl;
-			delete CleaningProgram;
-			cerr << "1.6" << endl;
+			//CleaningThread->join();
+			//CleaningThread->detach();
+			//delete CleaningThread;
+			//delete CleaningProgram;
 			CleaningThread = NULL;
-			cerr << "1.7" << endl;
 			CleaningProgram = NULL;
-			cerr << "1.8" << endl;
 		}
 	}
-	cerr << "1.9" << endl;
-
-
 }

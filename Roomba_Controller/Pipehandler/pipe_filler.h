@@ -2,6 +2,7 @@
 #define PIPE_FILLER_H
 
 #include <fstream>
+#include <thread>
 
 #ifdef __linux
 #include <sys/signal.h>
@@ -19,6 +20,7 @@ private:
 	com_class& comclass;
 public:
 	pipe_filler(interpreter& peter,com_class& comclass);
+	
 	void operator()();
 };
 

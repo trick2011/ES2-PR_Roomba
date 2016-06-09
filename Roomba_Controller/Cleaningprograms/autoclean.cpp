@@ -1,10 +1,7 @@
 #include "autoclean.h"
-
-
-AutoClean::~AutoClean(){
+AutoClean::~Autoclean(){
 
 }
-
 namespace actionlist{
 static const int CliffLeft	= 0;
 static const int CliffRight	= 1;

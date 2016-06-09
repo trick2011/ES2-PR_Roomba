@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #endif
 
+#include <thread>
+
 #include "../../Roomba_Interpreter/interpreter.h"
 //#include "../roombacontroller.h"
 //namespace cln{
