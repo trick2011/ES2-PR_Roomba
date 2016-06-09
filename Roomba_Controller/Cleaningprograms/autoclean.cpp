@@ -46,7 +46,7 @@ void AutoClean::clean(void)
 
 			//cout << interpreterreference.getBumpLeft() << endl;
 			//cout << interpreterreference.getBumpRight() << endl;
-			cout << Run << endl;
+			//cout << Run << endl;
 
         }while((Run == true) && (getEnableCleaning() == true));
 #ifdef VERBOSE
