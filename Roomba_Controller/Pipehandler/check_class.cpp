@@ -74,15 +74,10 @@ void check_class::pipe_checker(){
 			inter.drives(roomba::speed::BACKWARDS);
 			break;
 		case site_opcodes::AutClean:	//AutoClean
-			cerr << "1"<<endl;
 			roomref.DisableCleaning();
-			cerr << "2"<<endl;
 			Cleaningprogramc = new AutoClean(inter);
-			cerr << "3"<<endl;
 			roomref.SetCleaningProgram(Cleaningprogramc);
-			cerr << "4"<<endl;
 			Cleaningprogramc = NULL;
-			cerr << "5"<<endl;
 #ifdef VERBOSE
 			cout<<"AutoClean ON"<<endl;
 #endif
