@@ -1,5 +1,5 @@
 #include "autoclean.h"
-AutoClean::~Autoclean(){
+AutoClean::~AutoClean(){
 
 }
 namespace actionlist{
