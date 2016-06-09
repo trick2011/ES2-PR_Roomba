@@ -11,9 +11,9 @@ check_class::check_class(Roombacontroller& roomref,interpreter& inter):com_class
 void check_class::operator ()(){
 	pipe_checker();
 }
-void check_class:easter(void){
+void check_class::easter(void){
 	cout << "             \\ "<< endl <<
-	"              \\ "<< endl << 
+	"              \\ "<< endl <<
 	"               \\\\ "<< endl <<
 	"                \\\\ "<< endl <<
 	"                 >\\/7"<< endl <<

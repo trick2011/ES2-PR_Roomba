@@ -86,7 +86,7 @@ body
 	<input type="submit" value="STOP ROOMBA CONTROLLER">
 </form>
 <form action="<?php echo $_SERVER['PHP_SELF']; //links c?>" method="POST">
-	<input type="hidden" name="knop" value="U">
+	<input type="hidden" name="knop" value="E">
 	<input type="submit" value="😇">
 </form>
 </div>

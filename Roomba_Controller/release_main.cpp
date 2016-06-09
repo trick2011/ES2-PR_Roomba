@@ -15,13 +15,16 @@ int main(void){
 	cout << "I hereby present you this parting gift" << endl;
 	sleep(1);
 	cout << ".";
+	cout.flush();
 	sleep(1);
 	cout << ".";
+	cout.flush();
 	sleep(1);
 	cout << ".";
+	cout.flush();
 	sleep(1);
 	cout << endl;
-	cout << u8"😘 kisssss" << endl;
+	cout << "kisssss" << endl;
 	cout << "you may now once more take controll of this machine and go forth with you oh so important duties." << endl;
-	
+	return(0);
 }
