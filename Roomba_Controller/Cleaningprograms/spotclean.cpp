@@ -9,8 +9,9 @@ void Spotclean::clean(void)
     Basicclean::ProcessPID = syscall(SYS_gettid);
 #endif
     while(Basicclean::getEnableCleaning()){
-
+#ifdef VERBOSE
         cout << "Spotclean enabled" << endl;
+#endif
         interpreterreference.drives(roomba::speed::SLOW);
         usleep(100);
         interpreterreference.turnRoomba(23);
@@ -37,7 +38,9 @@ void Spotclean::clean(void)
         }
 
     }
+#ifdef VERBOSE
 	cout << "spots out" << endl;
+#endif
     interpreterreference.drives(roomba::speed::STOP);
     Basicclean::ProcessPID = 0;
 }

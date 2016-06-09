@@ -45,8 +45,9 @@ char com_class::readFIFO(){
 
     while(0 == fread(&readbuf, 1, 1, ptcFIFO)){}
 
-
+#ifdef VERBOSE
     cout<<"pipe: "<<readbuf<< endl;
+#endif
 
     return(readbuf);
 }
@@ -55,7 +56,7 @@ char com_class::readFIFO(){
 //make read and write fifo
 void com_class::makeFIFO(){
 	int r_status;
-	int w_status;
+//	int w_status;
 
 //Create the reading side FIFO if it does not exist
 #ifdef __linux

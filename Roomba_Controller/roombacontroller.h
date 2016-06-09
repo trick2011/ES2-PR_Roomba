@@ -41,7 +41,7 @@ public:
 #else
 		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = 0;}
 #endif
-		~Roombacontroller(){;}
+		~Roombacontroller();
 
 
 

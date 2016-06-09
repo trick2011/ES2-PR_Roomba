@@ -1,24 +1,29 @@
 #include "roombacontroller.h"
 
+Roombacontroller::~Roombacontroller(){
+	DisableCleaning();
+}
 
 void Roombacontroller::SetCleaningProgram(Basicclean* input)
 {
 
 
-	if(!CleaningProgram){ // if Cleaningprogram is pointing to another program
+	if(CleaningProgram != NULL){ // if Cleaningprogram is pointing to another program
 		Basicclean::DisableCleaning(); // this is a static function so there is in this instance no object needed
 
 		// test if really stopped runnning
-		while(Basicclean::getProcessPID() != 0){}
+		//while(Basicclean::getProcessPID() != 0){}
 
 		//cout << CleaningThread->joinable() << endl;
 //		CleaningThread->join();
 		//std::terminate()
 		//CleaningThread->abo
-
+		CleaningThread->join();
 
 		delete CleaningThread;
 		delete CleaningProgram; // delete the other program
+		CleaningThread = NULL;
+		CleaningProgram = NULL;
 	}
 
 	Basicclean::EnableCleaning();
@@ -34,13 +39,13 @@ void Roombacontroller::EnableCleaning(){
 void Roombacontroller::DisableCleaning(){
 	Basicclean::DisableCleaning();// this is a static function so there is in this instance no object needed
 
-	while(Basicclean::getEnableCleaning() != false);
+	if(CleaningProgram != NULL){
+		CleaningThread->join();
 
-	if(CleaningProgram != 0x00){
-		cout << endl;
+		delete CleaningThread;
+		delete CleaningProgram;
+		CleaningThread = NULL;
+		CleaningProgram = NULL;
 	}
-//	CleaningThread->join();
 
-//	delete CleaningThread;
-//	delete CleaningProgram;
 }

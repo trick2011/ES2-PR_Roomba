@@ -19,11 +19,15 @@ void AutoClean::clean(void)
 #endif
 	bool TurnLeft = true;
 	while(Basicclean::getEnableCleaning()){
+#ifdef VERBOSE
         cout << "autoclean enabled" << endl;
+#endif
 		interpreterreference.drives(roomba::speed::SLOW);
 		do{
 			Run = true;
+#ifdef VERBOSE
 			cout << "go" << endl;
+#endif
 
 			if(interpreterreference.getCliffFrontLeft() || interpreterreference.getCliffLeft()){
 				Run = false;
@@ -48,16 +52,19 @@ void AutoClean::clean(void)
 			cout << Run << endl;
 
         }while((Run == true) && (getEnableCleaning() == true));
-
+#ifdef VERBOSE
 		if(!getEnableCleaning()){
 			cout << "out"<<endl;
 			break;
 		}
+#endif
 
 		switch(iState){
 
 		case actionlist::CliffLeft: //Cliff links
+#ifdef VERBOSE
 			cout << "cliff links" << endl;
+#endif
 			//Run = true;
 			interpreterreference.drives(roomba::speed::BACKWARDS);
 			usleep(500);
@@ -67,7 +74,9 @@ void AutoClean::clean(void)
 			break;
 
 		case actionlist::CliffRight: // Cliff rechts
+#ifdef VERBOSE
 			cout << "cliff rechts" << endl;
+#endif
 			Run = false;
 			interpreterreference.drives(roomba::speed::BACKWARDS);
 			usleep(500);
@@ -77,7 +86,9 @@ void AutoClean::clean(void)
 			break;
 
 		case actionlist::Turn: //bocht naar links
+#ifdef VERBOSE
             cout << "bocht naar links" << endl;
+#endif
 			if(TurnLeft){ // turnleft
 				//interpreterreference.drives(roomba::speed::BACKWARDS);
 				//sleep(1);
@@ -115,7 +126,9 @@ void AutoClean::clean(void)
         }
 		interpreterreference.uart->flushQueue();
 	 }
+#ifdef VERBOSE
 	cout << "auto out" << endl;
+#endif
 	interpreterreference.drives(roomba::speed::STOP);
 	Basicclean::ProcessPID = 0;
 }

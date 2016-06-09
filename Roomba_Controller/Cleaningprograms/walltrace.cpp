@@ -17,13 +17,16 @@ void Walltrace::clean(void)
 	Basicclean::ProcessPID = syscall(SYS_gettid);
 #endif
     while(Basicclean::getEnableCleaning()){
-
+#ifdef VERBOSE
         cout << "Walltrace enabled" << endl;
+#endif
 		interpreterreference.drives(roomba::speed::SLOW);
 
         do{
             Run = true;
+#ifdef VERBOSE
             cout << "go" << endl;
+#endif
 
             while((interpreterreference.getBumpRight() == false) && (getEnableCleaning() == true) ){
                 interpreterreference.drives(roomba::speed::SLOW);
@@ -41,14 +44,17 @@ void Walltrace::clean(void)
             usleep(250);
             interpreterreference.drives(roomba::speed::STOP);
 			interpreterreference.turnRoomba(6);
-
+#ifdef VERBOSE
             cout << Run << endl;
+#endif
         }while((Run == true) && (getEnableCleaning() == true));
 
+#ifdef VERBOSE
         if(!getEnableCleaning()){
             cout << "out"<<endl;
             break;
         }
+#endif
 
         interpreterreference.uart->flushQueue();
     }
