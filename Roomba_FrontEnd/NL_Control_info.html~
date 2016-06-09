@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Roomba's Home</title>
+</head>
+
+<!--Navigation BAR-->
+<style>
+li a, .dropbtn{	display: inline-block; color: white; text-align: center;
+    		padding: 14px 16px; text-decoration: none;}
+
+li a:hover, .dropdown:hover .dropbtn {background-color: #222222;}
+
+.active {background-color: #111;}
+
+li.dropdown {display: inline-block;}
+
+.dropdown-content {	display: none; position: absolute; background-color: #f9f9f9;
+    			min-width: 160px;}
+
+.dropdown-content a {	color: black; padding: 12px 16px; text-decoration: none;
+    			display: block; text-align: left;}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+</style>
+
+<body>
+<div class="NAV" >
+	
+<h2>
+	<nav class="NAV_BAR">
+		
+
+    		<ul style= 	"list-style-type: none; margin: 0; padding: 0; 
+				overflow: hidden; background-color: #333;">
+        		<div class="NAV_PrIn">
+		<!--LE RUMBA-->
+		<img src="file:///var/www/Project_4/pics/IRobot.jpg" width="1150" height="200">
+		<!--needs to be editted to correct link-->
+
+			<li style= "float: left; border-right: 1px solid #bbb;">
+				<a href="http://localhost/Project_4/NL_Project_info.html"><strong>Project info</strong></a></li>
+				<!--needs to be editted to correct link-->	<!--do your work-->	<!--fuck face-->
+			<li style= "float: left; border-right: 1px solid #bbb;">
+				<a href="http://localhost/Project_4/NL_Roomba_info.html"><strong>Rumba info</strong></a></li>
+				<!--needs to be editted to correct link-->
+	        	<li class="dropdown" style= "float: left; border-right: 1px solid #bbb;">
+				<a class="active" href="#" class="dropbtn"><strong>Control</strong></a>
+    					<div class="dropdown-content">
+      						<a href="http://localhost/Project_4/NL_Control_info.html">Control info</a>
+      						<a href="#">Control panel</a>
+    					</div>
+			</li>
+				<!--needs to be editted to correct link-->
+		        <li style= "float: left; border-right: 1px solid #bbb;">
+				<a href="http://localhost/Project_4/NL_Blog.html"><strong>Blog</strong></a></li>
+				<!--needs to be editted to correct link-->
+			<li style= "float: right;"><a href="http://localhost/Project_4/EN_Project_info.html"><strong>EN</strong></a></li>
+				<!--needs to be editted to correct link-->
+			</div>
+		</ul>
+	</nav>
+</h2>	
+</body>
+<body style=	"font-family: arial, helvetica, sans-serif;
+    		font-size: 14px; color: black;
+		background-size: 1920px 1080px; margin: 75px;
+    		padding: 0; background-color: #d0d0d0;
+		background-image: url(file:///var/www/Project_4/pics/2d9660406-roomba880-2.nbcnews-ux-2880-1000.jpg);">
+	<div class="main" style= 	"font-family: arial, helvetica, sans-serif;
+					margin: 0px;
+    					background-color: #fff0f0;
+					border: 1px solid black;
+				    	opacity: 0.8;
+				    	filter: alpha(opacity=4s0);">
+		<br><br><br>&emsp;DE MOEDER<br><br><br>
+		<br><br><br>&emsp;DE MOEDER<br><br><br>
+		<br><br><br>&emsp;DE MOEDER<br><br><br>
+		<br><br><br>&emsp;DE MOEDER<br><br><br>
+		<br><br><br>&emsp;DE MOEDER<br><br><br>
+		<br><br><br>&emsp;DE MOEDER<br><br><br>
+	</div>
+</body>
+
+<!--Disclaimer-->
+<body style=	"font-family: arial, helvetica, sans-serif;
+    		font-size: 14px;
+    		color: black;">
+	<div class="discliamer" style= 	"font-family: arial, helvetica, sans-serif;
+					margin-top: 20px;
+    					background-color: #fff0f0;
+					border: 1px solid black;
+				    	opacity: 0.8;
+				    	filter: alpha(opacity=4s0);">
+	<h3>
+		&emsp;Disclaimer:<br>
+		&emsp;-De Rumba dient als huisdier behandeld te worden.<br>
+		&emsp;-Wij dragen nergens de verandwoordelijkheid voor.<br>
+	</h3>
+		&emsp;Verder disclaimert de Roomba jullie allemaal de moeder.
+	</div>
+</body>
+
+</html>

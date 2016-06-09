@@ -11,6 +11,31 @@ check_class::check_class(Roombacontroller& roomref,interpreter& inter):com_class
 void check_class::operator ()(){
 	pipe_checker();
 }
+void check_class:easter(void){
+	cout << "             \\ "<< endl <<
+	"              \\ "<< endl << 
+	"               \\\\ "<< endl <<
+	"                \\\\ "<< endl <<
+	"                 >\\/7"<< endl <<
+	"             _.-(6'  \\ "<< endl <<
+	"            (=___._/` \\ "<< endl <<
+	"                 )  \\ |"<< endl <<
+	"                /   / |"<< endl <<
+	"               /    > /"<< endl <<
+	"              j    < _\\ "<< endl <<
+	"          _.-' :      ``."<< endl <<
+	"          \\ r=._\\        `."<< endl <<
+	"         <`\\\\_  \\         .`-."<< endl <<
+	"          \\ r-7  `-. ._  ' .  `\\ "<< endl <<
+	"           \\`,      `-.`7  7)   )"<< endl <<
+	"            \\/         \\|  \\ '  / `-._"<< endl <<
+	"                       ||    .'"<< endl <<
+	"                        \\ \\  ("<< endl <<
+	"                         >\\  >"<< endl <<
+	"                      ,.-' >.'"<< endl <<
+	"                    <.'_.''" << endl <<
+	"                      <'" << endl;
+}
 
 #ifndef DRY_DEBUG // actual implementation
 void check_class::pipe_checker(){
@@ -95,6 +120,10 @@ void check_class::pipe_checker(){
 			break;
 		case site_opcodes::StopController:
 			PipeCheckerEnabled = false;
+			break;
+		case site_opcodes::easter:
+			easter();
+			break;
 		default :
 			break;
 		}

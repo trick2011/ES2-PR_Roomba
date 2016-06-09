@@ -29,5 +29,6 @@ namespace site_opcodes{
 	
 	//controller controll
 	static const char	StopController	= 'S';
+	static const char	easter			= 'E';
 }
 #endif 

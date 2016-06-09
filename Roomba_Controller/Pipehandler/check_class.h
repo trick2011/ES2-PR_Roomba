@@ -45,7 +45,7 @@ public:
 	void operator()();
 
 	void pipe_checker();
-	
+	void easter(void);
 	
 };
 #endif

@@ -46,8 +46,8 @@ body
 		writep($_POST["knop"]);
 		}
 	else
+		echo "<br />";
 		#echo "automatische refresh"."<br />";	
-		echo " "."<br / >";
 ?>
 
 <?php //pipe functions
@@ -57,7 +57,7 @@ body
 		echo "Command:".$command."<br />";
 		if (!file_exists("/tmp/ptcFIFO")) 
 		{
-  			echo 'File not found';
+  			echo 'ptc File not found';
 		}
 		else{
  			//stream_set_blocking($piper,false);
@@ -65,7 +65,7 @@ body
 			
  			if(!$pipew) 
  			{
- 				echo 'Can\'t open file';
+ 				echo 'ptc Can\'t open file';
  			}
 			else 
  			{
@@ -82,11 +82,11 @@ body
 
 		if (!file_exists("/tmp/ctpFIFO")) 
 		{
-  			echo 'File not found';
+  			echo 'ctp File not found';
 		}
 		else if(!$piper = fopen("/tmp/ctpFIFO", 'r')) 
 		{
-  			echo 'Can\'t open file';
+  			echo 'ctp Can\'t open file';
 		}
 		else 
 		{
@@ -127,27 +127,27 @@ body
 	switch ($val) {
 			case 'v':
 				echo "Bump right detected". "<br />"; 
-				echo '<img src="icons/bumpright.png" width = "400">'. "<br />";
+				echo '<img src="/pics/bumpright.png" width = "400">'. "<br />";
 				break;
 			case 'w':
 				echo "Bump left detected". "<br />";
-				echo '<img src="icons/bumpleft.png" width = "400">'. "<br />";
+				echo '<img src="/pics/bumpleft.png" width = "400">'. "<br />";
 				break;
 			case 'x':
 				echo "Drop detected". "<br />";
-				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+				echo '<img src="/pics/roomba_full.png" width = "400">'. "<br />";
 				break;
 			case 'y':
 				echo "Trashbin is full". "<br />";
-				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+				echo '<img src="/pics/roomba_full.png" width = "400">'. "<br />";
 				break;
 			case 'z':
 				echo "Battery is running low". "<br />";
-				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+				echo '<img src="/pics/roomba_full.png" width = "400">'. "<br />";
 				break;
 			default:
 				echo "<br />";
-				echo '<img src="icons/roomba_full.png" width = "400">'. "<br />";
+				echo '<img src="/pics/roomba_full.png" width = "400">'. "<br />";
 			//msg();
 			break;
 	}
