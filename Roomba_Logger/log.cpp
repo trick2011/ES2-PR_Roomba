@@ -51,6 +51,26 @@ string LOG::getLabel(typelog type)
     return label;
 }
 
+void LOG::addTime(){
+    timeb time;
+    ftime(&time);
+    int hours = ((time.time/3600)%24+2);
+    if(time.dstflag) hours += 1;
+    hours += (time.timezone/60);
+    if(hours < 10) operator << (0);
+    operator << (hours) <<":";
+    int minutes = (time.time/60)%60;
+    if(minutes < 10) operator << (0);
+    operator << (minutes)<<":";
+    int seconds = time.time%60;
+    if(seconds < 10) operator << (0);
+    operator << (seconds)<<".";
+    int milliseconds = time.millitm;
+    if(milliseconds < 100) operator << (0);
+    if(milliseconds < 10) operator << (0);
+    operator << (milliseconds) <<" ";
+}
+
 LOGsettings::LOGsettings(typelog newType,bool newToCout,std::string newFile)
 {
     LOGsettings::file = newFile;
