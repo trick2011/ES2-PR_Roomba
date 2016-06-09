@@ -7,7 +7,7 @@ com_class::com_class():ctp_FIFOref{ctp_FIFO_FILE}{
 }
 
 com_class::~com_class(){
-    fclose(ctpFIFO);
+	//fclose(ctpFIFO);
     fclose(ptcFIFO);
 }
 
