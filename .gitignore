@@ -49,3 +49,4 @@ Roomba_Controller/Cleaningprograms/autoclean.cpp
 Roomba_Controller/Cleaningprograms/walltrace.cpp
 # Log
 *.log
+*bin*

@@ -15,7 +15,8 @@ void check_class::operator ()(){
 #ifndef DRY_DEBUG // actual implementation
 void check_class::pipe_checker(){
 	char PipeCommand = 0x00;
-	while(true){
+	bool PipeCheckerEnabled = true;
+	while(PipeCheckerEnabled){
 		PipeCommand = 0;
 		PipeCommand = readFIFO();
 
@@ -92,6 +93,8 @@ void check_class::pipe_checker(){
 			Basicclean::DisableCleaning();
 			inter.stopRoomba();
 			break;
+		case site_opcodes::StopController:
+			PipeCheckerEnabled = false;
 		default :
 			break;
 		}

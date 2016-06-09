@@ -26,5 +26,8 @@ namespace site_opcodes{
 	//roomba controll
 	static const char	Start			= 's';
 	static const char	Stop			= 'o';
+	
+	//controller controll
+	static const char	StopController	= 'S';
 }
 #endif 
