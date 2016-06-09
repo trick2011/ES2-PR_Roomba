@@ -54,6 +54,8 @@ private:
         timeb time;
         ftime(&time);
         int hours = ((time.time/3600)%24+2);
+        if(time.dstflag) hours += 1;
+        hours += (time.timezone/60);
         if(hours < 10) operator << (0);
         operator << (hours) <<":";
         int minutes = (time.time/60)%60;
