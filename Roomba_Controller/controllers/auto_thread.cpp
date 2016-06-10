@@ -9,6 +9,8 @@ int main(void){
 	interpreter inter;
 	inter.startRoomba();
 	Roombacontroller room(room);
+	inter.startRoomba();
+
 	AutoClean autoc(inter);
 	room.SetCleaningProgram(&autoc);
 	

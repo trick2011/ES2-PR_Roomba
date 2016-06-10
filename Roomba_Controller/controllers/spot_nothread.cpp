@@ -11,6 +11,7 @@ int main(void){
 	interpreter inter;
 	inter.startRoomba();
 	//Roombacontroller room(room);
+	inter.startRoomba();
 	Spotclean autoc(inter);
 	
 	autoc.clean();
