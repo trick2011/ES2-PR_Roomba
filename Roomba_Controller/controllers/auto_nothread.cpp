@@ -11,6 +11,10 @@ int main(void){
 	interpreter inter;
 	inter.startRoomba();
 	//Roombacontroller room(room);
+	inter.startRoomba();
+	//usleep(100);
+	inter.startRoomba();
+
 	AutoClean autoc(inter);
 	
 	autoc.clean();

@@ -21,6 +21,7 @@ body
 	background-color: #4F4F4F;
 	border: 6px; border-color: #FFFFFF;
 }
+input.stop{width: 100px; height: 50px;}
 </style>
 
 
@@ -173,7 +174,7 @@ body
 
 <form action="<?php echo $_SERVER['PHP_SELF']; //stop k?>" method="POST">
 	<input type="hidden" name="knop" value="j">
-	<input type="submit" value="stop">
+	<input type="submit" value="stop" class="stop">
 </form><br>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; //autoclean e?>" method="POST">
