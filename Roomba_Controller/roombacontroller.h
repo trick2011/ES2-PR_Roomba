@@ -7,6 +7,7 @@
 #include <typeinfo>
 
 #include "../Roomba_Interpreter/interpreter.h"
+#include "../pipe_filler.h"
 
 // cleaning programs
 #include "Cleaningprograms/autoclean.h"
@@ -31,15 +32,25 @@ private:
 
 	pid_t OwnPID;
 	Basicclean * CleaningProgram;
+
+	pipe_filler* filler;
+	thread* pipefillerthread;
 public:
 		void SetCleaningProgram(Basicclean*);
 
 		void EnableCleaning();
 		void DisableCleaning();
 #ifdef __linux
-		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = syscall(SYS_gettid);CleaningThread=NULL;}
+		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{
+			OwnPID = syscall(SYS_gettid);
+			CleaningThread=NULL;
+			CleaningThread = 0;
+			CleaningProgram = 0;
+			filler = new pipe_filler(interpreterreference);
+			pipefillerthread = new thread(ref(*filler));
+		}
 #else
-		Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = 0;CleaningThread=NULL;}
+		//Roombacontroller(interpreter& interpreterreference):interpreterreference{interpreterreference},CleaningThread{NULL},CleaningProgram{NULL}{OwnPID = 0;CleaningThread=NULL;}
 #endif
 		~Roombacontroller();
 

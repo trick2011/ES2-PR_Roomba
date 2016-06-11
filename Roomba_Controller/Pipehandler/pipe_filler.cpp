@@ -1,6 +1,6 @@
 #include "pipe_filler.h"
 
-pipe_filler::pipe_filler(interpreter& peter,com_class& comclass):peter{peter},comclass{comclass}{
+pipe_filler::pipe_filler(interpreter& peter):peter{peter}{
 
 }
 void pipe_filler::operator()(){
@@ -9,7 +9,7 @@ void pipe_filler::operator()(){
 	ofstream ofp;
 	while(1){
 		sleep(2);
-		ofp.open(comclass.ctp_FIFOref,fstream::trunc);
+		ofp.open("/tmp/ctpFIFO",fstream::trunc);
 		if(Basicclean::getEnableCleaning())
 			if(peter.Cliff.bLeft == true||peter.Cliff.bFrontLeft||peter.Cliff.bFrontRight||peter.Cliff.bRight)
 				ofp << site_opcodes::Drop;
