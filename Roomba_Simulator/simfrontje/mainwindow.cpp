@@ -21,6 +21,9 @@ MainWindow::MainWindow(Roomclass& room,Inv_interpreter& peter,QWidget *parent) :
 	ui->lcdNumber_angle->setPalette(Qt::darkGreen);
 	ui->lcdNumber_speed->setPalette(Qt::darkGreen);
 
+	ui->lcdNumber_Xpos->setPalette(Qt::darkGreen);
+	ui->lcdNumber_Ypos->setPalette(Qt::darkGreen);
+
 #ifndef TIMERDEBUG
 	ui->textBrowser->hide();
 #endif
@@ -87,7 +90,8 @@ void MainWindow::TimerInterrupt(void){
 	ui->lcdNumber_lightbumpl->display(room.roomba->sensorref.getLightBumpFrontLeft());
 	ui->lcdNumber_lightbump->display(((room.roomba->sensorref.getLightBumpFrontLeft()+room.roomba->sensorref.getLightBumpRight())/2));
 	ui->lcdNumber_lightbumpr->display(room.roomba->sensorref.getLightBumpFrontRight());
-
+	ui->lcdNumber_Xpos->display(room.roomba->iPosHor);
+	ui->lcdNumber_Ypos->display(room.roomba->iPosVer);
 	recievetimeout.start(UpdateSpeed);
 }
 
