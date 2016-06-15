@@ -1,14 +1,14 @@
 #include <iostream>
 
-
 #include "Pipehandler/check_class.h"
 
 using namespace std;
 
+
 int main(void){
 	interpreter inter;
 	inter.startRoomba();
-	Roombacontroller room(room);
+	Roombacontroller room(inter);
 	check_class checker(room,inter);
 	checker.pipe_checker();
 	cout << "Oh thanks you master for letting me exit gracefully." << endl;

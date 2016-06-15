@@ -21,6 +21,8 @@ public:
     interpreter();
     ~interpreter();
 
+	static bool runThread;
+
     void startRoomba();
     void stopRoomba();
 

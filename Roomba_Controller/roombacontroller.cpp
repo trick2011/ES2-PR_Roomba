@@ -15,21 +15,24 @@ void Roombacontroller::SetCleaningProgram(Basicclean* input)
 		//while(Basicclean::getProcessPID() != 0){}
 
 		//cout << CleaningThread->joinable() << endl;
-//		CleaningThread->join();
+		CleaningThread->join();
 		//std::terminate()
 		//CleaningThread->abo
-		CleaningThread->join();
+//		CleaningThread->join();
 
 		delete CleaningThread;
 		delete CleaningProgram; // delete the other program
+		//terminate();
 		CleaningThread = NULL;
 		CleaningProgram = NULL;
+		//pipefillerthread = new thread(ref(*filler));
 	}
 
 	Basicclean::EnableCleaning();
 	CleaningProgram = input; // install new program
 
 	CleaningThread = new thread(ref(*CleaningProgram) ); // reference wrapper // start thread
+//	CleaningThread->detach();
 	//CleaningProgram->TheThread = CleaningThread;
 }
 
@@ -41,12 +44,14 @@ void Roombacontroller::DisableCleaning(){
 	Basicclean::DisableCleaning();// this is a static function so there is in this instance no object needed
 	if(CleaningProgram != NULL){
 		if(CleaningThread != NULL){
-			//CleaningThread->join();
+			CleaningThread->join();
 			//CleaningThread->detach();
-			//delete CleaningThread;
-			//delete CleaningProgram;
+			delete CleaningThread;
+			delete CleaningProgram;
+			//terminate();
 			CleaningThread = NULL;
 			CleaningProgram = NULL;
+			//pipefillerthread = new thread(ref(*filler));
 		}
 	}
 }

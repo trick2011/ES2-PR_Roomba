@@ -1,7 +1,10 @@
 #include "interpreter.h"
 
+bool interpreter::runThread;
+
 interpreter::interpreter()
 {
+	interpreter::runThread = true;
     LOGsettings::file = "interpreter.log";
 
     LOG(DEBUG)<<"Start interpreter";
@@ -195,7 +198,7 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
 
             LOG(DEBUG) << "Current angle is: " << currentAngle;
         }
-        while((currentAngle > angle)||(currentAngle == 0));
+		while(((currentAngle > angle)||(currentAngle == 0))&&(interpreter::runThread));
         //sendTex->unlock();
         drives(roomba::speed::STOP);
     }
@@ -217,7 +220,7 @@ void interpreter::turnRoomba(uint16_t angle)/***********************************
                 currentAngle += temp;
                 LOG(DEBUG) << "Current angle is: " << currentAngle;
             }
-            while(currentAngle < angle);
+			while((currentAngle < angle)&& interpreter::runThread);
             //sendTex->unlock();
             drives(roomba::speed::STOP);
         }
@@ -2774,7 +2777,7 @@ LOG(WARN) << "Popped one byte to much from uart";
 
 void interpreter::printTest()
 {
-    while(1)
+	while(1)
     {
         usleep(1000);
         system("clear");
@@ -2823,7 +2826,7 @@ void interpreter::turnRight()
 
                 
         }
-        while((currentAngle < 0x0019) && roomba::runThread);
+		while((currentAngle < 0x0019) && interpreter::runThread);
         drives(roomba::speed::STOP);
     }
     catch(int)
@@ -2855,7 +2858,7 @@ void interpreter::turnLeft()
             currentAngle -= getAngle();
             LOG(DEBUG) << " ^^ Current angle is" << currentAngle;
         }
-        while(((currentAngle > 0xFFE8)||(currentAngle == 0) && roomba::runThread));
+		while((((currentAngle > 0xFFE8)||(currentAngle == 0)) && (interpreter::runThread)));
         drives(roomba::speed::STOP);
     }
     catch(int)

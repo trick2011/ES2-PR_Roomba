@@ -3,8 +3,6 @@
 #include <stdint.h>
 
 namespace roomba {
-	static bool			 runThread =				    true;
-
     static const uint8_t Start =                        128;
     static const uint8_t Reset =                        7;
     static const uint8_t Stop =                         173;

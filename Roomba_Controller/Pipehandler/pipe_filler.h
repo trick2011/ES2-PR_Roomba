@@ -17,9 +17,8 @@ class pipe_filler
 {
 private:
 	interpreter& peter;
-	com_class& comclass;
 public:
-	pipe_filler(interpreter& peter,com_class& comclass);
+	pipe_filler(interpreter& peter);
 	
 	void operator()();
 };

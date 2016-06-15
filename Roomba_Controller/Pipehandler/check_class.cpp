@@ -1,11 +1,11 @@
 #include "check_class.h"
 //constructor
+#define VERBOSE
+
 check_class::check_class(Roombacontroller& roomref,interpreter& inter):com_class(),inter{inter},roomref{roomref}{
 #ifdef DRY_DEBUG
 	cout << "DRY DEBUG, just so you know" <<endl;
 #endif
-	filler = new pipe_filler(inter,*this);
-	pipefillerthread = new thread(ref(*filler));
 }
 
 void check_class::operator ()(){
@@ -74,7 +74,7 @@ void check_class::pipe_checker(){
 			inter.drives(roomba::speed::BACKWARDS);
 			break;
 		case site_opcodes::AutClean:	//AutoClean
-			roomref.DisableCleaning();
+			Basicclean::DisableCleaning();
 			Cleaningprogramc = new AutoClean(inter);
 			roomref.SetCleaningProgram(Cleaningprogramc);
 			Cleaningprogramc = NULL;
