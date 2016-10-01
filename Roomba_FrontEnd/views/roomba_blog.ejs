@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <% include ./includes/roomba_header %>
+</head>
+ <% include ./includes/roomba_navbar %>
+<body style = "font-family: arial, helvetica, sans-serif; font-size: 14px; color: black; background-size: 1920px 1080px; margin: 75px; padding: 0; background-color: #d0d0d0; background-image: url(./pics/2d9660406-roomba880-2.nbcnews-ux-2880-1000.jpg);">
+	<div class ="main" style = "font-family: arial, helvetica, sans-serif; margin: 0px; background-color: #fff0f0; border: 1px solid black; opacity: 0.8; filter: alpha(opacity=4s0);">
+		<%if(Language == "EN"){ %>
+		<%- "<br>GO AWAY THERE IS NOTHING HERE!!<br>" %>
+		<%}else{%>
+		<%- "<br>GA WEG ER IS HIER NIKS!!<br>" %>
+		<%}%>
+
+	</div>
+</body>
+<footer style= "font-family: arial, helvetica, sans-serif; font-size: 14px; color: black;">
+	<% include ./includes/roomba_footer %>
+</footer>
+</html>

@@ -1,0 +1,63 @@
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	//google.load("search", "1");
+	google.load("jquery", "1.4.2");
+	google.load("jqueryui", "1.7.2");
+</script>
+<script src="http://code.jquery.com/qunit/qunit-1.10.0.js"></script>
+<script src="javascripts/jquery.cookie.js"></script>
+
+<!--Set a cookie -->
+<!--$.cookie("example", "foo"); -->
+
+<!--Get a cookie -->
+<!--alert( $.cookie("example") ); -->
+
+<!--Delete the cookie -->
+<!--$.removeCookie("example"); -->
+
+<style>
+li a, .dropbtn{	
+	display: inline-block; 
+	color: white; 
+	text-align: center;
+    padding: 14px 16px;
+	text-decoration: none;
+	}
+
+li a:hover, .dropdown:hover .dropbtn {
+	background-color: #222222;
+	}
+
+.active {
+	background-color: #111;
+	}
+
+li.dropdown {
+	display: inline-block;
+	}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+    min-width: 160px;
+	}
+
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block; text-align: left;
+	}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1;
+	}
+	
+.dropdown:hover .dropdown-content {
+	display: block;
+	}
+</style>
+<title><%= title %></title>

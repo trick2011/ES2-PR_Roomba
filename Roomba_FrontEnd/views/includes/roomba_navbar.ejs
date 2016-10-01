@@ -1,0 +1,45 @@
+<div class="NAV" >
+	<h2>
+		<nav class="NAV_BAR">
+			<ul style= 	"list-style-type: none; margin: 0; padding: 0; overflow: hidden; background-color: #333;">
+				<div class="NAV_PrIn">
+					<!--LE RUMBA-->
+					<img src="/pics/IRobot.jpg" width="1150" height="200">
+					<!--needs to be editted to correct link-->
+					<li style= "float: left; border-right: 1px solid #bbb;">
+					<a href="./project_info"><strong>Project info</strong></a></li>
+					<!--needs to be editted to correct link-->	<!--do your work-->	<!--fuck face-->
+					<li style= "float: left; border-right: 1px solid #bbb;">
+					<a href="./roomba_info"><strong>Rumba info</strong></a></li>
+					<!--needs to be editted to correct link-->
+					<li style= "float: left; border-right: 1px solid #bbb;">
+					<a href="./control"><strong>Control</strong></a></li>
+					<!--needs to be editted to correct link-->
+					<li style= "float: left; border-right: 1px solid #bbb;">
+					<a href="./blog"><strong>Blog</strong></a></li>
+					<!--needs to be editted to correct link-->
+					<li id="language" style= "float: right;">
+						<a>
+							<%if(Language == "EN"){ %>
+							<%- "<strong>EN</strong>" %>
+							<%}else{%>
+							<%- "<strong>NL</strong>" %>
+							<%}%>
+						</a>
+					</li>
+				</div>
+			</ul>
+		</nav>
+	</h2>
+</div>
+<script>
+	$("#language").click(function(){ // reload page if language has changed
+		if($.cookie("LanguageCookie") == "EN"){
+			$.cookie("LanguageCookie", "NL");
+		}
+		else{
+			$.cookie("LanguageCookie", "EN");
+		}
+		location.reload();
+	});
+</script>

@@ -50,3 +50,6 @@ Roomba_Controller/Cleaningprograms/walltrace.cpp
 # Log
 *.log
 *bin*
+
+# Node.js
+*node_modules/*

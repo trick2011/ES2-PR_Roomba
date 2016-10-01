@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ./includes/roomba_header %>
+	<% include ./includes/roomba_navbar %>
+</head>
+<body style = "font-family: arial, helvetica, sans-serif; font-size: 14px; color: black; background-size: 1920px 1080px; margin: 75px; padding: 0; background-color: #d0d0d0; background-image: url(./pics/2d9660406-roomba880-2.nbcnews-ux-2880-1000.jpg);">
+	<div class ="main" style = "font-family: arial, helvetica, sans-serif; margin: 0px; background-color: #fff0f0; border: 1px solid black; opacity: 0.8; filter: alpha(opacity=4s0);padding-left: 50px;padding-right: 50px;">
+		<%if(Language == "EN"){ %>
+		<%- "<br>Project informatie<br><br><br>Steeds vaker worden robots ingezet om eenvoudige werkzaamheden over te nemen.In de huishouding kan bijvoorbeeld de iRobot Roomba robotstofzuiger worden ingezet om het huis stofvrij te houden. De iRobot Roomba heeft een open interface waardoor de besturing van de robot kan worden overgenomen.<br><br>Het project heet AVOIR, wat een verwijzing is naar AlternatieVe Object georienteerd geprogrammeerde Irobot Roombacontroller.Het doel van dit project is via reverse engineering de functionaliteit van de iRobot Roomba te achterhalen en in een alternatieve iRobot Roombacontroller onder te brengen.<br><br>De opdracht luidt:<br>Lever een werkend prototype, van een Roombacontroller, die kan worden gebruikt om een iRobot Roomba robotstofzuiger mee te besturen." %>
+		<%}else{%>
+		<%- "<br>Project information<br><br><br>More and more robots are deployed to take over simple tasks. Domestic example, the iRobot Roomba robotic vacuum cleaner will be deployed to the to keep house dust. The iRobot Roomba has an open interface allowing control can be taken over by the robot.<br><br>The project is called AVOIR, which is a reference to alternative object -oriented programmed Irobot Roombacontroller. The aim of this project is through reverse engineering functionality to identify the iRobot Roomba and entrusting them to an alternative iRobot Roombacontroller.<br><br>Our mission is:<br> Provide a working prototype , a Roombacontroller, which can be used to drive along an iRobot Roomba robotic vacuum cleaner." %>
+		<%}%>
+	</div>
+</body>
+<footer style= "font-family: arial, helvetica, sans-serif; font-size: 14px; color: black;">
+	<% include ./includes/roomba_footer %>
+</footer>
+</html>
