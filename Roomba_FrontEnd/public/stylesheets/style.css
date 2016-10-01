@@ -1,8 +1,29 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+body{
+	font-family: arial, helvetica, sans-serif;
+	font-size: 14px;
+	color: black;
+	background-size: 1920px 1080px;
+	margin: 75px;
+	padding: 0;
+	background-color: #d0d0d0;
+	background-image: url(../pics/2d9660406-roomba880-2.nbcnews-ux-2880-1000.jpg);
+	padding-right: 50px;
+	padding-left: 50px;
 }
 
-a {
-  color: #00B7FF;
+footer{
+	font-family: arial, helvetica, sans-serif;
+	font-size: 14px;
+	color: black;
+}
+.main{
+	font-family: arial, helvetica, sans-serif; 
+	margin: 14px; 
+	font-size: 18px;
+	background-color: #fff0f0; 
+	border: 1px solid black; 
+	opacity: 0.8; 
+	filter: alpha(opacity=4s0);
+	padding-right: 50px;
+	padding-left: 50px;
 }
