@@ -13,7 +13,7 @@ router.get('/project_info',function(req, res){
 });
 
 router.get('/control',function(req, res){
-	res.render('roomba_control.ejs',{body: 'some kind of body body', title: 'Roomba\'s control', Language: req.cookies.LanguageCookie});
+	res.render('roomba_control.ejs',{body: 'some kind of body body', title: 'Roomba\'s control', Language: req.cookies.LanguageCookie, Network: "ws://192.168.20.230:25565"});
 });
 
 router.get('/blog',function(req, res){

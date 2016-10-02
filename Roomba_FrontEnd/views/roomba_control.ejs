@@ -13,54 +13,113 @@
 	<div class ="main" style="opacity: 0.97;">
 		<button onclick="window.history.back()">Go Back</button>
 		
-		<form id="start">
+		<form id="hardstart">
 			<input type="button" value="start roomba">
 		</form>
-		<form id="stop">
+		<form id="hardstop">
 			<input type="button" value="stop roomba">
 		</form><br>
 
 		<div align="center">
 		
-		<form id="voor">
-			<input type="button" value="voor">
-		</form>
-		<form id="links">
-			<input type="button" value="links">
-		</form>
-		<form id="rechts">
-			<input type="button" value="rechts">
-		</form>
-		<form id="achter">
-			<input type="button" value="achter">
-		</form><br>
+			<form id="voor">
+				<input type="button" value="voor">
+			</form>
+			<form id="links">
+				<input type="button" value="links">
+			</form>
+			<form id="rechts">
+				<input type="button" value="rechts">
+			</form>
+			<form id="achter">
+				<input type="button" value="achter">
+			</form><br>
 
-		<img src="/pics/roomba_full.png" width = "400"><br />
-		
-		<form id="stop">
-			<input type="button" value="stop" class="stop">
-		</form><br>
-		<br>
-		<form id="autoclean">
-			<input type="button" value="autoclean">
-		</form>
-		<form id="spotclean">
-			<input type="button" value="spotclean">
-		</form>
-		<form id="walltrace">
-			<input type="button" value="walltrace">
-		</form>
-		<form id="dock">
-			<input  type="button" value="dock">
-		</form>
+			<img src="/pics/roomba_full.png" width = "400"><br />
+			
+			<form id="stop">
+				<input type="button" value="stop" class="stop">
+			</form><br>
+			<br>
+			<form id="autoclean">
+				<input type="button" value="autoclean">
+			</form>
+			<form id="spotclean">
+				<input type="button" value="spotclean">
+			</form>
+			<form id="walltrace">
+				<input type="button" value="walltrace">
+			</form>
+			<form id="dock">
+				<input  type="button" value="dock">
+			</form>
+			<br>
+			<form id="unicorn">
+				<input type="button" value="unicorn?">
+			</form>
+			<form id="exit">
+				<input  type="button" value="exit">
+			</form>
+		</div>
 	</div>
 </body>
 <script>
-	$("#dock").click(function(button){
-
+	var ws = new WebSocket("<%-Network%>");
+	
+	ws.onclose = function(){ 
+	  ws = new WebSocket("<%-Network%>");
+   };
+	$("#unicorn").click(function(button){
+		ws.send("E");
 	});
+	$("#exit").click(function(button){
+		ws.send("S");
+	});
+	
+	$("#hardstart").click(function(button){
+		ws.send("s");
+	});
+	$("#hardstop").click(function(button){
+		ws.send("o");
+	});
+	$("#voor").click(function(button){
+		ws.send("a");
+	});
+	$("#links").click(function(button){
+		ws.send("c");
+	});
+	$("#rechts").click(function(button){
+		ws.send("b");
+	});
+	$("#achter").click(function(button){
+		ws.send("d");
+	});
+	$("#stop").click(function(button){
+		ws.send("j");
+	});
+	$("#autoclean").click(function(button){
+		ws.send("e");
+	});
+	$("#spotclean").click(function(button){
+		ws.send("g");
+	});
+	$("#walltrace").click(function(button){
+		ws.send("h");
+	});
+	$("#dock").click(function(button){
+		ws.send("k");
+	});
+	
+	ws.onmessage = function(evt){
+		switch(evt.data){
+			case "v": break;
+			case "w": break;
+			case "x": break;
+			case "y": break;
+			case "z": break;
+			case " ": break;
+		}
+	};
 </script>
-<footer>
-	<% include ./includes/roomba_footer %>
-</footer>
+<% include ./includes/roomba_footer %>
 </html>

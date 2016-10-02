@@ -9,8 +9,14 @@ int main(void){
 	interpreter inter;
 	inter.startRoomba();
 	Roombacontroller room(inter);
-	check_class checker(room,inter);
-	checker.pipe_checker();
+	check_class checker(&room,&inter);
+	
+	checker();
+	//checker.pipe_checker();
+	
+	inter.brushes(roomba::brush::NOBRUSH);
+	inter.stopRoomba();
+	
 	cout << "Oh thanks you master for letting me exit gracefully." << endl;
 	cout << "I hereby present you this parting gift" << endl;
 	sleep(1);
@@ -26,5 +32,6 @@ int main(void){
 	cout << endl;
 	cout << "kisssss" << endl;
 	cout << "you may now once more take controll of this machine and go forth with you oh so important duties." << endl;
+	
 	return(0);
 }
